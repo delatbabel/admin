@@ -38,3 +38,7 @@ We will use FrozenNode's Laravel-Administrator as a starting point -- https://gi
 * Fix docblocks. Use apigen standard.
 * Need to add some additional field types. In particular HTML (there is an inline HTML editor out there) and JSON blob (array or structure -- there is an inline JSON editor out there).
 * Build a new example application repository.
+
+## Documentation
+
+Documentation is in the [docs](/docs/documentation.md) directory.
