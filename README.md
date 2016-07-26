@@ -11,7 +11,7 @@ Sitepro 3 is a bundle in Laravel 3. Since Laravel 4 and later did away with the 
 
 Instead of this what I have decided to do is to focus on building a new panel. However since there are already existing candidate starting starting points for building an administration panel, we don't plan to build everything from scratch. Instead we will adapt one of the existing admin panels and code it to suit our applications.
 
-Currently the leading candidate for this is Laravel-Administrator by FrozenNode -- the main limitation being that it does not support [AdminLTE](https://almsaeedstudio.com/preview).
+Currently the leading candidate for this is [Laravel-Administrator by FrozenNode](https://github.com/FrozenNode/Laravel-Administrator) -- the main limitation being that it does not support [AdminLTE](https://almsaeedstudio.com/preview).
 
 ## Requirement
 
