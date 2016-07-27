@@ -34,6 +34,8 @@ Always make sure there are line breaks *above* inline comments so they're easier
 Function or method comments should be in this form:
 
 	/**
+	 * Header for the method goes here.  It can be one line only.
+	 *
 	 * Description of the method goes here. It can be as long as you need it to be.
 	 *
 	 * @param string		$someString
@@ -43,12 +45,9 @@ Function or method comments should be in this form:
 	 */
 	public function myMethod($someString, $someInt)
 	{
-		if (true)
-		{
+		if (true) {
 			return array('yay');
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
