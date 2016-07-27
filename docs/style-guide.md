@@ -1,56 +1,22 @@
 # Style Guide
 
 - [Introduction](#introduction)
-- [Starting Braces](#starting-braces)
-- [Tabs Instead of Spaces](#tabs-instead-of-spaces)
 - [Inline Comments](#inline-comments)
 - [Function/Method Comments](#function-method-comments)
-- [Camel Case](#camel-case)
-- [Line Breaks](#line-breaks)
 - [Trimming Whitespace](#trimming-whitespace)
 
 <a name="introduction"></a>
 ## Introduction
 
-In the interest of keeping everything nice and neat, there are a few style conventions that must be followed. This is not a complete list, so it's best to also check the code around what you're changing/adding in order to get a good idea for what style to follow. If you think you have a good reason for why any of these styles shouldn't be here, please post an issue on the GitHub page and we can talk it through! Your suggestions may not be incorporated into the code, but they will never be ignored.
+We use [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) as the basic coding standard.
 
-<a name="starting-braces"></a>
-## Starting Braces
+We use [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) as the autoloading standard.
 
-In almost all cases, a starting brace should be on the next line instead of on the same line. This is called [Allman style](http://en.wikipedia.org/wiki/Indent_style#Allman_style). This applies to everything from `if` statements to `function` declarations.
+If you are using [Sensio Labs' PSR fixer](http://cs.sensiolabs.org/) then these are the options I use:
 
-	//correct
-	if ($something)
-	{
-		//do something
-	}
-
-	//incorrect
-	if ($something) {
-
-	}
-
-	//correct
-	if ($somethingElse)
-	{
-
-	}
-	else
-	{
-
-	}
-
-The only exception to this rule is for class names:
-
-	//correct
-	class Someting {
-
-	}
-
-<a name="tabs-instead-of-spaces"></a>
-## Tabs Instead of Spaces
-
-Your code should use tabs instead of spaces.
+```bash
+php-cs-fixer fix $DIR --level=psr2 --fixers=extra_empty_lines,duplicate_semicolon,operators_spaces,spaces_before_semicolon,whitespacy_lines,align_double_arrow,align_equals,concat_with_spaces,logical_not_operators_with_successor_space,newline_after_open_tag,ordered_use
+```
 
 <a name="inline-comments"></a>
 ## Inline Comments
@@ -88,41 +54,6 @@ Function or method comments should be in this form:
 	}
 
 If there are no params, you can just put a single line between the description and the `@return`. If there is no return value, you can just include the description.
-
-<a name="camel-case"></a>
-## Camel Case
-
-For the most part, Administrator uses the camelCase style in both PHP and JavaScript. The general exceptions to this rule are in CSS class names and config files where snake case is used. An example of this in PHP would be:
-
-	/**
-	 * Example of camelCase
-	 */
-	public function writeTheNameLikeThis()
-	{
-		//correct
-		$varName = 'something';
-
-		//incorrect
-		$var_name = 'something_else';
-	}
-
-<a name="line-breaks"></a>
-## Line Breaks
-
-Be liberal with your line breaks. The goal is to make the code very readable, and line breaks are an essential factor for legibility. You can group certain things together, like if you're setting a bunch of variables, but only do this when it makes sense. Line breaks should come before all comments, all statements (e.g. `if`, `foreach`), all function/method comments, etc. If you're having difficulty deciding whether to add a line break to a section of code, search around the rest of the code base to find a similar section and use that as a guide.
-
-An example of correct spacing:
-
-	//optional descriptive comment
-	$someVar = 'value';
-	$otherVar = 5;
-
-	//check to see if our value is set correctly
-	if ($someVar === 'value')
-	{
-		//it was set, echo it out
-		echo $someVar;
-	}
 
 <a name="trimming-whitespace"></a>
 ## Trimming Whitespace

@@ -6,12 +6,13 @@
 <a name="introduction"></a>
 ## Introduction
 
-Administrator is distributed under the MIT license, so you are free to [fork it](https://github.com/FrozenNode/Laravel-Administrator) and do whatever you like with it. All of the libraries used by Administrator are also open source and free for commercial use.
+Administrator is distributed under the MIT license, so you are free to [fork it](https://github.com/ddpro/admin) and do whatever you like with it. All of the libraries used by Administrator are also open source and free for commercial use.
 
 <a name="license"></a>
 ## MIT License
 
 	Copyright (c) <2013> <Jan Hartigan> <Frozen Node>
+	Copyright (c) <2016> <Del>
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of
 	this software and associated documentation files (the "Software"), to deal in
