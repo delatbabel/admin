@@ -4,6 +4,23 @@ namespace DDPro\Admin\Actions;
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Validator;
 
+/**
+ * Class Action
+ *
+ * This class manages all of the actions taken on a database record, e.g.
+ * view, edit, delete, etc.
+ *
+ * ### Example
+ *
+ * Creating a new action object (done from the factory)
+ *
+ * <code>
+ *   return new Action($this->validator, $this->config, $options);
+ * </code>
+ *
+ * @see  ...
+ * @link ...
+ */
 class Action
 {
 

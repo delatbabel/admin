@@ -1,7 +1,6 @@
 <?php
 namespace DDPro\Admin\Config;
 
-use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Validator;
 use Illuminate\Validation\Validator as CustomValidator;
 
@@ -49,6 +48,13 @@ abstract class Config
      * @var array
      */
     protected $rules = array();
+
+    /**
+     * The type property, defines what type of config this is.
+     *
+     * @var string
+     */
+    protected $type;
 
     /**
      * Create a new model Config instance
@@ -165,7 +171,7 @@ abstract class Config
      * @param array		$rules
      * @param array		$messages
      *
-     * @param mixed
+     * @return mixed
      */
     public function validateData(array $data, array $rules, array $messages)
     {

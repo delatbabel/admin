@@ -503,6 +503,7 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function runQueryFilter(\Illuminate\Database\Query\Builder &$query)
     {
+        /** @var Callable $filter */
         if ($filter = $this->getOption('query_filter')) {
             $filter($query);
         }
