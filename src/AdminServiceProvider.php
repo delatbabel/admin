@@ -7,7 +7,7 @@ use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Fields\Factory as FieldFactory;
-use Illuminate\Support\Facades\Validator as LValidator;
+use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -86,30 +86,28 @@ class AdminServiceProvider extends ServiceProvider
     public function register()
     {
         //include our view composers, and routes to avoid issues with catch-all routes defined by users
-        /*
-        include __DIR__.'/../../viewComposers.php';
-        */
+        include __DIR__ . '/Helpers/viewComposers.php';
         include __DIR__ . '/Http/Routes/AdminRoutes.php';
 
         //the admin validator
         // TBD everything from here down
         $this->app['admin_validator'] = $this->app->share(function ($app) {
             //get the original validator class so we can set it back after creating our own
-            $originalValidator = LValidator::make(array(), array());
+            $originalValidator = LaravelValidator::make(array(), array());
             $originalValidatorClass = get_class($originalValidator);
 
             //temporarily override the core resolver
-            LValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($app) {
+            LaravelValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($app) {
                 $validator = new Validator($translator, $data, $rules, $messages, $customAttributes);
                 $validator->setUrlInstance($app->make('url'));
                 return $validator;
             });
 
             //grab our validator instance
-            $validator = LValidator::make(array(), array());
+            $validator = LaravelValidator::make(array(), array());
 
             //set the validator resolver back to the original validator
-            LValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($originalValidatorClass) {
+            LaravelValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($originalValidatorClass) {
                 return new $originalValidatorClass($translator, $data, $rules, $messages, $customAttributes);
             });
 
@@ -119,7 +117,7 @@ class AdminServiceProvider extends ServiceProvider
 
         //set up the shared instances
         $this->app['admin_config_factory'] = $this->app->share(function ($app) {
-            return new ConfigFactory($app->make('admin_validator'), LValidator::make(array(), array()), config('administrator'));
+            return new ConfigFactory($app->make('admin_validator'), LaravelValidator::make(array(), array()), config('administrator'));
         });
 
         $this->app['admin_field_factory'] = $this->app->share(function ($app) {

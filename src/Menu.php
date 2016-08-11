@@ -4,6 +4,30 @@ namespace DDPro\Admin;
 use DDPro\Admin\Config\Factory as ConfigFactory;
 use Illuminate\Config\Repository as Config;
 
+/**
+ * Class Menu
+ *
+ * This class produces the site menu from the site configuration.
+ *
+ * ### Example
+ *
+ * Building the menu class (done once at the time of bootstrap).
+ *
+ * <code>
+ *   $this->app['admin_menu'] = $this->app->share(function ($app) {
+ *       return new Menu($app->make('config'), $app->make('admin_config_factory'));
+ *   });
+ * </code>
+ *
+ * Get the site menu and apply it to a view.
+ *
+ * <code>
+ *   $view->menu = app('admin_menu')->getMenu();
+ * </code>
+ *
+ * @see  AdminServiceProvider
+ * @see  viewComposers.php
+ */
 class Menu
 {
 
@@ -25,7 +49,7 @@ class Menu
      * Create a new Menu instance
      *
      * @param \Illuminate\Config\Repository				$config
-     * @param \DDPro\Admin\Config\Factory	$config
+     * @param \DDPro\Admin\Config\Factory	$configFactory
      */
     public function __construct(Config $config, ConfigFactory $configFactory)
     {

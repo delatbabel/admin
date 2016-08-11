@@ -2,6 +2,8 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
+use DDPro\Admin\Config\Config;
+use DDPro\Admin\Config\ConfigInterface;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,6 +18,8 @@ use Symfony\Component\HttpFoundation\File\File as SFile;
  *
  * This is the main controller class for all DDPro Admin requests.  It handles
  * all requests related to managing the data models.
+ *
+ * @see Http/Routes/AdminRoutes.php
  */
 class AdminController extends Controller
 {
@@ -128,8 +132,16 @@ class AdminController extends Controller
      */
     public function save($modelName, $id = null)
     {
+        // The itemconfig singleton is built in the ValidateModel or ValidateSettings middleware and
+        // will be an instance of ConfigInterface, either \DDPro\Admin\Config\Settings\Config or
+        // \DDPro\Admin\Config\Model\Config
+        /** @var ConfigInterface $config */
         $config        = app('itemconfig');
+
+        /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
         $fieldFactory  = app('admin_field_factory');
+
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         if (array_key_exists('form_request', $config->getOptions()) && $this->formRequestErrors !== null) {

@@ -193,7 +193,7 @@ class Config extends ConfigBase implements ConfigInterface
      *
      * @param array		$data
      *
-     * @param mixed
+     * @return mixed
      */
     public function runBeforeSave(array &$data)
     {

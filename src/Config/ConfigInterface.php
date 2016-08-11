@@ -41,4 +41,11 @@ interface ConfigInterface
      * Gets the config type
      */
     public function getType();
+
+    /**
+     * Gets all user options
+     *
+     * @return array
+     */
+    public function getOptions();
 }

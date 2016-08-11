@@ -105,9 +105,9 @@ class Config extends ConfigBase implements ConfigInterface
     /**
      * Gets a model given an id
      *
-     * @param id										$id
-     * @param array										$fields
-     * @param array										$columns
+     * @param integer   $id
+     * @param array		$fields
+     * @param array		$columns
      *
      * @return \Illuminate\Database\Eloquent\Model
      */

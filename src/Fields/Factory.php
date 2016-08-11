@@ -16,27 +16,27 @@ class Factory
      * @var array
      */
     protected $fieldTypes = array(
-        'key'      => 'DDPro\\Administrator\\Fields\\Key',
-        'text'     => 'DDPro\\Administrator\\Fields\\Text',
-        'textarea' => 'DDPro\\Administrator\\Fields\\Text',
-        'wysiwyg'  => 'DDPro\\Administrator\\Fields\\Text',
-        'markdown' => 'DDPro\\Administrator\\Fields\\Text',
-        'password' => 'DDPro\\Administrator\\Fields\\Password',
-        'date'     => 'DDPro\\Administrator\\Fields\\Time',
-        'time'     => 'DDPro\\Administrator\\Fields\\Time',
-        'datetime' => 'DDPro\\Administrator\\Fields\\Time',
-        'number'   => 'DDPro\\Administrator\\Fields\\Number',
-        'bool'     => 'DDPro\\Administrator\\Fields\\Boolean',
-        'enum'     => 'DDPro\\Administrator\\Fields\\Enum',
-        'image'    => 'DDPro\\Administrator\\Fields\\Image',
-        'file'     => 'DDPro\\Administrator\\Fields\\File',
-        'color'    => 'DDPro\\Administrator\\Fields\\Color',
+        'key'      => 'DDPro\\Admin\\Fields\\Key',
+        'text'     => 'DDPro\\Admin\\Fields\\Text',
+        'textarea' => 'DDPro\\Admin\\Fields\\Text',
+        'wysiwyg'  => 'DDPro\\Admin\\Fields\\Text',
+        'markdown' => 'DDPro\\Admin\\Fields\\Text',
+        'password' => 'DDPro\\Admin\\Fields\\Password',
+        'date'     => 'DDPro\\Admin\\Fields\\Time',
+        'time'     => 'DDPro\\Admin\\Fields\\Time',
+        'datetime' => 'DDPro\\Admin\\Fields\\Time',
+        'number'   => 'DDPro\\Admin\\Fields\\Number',
+        'bool'     => 'DDPro\\Admin\\Fields\\Boolean',
+        'enum'     => 'DDPro\\Admin\\Fields\\Enum',
+        'image'    => 'DDPro\\Admin\\Fields\\Image',
+        'file'     => 'DDPro\\Admin\\Fields\\File',
+        'color'    => 'DDPro\\Admin\\Fields\\Color',
 
         //relationships
-        'belongs_to'      => 'DDPro\\Administrator\\Fields\\Relationships\\BelongsTo',
-        'belongs_to_many' => 'DDPro\\Administrator\\Fields\\Relationships\\BelongsToMany',
-        'has_one'         => 'DDPro\\Administrator\\Fields\\Relationships\\HasOne',
-        'has_many'        => 'DDPro\\Administrator\\Fields\\Relationships\\HasMany',
+        'belongs_to'      => 'DDPro\\Admin\\Fields\\Relationships\\BelongsTo',
+        'belongs_to_many' => 'DDPro\\Admin\\Fields\\Relationships\\BelongsToMany',
+        'has_one'         => 'DDPro\\Admin\\Fields\\Relationships\\HasOne',
+        'has_many'        => 'DDPro\\Admin\\Fields\\Relationships\\HasMany',
 
     );
 
@@ -143,7 +143,7 @@ class Factory
      * @param array 	$options
      * @param boolean 	$loadRelationships
      *
-     * @return DDPro\Admin\Fields\Field
+     * @return Field
      */
     public function getFieldObject($options)
     {
