@@ -13,9 +13,36 @@ Inside views are the base AdminLTE views.  These will need to be expanded to inc
 functionality of the views in old-views.  Eventually these views will need to be imported into
 the database using the service provider (see delatbabel/viewpages).
 
-Inside old-views are the views that have been copied across from FrozenNode.
-
 TODO: Write a migration script that imports these views from staging into the database.
+
+### old-views
+
+Inside old-views are the views that have been copied across from FrozenNode.  These use
+knockout.js of which version 2.2.0 (quite old) is included in public/js/knockout.  It would
+probably be best to update the version of knockout.js
+
+The views in here use knockout.js' containerless binding syntax.  It's hard to find documentation
+on this because all of the knockout.js examples use the native binding.  Examples of each are
+as follows.
+
+See this post for some useful information:
+http://stackoverflow.com/questions/17068094/comment-foreach-binding-vs-foreach-binding-in-knockoutjs
+
+#### Containerless
+
+```js
+<!-- ko foreach: customer -->
+   <div data-bind="text: id" />
+<!-- /ko -->
+```
+
+#### Native
+
+```js
+<div data-bind="foreach: customer">
+    <div data-bind="text: id" />
+</div>
+```
 
 ## lang
 
