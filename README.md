@@ -41,4 +41,6 @@ We will use [FrozenNode's Laravel-Administrator](https://github.com/FrozenNode/L
 
 ## Documentation
 
-Documentation is in the [docs](/docs/documentation.md) directory.
+Usage and interfacing documentation is in the [docs](/docs/README.md) directory.
+
+Source code documentation is in the [src](/src/README.md) directory.

@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Inline Comments](#inline-comments)
-- [Function/Method Comments](#function-method-comments)
+- [Function/Method Docblocks](#function-method-docblocks)
 - [Trimming Whitespace](#trimming-whitespace)
 
 <a name="introduction"></a>
@@ -23,34 +23,39 @@ php-cs-fixer fix $DIR --level=psr2 --fixers=extra_empty_lines,duplicate_semicolo
 
 You should pepper your code with inline comments as much as possible without being overly verbose. Ideally you want to make it so that someone reading through the code the first time has a reasonable chance at understanding it. The correct type of comment should be the double-slash like this:
 
-	//in order to ensure readability, we comment our code
-	$code = Comment::my_code();
+    // in order to ensure readability, we comment our code
+    $code = Comment::my_code();
 
-Always make sure there are line breaks *above* inline comments so they're easier to spot!
+Always make sure there are line breaks *above* inline comments so they're easier to spot!  Do not put a line break below the inline comment (between the inline comment and the code that it is commenting), but put one after the code that is being commented, between that and any further code that does not relate to the comment above it.  Here is an example:
 
-<a name="function-method-comments"></a>
-## Function/Method Comments
+    // Add two numbers together
+    $i = $a + $b;
+    
+    print $x; // this line has nothing to do with adding two numbers together so there is a blank line before it.
 
-Function or method comments should be in this form:
+<a name="function-method-docblocks"></a>
+## Function/Method Docblocks
 
-	/**
-	 * Header for the method goes here.  It can be one line only.
-	 *
-	 * Description of the method goes here. It can be as long as you need it to be.
-	 *
-	 * @param string		$someString
-	 * @param int			$someInt
-	 *
-	 * @return false|array
-	 */
-	public function myMethod($someString, $someInt)
-	{
-		if (true) {
-			return array('yay');
-		} else {
-			return false;
-		}
-	}
+Function or method docblocks should be in this form, so that they can be easily interpreted by apigen.
+
+    /**
+     * Header for the method goes here.  It can be one line only.
+     *
+     * Description of the method goes here. It can be as long as you need it to be.
+     *
+     * @param string        $someString
+     * @param int           $someInt
+     *
+     * @return false|array
+     */
+    public function myMethod($someString, $someInt)
+    {
+        if (true) {
+            return array('yay');
+        } else {
+            return false;
+        }
+    }
 
 If there are no params, you can just put a single line between the description and the `@return`. If there is no return value, you can just include the description.
 
@@ -59,6 +64,6 @@ If there are no params, you can just put a single line between the description a
 
 When possible, you should trim all whitespace at the end of lines. Many IDEs have a feature like this. In SublimeText, for example, you can add...
 
-	"trim_trailing_white_space_on_save": true
+    "trim_trailing_white_space_on_save": true
 
 ...to your user settings.

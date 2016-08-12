@@ -1,7 +1,5 @@
 - Overview
     - [Introduction](/docs/introduction.md)
-    - [Contributing](/docs/contributing.md)
-    - [Style Guide](/docs/style-guide.md)
     - [License](/docs/license.md)
 - Getting Started
     - [Installation](/docs/installation.md)

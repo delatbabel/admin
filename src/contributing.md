@@ -28,9 +28,9 @@ We love it when people submit pull requests. They don't always get merged into t
 
 - Add any necessary unit tests
 
-- Follow the [style guide](/docs/style-guide.md)!
+- Follow the [style guide](/src/style-guide.md)!
 
 <a name="style-guide"></a>
 ## Style Guide
 
-Please see the [style guide](/docs/style-guide.md) page for more information about the style guide.
+Please see the [style guide](/src/style-guide.md) page for more information about the style guide.
