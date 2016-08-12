@@ -78,3 +78,18 @@ Settings configuration files help you manage administrative options that aren't 
 There are several required fields that must be supplied in order for a settings config file to work. Apart from that you can also define a number of optional fields that help you customize your settings page.
 
 > For a detailed description of all the settings configuration options, see the **[settings configuration docs](/docs/settings-configuration.md)**
+
+## Routes
+
+As soon as installation is complete, some routes should be visible from this package in your application route table.  To check these, run this command:
+
+    php artisan route:list
+
+You should see routes pointing to the following controller endpoints:
+
+* DDPro\Admin\Http\Controllers\AdminController@dashboard
+* DDPro\Admin\Http\Controllers\AdminController@fileDownload
+* DDPro\Admin\Http\Controllers\AdminController@page
+* DDPro\Admin\Http\Controllers\AdminController@settings
+
+... etc.
