@@ -55,7 +55,7 @@ It is best to publish at least the public assets whenever Administrator updates.
 
 The config file is published using the same `php artisan vendor:publish` command as above.
 
-This will create the file `app/config/packages/ddpro/admin/administrator.php` and seed it with some defaults. This [config file](configuration.md) is the primary way you interact with Administrator.
+This will create the file `app/config/packages/ddpro/admin/administrator.php` and seed it with some defaults. This [config file](/docs/configuration.md) is the primary way you interact with Administrator.
 
 There are several required fields that must be supplied. Among them are the `menu` option where you define the menu structure of your site and point to your model configuration files.
 

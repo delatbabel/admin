@@ -19,6 +19,14 @@ return array(
 	/**
 	 *  Middleware for admin routing.
 	 *
+	 * By default the standard Admin middleware is merged into to this array.  The standard
+	 * Admin middleware is
+	 *
+	 * * DDPro\Admin\Http\Middleware\ValidateAdmin
+	 * * DDPro\Admin\Http\Middleware\ValidateSettings (settings only)
+	 * * DDPro\Admin\Http\Middleware\ValidateModel (model only)
+	 * * DDPro\Admin\Http\Middleware\PostValidate
+	 *
 	 *  @type array
 	 */
 	'middleware' => array(),
@@ -70,6 +78,9 @@ return array(
 	/**
 	 * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
 	 * is allowed to view the admin section. Any "falsey" response will send the user back to the 'login_path' defined below.
+	 *
+	 * TODO: We want to move the config out of the config files and into the database but we can't do that while there is
+	 * a closure in the config file. Replace this with something else (e.g. a class/static function name, etc).
 	 *
 	 * @type closure
 	 */

@@ -2,7 +2,6 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
-use DDPro\Admin\Config\Config;
 use DDPro\Admin\Config\ConfigInterface;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
@@ -11,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager as Session;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\HttpFoundation\File\File as SFile;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
  * DDPro Admin Controller
@@ -421,7 +420,7 @@ class AdminController extends Controller
         //get the stored path of the original
         $path = $this->request->input('path');
         $data = File::get($path);
-        $file = new SFile($path);
+        $file = new SymfonyFile($path);
 
         $headers = array(
             'Content-Type'        => $file->getMimeType(),
@@ -447,7 +446,7 @@ class AdminController extends Controller
         //get the model and the field object
         $field = $fieldFactory->findField($fieldName);
 
-        return response()->JSON($field->doUpload());
+        return response()->json($field->doUpload());
     }
 
     /**

@@ -19,8 +19,7 @@ Route::group(
         'domain'     => config('administrator.domain'),
         'prefix'     => config('administrator.uri'),
         'middleware' => $middleware_array
-    ),
-    function () {
+    ), function () {
     //Admin Dashboard
     Route::get('/', array(
         'as'   => 'admin_dashboard',
@@ -39,7 +38,12 @@ Route::group(
         'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page'
     ));
 
-    Route::group(array('middleware' => ['DDPro\Admin\Http\Middleware\ValidateSettings', 'DDPro\Admin\Http\Middleware\PostValidate']), function () {
+    Route::group(
+        array(
+            'middleware' => [
+                'DDPro\Admin\Http\Middleware\ValidateSettings',
+                'DDPro\Admin\Http\Middleware\PostValidate']
+        ), function () {
         //Settings Pages
         Route::get('settings/{settings}', array(
             'as'   => 'admin_settings',
@@ -78,7 +82,12 @@ Route::group(
     ));
 
     //The route group for all other requests needs to validate admin, model, and add assets
-    Route::group(array('middleware' => ['DDPro\Admin\Http\Middleware\ValidateModel', 'DDPro\Admin\Http\Middleware\PostValidate']), function () {
+    Route::group(
+        array(
+            'middleware' => [
+                'DDPro\Admin\Http\Middleware\ValidateModel',
+                'DDPro\Admin\Http\Middleware\PostValidate']
+        ), function () {
         //Model Index
         Route::get('{model}', array(
             'as'   => 'admin_index',
