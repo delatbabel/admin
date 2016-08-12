@@ -1,6 +1,23 @@
 <?php
 namespace DDPro\Admin;
 
+use Illuminate\Routing\UrlGenerator;
+
+/**
+ * Class Validator
+ *
+ * This performs validation of attributes returned when creating or editing a model
+ * class or configuration data.
+ *
+ * Example
+ *
+ * <code>
+ *   // Example code goes here
+ * </code>
+ *
+ * @see  \Illuminate\Validation\Validator
+ * @link ...
+ */
 class Validator extends \Illuminate\Validation\Validator
 {
 
@@ -17,18 +34,18 @@ class Validator extends \Illuminate\Validation\Validator
     /**
      * The URL instance
      *
-     * @var \Illuminate\Routing\UrlGenerator
+     * @var UrlGenerator
      */
     protected $url;
 
     /**
      * Injects the URL class instance
      *
-     * @param \Illuminate\Routing\UrlGenerator $url
+     * @param UrlGenerator $url
      *
      * @return void
      */
-    public function setUrlInstance(\Illuminate\Routing\UrlGenerator $url)
+    public function setUrlInstance(UrlGenerator $url)
     {
         $this->url = $url;
     }
@@ -36,7 +53,7 @@ class Validator extends \Illuminate\Validation\Validator
     /**
      * Gets the URL class instance
      *
-     * @return \Illuminate\Routing\UrlGenerator
+     * @return UrlGenerator
      */
     public function getUrlInstance()
     {
@@ -62,6 +79,7 @@ class Validator extends \Illuminate\Validation\Validator
      * Sets the rules
      *
      * @param array		$rules
+     * @return void
      */
     public function setRules(array $rules)
     {
@@ -101,14 +119,13 @@ class Validator extends \Illuminate\Validation\Validator
     /**
      * Checks if a table is already joined to a query object
      *
-     * @param Query		$query
+     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder		$query
      * @param string	$table
      *
-     * @return bool
+     * @return boolean
      */
     public function isJoined($query, $table)
     {
-        $tableFound = false;
         $query      = is_a($query, 'Illuminate\Database\Query\Builder') ? $query : $query->getQuery();
 
         if ($query->joins) {

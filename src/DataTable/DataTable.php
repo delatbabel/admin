@@ -5,8 +5,26 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Fields\Factory as FieldFactory;
 use Illuminate\Database\DatabaseManager as DB;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
+/**
+ * Class DataTable
+ *
+ * This defines the basic operations for a data table based on a Laravel model class,
+ * This includes things like holding the configuration instance (from which the model
+ * class can be determined), the validation instance, the Field Factory, the relationships,
+ * etc.
+ *
+ * ### Example
+ *
+ * <code>
+ *   // Example code goes here
+ * </code>
+ *
+ * @see  ...
+ * @link ...
+ */
 class DataTable
 {
 
@@ -18,14 +36,14 @@ class DataTable
     protected $config;
 
     /**
-     * The validator instance
+     * The column factory instance
      *
      * @var \DDPro\Admin\DataTable\Columns\Factory
      */
     protected $columnFactory;
 
     /**
-     * The validator instance
+     * The field factory instance
      *
      * @var \DDPro\Admin\Fields\Factory
      */

@@ -3,6 +3,19 @@ namespace DDPro\Admin\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class ValidateAdmin
+ *
+ * This middleware performs permission checking by testing the administrator.permission closure
+ * for a response as to whether the currently logged in user is entitled to access the current
+ * request.
+ *
+ * Example
+ *
+ * <code>
+ *   // Example code goes here
+ * </code>
+ */
 class ValidateAdmin
 {
 
@@ -18,6 +31,7 @@ class ValidateAdmin
         $configFactory = app('admin_config_factory');
 
         //get the admin check closure that should be supplied in the config
+        /** @var Closure $permission */
         $permission = config('administrator.permission');
 
         //if this is a simple false value, send the user to the login redirect

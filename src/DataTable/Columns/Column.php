@@ -2,10 +2,25 @@
 namespace DDPro\Admin\DataTable\Columns;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\DataTable\Columns\Relationships\Relationship;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Column
+ *
+ * This is the class that manages all basic (non-relationship) columns within the
+ * Admin DataTable class.
+ *
+ * ### Example
+ *
+ * <code>
+ *   // Example code goes here
+ * </code>
+ *
+ * @see  \DDPro\Admin\DataTable\Columns\Factory
+ */
 class Column
 {
 
@@ -24,7 +39,7 @@ class Column
     protected $config;
 
     /**
-     * The config instance
+     * The database instance
      *
      * @var \Illuminate\Database\DatabaseManager
      */

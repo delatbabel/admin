@@ -3,6 +3,12 @@ namespace DDPro\Admin\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class ValidateModel
+ *
+ * The primary task of this middleware is to set the itemconfig middlewhere for cases
+ * where a model is under administration.
+ */
 class ValidateModel
 {
 

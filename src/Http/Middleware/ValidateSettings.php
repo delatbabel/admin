@@ -3,6 +3,12 @@ namespace DDPro\Admin\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class ValidateSettings
+ *
+ * The primary task of this middleware is to set the itemconfig middlewhere for cases
+ * where the system settings are under administration.
+ */
 class ValidateSettings
 {
 

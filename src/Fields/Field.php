@@ -6,6 +6,23 @@ use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
+/**
+ * Class Field
+ *
+ * This is the base field class that defines the default structure used to hold data for a
+ * data table field.  This includes things like the validator and configuration instances, validation
+ * rules, base data default values (0 for an integer, empty for a string, etc), and handles
+ * populating the field data into model instances.
+ *
+ * ### Example
+ *
+ * <code>
+ *   // Example code goes here
+ * </code>
+ *
+ * @see  ...
+ * @link ...
+ */
 abstract class Field
 {
 
@@ -212,7 +229,7 @@ abstract class Field
     /**
      * Helper function to determine if a filter value should be considered "empty" or not
      *
-     * @param string 	value
+     * @param string 	$value
      *
      * @return false|string
      */

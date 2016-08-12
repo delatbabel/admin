@@ -3,6 +3,13 @@ namespace DDPro\Admin\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class PostValidate
+ *
+ * This middleware performs post validation checking for the other middleware, ensuring
+ * that an itemconfig singleton has been set, and also checking that the permission testing
+ * middleware has not returned an error or a redirect response.
+ */
 class PostValidate
 {
 
