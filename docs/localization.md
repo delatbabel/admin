@@ -21,7 +21,7 @@ Administrator uses Laravel's built-in localization support, so all you have to d
 
 **Changing the default language**
 
-	'locale' => 'de',
+    'locale' => 'de',
 
 By default, this value is `en`.
 
@@ -29,7 +29,7 @@ By default, this value is `en`.
 
 In Laravel 3, it was possible to provide an array of accepted languages in your `application.php` config file. In L4 this feature was removed, so the `languages` array has been moved to Administrator's config file (`app/config/packages/frozennode/administrator/administrator.php`) and is now called `locales`.
 
-	'locales' => array('en', 'de', 'hu'),
+    'locales' => array('en', 'de', 'hu'),
 
 By default, this is an empty `array()`.
 
@@ -49,18 +49,18 @@ Since Administrator checks for the default language prior to building these item
 
 Setting up localization in the `app/config/packages/frozennode/administrator/administrator.php` file is a breeze. For example, if you want to localize the title of the administrative interface:
 
-	/**
-	 * Page title
-	 *
-	 * @type string
-	 */
-	'title' => trans('administrator.title'),
+    /**
+     * Page title
+     *
+     * @type string
+     */
+    'title' => trans('administrator.title'),
 
 You can set up the language files however you like, but in this case, you'd have to set up an `administrator.php` file in (for example) `app/lang/en`, `app/lang/de`, or any language that you want to use. That file would look like this:
 
-	return array(
-		"title"       => "Admin",
-	);
+    return array(
+        "title"       => "Admin",
+    );
 
 This is simply [Laravel's localization](http://laravel.com/docs/localization), so there's nothing new here!
 

@@ -10,11 +10,11 @@
 
 The `date` field type should be a DATE or DATETIME type in your database.
 
-	'date' => array(
-		'type' => 'date',
-		'title' => 'Date',
-		'date_format' => 'yy-mm-dd', //optional, will default to this value
-	)
+    'date' => array(
+        'type' => 'date',
+        'title' => 'Date',
+        'date_format' => 'yy-mm-dd', //optional, will default to this value
+    )
 
 In the edit form, an admin user will be presented with a jQuery UI Datepicker.
 

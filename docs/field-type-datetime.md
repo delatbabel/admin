@@ -10,12 +10,12 @@
 
 The `datetime` field type should be a DATETIME type in your database.
 
-	'start_time' => array(
-		'type' => 'datetime',
-		'title' => 'Start Time',
-		'date_format' => 'yy-mm-dd', //optional, will default to this value
-		'time_format' => 'HH:mm', 	 //optional, will default to this value
-	)
+    'start_time' => array(
+        'type' => 'datetime',
+        'title' => 'Start Time',
+        'date_format' => 'yy-mm-dd', //optional, will default to this value
+        'time_format' => 'HH:mm',    //optional, will default to this value
+    )
 
 In the edit form, an admin user will be presented with a jQuery datetimepicker.
 

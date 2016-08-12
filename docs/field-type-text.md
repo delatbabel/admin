@@ -10,11 +10,11 @@
 
 The `text` field type should be any text-like type in your database. `text` is the default field type, so setting the `type` property isn't required.
 
-	'name' => array(
-		'type' => 'text', //optional, default is 'text'
-		'title' => 'Name',
-		'limit' => 30, //optional, defaults to no limit
-	)
+    'name' => array(
+        'type' => 'text', //optional, default is 'text'
+        'title' => 'Name',
+        'limit' => 30, //optional, defaults to no limit
+    )
 
 In the edit form, an admin user will be presented with a simple text input.
 

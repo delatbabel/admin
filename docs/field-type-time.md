@@ -10,11 +10,11 @@
 
 The `time` field type should be a TIME type in your database.
 
-	'start_time' => array(
-		'type' => 'time',
-		'title' => 'Start Time',
-		'time_format' => 'HH:mm', //optional, will default to this value
-	)
+    'start_time' => array(
+        'type' => 'time',
+        'title' => 'Start Time',
+        'time_format' => 'HH:mm', //optional, will default to this value
+    )
 
 In the edit form, an admin user will be presented with a jQuery timepicker.
 
