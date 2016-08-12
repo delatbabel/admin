@@ -19,7 +19,7 @@ composer require ddpro/admin
 
 ```php
 'providers' => [
-    Frozennode\Administrator\AdministratorServiceProvider::class,
+    DDPro\Admin\AdminServiceProvider::class,
 ]
 ```
 
@@ -28,11 +28,13 @@ Then publish Administrator's assets with `php artisan vendor:publish`. This will
 <a name="assets"></a>
 ## Assets
 
-After the package is installed, you need to publish the package's assets like this:
+After the package is installed, you need to publish the package's assets and configuration like this:
 
-    php artisan asset:publish ddpro/admin
+    php artisan vendor:publish --force
 
-It is best to publish the assets whenever Administrator updates. Instead of doing this manually, you can add the above command to your `scripts` object in your composer.json file:
+This publishes all of the vendor scripts from Admin as well as the packages that it depends on (viewpages, twigbridge).
+
+It is best to publish at least the public assets whenever Administrator updates. Instead of doing this manually, you can add the above command to your `scripts` object in your composer.json file:
 
     "scripts": {
         "pre-update-cmd": [
@@ -51,9 +53,7 @@ It is best to publish the assets whenever Administrator updates. Instead of doin
 <a name="administrator-config"></a>
 ## Administrator Config
 
-You can publish the config file with:
-
-    php artisan config:publish ddpro/admin
+The config file is published using the same `php artisan vendor:publish` command as above.
 
 This will create the file `app/config/packages/ddpro/admin/administrator.php` and seed it with some defaults. This [config file](configuration.md) is the primary way you interact with Administrator.
 
