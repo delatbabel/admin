@@ -7,6 +7,8 @@ This is where things go while we are migrating them into the main admin framewor
 The config/administrator.php file contains the base config for the admin panel.  Eventually
 this will move to be inside the database (see delatbabel/site-config).
 
+TODO: Import this as database driven config and have a config editor.
+
 ## views
 
 Inside views are the base AdminLTE views.  These will need to be expanded to include all of the
@@ -48,3 +50,11 @@ http://stackoverflow.com/questions/17068094/comment-foreach-binding-vs-foreach-b
 
 These are the translation files for the old views.  Ideally it would be good to keep these but
 in the long term we may migrate all of this to gettext and .po files.
+
+## examples
+
+These are examples copied from FrozenNode.  They need to be checked over.
+
+## tests
+
+These are tests copied from FrozenNode.  They need to be changed for the new namespaces.

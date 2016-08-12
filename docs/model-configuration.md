@@ -3,11 +3,28 @@
 - [Introduction](#introduction)
 - [Examples](#examples)
 - [Options](#options)
+    - [Title](#title) *(required)*
+    - [Single](#single) *(required)*
+    - [Model](#model) *(required)*
+    - [Columns](#columns) *(required)*
+    - [Edit Fields](#edit-fields) *(required)*
+    - [Filters](#filters)
+    - [Query Filter](#query-filter)
+    - [Permission](#permission)
+    - [Action Permissions](#action-permissions)
+    - [Custom Actions](#custom-actions)
+    - [Global Custom Actions](#global-custom-actions)
+    - [Form Request Option](#form-request-option)
+    - [Validation Rules](#validation-rules)
+    - [Validation Messages](#validation-messages)
+    - [Sort](#sort)
+    - [Form Width](#form-width)
+    - [Link](#link)
 
 <a name="introduction"></a>
 ## Introduction
 
-Any Eloquent model (or any object that ultimately extends from an Eloquent model) can be represented by a model configuration file. These files can be kept anywhere in your application directory structure. All you do is provide the path to their location in the `app/config/packages/frozennode/administrator/administrator.php` config file with the [`model_config_path`](/docs/configuration#model-config-path) option. The **file names** of these files correspond to the values supplied in the [`menu`](/docs/configuration#menu) option, also in the `administrator.php` config.
+Any Eloquent model (or any object that ultimately extends from an Eloquent model) can be represented by a model configuration file. These files can be kept anywhere in your application directory structure. All you do is provide the path to their location in the `app/config/packages/ddpro/admin/administrator.php` config file with the [`model_config_path`](/docs/configuration.md#model-config-path) option. The **file names** of these files correspond to the values supplied in the [`menu`](/docs/configuration.md#menu) option, also in the `administrator.php` config.
 
 > **Note**: These are also the **uris** for each model in the admin interface.
 
@@ -16,30 +33,12 @@ There are several required fields that must be supplied in order for a model con
 <a name="examples"></a>
 ## Examples
 
-For some example config files, check out the `/examples` directory on [Administrator's GitHub repo](https://github.com/FrozenNode/Laravel-Administrator/tree/master/examples).
+For some example config files, check out the `/examples` directory on [Administrator's GitHub repo](https://github.com/ddpro/admin/tree/master/staging/examples).
 
 <a name="options"></a>
 ## Options
 
 Below is a list of all the available options. Required options are marked as *(required)*:
-
-- [Title](#title) *(required)*
-- [Single](#single) *(required)*
-- [Model](#model) *(required)*
-- [Columns](#columns) *(required)*
-- [Edit Fields](#edit-fields) *(required)*
-- [Filters](#filters)
-- [Query Filter](#query-filter)
-- [Permission](#permission)
-- [Action Permissions](#action-permissions)
-- [Custom Actions](#custom-actions)
-- [Global Custom Actions](#global-custom-actions)
-- [Form Request Option](#form-request-option)
-- [Validation Rules](#validation-rules)
-- [Validation Messages](#validation-messages)
-- [Sort](#sort)
-- [Form Width](#form-width)
-- [Link](#link)
 
 <a name="title"></a>
 ### Title *(required)*

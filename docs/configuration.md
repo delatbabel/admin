@@ -27,10 +27,9 @@ TODO: Replace the configuration file with database backed configuration.
 
 Once the package is installed, you can publish the config file with:
 
-### Laravel 5
     php artisan vendor:publish --provider='DDPro\Admin\AdministratorServiceProvider'
 
-This will create the file `app/config/packages/frozennode/administrator/administrator.php` and seed it with some defaults. This [config file](http://administrator.frozennode.com/docs/configuration) is the primary way you interact with Administrator.
+This will create the file `app/config/packages/ddpro/admin/administrator.php` and seed it with some defaults. This [config file](configuration.md) is the primary way you interact with Administrator.
 
 All of the configuration options are used, but not all of them must be supplied.
 

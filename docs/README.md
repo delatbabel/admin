@@ -33,3 +33,5 @@
     - [File](/docs/field-type-file.md)
     - [Image](/docs/field-type-image.md)
     - [Color](/docs/field-type-color.md)
+
+TODO: Find all of the image URLs like https://raw.github.com/FrozenNode/Laravel-Administrator/master/examples/images/edit-form.png and recreate the images using the new AdminLTE look and feel.
