@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Sometimes you want to be able to create settings pages for your administrators. Settings pages, like [the pages that display Eloquent models](/docs/model-configuration.md), are represented by configuration files. These files can be kept anywhere in your application directory structure so long as you provide the path to their location in the main `administrator.php` config with the [`settings_config_path`](/docs/configuration.md#settings-config-path) option. The names of these files correspond to the values supplied in the [`menu`](/docs/configuration#menu) option in the `administrator.php` config.
+Sometimes you want to be able to create settings pages for your administrators. Settings pages, like [the pages that display Eloquent models](/docs/model-configuration.md), are represented by configuration files. These files can be kept anywhere in your application directory structure so long as you provide the path to their location in the main `administrator.php` config with the [`settings_config_path`](/docs/configuration.md#settings-config-path) option. The names of these files correspond to the values supplied in the [`menu`](/docs/configuration.md#menu) option in the `administrator.php` config.
 
 > **Note**: These are also the uris for each settings page in the admin interface.
 
@@ -27,7 +27,7 @@ Settings are saved as JSON files in the storage subdirectory `administrator_sett
 <a name="examples"></a>
 ## Examples
 
-For some example config files, check out the `/examples` directory on [Administrator's GitHub repo](https://github.com/FrozenNode/Laravel-Administrator/tree/master/examples).
+For some example config files, check out the [**example** application on GitHub](https://github.com/ddpro/example).
 
 <a name="options"></a>
 ## Options

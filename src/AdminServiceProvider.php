@@ -42,24 +42,22 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         // Should not need this because we will load views from the database.
+        // TODO: The views are still in staging, need to be converted to AdminLTE.
         // $this->loadViewsFrom(__DIR__ . '/../../views', 'administrator');
 
-        // Should not need this because we will load config from the database.
-        /*
+        // TODO: Load this config from the database.
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/administrator.php', 'administrator'
+            __DIR__ . '/../config/administrator.php', 'administrator'
         );
-        */
+
+        // TODO: Load this config from the database.
+        $this->publishes([
+            __DIR__ . '/../config/administrator.php' => config_path('administrator.php'),
+        ]);
 
         // TBD -- we may keep translations here or we may use gettext
-        // $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'administrator');
-
-        // Should not need this because we will load config from the database.
-        /*
-        $this->publishes([
-            __DIR__ . '/../../config/administrator.php' => config_path('administrator.php'),
-        ]);
-        */
+        // TODO: The translations are still in staging at the moment
+        $this->loadTranslationsFrom(__DIR__ . '/../staging/lang', 'administrator');
 
         // Need this because we will publish CSS and JS specific to this package.
         $this->publishes([
@@ -71,10 +69,11 @@ class AdminServiceProvider extends ServiceProvider
 
         // Seems to be useful to keep this here for the time being.
         // event renamed from administrator.ready to admin.ready
-        // $this->app['events']->fire('admin.ready');
+        $this->app['events']->fire('admin.ready');
 
         // Register other providers required by this provider, which saves the caller
         // from having to register them each individually.
+        $this->app->register(\Delatbabel\SiteConfig\SiteConfigServiceProvider::class);
         $this->app->register(\Delatbabel\ViewPages\ViewPagesServiceProvider::class);
     }
 
