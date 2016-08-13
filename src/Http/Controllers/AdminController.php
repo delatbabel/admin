@@ -3,6 +3,7 @@
 namespace DDPro\Admin\Http\Controllers;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Config\Model\Config;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -67,6 +68,10 @@ class AdminController extends Controller
     /**
      * The main view for any of the data models
      *
+     * * **route method**: GET
+     * * **route name**: admin_index
+     * * **route URL**: admin/{model}
+     *
      * @return Response
      */
     public function index($modelName)
@@ -80,20 +85,32 @@ class AdminController extends Controller
     /**
      * Gets the item edit page / information
      *
+     * * **route method**: GET
+     * * **route name**: admin_get_item | admin_new_item
+     * * **route URL**: admin/{model}/{id} | admin/{model}/new
+     *
      * @param string		$modelName
      * @param mixed			$itemId
      * @return Response
      */
     public function item($modelName, $itemId = 0)
     {
-        $config            = app('itemconfig');
-        $fieldFactory      = app('admin_field_factory');
-        $actionFactory     = app('admin_action_factory');
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config        = app('itemconfig');
+
+        /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+        $fieldFactory  = app('admin_field_factory');
+
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $actionFactory = app('admin_action_factory');
+
         $columnFactory     = app('admin_column_factory');
         $actionPermissions = $actionFactory->getActionPermissions();
         $fields            = $fieldFactory->getEditFields();
 
-        //if it's ajax, we just return the item information as json
+        // if it's ajax, we just return the item information as json
         if ($this->request->ajax()) {
             //try to get the object
             $model = $config->getModel($itemId, $fields, $columnFactory->getIncludedColumns($fields));
@@ -122,7 +139,11 @@ class AdminController extends Controller
     }
 
     /**
-     * POST save method that accepts data via JSON POST and either saves an old item (if id is valid) or creates a new one
+     * Accepts data via JSON POST and either saves an old item (if id is valid) or creates a new one
+     *
+     * * **route method**: POST
+     * * **route name**: admin_save_item
+     * * **route URL**: admin/{model}/{id?}/save
      *
      * @param string		$modelName
      * @param int			$id
@@ -131,10 +152,9 @@ class AdminController extends Controller
      */
     public function save($modelName, $id = null)
     {
-        // The itemconfig singleton is built in the ValidateModel or ValidateSettings middleware and
-        // will be an instance of ConfigInterface, either \DDPro\Admin\Config\Settings\Config or
-        // \DDPro\Admin\Config\Model\Config
-        /** @var ConfigInterface $config */
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
         $config        = app('itemconfig');
 
         /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
@@ -178,7 +198,11 @@ class AdminController extends Controller
     }
 
     /**
-     * POST delete method that accepts data via JSON POST and either saves an old
+     * POST delete method that accepts data via JSON POST and deletes an item
+     *
+     * * **route method**: POST
+     * * **route name**: admin_delete_item
+     * * **route URL**: admin/{model}/{id}/delete
      *
      * @param string		$modelName
      * @param int			$id
@@ -187,8 +211,14 @@ class AdminController extends Controller
      */
     public function delete($modelName, $id)
     {
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
         $config        = app('itemconfig');
+
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
+
         $baseModel     = $config->getDataModel();
         $model         = $baseModel::find($id);
         $errorResponse = array(

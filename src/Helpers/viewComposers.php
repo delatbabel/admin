@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\View;
 View::composer('administrator::index', function ($view) {
     // get a model instance that we'll use for constructing stuff
     $config = app('itemconfig');
-    $fieldFactory = app('admin_field_factory');
+
+    /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+    $fieldFactory  = app('admin_field_factory');
+
     $columnFactory = app('admin_column_factory');
     $actionFactory = app('admin_action_factory');
     $dataTable = app('admin_datatable');
@@ -41,8 +44,12 @@ View::composer('administrator::index', function ($view) {
 // admin settings view
 View::composer('administrator::settings', function ($view) {
     $config = app('itemconfig');
-    $fieldFactory = app('admin_field_factory');
+    /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+    $fieldFactory  = app('admin_field_factory');
+
+    /** @var \DDPro\Admin\Actions\Factory $actionFactory */
     $actionFactory = app('admin_action_factory');
+
     $baseUrl = route('admin_dashboard');
     $route = parse_url($baseUrl);
 

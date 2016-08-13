@@ -23,6 +23,22 @@ Inside old-views are the views that have been copied across from FrozenNode.  Th
 knockout.js of which version 2.2.0 (quite old) is included in public/js/knockout.  It would
 probably be best to update the version of knockout.js
 
+#### How Do The Edit Forms Get Created?
+
+The views use knockout.js to dynamically create the edit forms on the front end, and the PHP code
+builds some JS some arrays to communicate to the front end.
+
+The data sent up to the front end is all communicated in the adminData JS array created starting at
+line 17 of views/index.php.  This is the main view for any of the data models.
+
+The adminData array contains an element edit_fields which is populated from the view element
+$arrayFields which is created in the view composer (src/Helpers/viewComposers.php) from calling
+$fieldFactory->getEditFieldsArrays() (when editing a model, $fieldFactory will be an object of class
+DDPro\Admin\Fields\Factory).
+
+In turn this edit_fields element is used by the prepareEditFields function in public/admin.js starting
+around line 1069.
+
 The views in here use knockout.js' containerless binding syntax.  It's hard to find documentation
 on this because all of the knockout.js examples use the native binding.  Examples of each are
 as follows.
