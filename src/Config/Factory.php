@@ -183,10 +183,10 @@ class Factory
     /**
      * Recursively searches the menu array for the desired settings config name
      *
-     * @param string	$name
-     * @param array		$menu
+     * @param string        $name
+     * @param array|boolean $menu
      *
-     * @return false|array	//If found, an array of (unvalidated) config options will returned
+     * @return false|array	// If found, an array of (unvalidated) config options will returned
      */
     public function searchMenu($name, $menu = false)
     {

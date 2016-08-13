@@ -5,7 +5,9 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Fields\Factory as FieldFactory;
 use Illuminate\Database\DatabaseManager as DB;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -97,8 +99,14 @@ class DataTable
      */
     public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
     {
-        //prepare the query
-        extract($this->prepareQuery($db, $page, $sort, $filters));
+        // prepare the query
+        // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
+        // presence and type of the variables.
+        // extract($this->prepareQuery($db, $page, $sort, $filters));
+        // This is functionally equivalent.
+        /** @var QueryBuilder $query */
+        list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
+            extract($this->prepareQuery($db, $page, $sort, $filters));
 
         //run the count query
         $output = $this->performCountQuery($countQuery, $querySql, $queryBindings, $page);
@@ -126,6 +134,7 @@ class DataTable
     public function prepareQuery(DB $db, $page = 1, $sort = null, $filters = null)
     {
         //grab the model instance
+        /** @var Model $model */
         $model = $this->config->getDataModel();
 
         //update the sort options
@@ -135,6 +144,8 @@ class DataTable
         //get things going by grouping the set
         $table   = $model->getTable();
         $keyName = $model->getKeyName();
+
+        /** @var EloquentBuilder $query */
         $query   = $model->groupBy($table . '.' . $keyName);
 
         //get the Illuminate\Database\Query\Builder instance and set up the count query
@@ -255,7 +266,7 @@ class DataTable
     /**
      * Parses the results of a getRows query and converts it into a manageable array with the proper rendering
      *
-     * @param 	Collection	$rows
+     * @param 	Collection|array	$rows
      *
      * @return	array
      */
