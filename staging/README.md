@@ -15,13 +15,19 @@ Inside views are the base AdminLTE views.  These will need to be expanded to inc
 functionality of the views in old-views.  Eventually these views will need to be imported into
 the database using the service provider (see delatbabel/viewpages).
 
+TODO: Convert all of the old views to AdminLTE views.
+
 TODO: Write a migration script that imports these views from staging into the database.
 
 ### old-views
 
 Inside old-views are the views that have been copied across from FrozenNode.  These use
 knockout.js of which version 2.2.0 (quite old) is included in public/js/knockout.  It would
-probably be best to update the version of knockout.js
+probably be best to either:
+
+* update the version of knockout.js,
+* switch to angular.js, or something like schemaform.io, or
+* convert to PHP code driven views instead of the current JS driven views
 
 #### How Do The Edit Forms Get Created?
 
