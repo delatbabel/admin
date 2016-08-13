@@ -42,8 +42,14 @@ $arrayFields which is created in the view composer (src/Helpers/viewComposers.ph
 $fieldFactory->getEditFieldsArrays() (when editing a model, $fieldFactory will be an object of class
 DDPro\Admin\Fields\Factory).
 
-In turn this edit_fields element is used by the prepareEditFields function in public/admin.js starting
+In turn this edit_fields element is used by the prepareEditFields function in public/js/admin.js starting
 around line 1069.
+
+The forms themselves POST JSON data to, and receive JSON responses from, the endpoints in
+src/Http/Controllers/AdminController, meaning that all of the form creation, posting, etc,
+functionality is handled on the front end in JS.  The JS code to do this is mostly contained
+in public/js/admin.js.  For example, see the function saveItem which handles the POST of data
+to the back end when saving an item being edited.
 
 The views in here use knockout.js' containerless binding syntax.  It's hard to find documentation
 on this because all of the knockout.js examples use the native binding.  Examples of each are
