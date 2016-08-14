@@ -43,7 +43,8 @@ class AdminServiceProvider extends ServiceProvider
     {
         // Should not need this because we will load views from the database.
         // TODO: The views are still in staging, need to be converted to AdminLTE.
-        // $this->loadViewsFrom(__DIR__ . '/../../views', 'administrator');
+        // TODO: ViewPages doesn't support namespaced views, remove the namespaces.
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'administrator');
 
         // TODO: Load this config from the database.
         $this->mergeConfigFrom(

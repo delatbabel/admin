@@ -111,25 +111,25 @@ class Factory
      * Makes a config instance given an input string
      *
      * @param string	$name
-     * @param string	$primary	//if true, this is the primary itemconfig object and we want to store the instance
+     * @param boolean	$primary	if true, this is the primary itemconfig object and we want to store the instance
      *
-     * @return mixed
+     * @return \DDPro\Admin\Config\ConfigInterface
      */
     public function make($name, $primary = false)
     {
-        //set the name so we can rebuild the config later if necessary
+        // set the name so we can rebuild the config later if necessary
         $this->name = $primary ? $name : $this->name;
 
-        //search the config menu for our item
+        // search the config menu for our item
         $options = $this->searchMenu($name);
 
-        //return the config object if the file/array was found, or false if it wasn't
+        // return the config object if the file/array was found, or false if it wasn't
         $config = $options ? $this->getItemConfigObject($options) : ($this->type === 'page' ? true : false);
 
-        //set the primary config
+        // set the primary config
         $this->config = $primary ? $config : $this->config;
 
-        //return the config object (or false if it fails to build)
+        // return the config object (or false if it fails to build)
         return $config;
     }
 

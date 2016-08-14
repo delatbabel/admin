@@ -3,6 +3,7 @@
 namespace DDPro\Admin\Http\Controllers;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
 use Illuminate\Http\Exception\HttpResponseException;
@@ -12,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager as Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
@@ -41,9 +43,9 @@ class AdminController extends Controller
     protected $formRequestErrors;
 
     /**
-     * @var string
+     * @var View
      */
-    protected $layout = "administrator::layouts.default";
+    protected $view;
 
     /**
      * Class constructor
@@ -57,13 +59,6 @@ class AdminController extends Controller
         $this->session = $session;
 
         $this->formRequestErrors = $this->resolveDynamicFormRequestErrors($request);
-
-        if (! is_null($this->layout)) {
-            $this->layout = view($this->layout);
-
-            $this->layout->page      = false;
-            $this->layout->dashboard = false;
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,16 +78,14 @@ class AdminController extends Controller
     {
         // if the dev has chosen to use a dashboard
         if (config('administrator.use_dashboard')) {
-            // set the layout dashboard
-            $this->layout->dashboard = true;
+            // set the view from the dashboard
+            $this->view = view(config('administrator.dashboard_view'));
 
-            // set the layout content
-            $this->layout->content = view(config('administrator.dashboard_view'));
-
-            return $this->layout;
+            return $this->view;
 
             // else we should redirect to the menu item
         } else {
+            /** @var ConfigFactory $configFactory */
             $configFactory = app('admin_config_factory');
             $home          = config('administrator.home_page');
 
@@ -147,12 +140,9 @@ class AdminController extends Controller
     public function page($page)
     {
         // set the page
-        $this->layout->page = $page;
+        $this->view = view($page);
 
-        // set the layout content and title
-        $this->layout->content = view($page);
-
-        return $this->layout;
+        return $this->view;
     }
 
     /**
@@ -191,9 +181,9 @@ class AdminController extends Controller
     public function index($modelName)
     {
         // set the layout content and title
-        $this->layout->content = view("administrator::index");
+        $this->view = view(config('administrator.model_index_view'));
 
-        return $this->layout;
+        return $this->view;
     }
 
     /**
