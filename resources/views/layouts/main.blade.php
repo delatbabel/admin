@@ -51,19 +51,19 @@ desired effect
 <div class="wrapper">
 
     <!-- Main Header -->
-    @include('layouts.header')
+    @include('administrator::layouts.header')
 
     <!-- Left side column. contains the logo and sidebar -->
-    @include('layouts.sidebar')
+    @include('administrator::layouts.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     @yield('content')
 
     <!-- Main Footer -->
-    @include('layouts.footer')
+    @include('administrator::layouts.footer')
 
     <!-- Control Sidebar -->
-    @include('layouts.control')
+    @include('administrator::layouts.control')
 </div><!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->

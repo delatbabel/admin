@@ -1,13 +1,12 @@
-@extends('layouts.main')
-@inject('objects', 'Delatbabel\ViewPages\Services\VobjectService')
+@extends('administrator::layouts.main')
 
 @section('content')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{ $objects->admin_dashboard_header }}
-                <small>{{ $objects->admin_dashboard_description }}</small>
+                {{ Config::get('administrator.title') }}
+                <small>Dashboard</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>

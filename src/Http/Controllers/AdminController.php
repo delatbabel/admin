@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager as Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
@@ -76,10 +77,16 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'administrator dashboard');
         // if the dev has chosen to use a dashboard
         if (config('administrator.use_dashboard')) {
-            // set the view from the dashboard
-            $this->view = view(config('administrator.dashboard_view'));
+
+            // set the view for the dashboard
+            $viewname = config('administrator.dashboard_view');
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'administrator dashboard view == ' . $viewname);
+            $this->view = view($viewname);
 
             return $this->view;
 
