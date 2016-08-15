@@ -102,14 +102,14 @@ return array(
      *
      * @type string
      */
-    'dashboard_view' => 'administrator::dashboard.admin',
+    'dashboard_view' => 'admindashboard.admin',
 
     /**
      * The name of the model index view
      *
      * @type string
      */
-    'model_index_view' => 'administrator::model.index',
+    'model_index_view' => 'adminmodel.index',
 
     /**
      * The menu item that should be used as the default landing page of the administrative section

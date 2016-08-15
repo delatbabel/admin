@@ -1,4 +1,4 @@
-@extends('administrator::layouts.main')
+@extends('adminlayouts.main')
 
 @section('content')
     <div class="content-wrapper">
