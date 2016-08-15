@@ -47,17 +47,19 @@ class AdminServiceProvider extends ServiceProvider
         // TODO: Instead of publishing the views, load them up into the database using a seeder.
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views')
-        ]);
+        ], 'views');
 
         // TODO: Load this config from the database.
+        /*
         $this->mergeConfigFrom(
             __DIR__ . '/../config/administrator.php', 'administrator'
         );
+        */
 
         // TODO: Load this config from the database.
         $this->publishes([
             __DIR__ . '/../config/administrator.php' => config_path('administrator.php'),
-        ]);
+        ], 'config');
 
         // TBD -- we may keep translations here or we may use gettext
         // TODO: The translations are still in staging at the moment
