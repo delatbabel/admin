@@ -16,7 +16,7 @@
 
         <!-- Main content -->
         <section class="content">
-            @include('dashboard.sample')
+            @include('admindashboard.sample')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 @endsection

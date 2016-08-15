@@ -1,5 +1,3 @@
-@inject('menus', 'Delatbabel\NestedMenus\Services\MenuService')
-
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
@@ -12,7 +10,7 @@
                 <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>{{ $user->name }}</p>
+                <p>USERNAME</p>
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
