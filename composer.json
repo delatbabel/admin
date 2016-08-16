@@ -2,7 +2,7 @@
     "name": "ddpro/admin",
     "description": "DDPro Administrator Panel",
     "homepage": "https://github.com/ddpro/admin",
-    "keywords": ["administrator", "admin", "database", "laravel-administrator", "laravel", "cms"],
+    "keywords": ["administrator", "admin", "database", "laravel-administrator", "laravel", "adminlte"],
     "license": "MIT",
     "authors": [
         {
