@@ -31,5 +31,5 @@ plupload.addI18n({
     'Error: File to large: ':'Fichier trop volumineux: ',
     'Error: Invalid file extension: ':'Extension de fichier invalide: ',
     'File size error.':'Erreur de taile de fichier',
-    'File count error.':'Erreur de décompte des fichiers'    
+    'File count error.':'Erreur de décompte des fichiers'
 });
