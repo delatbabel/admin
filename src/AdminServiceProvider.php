@@ -8,6 +8,7 @@ use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Fields\Factory as FieldFactory;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -21,14 +22,13 @@ use Illuminate\Support\ServiceProvider;
  *
  * ### Functionality
  *
- * * All sorts of stuff TBD
+ * See the boot() and register() functions.
  *
  * @see  Illuminate\Support\ServiceProvider
  * @link http://laravel.com/docs/5.1/providers
  */
 class AdminServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -38,6 +38,10 @@ class AdminServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
+     *
+     * This method is called after all other service providers have been registered,
+     * meaning you have access to all other services that have been registered by the
+     * framework.
      *
      * @return void
      */
@@ -75,6 +79,14 @@ class AdminServiceProvider extends ServiceProvider
         //set the locale
         $this->setLocale();
 
+        // Include our view composers,  Do this in the boot method because we use config
+        // variables which may not be available in the register method.
+        $this->setViewComposers();
+
+        // Include the routes.  Ideally this should be done early to avoid issues with catch
+        // all routes defined by other packages and applications.
+        $this->publishRoutes();
+
         // Seems to be useful to keep this here for the time being.
         // event renamed from administrator.ready to admin.ready
         $this->app['events']->fire('admin.ready');
@@ -88,16 +100,16 @@ class AdminServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      *
+     * Within the register method, you should only bind things into the service container.
+     * You should never attempt to register any event listeners, routes, or any other piece
+     * of functionality within the register method. Otherwise, you may accidentally use
+     * a service that is provided by a service provider which has not loaded yet.
+     *
      * @return void
      */
     public function register()
     {
-        // include our view composers, and routes to avoid issues with catch-all routes defined by users
-        $this->setViewComposers();
-        include __DIR__ . '/Http/Routes/AdminRoutes.php';
-
         // the admin validator
-        // TBD everything from here down
         $this->app['admin_validator'] = $this->app->share(function ($app) {
             //get the original validator class so we can set it back after creating our own
             $originalValidator = LaravelValidator::make(array(), array());
@@ -174,6 +186,19 @@ class AdminServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Set the View Composers
+     *
+     * View composers are callbacks or class methods that are called when a view is rendered. If you
+     * have data that you want to be bound to a view each time that view is rendered, a view composer
+     * can help you organize that logic into a single location.
+     *
+     * This binds all of the data to the views within Admin.
+     *
+     * See: https://laravel.com/docs/5.1/views#view-composers
+     *
+     * @return void
+     */
     protected function setViewComposers()
     {
         // admin index view
@@ -321,5 +346,171 @@ class AdminServiceProvider extends ServiceProvider
             $view->js += array('page' => asset('packages/ddpro/admin/js/page.js'));
         });
 
+    }
+
+    /**
+     * Publish routes
+     */
+    protected function publishRoutes()
+    {
+        //
+        // Temporary solution for middleware in routes
+        // TODO: remove in favor of setting the config for middleware outside of the routes file
+        //
+        $middleware_array = array('DDPro\Admin\Http\Middleware\ValidateAdmin');
+        if (is_array(config('administrator.middleware'))) {
+            $middleware_array = array_merge(config('administrator.middleware'), $middleware_array);
+        }
+
+        //
+        // Routes
+        //
+        Route::group(
+            array(
+                'domain'     => config('administrator.domain'),
+                'prefix'     => config('administrator.uri'),
+                'middleware' => $middleware_array
+            ), function () {
+            //Admin Dashboard
+            Route::get('/', array(
+                'as'   => 'admin_dashboard',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',
+            ));
+
+            //File Downloads
+            Route::get('file_download', array(
+                'as'   => 'admin_file_download',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload'
+            ));
+
+            //Custom Pages
+            Route::get('page/{page}', array(
+                'as'   => 'admin_page',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page'
+            ));
+
+            Route::group(
+                array(
+                    'middleware' => [
+                        'DDPro\Admin\Http\Middleware\ValidateSettings',
+                        'DDPro\Admin\Http\Middleware\PostValidate']
+                ), function () {
+                //Settings Pages
+                Route::get('settings/{settings}', array(
+                    'as'   => 'admin_settings',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings'
+                ));
+
+                //Display a settings file
+                Route::get('settings/{settings}/file', array(
+                    'as'   => 'admin_settings_display_file',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
+                ));
+
+                //Save Item
+                Route::post('settings/{settings}/save', array(
+                    'as'   => 'admin_settings_save',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsSave'
+                ));
+
+                //Custom Action
+                Route::post('settings/{settings}/custom_action', array(
+                    'as'   => 'admin_settings_custom_action',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction'
+                ));
+
+                //Settings file upload
+                Route::post('settings/{settings}/{field}/file_upload', array(
+                    'as'   => 'admin_settings_file_upload',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
+                ));
+            });
+
+            //Switch locales
+            Route::get('switch_locale/{locale}', array(
+                'as'   => 'admin_switch_locale',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale'
+            ));
+
+            //The route group for all other requests needs to validate admin, model, and add assets
+            Route::group(
+                array(
+                    'middleware' => [
+                        'DDPro\Admin\Http\Middleware\ValidateModel',
+                        'DDPro\Admin\Http\Middleware\PostValidate']
+                ), function () {
+                //Model Index
+                Route::get('{model}', array(
+                    'as'   => 'admin_index',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@index'
+                ));
+
+                //New Item
+                Route::get('{model}/new', array(
+                    'as'   => 'admin_new_item',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
+                ));
+
+                //Update a relationship's items with constraints
+                Route::post('{model}/update_options', array(
+                    'as'   => 'admin_update_options',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@updateOptions'
+                ));
+
+                //Display an image or file field's image or file
+                Route::get('{model}/file', array(
+                    'as'   => 'admin_display_file',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
+                ));
+
+                //Updating Rows Per Page
+                Route::post('{model}/rows_per_page', array(
+                    'as'   => 'admin_rows_per_page',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@rowsPerPage'
+                ));
+
+                //Get results
+                Route::post('{model}/results', array(
+                    'as'   => 'admin_get_results',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@results'
+                ));
+
+                //Custom Model Action
+                Route::post('{model}/custom_action', array(
+                    'as'   => 'admin_custom_model_action',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelAction'
+                ));
+
+                //Get Item
+                Route::get('{model}/{id}', array(
+                    'as'   => 'admin_get_item',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
+                ));
+
+                //File Uploads
+                Route::post('{model}/{field}/file_upload', array(
+                    'as'   => 'admin_file_upload',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
+                ));
+
+                //Save Item
+                Route::post('{model}/{id?}/save', array(
+                    'as'   => 'admin_save_item',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@save'
+                ));
+
+                //Delete Item
+                Route::post('{model}/{id}/delete', array(
+                    'as'   => 'admin_delete_item',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@delete'
+                ));
+
+                //Custom Item Action
+                Route::post('{model}/{id}/custom_action', array(
+                    'as'   => 'admin_custom_model_item_action',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelItemAction'
+                ));
+            });
+        });
     }
 }

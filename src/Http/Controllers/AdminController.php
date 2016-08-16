@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
  *
  * This is the main controller class for all DDPro Admin requests.  It handles
  * all requests related to managing the data models.
- *
- * @see Http/Routes/AdminRoutes.php
  */
 class AdminController extends Controller
 {
