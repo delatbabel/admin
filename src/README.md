@@ -27,6 +27,10 @@ These classes are outside the namespaces listed below.
 
 Service providers are the central place of all Laravel application bootstrapping. This bootstraps the DDPro Admin panel.
 
+This also creates the necessary routes in Laravel's route table, which can be seen in your application using:
+
+    php artisan route:list
+
 ### Menu
 
 This class produces the site menu from the site configuration.  The menu is in turn rendered by the sidebar layout view.
@@ -64,9 +68,3 @@ This contains the controller class AdminController which is the main controller 
 ### DDPro\Admin\Http\Middleware
 
 There are 4 middleware classes here that perform validation and permission checking for the controller requests.
-
-### DDPro\Admin\Http\Routes
-
-This creates the necessary routes in Laravel's route table, which can be seen in your application using:
-
-    php artisan route:list

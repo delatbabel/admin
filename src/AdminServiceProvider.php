@@ -202,7 +202,7 @@ class AdminServiceProvider extends ServiceProvider
     protected function setViewComposers()
     {
         // admin index view
-        View::composer('adminmodel.index', function ($view) {
+        View::composer(config('model_index_view'), function ($view) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'model index view');
 
