@@ -206,7 +206,8 @@ class DataTable
         //load the query bindings
         $queryBindings = $query->getBindings();
 
-        return compact('query', 'querySql', 'queryBindings', 'countQuery', 'sort', 'selects');
+        // return compact('query', 'querySql', 'queryBindings', 'countQuery', 'sort', 'selects');
+        return array($query, $querySql, $queryBindings, $countQuery, $sort, $selects);
     }
 
     /**

@@ -7,6 +7,7 @@ use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Fields\Factory as FieldFactory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -176,7 +177,7 @@ class AdminServiceProvider extends ServiceProvider
     protected function setViewComposers()
     {
         // admin index view
-        View::composer(config('model_index_view'), function ($view) {
+        View::composer('adminmodel.index', function ($view) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'model index view');
 
