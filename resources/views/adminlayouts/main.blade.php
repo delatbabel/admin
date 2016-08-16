@@ -19,6 +19,24 @@
     <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/css/skins/skin-blue.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
     <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+
+{{-- I have removed these for IE8 support because I don't really believe that anyone
+     who is going to be doing site admin is ever going to use IE8. By all means feel
+     free to add it back in again if your users are still in the stone age.
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+--}}
+
+{{-- This is where the CSS files for DDPro Admin get inserted.  These get created in the
+     setViewComposers() function in AdminServiceProvider --}}
+@foreach ($css as $url)
+    <link href="{{$url}}" media="all" type="text/css" rel="stylesheet">
+@endforeach
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -68,9 +86,15 @@ desired effect
 <!-- AdminLTE App -->
 <script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/js/app.min.js') }}" type="text/javascript"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-      Both of these plugins are recommended to enhance the
-      user experience. Slimscroll is required when using the
-      fixed layout. -->
+{{-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. --}}
+
+{{-- This is where the JS files for DDPro Admin get inserted.  These get created in the
+     setViewComposers() function in AdminServiceProvider --}}
+@foreach ($js as $url)
+    <script src="{{$url}}"></script>
+@endforeach
 </body>
 </html>
