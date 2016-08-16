@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class DataTable
@@ -99,6 +100,9 @@ class DataTable
      */
     public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'getRows');
+
         // prepare the query
         // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
         // presence and type of the variables.
@@ -106,7 +110,7 @@ class DataTable
         // This is functionally equivalent.
         /** @var QueryBuilder $query */
         list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
-            extract($this->prepareQuery($db, $page, $sort, $filters));
+            $this->prepareQuery($db, $page, $sort, $filters);
 
         //run the count query
         $output = $this->performCountQuery($countQuery, $querySql, $queryBindings, $page);

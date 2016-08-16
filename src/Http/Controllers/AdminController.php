@@ -187,6 +187,9 @@ class AdminController extends Controller
      */
     public function index($modelName)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'model index view');
+
         // set the layout content and title
         $this->view = view(config('administrator.model_index_view'));
 

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('adminlayouts.main')
 
 @section('content')
     <div class="content-wrapper">
@@ -90,15 +90,15 @@
     <input type="hidden" name="_token" value="<?php echo csrf_token()?>" />
 
     <script id="adminTemplate" type="text/html">
-    <?php echo view("administrator::templates.admin")?>
+    @include('adminmodel.table')
     </script>
 
     <script id="itemFormTemplate" type="text/html">
-    <?php echo view("administrator::templates.edit", array('config' => $config))?>
+    @include('adminmodel.edit')
     </script>
 
     <script id="filtersTemplate" type="text/html">
-    <?php echo view("administrator::templates.filters")?>
+    @include('adminmodel.filters')
     </script>
 
 @endsection

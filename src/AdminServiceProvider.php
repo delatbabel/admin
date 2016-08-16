@@ -91,25 +91,25 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //include our view composers, and routes to avoid issues with catch-all routes defined by users
+        // include our view composers, and routes to avoid issues with catch-all routes defined by users
         $this->setViewComposers();
         include __DIR__ . '/Http/Routes/AdminRoutes.php';
 
-        //the admin validator
+        // the admin validator
         // TBD everything from here down
         $this->app['admin_validator'] = $this->app->share(function ($app) {
             //get the original validator class so we can set it back after creating our own
             $originalValidator = LaravelValidator::make(array(), array());
             $originalValidatorClass = get_class($originalValidator);
 
-            //temporarily override the core resolver
+            // temporarily override the core resolver
             LaravelValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($app) {
                 $validator = new Validator($translator, $data, $rules, $messages, $customAttributes);
                 $validator->setUrlInstance($app->make('url'));
                 return $validator;
             });
 
-            //grab our validator instance
+            // grab our validator instance
             $validator = LaravelValidator::make(array(), array());
 
             //set the validator resolver back to the original validator
@@ -117,11 +117,11 @@ class AdminServiceProvider extends ServiceProvider
                 return new $originalValidatorClass($translator, $data, $rules, $messages, $customAttributes);
             });
 
-            //return our validator instance
+            // return our validator instance
             return $validator;
         });
 
-        //set up the shared instances
+        // set up the shared instances
         $this->app['admin_config_factory'] = $this->app->share(function ($app) {
             return new ConfigFactory($app->make('admin_validator'), LaravelValidator::make(array(), array()), config('administrator'));
         });
@@ -176,16 +176,28 @@ class AdminServiceProvider extends ServiceProvider
     protected function setViewComposers()
     {
         // admin index view
-        View::composer('adminmodel.index', function ($view) {
+        View::composer(config('model_index_view'), function ($view) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'model index view');
+
             // get a model instance that we'll use for constructing stuff
+            // The itemconfig singleton is built in the ValidateModel middleware and
+            // will be an instance of \DDPro\Admin\Config\Model\Config
+            /** @var \DDPro\Admin\Config\Model\Config $config */
             $config = app('itemconfig');
 
-            /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+            /** @var FieldFactory $fieldFactory */
             $fieldFactory  = app('admin_field_factory');
 
+            /** @var ColumnFactory $columnFactory */
             $columnFactory = app('admin_column_factory');
+
+            /** @var ActionFactory $actionFactory */
             $actionFactory = app('admin_action_factory');
+
+            /** @var DataTable $dataTable */
             $dataTable = app('admin_datatable');
+
             $model = $config->getDataModel();
             $baseUrl = route('admin_dashboard');
             $route = parse_url($baseUrl);
