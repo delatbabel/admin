@@ -84,9 +84,11 @@ This is the list of front end changes that need doing:
 
 This is the list of back end changes that need doing:
 
+* Get rid of the closures in the config so that the config can be serialised and stored in the database.
 * Store views in the database as per delatbabel/viewpages.
 * Store configuration in the database as per delatbabel/site-config.
 * Store the model configuration in the database and have a model configuration editor for the admin.
+* Go through the remaining TODOs and FIXMEs in the code.
 
 ## Documentation
 
