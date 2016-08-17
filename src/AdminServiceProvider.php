@@ -361,17 +361,30 @@ class AdminServiceProvider extends ServiceProvider
                     'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
                     'knockout-update-data'     => $this->asset('js/knockout/knockout.updateData.js'),
                     'knockout-custom-bindings' => $this->asset('js/knockout/custom-bindings.js'),
-                    'accounting'               => $this->asset('js/accounting.js'),
+                    'accounting'               => $this->bowerAsset('accountingjs/accounting.min.js'),
                     'colorpicker'              => $this->asset('js/jquery/jquery.lw-colorpicker.min.js'),
                     'history'                  => $this->asset('js/history/native.history.js'),
                     'admin'                    => $this->asset('js/admin.js'),
                     'settings'                 => $this->asset('js/settings.js'),
                 );
+
             }
 
             $view->js += array('page' => $this->asset('js/page.js'));
         });
 
+        // An example of bower-izing one of the assets
+        //
+        // (1) bower install accountingjs --save
+        //
+        // (2) Change this:
+        //
+        // $this->asset('js/accounting.js')
+        //
+        // To this:
+        // $this->bowerAsset('accountingjs/accounting.min.js')
+        //
+        // (3) Remove the old asset file public/js/accounting.js
     }
 
     /**
