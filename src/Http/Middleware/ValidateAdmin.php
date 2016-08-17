@@ -9,12 +9,6 @@ use Closure;
  * This middleware performs permission checking by testing the administrator.permission closure
  * for a response as to whether the currently logged in user is entitled to access the current
  * request.
- *
- * Example
- *
- * <code>
- *   // Example code goes here
- * </code>
  */
 class ValidateAdmin
 {

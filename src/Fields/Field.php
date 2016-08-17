@@ -16,9 +16,9 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  *
  * ### Example
  *
- * <code>
- *   // Example code goes here
- * </code>
+ * ```php
+ * // Example code goes here
+ * ```
  *
  * @see  ...
  * @link ...

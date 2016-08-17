@@ -1,6 +1,11 @@
 <?php
 namespace DDPro\Admin\Config;
 
+/**
+ * Interface ConfigInterface
+ *
+ * This defines the common actions required by a model or settings config.
+ */
 interface ConfigInterface
 {
 

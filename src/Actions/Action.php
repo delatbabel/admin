@@ -14,12 +14,9 @@ use DDPro\Admin\Validator;
  *
  * Creating a new action object (done from the factory)
  *
- * <code>
- *   return new Action($this->validator, $this->config, $options);
- * </code>
- *
- * @see  ...
- * @link ...
+ * ```php
+ * return new Action($this->validator, $this->config, $options);
+ * ```
  */
 class Action
 {

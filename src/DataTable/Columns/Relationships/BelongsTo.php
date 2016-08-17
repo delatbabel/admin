@@ -1,6 +1,14 @@
 <?php
 namespace DDPro\Admin\DataTable\Columns\Relationships;
 
+/**
+ * BelongsTo class
+ *
+ * The Relationship class and its sub-classes help us get information about columns
+ * within a model that form relationships between models.
+ *
+ * This class manages many:1 relationships.
+ */
 class BelongsTo extends Relationship
 {
 

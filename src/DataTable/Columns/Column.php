@@ -13,11 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  * This is the class that manages all basic (non-relationship) columns within the
  * Admin DataTable class.
  *
+ * The Column class helps us construct columns from models. It can be used to
+ * derive column information from a model, or it can be instantiated to hold
+ * information about any given column.
+ *
  * ### Example
  *
- * <code>
- *   // Example code goes here
- * </code>
+ * ```php
+ * // Example code goes here
+ * ```
  *
  * @see  \DDPro\Admin\DataTable\Columns\Factory
  */

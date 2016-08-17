@@ -22,6 +22,11 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
  *
  * This is the main controller class for all DDPro Admin requests.  It handles
  * all requests related to managing the data models.
+ *
+ * ### Entry Points
+ *
+ * The entry points for each function are documented in the function docblocks.
+ * See also `php artisan route:list`.
  */
 class AdminController extends Controller
 {

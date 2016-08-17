@@ -8,7 +8,40 @@ use DDPro\Admin\Fields\Factory as FieldFactory;
 use DDPro\Admin\Fields\Field as Field;
 
 /**
- * The Model Config class helps retrieve a model's configuration and provides a reliable pointer for these items
+ * Model Config class.
+ *
+ * The Model Config class retrieves a model's configuration and provides actions to
+ * manipulate the model.
+ *
+ * Model configurations are stored as disk files in the directory pointed to by
+ * config('model_config_path').  Documentation for their structure and contents is
+ * here: https://github.com/ddpro/admin/blob/master/docs/model-configuration.md
+ *
+ * ### Example
+ *
+ * #### Construction
+ *
+ * The model config object is built by the Config\Factory class using the `make()`
+ * method. For example:
+ *
+ * ```php
+ * $filmsConfig = $factory->make('films');
+ * ```
+ *
+ * This method fetches the config from disk and passes it to the constructor of this class
+ * (see `ConfigBase::__construct()`) which creates the model.
+ *
+ * #### Model Actions
+ *
+ * Once the class is constructed with the correct config, actions on the model object
+ * can be run by the methods in this class.  For example:
+ *
+ * ```php
+ * $film = $filmsConfig->getModel(1, $fields);
+ * ```
+ *
+ * @see \DDPro\Admin\Config\Factory
+ * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md
  */
 class Config extends ConfigBase implements ConfigInterface
 {

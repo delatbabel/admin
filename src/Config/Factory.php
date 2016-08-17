@@ -6,6 +6,38 @@ use DDPro\Admin\Config\Settings\Config as SettingsConfig;
 use DDPro\Admin\Validator;
 use Illuminate\Validation\Validator as CustomValidator;
 
+/**
+ * Config Factory Class
+ *
+ * This class manages the base actions of retrieving a model or settings config from
+ * the disk and creating the model or settings config objects.
+ *
+ * ### Example
+ *
+ * #### Create the Factory
+ *
+ * This is done in the service provider.
+ *
+ * ```php
+ * $factory = new ConfigFactory($app->make('admin_validator'), LaravelValidator::make(array(), array()), config('administrator'));
+ * ```
+ *
+ * config('administrator') should contain the entire array of administrator config options retrieved
+ * from the config file.
+ *
+ * #### Build a Model Config
+ *
+ * The model config object is built using the `make()` method. For example:
+ *
+ * ```php
+ * $filmsConfig = $factory->make('films');
+ * ```
+ *
+ * This method fetches the config from disk and passes it to the constructor of the model config class
+ * (see `ConfigBase::__construct()`) which creates the model.
+ *
+ * @see \DDPro\Admin\Config\Config
+ */
 class Factory
 {
 

@@ -9,15 +9,6 @@ use Illuminate\Validation\Validator as CustomValidator;
  *
  * This is the base configuration manager class that can be used to handle model
  * or settings configuration.
- *
- * ### Example
- *
- * <code>
- *   // Example code goes here
- * </code>
- *
- * @see  ...
- * @link ...
  */
 abstract class Config
 {

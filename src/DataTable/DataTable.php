@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Log;
  *
  * ### Example
  *
- * <code>
- *   // Example code goes here
- * </code>
+ * ```php
+ * // Example code goes here
+ * ```
  *
  * @see  ...
  * @link ...

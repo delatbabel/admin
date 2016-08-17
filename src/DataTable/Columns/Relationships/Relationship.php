@@ -4,8 +4,10 @@ namespace DDPro\Admin\DataTable\Columns\Relationships;
 use DDPro\Admin\DataTable\Columns\Column;
 
 /**
- * The Column class helps us construct columns from models. It can be used to derive column information from a model, or it can be
- * instantiated to hold information about any given column.
+ * Relationship class
+ *
+ * The Relationship class and its sub-classes help us get information about columns
+ * within a model that form relationships between models.
  */
 class Relationship extends Column
 {

@@ -4,6 +4,40 @@ namespace DDPro\Admin\Config\Settings;
 use DDPro\Admin\Config\Config as ConfigBase;
 use DDPro\Admin\Config\ConfigInterface;
 
+/**
+ * Settings Config class.
+ *
+ * The Settings Config class retrieves settings configuration and provides actions to
+ * manipulate the settings.
+ *
+ * Settings configurations are stored as disk files in the directory pointed to by
+ * config('settings_config_path).
+ *
+ * ### Example
+ *
+ * #### Construction
+ *
+ * The settings config object is built by the Config\Factory class using the `make()`
+ * method. For example:
+ *
+ * ```php
+ * $siteSettingsConfig = $factory->make('site');
+ * ```
+ *
+ * This method fetches the config from disk and passes it to the constructor of this class
+ * (see `ConfigBase::__construct()`) which creates the config object.
+ *
+ * #### Settings Actions
+ *
+ * Once the class is constructed with the correct config, actions on the settings object
+ * can be run by the methods in this class.  For example:
+ *
+ * ```php
+ * $film = $siteSettingsConfig->fetchData($fields);
+ * ```
+ *
+ * @see \DDPro\Admin\Config\Factory
+ */
 class Config extends ConfigBase implements ConfigInterface
 {
 
