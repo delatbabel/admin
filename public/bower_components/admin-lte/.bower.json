@@ -1,9 +1,8 @@
 {
   "name": "AdminLTE",
-  "version": "2.1.2",
   "homepage": "http://almsaeedstudio.com",
   "authors": [
-    "Abdullah Almsaeed <almasaeed2010@gmail.com>"
+    "Abdullah Almsaeed <abdullah@almsaeedstudio.com>"
   ],
   "description": "Admin dashboard and control panel template",
   "main": [
@@ -31,13 +30,14 @@
     "composer.json",
     "documentation"
   ],
-  "_release": "2.1.2",
+  "version": "2.3.6",
+  "_release": "2.3.6",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.2",
-    "commit": "406de4e708e84ed0abbc08b09870828254a6b2ef"
+    "tag": "v2.3.6",
+    "commit": "be11566d9539370b196ac85f22a6baf9f42c87cb"
   },
-  "_source": "git://github.com/almasaeed2010/AdminLTE.git",
-  "_target": "~2.1.1",
+  "_source": "https://github.com/almasaeed2010/AdminLTE.git",
+  "_target": "~2.3.6",
   "_originalSource": "admin-lte"
 }

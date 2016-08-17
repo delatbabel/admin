@@ -66,7 +66,7 @@ We used [FrozenNode's Laravel-Administrator](https://github.com/FrozenNode/Larav
 
 This is the list of front end changes that need doing:
 
-* Conversion of the views from FrozenNode to AdminLTE is not complete. See the files in resourceds/views
+* Conversion of the views from FrozenNode to AdminLTE is not complete. See the files in resources/views
     * admindashboard/* are all OK.  This is just a sample dashboard anyway, not using any widgets.
     * adminlayouts/* are all OK including menu_item, etc.
     * adminmodel/* templates have been converted to blade format but still use the original FrozenNode CSS classes.  Ideally the CSS classes would be converted to AdminLTE compatible classes and the classes used in the dynamically generated forms would be converted to bootstrap compatible form field classes.  This requires rework of some of the JS code that manipulates the form DOM objects.
@@ -76,7 +76,8 @@ This is the list of front end changes that need doing:
 * Check over all other CSS classes to ensure that they are compatible with AdminLTE.
 * Make the list view compatible with AdminLTE.
 * Make the edit form larger, have it slide out to cover the entire screen including the list view.  This allows for larger forms which are required for some of our back end functionality.
-* The front end form generation uses knockout.js version 2.2.0.  Update to a later version of knockout.js or switch form generation to something else, e.g. angular.js.  Ideally this would allow for more form widgets including multi-tabbed forms.
+* The front end form generation uses knockout.js version 2.2.0.  Update to a later version of knockout.js or switch form generation to something else, e.g. angular.js.  Ideally this would allow for more form widgets including multi-tabbed forms.  At least we need an HTML editor, and a JSON editor (for editing arrays and structures stored as JSON blobs in the database).
+* Document the bower configuration and requirements.
 
 ### TODO List -- Back End
 

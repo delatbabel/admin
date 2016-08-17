@@ -7,9 +7,9 @@
     <!-- Bootstrap 3.3.4 -->
     <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('packages/ddpro/admin/bower_components/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
-    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('packages/ddpro/admin/bower_components/Ionicons/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -80,7 +80,7 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.1.4 -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/jQuery/jQuery-2.2.3.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
