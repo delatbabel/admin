@@ -13,11 +13,15 @@ use DDPro\Admin\Validator;
  *
  * Bootstrapping -- see AdminServiceProvider
  *
- * ```php
+ * <code>
  * $this->app['admin_action_factory'] = $this->app->share(function ($app) {
- *     return new DDPro\Admin\Actions\Factory($app->make('admin_validator'), $app->make('itemconfig'), $app->make('db'));
+ *     return new DDPro\Admin\Actions\Factory(
+ *         $app->make('admin_validator'),
+ *         $app->make('itemconfig'),
+ *         $app->make('db')
+ *     );
  * });
- * ```
+ * </code>
  */
 class Factory
 {
