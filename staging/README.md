@@ -26,3 +26,5 @@ These are image files remaining from the examples copied from FrozenNode.
 ## tests
 
 These are tests copied from FrozenNode.  They need to be changed for the new namespaces.
+
+TODO: Move these up to the main area and fix them so they work.

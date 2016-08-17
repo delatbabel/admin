@@ -58,10 +58,6 @@ We used [FrozenNode's Laravel-Administrator](https://github.com/FrozenNode/Larav
 * Fixed docblocks using the apigen standard.
 * There is a [new example application](https://github.com/ddpro/example).
 
-### Future Plans
-
-* Adding some additional field types. In particular HTML (there is an inline HTML editor out there) and JSON blob (array or structure -- there is an inline JSON editor out there).
-
 ### TODO List -- Front End
 
 This is the list of front end changes that need doing:
@@ -91,6 +87,11 @@ This is the list of back end changes that need doing:
 * Store configuration in the database as per delatbabel/site-config.
 * Store the model configuration in the database and have a model configuration editor for the admin.
 * Go through the remaining TODOs and FIXMEs in the code.
+* Unit tests are currently in staging/tests, need to be moved up and gotten working.
+
+### Future Plans
+
+* Adding some additional field types. In particular HTML (there is an inline HTML editor out there) and JSON blob (array or structure -- there is an inline JSON editor out there).
 
 ## Documentation
 
