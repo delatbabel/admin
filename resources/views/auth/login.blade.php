@@ -1,6 +1,6 @@
-@extends('layouts.noauth')
+@extends('adminlayouts.noauth')
 
-@section('body')
+@section('content')
 <body class="login-page">
     <div class="login-box">
 

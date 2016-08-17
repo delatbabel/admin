@@ -187,6 +187,32 @@ class AdminServiceProvider extends ServiceProvider
     }
 
     /**
+     * Asset helper
+     *
+     * Returns a properly prefixed asset URL using the Laravel asset() helper.
+     *
+     * @param string $assetName
+     * @return string
+     */
+    protected function asset($assetName)
+    {
+        return asset('packages/ddpro/admin/' . $assetName);
+    }
+
+    /**
+     * Bower-ized asset helper
+     *
+     * Returns a properly prefixed asset URL for bower-ized assets.
+     *
+     * @param string $assetName
+     * @return string
+     */
+    protected function bowerAsset($assetName)
+    {
+        return $this->asset('bower_components/' . $assetName);
+    }
+
+    /**
      * Set the View Composers
      *
      * View composers are callbacks or class methods that are called when a view is rendered. If you
@@ -284,36 +310,36 @@ class AdminServiceProvider extends ServiceProvider
             // set up the basic asset arrays
             $view->css = array();
             $view->js = array(
-                'jquery'       => asset('packages/ddpro/admin/js/jquery/jquery-1.8.2.min.js'),
-                'jquery-ui'    => asset('packages/ddpro/admin/js/jquery/jquery-ui-1.10.3.custom.min.js'),
-                'customscroll' => asset('packages/ddpro/admin/js/jquery/customscroll/jquery.customscroll.js'),
+                'jquery'       => $this->asset('js/jquery/jquery-1.8.2.min.js'),
+                'jquery-ui'    => $this->asset('js/jquery/jquery-ui-1.10.3.custom.min.js'),
+                'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             );
 
             // add the non-custom-page css assets
             if (!$view->page && !$view->dashboard) {
                 $view->css += array(
-                    'jquery-ui'            => asset('packages/ddpro/admin/css/ui/jquery-ui-1.9.1.custom.min.css'),
-                    'jquery-ui-timepicker' => asset('packages/ddpro/admin/css/ui/jquery.ui.timepicker.css'),
-                    'select2'              => asset('packages/ddpro/admin/js/jquery/select2/select2.css'),
-                    'jquery-colorpicker'   => asset('packages/ddpro/admin/css/jquery.lw-colorpicker.css'),
+                    'jquery-ui'            => $this->asset('css/ui/jquery-ui-1.9.1.custom.min.css'),
+                    'jquery-ui-timepicker' => $this->asset('css/ui/jquery.ui.timepicker.css'),
+                    'select2'              => $this->asset('js/jquery/select2/select2.css'),
+                    'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
                 );
             }
 
             // add the package-wide css assets
             $view->css += array(
-                'customscroll' => asset('packages/ddpro/admin/js/jquery/customscroll/customscroll.css'),
-                'main'         => asset('packages/ddpro/admin/css/main.css'),
+                'customscroll' => $this->asset('js/jquery/customscroll/customscroll.css'),
+                'main'         => $this->asset('css/main.css'),
             );
 
             // add the non-custom-page js assets
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
-                    'select2'              => asset('packages/ddpro/admin/js/jquery/select2/select2.js'),
-                    'jquery-ui-timepicker' => asset('packages/ddpro/admin/js/jquery/jquery-ui-timepicker-addon.js'),
-                    'ckeditor'             => asset('packages/ddpro/admin/js/ckeditor/ckeditor.js'),
-                    'ckeditor-jquery'      => asset('packages/ddpro/admin/js/ckeditor/adapters/jquery.js'),
-                    'markdown'             => asset('packages/ddpro/admin/js/markdown.js'),
-                    'plupload'             => asset('packages/ddpro/admin/js/plupload/js/plupload.full.js'),
+                    'select2'              => $this->asset('js/jquery/select2/select2.js'),
+                    'jquery-ui-timepicker' => $this->asset('js/jquery/jquery-ui-timepicker-addon.js'),
+                    'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
+                    'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
+                    'markdown'             => $this->asset('js/markdown.js'),
+                    'plupload'             => $this->asset('js/plupload/js/plupload.full.js'),
                 );
 
                 // localization js assets
@@ -321,29 +347,29 @@ class AdminServiceProvider extends ServiceProvider
 
                 if ($locale !== 'en') {
                     $view->js += array(
-                        'plupload-l18n'   => asset('packages/ddpro/admin/js/plupload/js/i18n/' . $locale . '.js'),
-                        'timepicker-l18n' => asset('packages/ddpro/admin/js/jquery/localization/jquery-ui-timepicker-' . $locale . '.js'),
-                        'datepicker-l18n' => asset('packages/ddpro/admin/js/jquery/i18n/jquery.ui.datepicker-' . $locale . '.js'),
-                        'select2-l18n'    => asset('packages/ddpro/admin/js/jquery/select2/select2_locale_' . $locale . '.js'),
+                        'plupload-l18n'   => $this->asset('js/plupload/js/i18n/' . $locale . '.js'),
+                        'timepicker-l18n' => $this->asset('js/jquery/localization/jquery-ui-timepicker-' . $locale . '.js'),
+                        'datepicker-l18n' => $this->asset('js/jquery/i18n/jquery.ui.datepicker-' . $locale . '.js'),
+                        'select2-l18n'    => $this->asset('js/jquery/select2/select2_locale_' . $locale . '.js'),
                     );
                 }
 
                 // remaining js assets
                 $view->js += array(
-                    'knockout'                 => asset('packages/ddpro/admin/js/knockout/knockout-2.2.0.js'),
-                    'knockout-mapping'         => asset('packages/ddpro/admin/js/knockout/knockout.mapping.js'),
-                    'knockout-notification'    => asset('packages/ddpro/admin/js/knockout/KnockoutNotification.knockout.min.js'),
-                    'knockout-update-data'     => asset('packages/ddpro/admin/js/knockout/knockout.updateData.js'),
-                    'knockout-custom-bindings' => asset('packages/ddpro/admin/js/knockout/custom-bindings.js'),
-                    'accounting'               => asset('packages/ddpro/admin/js/accounting.js'),
-                    'colorpicker'              => asset('packages/ddpro/admin/js/jquery/jquery.lw-colorpicker.min.js'),
-                    'history'                  => asset('packages/ddpro/admin/js/history/native.history.js'),
-                    'admin'                    => asset('packages/ddpro/admin/js/admin.js'),
-                    'settings'                 => asset('packages/ddpro/admin/js/settings.js'),
+                    'knockout'                 => $this->asset('js/knockout/knockout-2.2.0.js'),
+                    'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),
+                    'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
+                    'knockout-update-data'     => $this->asset('js/knockout/knockout.updateData.js'),
+                    'knockout-custom-bindings' => $this->asset('js/knockout/custom-bindings.js'),
+                    'accounting'               => $this->asset('js/accounting.js'),
+                    'colorpicker'              => $this->asset('js/jquery/jquery.lw-colorpicker.min.js'),
+                    'history'                  => $this->asset('js/history/native.history.js'),
+                    'admin'                    => $this->asset('js/admin.js'),
+                    'settings'                 => $this->asset('js/settings.js'),
                 );
             }
 
-            $view->js += array('page' => asset('packages/ddpro/admin/js/page.js'));
+            $view->js += array('page' => $this->asset('js/page.js'));
         });
 
     }

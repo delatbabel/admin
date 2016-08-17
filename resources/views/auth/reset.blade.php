@@ -1,4 +1,4 @@
-@extends('app')
+@extends('adminlayouts.noauth')
 
 @section('content')
 <div class="container-fluid">

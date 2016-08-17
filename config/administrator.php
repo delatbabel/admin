@@ -39,6 +39,27 @@ return array(
     'title' => 'Admin',
 
     /**
+     * The company name, that will appear in the copyright message in the page footer.
+     *
+     * @type string
+     */
+    'company_name'  => 'Babel Consulting',
+
+    /**
+     * The company website URL, that will appear in the copyright message in the page footer.
+     *
+     * @type string
+     */
+    'company_url'  => 'https://www.babel.com.au/',
+
+    /**
+     * The message that will appear in the page footer.
+     *
+     * @type string
+     */
+    'footer_message'  => 'Example Application using DDPro Classes',
+
+    /**
      * The path to your model config directory
      *
      * @type string

@@ -2,8 +2,8 @@
 <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        {{ Config::get('site.footer') }}
+        {{ config('administrator.footer_message') }}
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="{{ Config::get('site.company_url') }}">{{ Config::get('site.company_name') }}</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2016 <a href="{{ config('administrator.company_url') }}">{{ config('administrator.company_name') }}</a>.</strong> All rights reserved.
 </footer>

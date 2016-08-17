@@ -48,15 +48,43 @@ Functionality:
 
 We used [FrozenNode's Laravel-Administrator](https://github.com/FrozenNode/Laravel-Administrator) as a starting point. There are a number of changes that we will need to make so we will not fork the repo, rather we will build a new repo. A summary of the differences and similarities are as follows:
 
-* All views need to be updated to [AdminLTE](https://almsaeedstudio.com/preview) views, use those in omnigate repository as an example.  **DONE**.
-* All views need to be stored in the database as per delatbabel/viewpages so that they become editable.  **TODO**
+* Views changed to match [AdminLTE](https://almsaeedstudio.com/preview)
+* Views will be stored in the database as per delatbabel/viewpages so that they become editable.  **TODO**
 * CSS will need to be changed to [AdminLTE](https://almsaeedstudio.com/preview) compatible CSS.  **TODO**
-* Try to keep the back end functionality the same -- same format for the model configuration, etc. That means that many of the back end classes from Laravel-Administrator should be able to be ported directly across. The only change might be that I may want to store the model configuration in the database and make it editable but there should be a migration script that picks up any existing model configuration and imports it.  **TODO**.
-* Switch coding standard to PSR-2 and PSR-4. There are numerous non-compliances in FrozenNode.  **DONE**
-* Fix bugs. PhpStorm should not mark any of our code as red and should mark as little as possible of it as yellow.  **IN PROGRESS**
-* Fix docblocks. Use apigen standard. **IN PROGRESS**
-* Need to add some additional field types. In particular HTML (there is an inline HTML editor out there) and JSON blob (array or structure -- there is an inline JSON editor out there).  **TODO**
-* Build a new example application repository.  **DONE**
+* The class structure and the back end functionality is the same.  e.g. the model configuration files are the same.
+* The only change might be that I may want to store the model configuration in the database and make it editable but there should be a migration script that picks up any existing model configuration and imports it.  **TODO**.
+* Coding standard has been switched to PSR-2 and PSR-4.
+* Fixed bugs.
+* Fixed docblocks using the apigen standard.
+* There is a [new example application](https://github.com/ddpro/example).
+
+### Future Plans
+
+* Adding some additional field types. In particular HTML (there is an inline HTML editor out there) and JSON blob (array or structure -- there is an inline JSON editor out there).
+
+### TODO List -- Front End
+
+This is the list of front end changes that need doing:
+
+* Conversion of the views from FrozenNode to AdminLTE is not complete. See the files in resourceds/views
+    * admindashboard/* are all OK.  This is just a sample dashboard anyway, not using any widgets.
+    * adminlayouts/* are all OK including menu_item, etc.
+    * adminmodel/* templates have been converted to blade format but still use the original FrozenNode CSS classes.  Ideally the CSS classes would be converted to AdminLTE compatible classes and the classes used in the dynamically generated forms would be converted to bootstrap compatible form field classes.  This requires rework of some of the JS code that manipulates the form DOM objects.
+    * auth/* templates should be OK but haven't been tested yet.  I haven't implemented authentication in the test app.
+    * errors/* are trivially OK.
+* There are too many duplicated and incompatible JS and CSS files being loaded in the master template.  These are set up in the `setViewComposers()` function in the `AdminServiceProvider` class.  For example there are parts of jQuery from 1.8.2, 1.9.1 and 1.10.3.  These should be bower-ized so that the latest stable versions are being used.  Some of these components have CSS/JS clashes with the AdminLTE code so they need to be rationalised (only use the AdminLTE classes and JS code unless additional plugins are required).  AdminLTE uses jQuery 2.1.4 and bootstrap 3.3.2 which are pulled in via bowerized asset files in main.blade.php.
+* Check over all other CSS classes to ensure that they are compatible with AdminLTE.
+* Make the list view compatible with AdminLTE.
+* Make the edit form larger, have it slide out to cover the entire screen including the list view.  This allows for larger forms which are required for some of our back end functionality.
+* The front end form generation uses knockout.js version 2.2.0.  Update to a later version of knockout.js or switch form generation to something else, e.g. angular.js.  Ideally this would allow for more form widgets including multi-tabbed forms.
+
+### TODO List -- Back End
+
+This is the list of back end changes that need doing:
+
+* Store views in the database as per delatbabel/viewpages.
+* Store configuration in the database as per delatbabel/site-config.
+* Store the model configuration in the database and have a model configuration editor for the admin.
 
 ## Documentation
 
