@@ -87,7 +87,7 @@ This is the list of back end changes that need doing:
 * Store configuration in the database as per delatbabel/site-config.
 * Store the model configuration in the database and have a model configuration editor for the admin.
 * Go through the remaining TODOs and FIXMEs in the code.
-* Unit tests are currently in staging/tests, need to be moved up and gotten working.
+* Unit tests have about 60% coverage, with no coverage on the controller.  There are also some commented out tests that fail.
 
 ### Future Plans
 
