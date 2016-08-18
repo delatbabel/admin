@@ -17,10 +17,16 @@
         <!-- Main content -->
         <section class="content">
             <div id="admin_page" class="with_sidebar">
-                <div id="sidebar">
-                    <div class="panel sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
+                <div class="row">
+                    <div class="col-md-9" style="padding-right: 0px">
+                        <div id="content" data-bind="template: 'adminTemplate'"></div>  
+                    </div>
+                    <div class="col-md-3">
+                        <div id="sidebar">
+                            <div class="panel sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
+                        </div>    
+                    </div>
                 </div>
-                <div id="content" data-bind="template: 'adminTemplate'"></div>
             </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->

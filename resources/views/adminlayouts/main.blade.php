@@ -4,22 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ config('administrator.title') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/Ionicons/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
-          apply the skin class to the body tag so the changes take effect.
-    -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/css/skins/skin-blue.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
-
+  
 {{-- I have removed these for IE8 support because I don't really believe that anyone
      who is going to be doing site admin is ever going to use IE8. By all means feel
      free to add it back in again if your users are still in the stone age.
@@ -44,7 +29,7 @@ BODY TAG OPTIONS:
 Apply one or more of the following classes to get the
 desired effect
 |---------------------------------------------------------|
-| SKINS         | skin-blue                               |
+| SKINS123         | skin-blue                               |
 |               | skin-black                              |
 |               | skin-purple                             |
 |               | skin-yellow                             |
@@ -79,13 +64,6 @@ desired effect
 
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.1.4 -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/jQuery/jQuery-2.2.3.min.js') }}"></script>
-<!-- Bootstrap 3.3.2 JS -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/js/app.min.js') }}" type="text/javascript"></script>
-
 {{-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
@@ -96,5 +74,18 @@ desired effect
 @foreach ($js as $url)
     <script src="{{$url}}"></script>
 @endforeach
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
 </body>
 </html>

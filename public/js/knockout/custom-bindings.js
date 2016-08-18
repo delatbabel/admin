@@ -16,7 +16,7 @@
             //so that it doesn't keep reopening.
             if (viewModel.lastItem === null)
             {
-                $tableContainer.css('margin-right', 290);
+                // $tableContainer.css('margin-right', 290);
                 $element.hide();
                 $child.css('marginLeft', expandWidth + 2);
             }
@@ -42,10 +42,10 @@
                     $element.hide();
                 });
 
-                $tableContainer.stop().animate({marginRight: 290}, 150, function()
-                {
-                    window.admin.resizePage();
-                });
+                // $tableContainer.stop().animate({marginRight: 290}, 150, function()
+                // {
+                //     window.admin.resizePage();
+                // });
             }
             else
             {

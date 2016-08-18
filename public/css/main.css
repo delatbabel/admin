@@ -1307,10 +1307,11 @@ a {
   font-weight: bold;
 }
 #admin_page div#sidebar {
-  float: right;
-  margin-right: 13px;
-  margin-top: 60px;
-  width: 245px;
+  /*float: right;*/
+  /*margin-right: 13px;*/
+  margin-top: 35px;
+  border-top: 3px solid #d2d6de;
+  /*width: 245px;*/
 }
 #admin_page div#sidebar h2 {
   color: #444;
@@ -2020,5 +2021,6 @@ a {
 @media only screen and (min-width: 1129px) {
 
 }
+
 
 /* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */

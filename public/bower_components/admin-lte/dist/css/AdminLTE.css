@@ -4926,3 +4926,8 @@ table.text-center th {
     white-space: normal !important;
   }
 }
+
+.box-header .actions{
+  display: inline-block;
+  float: right;
+}
