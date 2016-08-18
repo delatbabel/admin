@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-As you're [setting up your model config](/docs/model-configuration) or your [settings config](/docs/settings-configuration), you'll have to supply an `edit_fields` option. This is an array of fields that represents what will be shown to the admin user in your model or settings edit form. For models, each field should be one of your model's SQL columns or one of its [Eloquent relationships](/docs/field-type-relationship). The order in which they are given is the order in which the admin user will see them.
+As you're [setting up your model config](/docs/model-configuration.md) or your [settings config](/docs/settings-configuration.md), you'll have to supply an `edit_fields` option. This is an array of fields that represents what will be shown to the admin user in your model or settings edit form. For models, each field should be one of your model's SQL columns or one of its [Eloquent relationships](/docs/field-type-relationship.md). The order in which they are given is the order in which the admin user will see them.
 
     /**
      * The editable fields
@@ -77,12 +77,31 @@ The `title` option lets you set the label of a field.
 <a name="type-option"></a>
 ## Type Option
 
-The `type` option lets you set the field's type. See the Field Types menu on the left for the complete list.
+The `type` option lets you set the field's type. See the Field Types menu below for the complete list.
 
     'hex' => array(
         'title' => 'Color',
         'type' => 'color',
     ),
+
+### Field Types
+
+* [bool](/docs/field-type-bool.md)
+* [color](/docs/field-type-color.md)
+* [date](/docs/field-type-date.md)
+* [datetime](/docs/field-type-datetime.md)
+* [enum](/docs/field-type-enum.md)
+* [file](/docs/field-type-file.md)
+* [image](/docs/field-type-image.md)
+* [key](/docs/field-type-key.md)
+* [markdown](/docs/field-type-markdown.md)
+* [number](/docs/field-type-number.md)
+* [password](/docs/field-type-password.md)
+* [relationship](/docs/field-type-relationship.md)
+* [text](/docs/field-type-text.md)
+* [textarea](/docs/field-type-textarea.md)
+* [time](/docs/field-type-time.md)
+* [wysiwyg](/docs/field-type-wysiwyg.md)
 
 <a name="editable-option"></a>
 ## Editable Option
