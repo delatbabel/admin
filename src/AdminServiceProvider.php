@@ -309,13 +309,21 @@ class AdminServiceProvider extends ServiceProvider
         View::composer(array('adminlayouts.main'), function ($view) {
             // set up the basic asset arrays
             $view->css = array();
+
+            // Add the package wide JS assets
             $view->js = array(
-                'jquery'       => $this->asset('js/jquery/jquery-1.8.2.min.js'),
-                'jquery-ui'    => $this->asset('js/jquery/jquery-ui-1.10.3.custom.min.js'),
+                // 'jquery'       => $this->asset('js/jquery/jquery-1.8.2.min.js'),
+                // 'jquery-ui'    => $this->asset('js/jquery/jquery-ui-1.10.3.custom.min.js'),
+                'jquery'       => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
+                'jquery-ui'    => $this->bowerAsset('admin-lte/plugins/jQueryUI/jquery-ui.min.js'),
+                'bootstrap'    => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
+                'adminlte'     => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
+                // FIXME should come from bower
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             );
 
             // add the non-custom-page css assets
+            // FIXME: These should come from bower
             if (!$view->page && !$view->dashboard) {
                 $view->css += array(
                     'jquery-ui'            => $this->asset('css/ui/jquery-ui-1.9.1.custom.min.css'),
@@ -332,6 +340,7 @@ class AdminServiceProvider extends ServiceProvider
             );
 
             // add the non-custom-page js assets
+            // FIXME: These should come from bower
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
@@ -355,6 +364,7 @@ class AdminServiceProvider extends ServiceProvider
                 }
 
                 // remaining js assets
+                // FIXME: These should come from bower
                 $view->js += array(
                     'knockout'                 => $this->asset('js/knockout/knockout-2.2.0.js'),
                     'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),

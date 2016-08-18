@@ -34,6 +34,7 @@
 
 {{-- This is where the CSS files for DDPro Admin get inserted.  These get created in the
      setViewComposers() function in AdminServiceProvider --}}
+{{--  TODO -- move all of the above CSS assets into AdminServiceProvider --}}
 @foreach ($css as $url)
     <link href="{{$url}}" media="all" type="text/css" rel="stylesheet">
 @endforeach
@@ -77,24 +78,17 @@ desired effect
     @include('adminlayouts.control')
 </div><!-- ./wrapper -->
 
-<!-- REQUIRED JS SCRIPTS -->
-
-<!-- jQuery 2.1.4 -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/plugins/jQuery/jQuery-2.2.3.min.js') }}"></script>
-<!-- Bootstrap 3.3.2 JS -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('packages/ddpro/admin/bower_components/admin-lte/dist/js/app.min.js') }}" type="text/javascript"></script>
-
-{{-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. --}}
+{{--  REQUIRED JS SCRIPTS -- see AdminServiceProvider --}}
 
 {{-- This is where the JS files for DDPro Admin get inserted.  These get created in the
      setViewComposers() function in AdminServiceProvider --}}
 @foreach ($js as $url)
     <script src="{{$url}}"></script>
 @endforeach
+
+{{-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. --}}
 </body>
 </html>
