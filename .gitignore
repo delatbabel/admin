@@ -5,3 +5,4 @@ documents/
 dirlist.app
 dirlist.cache
 dirlist.vendor
+composer.lock
