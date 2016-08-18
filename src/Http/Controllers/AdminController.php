@@ -244,14 +244,11 @@ class AdminController extends Controller
             // set the Vary : Accept header to avoid the browser caching the json response
             return $response->header('Vary', 'Accept');
         } else {
-            $view = view("administrator::index", array(
+            $this->view = view(config('administrator.model_index_view'), array(
                 'itemId' => $itemId,
             ));
 
-            // set the layout content and title
-            $this->layout->content = $view;
-
-            return $this->layout;
+            return $this->view;
         }
     }
 
