@@ -79,7 +79,7 @@ The `edit_fields` array lets you define the editable fields for a settings page.
 
 <img src="https://raw.github.com/FrozenNode/Laravel-Administrator/master/examples/images/settings-overview.png" />
 
-> For a detailed description of all the edit field types and options, see the **[field docs](/docs/fields)**
+> For a detailed description of all the edit field types and options, see the **[field docs](/docs/fields.md)**
 
 <a name="validation-rules"></a>
 ### Validation Rules
@@ -171,7 +171,7 @@ You can define custom actions for your settings page if you want to provide the 
 
 When the user clicks on either button, the `action` property for that button is called. The currently-saved settings data is passed into the function by reference with the `$data` parameter. This means that you can change the data however you like prior to it being saved in the JSON.
 
-> For a detailed description of custom actions, see the **[actions docs](/docs/actions)**.
+> For a detailed description of custom actions, see the **[actions docs](/docs/actions.md)**.
 
 <a name="storage-path"></a>
 ### Storage Path

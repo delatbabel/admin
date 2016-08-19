@@ -168,7 +168,7 @@ And the `State` model would look like this:
         }
     }
 
-Now when we create the `Theater` [model config](/docs/model-configuration), we'd set up the [edit fields](/docs/fields) to something like this:
+Now when we create the `Theater` [model config](/docs/model-configuration.md), we'd set up the [edit fields](/docs/fields.md) to something like this:
 
     'edit_fields' => array
     (
@@ -224,7 +224,7 @@ Let's also imagine that we have another model that counts the box office takes f
         }
     }
 
-Now when we create the `BoxOffice` [model config](/docs/model-configuration), we'd set up the [edit fields](/docs/fields) to something like this:
+Now when we create the `BoxOffice` [model config](/docs/model-configuration.md), we'd set up the [edit fields](/docs/fields.md) to something like this:
 
     'edit_fields' => array
     (

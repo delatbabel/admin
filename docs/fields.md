@@ -126,7 +126,7 @@ You can also pass a closure to the `editable` option whose only parameter is the
 <a name="setter-option"></a>
 ## Setter Option
 
-The `setter` option lets you define a field as an attribute that is set on the Eloquent model, but is unset before the model is saved. This gives you access to use it as a [mutator](http://laravel.com/docs/eloquent#accessors-and-mutators) without having to worry about that value getting stored in the database. By default, this is set to `false` for all fields except for the [`password`](/docs/field-type-password) field.
+The `setter` option lets you define a field as an attribute that is set on the Eloquent model, but is unset before the model is saved. This gives you access to use it as a [mutator](http://laravel.com/docs/eloquent#accessors-and-mutators) without having to worry about that value getting stored in the database. By default, this is set to `false` for all fields except for the [`password`](/docs/field-type-password.md) field.
 
     'name' => array(
         'title' => 'Name',
@@ -171,7 +171,7 @@ The `description` option lets you provide additional information about a field i
 <a name="filters"></a>
 ## Filters
 
-The `filters` option in your [model config](/docs/model-configuration) lets you use certain field types as filters for your model's result set. The filterable field types are [`key`](/docs/field-type-key), [`text`](/docs/field-type-text), [`number`](/docs/field-type-number), [`bool`](/docs/field-type-bool), [`enum`](/docs/field-type-enum), [`date`](/docs/field-type-date), [`time`](/docs/field-type-time), [`datetime`](/docs/field-type-datetime), and [`relationship`](/docs/field-type-relationship). Each field type's filter works slightly different. For a detailed look at how the filter works for each field type, check out each field type's docs page in the menu on the left.
+The `filters` option in your [model config](/docs/model-configuration.md) lets you use certain field types as filters for your model's result set. The filterable field types are [`key`](/docs/field-type-key.md), [`text`](/docs/field-type-text.md), [`number`](/docs/field-type-number.md), [`bool`](/docs/field-type-bool.md), [`enum`](/docs/field-type-enum.md), [`date`](/docs/field-type-date.md), [`time`](/docs/field-type-time.md), [`datetime`](/docs/field-type-datetime.md), and [`relationship`](/docs/field-type-relationship.md). Each field type's filter works slightly different. For a detailed look at how the filter works for each field type, check out each field type's docs page in the menu on the left.
 
     /**
      * The filterable fields
@@ -236,6 +236,6 @@ You can set a default value for your filters by providing a `value` option to th
 <a name="settings-page"></a>
 ## Settings Page
 
-If you're creating a settings page, you can use all of the field types except for [`key`](/docs/field-type-key) and [`relationship`](/docs/field-type-relationship).
+If you're creating a settings page, you can use all of the field types except for [`key`](/docs/field-type-key.md) and [`relationship`](/docs/field-type-relationship.md).
 
-> For a detailed description of all the settings page options, see the **[settings configuration docs](/docs/settings-configuration)**
+> For a detailed description of all the settings page options, see the **[settings configuration docs](/docs/settings-configuration.md)**
