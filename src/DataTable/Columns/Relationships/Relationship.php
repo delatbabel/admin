@@ -6,8 +6,18 @@ use DDPro\Admin\DataTable\Columns\Column;
 /**
  * Relationship class
  *
+ * The DataTable manages the table view in the model index page.  Each column in the
+ * DataTable is represented by a Column object.
+ *
+ * This is the class that manages all relationship columns within the
+ * Admin DataTable class.
+ *
  * The Relationship class and its sub-classes help us get information about columns
  * within a model that form relationships between models.
+ *
+ * @see DDPro\Admin\DataTable\Columns\Factory
+ * @see DDPro\Admin\DataTable\DataTable
+ * @link https://github.com/ddpro/admin/blob/master/docs/columns.md#relationship-columns
  */
 class Relationship extends Column
 {

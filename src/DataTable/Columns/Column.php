@@ -30,8 +30,15 @@ use Illuminate\Database\Eloquent\Model;
  * $column = new Column($this->validator, $this->config, $this->db, $options);
  * ```
  *
+ * #### Rendering the Column Output
+ *
+ * <code>
+ * $rendered = $column->renderOutput($attributeValue, $item)
+ * </code>
+ *
  * @see DDPro\Admin\DataTable\Columns\Factory
  * @see DDPro\Admin\DataTable\DataTable
+ * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class Column
 {
@@ -257,12 +264,22 @@ class Column
     }
 
     /**
-     * Takes a column output string and renders the column with it (replacing '(:value)' with the column's field value)
+     * Render the Column
+     *
+     * Takes a column output string and renders the column with it (replacing '(:value)' with
+     * the column's field value)
+     *
+     * If you want your column to show more than just text, you can use the output option.
+     * This can either be a string or an anonymous function.
+     *
+     * If you provide an anonymous function, the arguments available are the relevant column's
+     * value from the database, and the current model.
      *
      * @param $value string	$value
      * @param \Illuminate\Database\Eloquent\Model	$item
      *
      * @return string
+     * @link https://github.com/ddpro/admin/blob/master/docs/columns.md#custom-outputs
      */
     public function renderOutput($value, $item = null)
     {

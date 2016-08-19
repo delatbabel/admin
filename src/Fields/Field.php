@@ -14,14 +14,16 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * rules, base data default values (0 for an integer, empty for a string, etc), and handles
  * populating the field data into model instances.
  *
+ * Fields are used in the new/edit model forms, as opposed to Columns which are used in the DataTable view.
+ *
  * ### Example
  *
  * ```php
  * // Example code goes here
  * ```
  *
- * @see  ...
- * @link ...
+ * @see  Factory
+ * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md#edit-fields
  */
 abstract class Field
 {

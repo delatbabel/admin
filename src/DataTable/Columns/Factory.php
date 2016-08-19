@@ -23,6 +23,7 @@ use Illuminate\Database\DatabaseManager as DB;
  *
  * @see Column
  * @see DDPro\Admin\DataTable\DataTable
+ * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class Factory
 {

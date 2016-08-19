@@ -7,6 +7,24 @@ use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
+/**
+ * Field Factory
+ *
+ * This is the factory class that constructs fields to be placed on the new/edit model forms.
+ *
+ * ### Example
+ *
+ * #### Building the Factory
+ *
+ * This happens in the Service Provider.
+ *
+ * ```php
+ * $factory = new FieldFactory($app->make('admin_validator'), $app->make('itemconfig'), $app->make('db'));
+ * ```
+ *
+ * @see  Field
+ * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md#edit-fields
+ */
 class Factory
 {
 
@@ -125,7 +143,7 @@ class Factory
      *
      * @param mixed 	$name
      * @param mixed 	$options
-     * @param boolean	$loadRelationships	// determines whether or not to load the relationships
+     * @param boolean	$loadRelationships	determines whether or not to load the relationships
      *
      * @return mixed
      */
@@ -141,7 +159,6 @@ class Factory
      * Instantiates a field object
      *
      * @param array 	$options
-     * @param boolean 	$loadRelationships
      *
      * @return Field
      */
@@ -168,7 +185,7 @@ class Factory
      *
      * @param mixed 	$name
      * @param mixed 	$options
-     * @param boolean	$loadRelationships	// determines whether or not to load the relationships
+     * @param boolean	$loadRelationships	determines whether or not to load the relationships
      *
      * @return array
      */
@@ -193,7 +210,9 @@ class Factory
     }
 
     /**
-     * Validates an options array item. This could be a string $name and array $options, or a positive integer $name and string $options.
+     * Validates an options array item.
+     *
+     * This could be a string $name and array $options, or a positive integer $name and string $options.
      *
      * @param mixed		$name
      * @param mixed		$options
@@ -388,6 +407,7 @@ class Factory
     {
         $return = array();
 
+        /** @var Field $fieldObject */
         foreach ($this->getEditFields(true, $override) as $fieldObject) {
             $return[$fieldObject->getOption('field_name')] = $fieldObject->getOptions();
         }
@@ -579,7 +599,7 @@ class Factory
      * Filters a relationship options query by a search term
      *
      * @param mixed										$term
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      * @param array										$selectedItems
      * @param string									$relatedKeyTable
@@ -623,7 +643,7 @@ class Factory
     /**
      * Takes the supplied $selectedItems mixed value and formats it to a usable array
      *
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param array										$selectedItems
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      * @param string									$relatedKeyTable
@@ -648,7 +668,7 @@ class Factory
      * Takes the supplied $selectedItems mixed value and formats it to a usable array
      *
      * @param mixed										$constraints
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      *
      * @return array
