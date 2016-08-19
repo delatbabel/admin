@@ -2,16 +2,16 @@
 namespace DDPro\Admin\DataTable\Columns;
 
 use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\DataTable\Columns\Relationships\BelongsTo;
-use DDPro\Admin\DataTable\Columns\Relationships\BelongsToMany;
-use DDPro\Admin\DataTable\Columns\Relationships\HasOneOrMany;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 
 /**
  * Class Factory
  *
- * This class builds column objects, which can either be one of the base Column class
+ * The DataTable manages the table view in the model index page.  Each column in the
+ * DataTable is represented by a Column object.
+ *
+ * This class builds Column objects, which can either be one of the base Column class
  * or one of the Laravel relationship classes (e.g. Illuminate\Database\Eloquent\Relations\HasMany,
  * etc).
  *
@@ -21,7 +21,8 @@ use Illuminate\Database\DatabaseManager as DB;
  * $columns_array = $columnFactory->getColumns();
  * </code>
  *
- * @see  Column
+ * @see Column
+ * @see DDPro\Admin\DataTable\DataTable
  */
 class Factory
 {

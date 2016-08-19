@@ -22,6 +22,8 @@ use DDPro\Admin\Validator;
  *     );
  * });
  * </code>
+ *
+ * @see Action
  */
 class Factory
 {
@@ -102,7 +104,7 @@ class Factory
     /**
      * Takes the model and an info array of options for the specific action
      *
-     * @param string		$name		//the key name for this action
+     * @param string		$name		the key name for this action
      * @param array			$options
      *
      * @return \DDPro\Admin\Actions\Action
@@ -128,19 +130,19 @@ class Factory
     {
         $model = $this->config->getDataModel();
 
-        //if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
+        // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
         if (!is_string($name) || !is_array($options)) {
             throw new \InvalidArgumentException("A custom action in your  " . $this->config->getOption('action_name') . " configuration file is invalid");
         }
 
-        //set the action name
+        // set the action name
         $options['action_name'] = $name;
 
-        //set the permission
+        // set the permission
         $permission                = $this->validator->arrayGet($options, 'permission', false);
         $options['has_permission'] = is_callable($permission) ? $permission($model) : true;
 
-        //check if the messages array exists
+        // check if the messages array exists
         $options['messages'] = $this->validator->arrayGet($options, 'messages', array());
         $options['messages'] = is_array($options['messages']) ? $options['messages'] : array();
 
@@ -217,6 +219,7 @@ class Factory
             $this->actionsOptions = array();
 
             //loop over the actions to build the list
+            /** @var Action $action */
             foreach ($this->getActions($override) as $name => $action) {
                 $this->actionsOptions[] = $action->getOptions(true);
             }
@@ -234,11 +237,11 @@ class Factory
      */
     public function getGlobalActions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->globalActions) || $override) {
             $this->globalActions = array();
 
-            //loop over the actions to build the list
+            // loop over the actions to build the list
             foreach ($this->config->getOption('global_actions') as $name => $options) {
                 $this->globalActions[] = $this->make($name, $options);
             }
@@ -256,11 +259,12 @@ class Factory
      */
     public function getGlobalActionsOptions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->globalActionsOptions) || $override) {
             $this->globalActionsOptions = array();
 
-            //loop over the global actions to build the list
+            // loop over the global actions to build the list
+            /** @var Action $action */
             foreach ($this->getGlobalActions($override) as $name => $action) {
                 $this->globalActionsOptions[] = $action->getOptions();
             }

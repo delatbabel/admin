@@ -19,14 +19,18 @@ use Illuminate\Support\Facades\Log;
  * class can be determined), the validation instance, the Field Factory, the relationships,
  * etc.
  *
+ * The DataTable manages the table view in the model index page.  Each column in the
+ * DataTable is represented by a Column object.
+ *
  * ### Example
  *
  * ```php
  * // Example code goes here
  * ```
  *
- * @see  ...
- * @link ...
+ * @see DDPro\Admin\DataTable\Columns\Factory
+ * @see DDPro\Admin\DataTable\Columns\Column
+ * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class DataTable
 {

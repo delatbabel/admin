@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Column
  *
+ * The DataTable manages the table view in the model index page.  Each column in the
+ * DataTable is represented by a Column object.
+ *
  * This is the class that manages all basic (non-relationship) columns within the
  * Admin DataTable class.
  *
@@ -19,11 +22,16 @@ use Illuminate\Database\Eloquent\Model;
  *
  * ### Example
  *
+ * #### Construction of the Column Object
+ *
+ * This happens in the factory during the `make()` call:
+ *
  * ```php
- * // Example code goes here
+ * $column = new Column($this->validator, $this->config, $this->db, $options);
  * ```
  *
- * @see  \DDPro\Admin\DataTable\Columns\Factory
+ * @see DDPro\Admin\DataTable\Columns\Factory
+ * @see DDPro\Admin\DataTable\DataTable
  */
 class Column
 {
