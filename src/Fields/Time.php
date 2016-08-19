@@ -40,7 +40,7 @@ class Time extends Field
     {
         $model = $this->config->getDataModel();
 
-        //try to read the time for the min and max values, and if they check out, set the where
+        // try to read the time for the min and max values, and if they check out, set the where
         if ($minValue = $this->getOption('min_value')) {
             $time = new DateTime($minValue);
 
@@ -78,9 +78,9 @@ class Time extends Field
             $time = new DateTime($input);
         }
 
-        //first we validate that it's a date/time
+        // first we validate that it's a date/time
         if ($time !== false) {
-            //fill the model with the correct date/time format
+            // fill the model with the correct date/time format
             $model->{$field_name} = $this->getDateString($time);
         }
     }

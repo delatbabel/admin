@@ -53,21 +53,21 @@ class BelongsToMany extends Relationship
         $fieldName    = $this->getOption('field_name');
         $relationship = $model->{$fieldName}();
 
-        //if this field is sortable, delete all the old records and insert the new ones one at a time
+        // if this field is sortable, delete all the old records and insert the new ones one at a time
         if ($sortField = $this->getOption('sort_field')) {
-            //first delete all the old records
+            // first delete all the old records
             $relationship->detach();
 
-            //then re-attach them in the correct order
+            // then re-attach them in the correct order
             foreach ($input as $i => $item) {
                 $relationship->attach($item, array($sortField => $i));
             }
         } else {
-            //elsewise the order doesn't matter, so use sync
+            // elsewise the order doesn't matter, so use sync
             $relationship->sync($input);
         }
 
-        //unset the attribute on the model
+        // unset the attribute on the model
         $model->__unset($fieldName);
     }
 
@@ -81,34 +81,34 @@ class BelongsToMany extends Relationship
      */
     public function filterQuery(QueryBuilder &$query, &$selects = null)
     {
-        //run the parent method
+        // run the parent method
         parent::filterQuery($query, $selects);
 
-        //get the values
+        // get the values
         $value   = $this->getOption('value');
         $table   = $this->getOption('table');
         $column  = $this->getOption('column');
         $column2 = $this->getOption('column2');
 
-        //if there is no value, return
+        // if there is no value, return
         if (!$value) {
             return;
         }
 
         $model = $this->config->getDataModel();
 
-        //if the table hasn't been joined yet, join it
+        // if the table hasn't been joined yet, join it
         if (!$this->validator->isJoined($query, $table)) {
             $query->join($table, $model->getTable() . '.' . $model->getKeyName(), '=', $column);
         }
 
-        //add where clause
+        // add where clause
         $query->whereIn($column2, $value);
 
-        //add having clauses
+        // add having clauses
         $query->havingRaw('COUNT(DISTINCT ' . $query->getConnection()->getTablePrefix() . $column2 . ') = ' . count($value));
 
-        //add select field
+        // add select field
         if ($selects && !in_array($column2, $selects)) {
             $selects[] = $column2;
         }
@@ -125,7 +125,7 @@ class BelongsToMany extends Relationship
      */
     public function constrainQuery(EloquentBuilder &$query, $relatedModel, $constraint)
     {
-        //if the column hasn't been joined yet, join it
+        // if the column hasn't been joined yet, join it
         if (!$this->validator->isJoined($query, $this->getOption('table'))) {
             $query->join($this->getOption('table'), $relatedModel->getTable() . '.' . $relatedModel->getKeyName(), '=', $this->getOption('column2'));
         }

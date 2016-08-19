@@ -86,7 +86,7 @@ class DataTable
      */
     public function __construct(ConfigInterface $config, ColumnFactory $columnFactory, FieldFactory $fieldFactory)
     {
-        //set the config, and then validate it
+        // set the config, and then validate it
         $this->config        = $config;
         $this->columnFactory = $columnFactory;
         $this->fieldFactory  = $fieldFactory;
@@ -116,14 +116,14 @@ class DataTable
         list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
             $this->prepareQuery($db, $page, $sort, $filters);
 
-        //run the count query
+        // run the count query
         $output = $this->performCountQuery($countQuery, $querySql, $queryBindings, $page);
 
-        //now we need to limit and offset the rows in remembrance of our dear lost friend paginate()
+        // now we need to limit and offset the rows in remembrance of our dear lost friend paginate()
         $query->take($this->rowsPerPage);
         $query->skip($this->rowsPerPage * ($output['page'] === 0 ? $output['page'] : $output['page'] - 1));
 
-        //parse the results
+        // parse the results
         $output['results'] = $this->parseResults($query->get());
 
         return $output;
@@ -141,73 +141,73 @@ class DataTable
      */
     public function prepareQuery(DB $db, $page = 1, $sort = null, $filters = null)
     {
-        //grab the model instance
+        // grab the model instance
         /** @var Model $model */
         $model = $this->config->getDataModel();
 
-        //update the sort options
+        // update the sort options
         $this->setSort($sort);
         $sort = $this->getSort();
 
-        //get things going by grouping the set
+        // get things going by grouping the set
         $table   = $model->getTable();
         $keyName = $model->getKeyName();
 
         /** @var EloquentBuilder $query */
         $query   = $model->groupBy($table . '.' . $keyName);
 
-        //get the Illuminate\Database\Query\Builder instance and set up the count query
+        // get the Illuminate\Database\Query\Builder instance and set up the count query
         $dbQuery    = $query->getQuery();
         $countQuery = $dbQuery->getConnection()->table($table)->groupBy($table . '.' . $keyName);
 
-        //run the supplied query filter for both queries if it was provided
+        // run the supplied query filter for both queries if it was provided
         $this->config->runQueryFilter($dbQuery);
         $this->config->runQueryFilter($countQuery);
 
-        //set up initial array states for the selects
+        // set up initial array states for the selects
         $selects = array($table . '.*');
 
-        //set the filters
+        // set the filters
         $this->setFilters($filters, $dbQuery, $countQuery, $selects);
 
-        //set the selects
+        // set the selects
         $dbQuery->select($selects);
 
-        //determines if the sort should have the table prefixed to it
+        // determines if the sort should have the table prefixed to it
         $sortOnTable = true;
 
-        //get the columns
+        // get the columns
         $columns = $this->columnFactory->getColumns();
 
-        //iterate over the columns to check if we need to join any values or add any extra columns
+        // iterate over the columns to check if we need to join any values or add any extra columns
         foreach ($columns as $column) {
-            //if this is a related column, we'll need to add some selects
+            // if this is a related column, we'll need to add some selects
             $column->filterQuery($selects);
 
-            //if this is a related field or
+            // if this is a related field or
             if (($column->getOption('is_related') || $column->getOption('select')) && $column->getOption('column_name') === $sort['field']) {
                 $sortOnTable = false;
             }
         }
 
-        //if the sort is on the model's table, prefix the table name to it
+        // if the sort is on the model's table, prefix the table name to it
         if ($sortOnTable) {
             $sort['field'] = $table . '.' . $sort['field'];
         }
 
-        //grab the query sql for later
+        // grab the query sql for later
         $querySql = $query->toSql();
 
-        //order the set by the model table's id
+        // order the set by the model table's id
         $query->orderBy($sort['field'], $sort['direction']);
 
-        //then retrieve the rows
+        // then retrieve the rows
         $query->getQuery()->select($selects);
 
-        //only select distinct rows
+        // only select distinct rows
         $query->distinct();
 
-        //load the query bindings
+        // load the query bindings
         $queryBindings = $query->getBindings();
 
         // return compact('query', 'querySql', 'queryBindings', 'countQuery', 'sort', 'selects');
@@ -226,20 +226,20 @@ class DataTable
      */
     public function performCountQuery(QueryBuilder $countQuery, $querySql, $queryBindings, $page)
     {
-        //grab the model instance
+        // grab the model instance
         $model = $this->config->getDataModel();
 
-        //then wrap the inner table and perform the count
+        // then wrap the inner table and perform the count
         $sql = "SELECT COUNT({$model->getKeyName()}) AS aggregate FROM ({$querySql}) AS agg";
 
-        //then perform the count query
+        // then perform the count query
         $results = $countQuery->getConnection()->select($sql, $queryBindings);
         $numRows = is_array($results[0]) ? $results[0]['aggregate'] : $results[0]->aggregate;
         $page    = (int) $page;
         $last    = (int) ceil($numRows / $this->rowsPerPage);
 
         return array(
-            //if the current page is greater than the last page, set the current page to the last page
+            // if the current page is greater than the last page, set the current page to the last page
             'page'  => $page > $last ? $last : $page,
             'last'  => $last,
             'total' => $numRows,
@@ -256,16 +256,16 @@ class DataTable
      */
     public function setFilters($filters, QueryBuilder &$query, QueryBuilder &$countQuery, &$selects)
     {
-        //then we set the filters
+        // then we set the filters
         if ($filters && is_array($filters)) {
             foreach ($filters as $filter) {
-                //get the field object
+                // get the field object
                 $fieldObject = $this->fieldFactory->findFilter($filter['field_name']);
 
-                //set the filter on the object
+                // set the filter on the object
                 $fieldObject->setFilter($filter);
 
-                //filter the query objects, only pass in the selects the first time so they aren't added twice
+                // filter the query objects, only pass in the selects the first time so they aren't added twice
                 $fieldObject->filterQuery($query, $selects);
                 $fieldObject->filterQuery($countQuery);
             }
@@ -283,14 +283,14 @@ class DataTable
     {
         $results = array();
 
-        //convert the resulting set into arrays
+        // convert the resulting set into arrays
         foreach ($rows as $item) {
-            //iterate over the included and related columns
+            // iterate over the included and related columns
             $arr = array();
 
             $this->parseOnTableColumns($item, $arr);
 
-            //then grab the computed, unsortable columns
+            // then grab the computed, unsortable columns
             $this->parseComputedColumns($item, $arr);
 
             $results[] = $arr;
@@ -313,18 +313,18 @@ class DataTable
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
 
-        //loop over both the included and related columns
+        // loop over both the included and related columns
         foreach (array_merge($includedColumns, $relatedColumns) as $field => $col) {
             $attributeValue = $item->getAttribute($field);
 
-            //if this column is in our objects array, render the output with the given value
+            // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
                 $outputRow[$field] = array(
                     'raw'      => $attributeValue,
                     'rendered' => $columns[$field]->renderOutput($attributeValue, $item),
                 );
             }
-            //otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
+            // otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
             else {
                 $outputRow[$field] = array(
                     'raw'      => $attributeValue,
@@ -347,7 +347,7 @@ class DataTable
         $columns         = $this->columnFactory->getColumns();
         $computedColumns = $this->columnFactory->getComputedColumns();
 
-        //loop over the computed columns
+        // loop over the computed columns
         foreach ($computedColumns as $name => $column) {
             $outputRow[$name] = array(
                 'raw'      => $item->{$name},
@@ -365,13 +365,13 @@ class DataTable
     {
         $sort = $sort && is_array($sort) ? $sort : $this->config->getOption('sort');
 
-        //set the sort values
+        // set the sort values
         $this->sort = array(
             'field'     => isset($sort['field']) ? $sort['field'] : $this->config->getDataModel()->getKeyName(),
             'direction' => isset($sort['direction']) ? $sort['direction'] : 'desc',
         );
 
-        //if the sort direction isn't valid, set it to 'desc'
+        // if the sort direction isn't valid, set it to 'desc'
         if (!in_array($this->sort['direction'], array('asc', 'desc'))) {
             $this->sort['direction'] = 'desc';
         }
@@ -392,7 +392,7 @@ class DataTable
      *
      * @param \Illuminate\Session\Store	$session
      * @param int						$globalPerPage
-     * @param int						$override	//if provided, this will set the session's rows per page value
+     * @param int						$override	// if provided, this will set the session's rows per page value
      */
     public function setRowsPerPage(\Illuminate\Session\Store $session, $globalPerPage, $override = null)
     {

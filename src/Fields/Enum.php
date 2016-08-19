@@ -27,7 +27,7 @@ class Enum extends Field
         $dataOptions        = $options['options'];
         $options['options'] = array();
 
-        //iterate over the options to create the options assoc array
+        // iterate over the options to create the options assoc array
         foreach ($dataOptions as $val => $text) {
             $options['options'][] = array(
                 'id'   => is_numeric($val) ? $text : $val,
@@ -73,10 +73,10 @@ class Enum extends Field
      */
     public function filterQuery(QueryBuilder &$query, &$selects = null)
     {
-        //run the parent method
+        // run the parent method
         parent::filterQuery($query, $selects);
 
-        //if there is no value, return
+        // if there is no value, return
         if ($this->getFilterValue($this->getOption('value')) === false) {
             return;
         }

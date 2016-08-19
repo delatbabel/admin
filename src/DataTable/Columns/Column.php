@@ -154,10 +154,10 @@ class Column
      */
     public function validateOptions()
     {
-        //override the config
+        // override the config
         $this->validator->override($this->suppliedOptions, $this->getRules());
 
-        //if the validator failed, throw an exception
+        // if the validator failed, throw an exception
         if ($this->validator->fails()) {
             throw new \InvalidArgumentException("There are problems with your '" . $this->suppliedOptions['column_name'] . "' column in the " .
                                     $this->config->getOption('name') . " model: " .    implode('. ', $this->validator->messages()->all()));
@@ -175,28 +175,28 @@ class Column
         $options           = $this->suppliedOptions;
         $this->tablePrefix = $this->db->getTablePrefix();
 
-        //set some options-based defaults
+        // set some options-based defaults
         $options['title']      = $this->validator->arrayGet($options, 'title', $options['column_name']);
         $options['sort_field'] = $this->validator->arrayGet($options, 'sort_field', $options['column_name']);
 
-        //if the supplied item is an accessor, make this unsortable for the moment
+        // if the supplied item is an accessor, make this unsortable for the moment
         if (method_exists($model, camel_case('get_' . $options['column_name'] . '_attribute')) && $options['column_name'] === $options['sort_field']) {
             $options['sortable'] = false;
         }
 
-        //however, if this is not a relation and the select option was supplied, str_replace the select option and make it sortable again
+        // however, if this is not a relation and the select option was supplied, str_replace the select option and make it sortable again
         if ($select = $this->validator->arrayGet($options, 'select')) {
             $options['select'] = str_replace('(:table)', $this->tablePrefix . $model->getTable(), $select);
         }
 
-        //now we do some final organization to categorize these columns (useful later in the sorting)
+        // now we do some final organization to categorize these columns (useful later in the sorting)
         if (method_exists($model, camel_case('get_' . $options['column_name'] . '_attribute')) || $select) {
             $options['is_computed'] = true;
         } else {
             $options['is_included'] = true;
         }
 
-        //run the visible property closure if supplied
+        // run the visible property closure if supplied
         $visible = $this->validator->arrayGet($options, 'visible');
 
         if (is_callable($visible)) {
@@ -227,9 +227,9 @@ class Column
      */
     public function getOptions()
     {
-        //make sure the supplied options have been merged with the defaults
+        // make sure the supplied options have been merged with the defaults
         if (empty($this->options)) {
-            //validate the options and build them
+            // validate the options and build them
             $this->validateOptions();
             $this->build();
             $this->options = array_merge($this->getDefaults(), $this->suppliedOptions);

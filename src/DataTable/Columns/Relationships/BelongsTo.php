@@ -46,10 +46,10 @@ class BelongsTo extends Relationship
         $relationship = $relevantModel->{$relevantName}();
         $selectTable  = $options['column_name'] . '_' . $this->tablePrefix . $relationship->getRelated()->getTable();
 
-        //set the relationship object so we can use it later
+        // set the relationship object so we can use it later
         $this->relationshipObject = $relationship;
 
-        //replace the (:table) with the generated $selectTable
+        // replace the (:table) with the generated $selectTable
         $options['select'] = str_replace('(:table)', $selectTable, $options['select']);
 
         $this->suppliedOptions = $options;
@@ -58,7 +58,7 @@ class BelongsTo extends Relationship
     /**
      * Converts the relationship key
      *
-     * @param string		$name 	//the relationship name
+     * @param string		$name 	// the relationship name
      *
      * @return false|array('models' => array(), 'pieces' => array())
      */
@@ -68,20 +68,20 @@ class BelongsTo extends Relationship
         $models     = array();
         $num_pieces = sizeof($pieces);
 
-        //iterate over the relationships to see if they're all valid
+        // iterate over the relationships to see if they're all valid
         foreach ($pieces as $i => $rel) {
-            //if this is the first item, then the model is the config's model
+            // if this is the first item, then the model is the config's model
             if ($i === 0) {
                 $models[] = $this->config->getDataModel();
             }
 
-            //if the model method doesn't exist for any of the pieces along the way, exit out
+            // if the model method doesn't exist for any of the pieces along the way, exit out
             if (!method_exists($models[$i], $rel) || !is_a($models[$i]->{$rel}(), self::BELONGS_TO)) {
                 throw new \InvalidArgumentException("The '" . $this->getOption('column_name') . "' column in your " . $this->config->getOption('name') .
                     " model configuration needs to be either a belongsTo relationship method name or a sequence of them connected with a '.'");
             }
 
-            //we don't need the model of the last item
+            // we don't need the model of the last item
             $models[] = $models[$i]->{$rel}()->getRelated();
         }
 
@@ -103,7 +103,7 @@ class BelongsTo extends Relationship
         $nested     = $this->getOption('nested');
         $num_pieces = sizeof($nested['pieces']);
 
-        //if there is more than one nested relationship, we need to join all the tables
+        // if there is more than one nested relationship, we need to join all the tables
         if ($num_pieces > 1) {
             for ($i = 1; $i < $num_pieces; $i++) {
                 $model              = $nested['models'][$i];

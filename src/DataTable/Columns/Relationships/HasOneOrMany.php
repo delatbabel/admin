@@ -29,7 +29,7 @@ class HasOneOrMany extends Relationship
         $from_table   = $this->tablePrefix . $relationship->getRelated()->getTable();
         $field_table  = $columnName . '_' . $from_table;
 
-        //grab the existing where clauses that the user may have set on the relationship
+        // grab the existing where clauses that the user may have set on the relationship
         $relationshipWheres = $this->getRelationshipWheres($relationship, $field_table);
 
         $where = $this->tablePrefix . $relationship->getQualifiedParentKeyName() .

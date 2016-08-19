@@ -106,10 +106,10 @@ class Action
      */
     public function validateOptions()
     {
-        //override the config
+        // override the config
         $this->validator->override($this->suppliedOptions, $this->rules);
 
-        //if the validator failed, throw an exception
+        // if the validator failed, throw an exception
         if ($this->validator->fails()) {
             throw new \InvalidArgumentException("There are problems with your '" . $this->suppliedOptions['action_name'] . "' action in the " .
                                     $this->config->getOption('name') . " model: " .    implode('. ', $this->validator->messages()->all()));
@@ -125,23 +125,23 @@ class Action
     {
         $options = $this->suppliedOptions;
 
-        //build the string or callable values for title and confirmation
+        // build the string or callable values for title and confirmation
         $this->buildStringOrCallable($options, array('confirmation', 'title'));
 
-        //build the string or callable values for the messages
+        // build the string or callable values for the messages
         $messages = $this->validator->arrayGet($options, 'messages', array());
         $this->buildStringOrCallable($messages, array('active', 'success', 'error'));
         $options['messages'] = $messages;
 
-        //override the supplied options
+        // override the supplied options
         $this->suppliedOptions = $options;
     }
 
     /**
      * Sets up the values of all the options that can be either strings or closures
      *
-     * @param array		$options	//the passed-by-reference array on which to do the transformation
-     * @param array		$keys		//the keys to check
+     * @param array		$options	// the passed-by-reference array on which to do the transformation
+     * @param array		$keys		// the keys to check
      *
      * @return void
      */
@@ -149,16 +149,16 @@ class Action
     {
         $model = $this->config->getDataModel();
 
-        //iterate over the keys
+        // iterate over the keys
         foreach ($keys as $key) {
-            //check if the key's value was supplied
+            // check if the key's value was supplied
             $suppliedValue = $this->validator->arrayGet($options, $key);
 
-            //if it's a string, simply set it
+            // if it's a string, simply set it
             if (is_string($suppliedValue)) {
                 $options[$key] = $suppliedValue;
             }
-            //if it's callable pass it the current model and run it
+            // if it's callable pass it the current model and run it
             elseif (is_callable($suppliedValue)) {
                 $options[$key] = $suppliedValue($model);
             }
@@ -193,7 +193,7 @@ class Action
 
         // make sure the supplied options have been merged with the defaults
         if (empty($this->options) || (count($this->options) == 0)) {
-            //validate the options and build them
+            // validate the options and build them
             $this->validateOptions();
             $this->build();
             $this->options = array_merge($this->defaults, $this->suppliedOptions);

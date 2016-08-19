@@ -44,10 +44,10 @@ class Relationship extends Column
         $relevant_model = $model;
         $selectTable    = $options['column_name'] . '_' . $this->tablePrefix . $relationship->getRelated()->getTable();
 
-        //set the relationship object so we can use it later
+        // set the relationship object so we can use it later
         $this->relationshipObject = $relationship;
 
-        //replace the (:table) with the generated $selectTable
+        // replace the (:table) with the generated $selectTable
         $options['select'] = str_replace('(:table)', $selectTable, $options['select']);
 
         $this->suppliedOptions = $options;
@@ -87,23 +87,23 @@ class Relationship extends Column
      */
     public function getRelationshipWheres($relationship, $tableAlias, $pivotAlias = null, $pivot = null)
     {
-        //get the relationship model
+        // get the relationship model
         $relationshipModel = $relationship->getRelated();
 
-        //get the query instance
+        // get the query instance
         $query = $relationship->getQuery()->getQuery();
 
-        //get the connection instance
+        // get the connection instance
         $connection = $query->getConnection();
 
-        //one element of the relationship query's wheres is always useless (it will say pivot_table.other_id is null)
-        //depending on whether or not softdeletes are enabled on the other model, this will be in either position 0
-        //or 1 of the wheres array
+        // one element of the relationship query's wheres is always useless (it will say pivot_table.other_id is null)
+        // depending on whether or not softdeletes are enabled on the other model, this will be in either position 0
+        // or 1 of the wheres array
         array_splice($query->wheres, (method_exists($relationshipModel, 'getDeletedAtColumn') ? 1 : 0), 1);
 
-        //iterate over the wheres to properly alias the columns
+        // iterate over the wheres to properly alias the columns
         foreach ($query->wheres as &$where) {
-            //alias the where columns
+            // alias the where columns
             $where['column'] = $this->aliasRelationshipWhere($where['column'], $tableAlias, $pivotAlias, $pivot);
         }
 
@@ -125,16 +125,16 @@ class Relationship extends Column
      */
     public function aliasRelationshipWhere($column, $tableAlias, $pivotAlias, $pivot)
     {
-        //first explode the string on "." in case it was given with the table already included
+        // first explode the string on "." in case it was given with the table already included
         $split = explode('.', $column);
 
-        //if the second split item exists, there was a "."
+        // if the second split item exists, there was a "."
         if (isset($split[1])) {
-            //if the table name is the pivot table, append the pivot alias
+            // if the table name is the pivot table, append the pivot alias
             if ($split[0] === $pivot) {
                 return $pivotAlias . '.' . $split[1];
             }
-            //otherwise append the table alias
+            // otherwise append the table alias
             else {
                 return $tableAlias . '.' . $split[1];
             }
@@ -147,17 +147,17 @@ class Relationship extends Column
      * Replaces any parameter placeholders in a query with the value of that
      * parameter.
      *
-     * @param string	$query		//The sql query with parameter placeholders
-     * @param array		$params		//The array of substitution parameters
+     * @param string	$query		// The sql query with parameter placeholders
+     * @param array		$params		// The array of substitution parameters
      *
-     * @return string 	//The interpolated query
+     * @return string 	// The interpolated query
      */
     public function interpolateQuery($query, array $params)
     {
         $keys   = array();
         $values = $params;
 
-        //build a regular expression for each parameter
+        // build a regular expression for each parameter
         foreach ($params as $key => $value) {
             if (is_string($key)) {
                 $keys[] = "/:" . $key . "/";

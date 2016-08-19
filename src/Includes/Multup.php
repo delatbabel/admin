@@ -200,7 +200,7 @@ class Multup
 
             /* upload the file */
             $save = $this->image[$this->input]->move($this->path, $filename);
-            //$save = Input::upload($this->input, $this->path, $filename);
+            // $save = Input::upload($this->input, $this->path, $filename);
 
             if ($save) {
                 $path = $this->path . $filename;

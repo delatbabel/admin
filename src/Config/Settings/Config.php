@@ -126,14 +126,14 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function fetchData(array $fields)
     {
-        //set up the blank data
+        // set up the blank data
         $data = array();
 
         foreach ($fields as $name => $field) {
             $data[$name] = null;
         }
 
-        //populate the data from the file
+        // populate the data from the file
         $this->setDataModel($this->populateData($data));
     }
 
@@ -146,21 +146,21 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function populateData(array $data)
     {
-        //attempt to make the storage path if it doesn't already exist
+        // attempt to make the storage path if it doesn't already exist
         $path = $this->getStoragePath();
 
         if (!is_dir($path)) {
             mkdir($path);
         }
 
-        //try to fetch the JSON file
+        // try to fetch the JSON file
         $file = $path . $this->getOption('name') . '.json';
 
         if (file_exists($file)) {
             $json     = file_get_contents($file);
             $saveData = json_decode($json);
 
-            //run through the saveData and update the associated fields that we populated from the edit fields
+            // run through the saveData and update the associated fields that we populated from the edit fields
             foreach ($saveData as $field => $value) {
                 if (array_key_exists($field, $data)) {
                     $data[$field] = $value;
@@ -177,45 +177,45 @@ class Config extends ConfigBase implements ConfigInterface
      * @param \Illuminate\Http\Request	$input
      * @param array						$fields
      *
-     * @return mixed	//string if error, true if success
+     * @return mixed	// string if error, true if success
      */
     public function save(\Illuminate\Http\Request $input, array $fields)
     {
         $data  = array();
         $rules = $this->getOption('rules');
 
-        //iterate over the edit fields to only fetch the important items
+        // iterate over the edit fields to only fetch the important items
         foreach ($fields as $name => $field) {
             if ($field->getOption('editable')) {
                 $data[$name] = $input->get($name);
 
-                //make sure the bool field is set correctly
+                // make sure the bool field is set correctly
                 if ($field->getOption('type') === 'bool') {
                     $data[$name] = $data[$name] === 'true' || $data[$name] === '1' ? 1 : 0;
                 }
             } else {
-                //unset uneditable fields rules
+                // unset uneditable fields rules
                 unset($rules[$name]);
             }
         }
 
-        //validate the model
+        // validate the model
         $validation = $this->validateData($data, $rules, $this->getOption('messages'));
 
-        //if a string was kicked back, it's an error, so return it
+        // if a string was kicked back, it's an error, so return it
         if (is_string($validation)) {
             return $validation;
         }
 
-        //run the beforeSave function if provided
+        // run the beforeSave function if provided
         $beforeSave = $this->runBeforeSave($data);
 
-        //if a string was kicked back, it's an error, so return it
+        // if a string was kicked back, it's an error, so return it
         if (is_string($beforeSave)) {
             return $beforeSave;
         }
 
-        //Save the JSON data
+        // Save the JSON data
         $this->putToJson($data);
         $this->setDataModel($data);
 
@@ -236,7 +236,7 @@ class Config extends ConfigBase implements ConfigInterface
         if (is_callable($beforeSave)) {
             $bs = $beforeSave($data);
 
-            //if a string is returned, assume it's an error and kick it back
+            // if a string is returned, assume it's an error and kick it back
             if (is_string($bs)) {
                 return $bs;
             }
@@ -254,7 +254,7 @@ class Config extends ConfigBase implements ConfigInterface
     {
         $path = $this->getStoragePath();
 
-        //check if the storage path is writable
+        // check if the storage path is writable
         if (!is_writable($path)) {
             throw new \InvalidArgumentException("The storage_path option in your " . $this->getOption('name') . " settings config is not writable");
         }

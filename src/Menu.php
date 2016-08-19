@@ -72,27 +72,27 @@ class Menu
             $subMenu = $this->config->get('administrator.menu');
         }
 
-        //iterate over the menu to build the return array of valid menu items
+        // iterate over the menu to build the return array of valid menu items
         foreach ($subMenu as $key => $item) {
-            //if the item is a string, find its config
+            // if the item is a string, find its config
             if (is_string($item)) {
-                //fetch the appropriate config file
+                // fetch the appropriate config file
                 $config = $this->configFactory->make($item);
 
-                //if a config object was returned and if the permission passes, add the item to the menu
+                // if a config object was returned and if the permission passes, add the item to the menu
                 if (is_a($config, 'DDPro\Admin\Config\Config') && $config->getOption('permission')) {
                     $menu[$item] = $config->getOption('title');
                 }
-                //otherwise if this is a custom page, add it to the menu
+                // otherwise if this is a custom page, add it to the menu
                 elseif ($config === true) {
                     $menu[$item] = $key;
                 }
             }
-            //if the item is an array, recursively run this method on it
+            // if the item is an array, recursively run this method on it
             elseif (is_array($item)) {
                 $menu[$key] = $this->getMenu($item);
 
-                //if the submenu is empty, unset it
+                // if the submenu is empty, unset it
                 if (empty($menu[$key])) {
                     unset($menu[$key]);
                 }
