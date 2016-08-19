@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ config('administrator.title') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-  
+
 {{-- I have removed these for IE8 support because I don't really believe that anyone
      who is going to be doing site admin is ever going to use IE8. By all means feel
      free to add it back in again if your users are still in the stone age.
@@ -29,7 +29,7 @@ BODY TAG OPTIONS:
 Apply one or more of the following classes to get the
 desired effect
 |---------------------------------------------------------|
-| SKINS123         | skin-blue                               |
+| SKINS         | skin-blue                               |
 |               | skin-black                              |
 |               | skin-purple                             |
 |               | skin-yellow                             |
@@ -61,8 +61,6 @@ desired effect
     <!-- Control Sidebar -->
     @include('adminlayouts.control')
 </div><!-- ./wrapper -->
-
-<!-- REQUIRED JS SCRIPTS -->
 
 {{-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
