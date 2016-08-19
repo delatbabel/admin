@@ -56,10 +56,10 @@
 
             <!-- ko if: type === 'datetime' -->
                 <input type="text" data-bind="value: min_value, attr: {id: field_id + '_min'},
-                                                                        datetimepicker: {dateFormat: date_format, timeFormat: time_format}" />
+                                                                        datepicker: {timePicker: true, dateFormat: date_format, timeFormat: time_format}" />
                 <span>-</span>
                 <input type="text" data-bind="value: max_value, attr: {id: field_id + '_max'},
-                                                                        datetimepicker: {dateFormat: date_format, timeFormat: time_format}" />
+                                                                        datepicker: {timePicker: true, dateFormat: date_format, timeFormat: time_format}" />
             <!-- /ko -->
 
             <!-- ko if: type === 'belongs_to' -->
