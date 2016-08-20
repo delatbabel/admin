@@ -16,4 +16,4 @@ The `wysiwyg` field type should be a TEXT type in your database.
 
 In the edit form, an admin user will be presented with a CKEditor WYSIWYG. When the field is saved to the database, the resulting HTML is stored in the TEXT field.
 
-Since the WYSIWYG is fairly large, you may want to think about [expanding your model's form width](/docs/model-configuration#form-width) to something like `400` or `500`.
+Since the WYSIWYG is fairly large, you may want to think about [expanding your model's form width](/docs/model-configuration.md#form-width) to something like `400` or `500`.

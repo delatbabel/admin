@@ -127,13 +127,13 @@ class Factory
      */
     public function __construct(Validator $validator, CustomValidator $custom_validator, array $options)
     {
-        //set the config, and then validate it
+        // set the config, and then validate it
         $this->options         = $options;
         $this->validator       = $validator;
         $this->customValidator = $custom_validator;
         $validator->override($this->options, $this->rules);
 
-        //if the validator failed, throw an exception
+        // if the validator failed, throw an exception
         if ($validator->fails()) {
             throw new \InvalidArgumentException('There are problems with your administrator.php config: ' . implode('. ', $validator->messages()->all()));
         }
@@ -172,10 +172,10 @@ class Factory
      */
     public function updateConfigOptions()
     {
-        //search the config menu for our item
+        // search the config menu for our item
         $options = $this->searchMenu($this->name);
 
-        //override the config's options
+        // override the config's options
         $this->getConfig()->setOptions($options);
     }
 
@@ -198,15 +198,15 @@ class Factory
      */
     public function parseType($name)
     {
-        //if the name is prefixed with the settings prefix
+        // if the name is prefixed with the settings prefix
         if (strpos($name, $this->settingsPrefix) === 0) {
             return $this->type = 'settings';
         }
-        //otherwise if the name is prefixed with the page prefix
+        // otherwise if the name is prefixed with the page prefix
         elseif (strpos($name, $this->pagePrefix) === 0) {
             return $this->type = 'page';
         }
-        //otherwise it's a model
+        // otherwise it's a model
         else {
             return $this->type = 'model';
         }
@@ -222,7 +222,7 @@ class Factory
      */
     public function searchMenu($name, $menu = false)
     {
-        //parse the type based on the config name if this is the top-level item
+        // parse the type based on the config name if this is the top-level item
         if ($menu === false) {
             $this->parseType($name);
         }
@@ -230,18 +230,18 @@ class Factory
         $config = false;
         $menu   = $menu ? $menu : $this->options['menu'];
 
-        //iterate over all the items in the menu array
+        // iterate over all the items in the menu array
         foreach ($menu as $key => $item) {
-            //if the item is a string, try to find the config file
+            // if the item is a string, try to find the config file
             if (is_string($item) && $item === $name) {
                 $config = $this->fetchConfigFile($name);
             }
-            //if the item is an array, recursively run this method on it
+            // if the item is an array, recursively run this method on it
             elseif (is_array($item)) {
                 $config = $this->searchMenu($name, $item);
             }
 
-            //if the config var was set, break the loop
+            // if the config var was set, break the loop
             if (is_array($config)) {
                 break;
             }
@@ -334,12 +334,12 @@ class Factory
         $name = str_replace($this->getPrefix(), '', $name);
         $path = $this->getPath() . $name . '.php';
 
-        //check that this is a legitimate file
+        // check that this is a legitimate file
         if (is_file($path)) {
-            //set the options var
+            // set the options var
             $options = require $path;
 
-            //add the name in
+            // add the name in
             $options['name'] = $name;
 
             return $options;

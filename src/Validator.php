@@ -129,7 +129,7 @@ class Validator extends \Illuminate\Validation\Validator
         $query      = is_a($query, 'Illuminate\Database\Query\Builder') ? $query : $query->getQuery();
 
         if ($query->joins) {
-            //iterate over the joins to see if the table is there
+            // iterate over the joins to see if the table is there
             foreach ($query->joins as $join) {
                 if ($join->table === $table) {
                     return true;

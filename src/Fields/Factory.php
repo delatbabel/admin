@@ -7,6 +7,24 @@ use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
+/**
+ * Field Factory
+ *
+ * This is the factory class that constructs fields to be placed on the new/edit model forms.
+ *
+ * ### Example
+ *
+ * #### Building the Factory
+ *
+ * This happens in the Service Provider.
+ *
+ * ```php
+ * $factory = new FieldFactory($app->make('admin_validator'), $app->make('itemconfig'), $app->make('db'));
+ * ```
+ *
+ * @see  Field
+ * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md#edit-fields
+ */
 class Factory
 {
 
@@ -32,7 +50,7 @@ class Factory
         'file'     => 'DDPro\\Admin\\Fields\\File',
         'color'    => 'DDPro\\Admin\\Fields\\Color',
 
-        //relationships
+        // relationships
         'belongs_to'      => 'DDPro\\Admin\\Fields\\Relationships\\BelongsTo',
         'belongs_to_many' => 'DDPro\\Admin\\Fields\\Relationships\\BelongsToMany',
         'has_one'         => 'DDPro\\Admin\\Fields\\Relationships\\HasOne',
@@ -125,13 +143,13 @@ class Factory
      *
      * @param mixed 	$name
      * @param mixed 	$options
-     * @param boolean	$loadRelationships	//determines whether or not to load the relationships
+     * @param boolean	$loadRelationships	determines whether or not to load the relationships
      *
      * @return mixed
      */
     public function make($name, $options, $loadRelationships = true)
     {
-        //make sure the options array has all the proper default values
+        // make sure the options array has all the proper default values
         $options = $this->prepareOptions($name, $options, $loadRelationships);
 
         return $this->getFieldObject($options);
@@ -141,7 +159,6 @@ class Factory
      * Instantiates a field object
      *
      * @param array 	$options
-     * @param boolean 	$loadRelationships
      *
      * @return Field
      */
@@ -168,32 +185,34 @@ class Factory
      *
      * @param mixed 	$name
      * @param mixed 	$options
-     * @param boolean	$loadRelationships	//determines whether or not to load the relationships
+     * @param boolean	$loadRelationships	determines whether or not to load the relationships
      *
      * @return array
      */
     public function prepareOptions($name, $options, $loadRelationships = true)
     {
-        //set the options array to the format we need
+        // set the options array to the format we need
         $options = $this->validateOptions($name, $options);
 
-        //make sure the 'title' option is set
+        // make sure the 'title' option is set
         $options['title'] = isset($options['title']) ? $options['title'] : $options['field_name'];
 
-        //ensure the type is set and then check that the field type exists
+        // ensure the type is set and then check that the field type exists
         $this->ensureTypeIsSet($options);
 
-        //set the proper relationship options
+        // set the proper relationship options
         $this->setRelationshipType($options, $loadRelationships);
 
-        //check that the type is a valid field class
+        // check that the type is a valid field class
         $this->checkTypeExists($options);
 
         return $options;
     }
 
     /**
-     * Validates an options array item. This could be a string $name and array $options, or a positive integer $name and string $options.
+     * Validates an options array item.
+     *
+     * This could be a string $name and array $options, or a positive integer $name and string $options.
      *
      * @param mixed		$name
      * @param mixed		$options
@@ -207,12 +226,12 @@ class Factory
             $options = array();
         }
 
-        //if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
+        // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
         if (!is_string($name) || !is_array($options)) {
             throw new \InvalidArgumentException("One of the fields in your " . $this->config->getOption('name') . " configuration file is invalid");
         }
 
-        //in any case, make sure the 'column_name' option is set
+        // in any case, make sure the 'column_name' option is set
         $options['field_name'] = $name;
 
         return $options;
@@ -227,13 +246,13 @@ class Factory
      */
     public function ensureTypeIsSet(array &$options)
     {
-        //if the 'type' option hasn't been set
+        // if the 'type' option hasn't been set
         if (!isset($options['type'])) {
-            //if this is a model and the field is equal to the primary key name, set it as a key field
+            // if this is a model and the field is equal to the primary key name, set it as a key field
             if ($this->config->getType() === 'model' && $options['field_name'] === $this->config->getDataModel()->getKeyName()) {
                 $options['type'] = 'key';
             }
-            //otherwise set it to the default 'text'
+            // otherwise set it to the default 'text'
             else {
                 $options['type'] = 'text';
             }
@@ -250,12 +269,12 @@ class Factory
      */
     public function setRelationshipType(array &$options, $loadRelationships)
     {
-        //if this is a relationship
+        // if this is a relationship
         if ($this->validator->arrayGet($options, 'type') === 'relationship') {
-            //get the right key based on the relationship in the model
+            // get the right key based on the relationship in the model
             $options['type'] = $this->getRelationshipKey($options['field_name']);
 
-            //if we should load the relationships, set the option
+            // if we should load the relationships, set the option
             $options['load_relationships'] = $loadRelationships && !$this->validator->arrayGet($options, 'autocomplete', false);
         }
     }
@@ -269,12 +288,12 @@ class Factory
      */
     public function checkTypeExists(array &$options)
     {
-        //if an improper value was supplied
+        // if an improper value was supplied
         if (!array_key_exists($options['type'], $this->fieldTypes)) {
             throw new \InvalidArgumentException('The ' . $options['type'] . ' field type in your ' . $this->config->getOption('name') . ' configuration file is not valid');
         }
 
-        //if this is a settings page and a field was supplied that is excluded
+        // if this is a settings page and a field was supplied that is excluded
         if ($this->config->getType() === 'settings' && in_array($options['type'], $this->settingsFieldExclusions)) {
             throw new \InvalidArgumentException('The ' . $options['type'] . ' field in your ' .
                             $this->config->getOption('name') . ' settings page cannot be used on a settings page');
@@ -294,15 +313,15 @@ class Factory
         $invalidArgument = new \InvalidArgumentException("The '" . $field . "' relationship field you supplied for " .
                                 $this->config->getOption('name') . " is not a valid relationship method name on the supplied Eloquent model");
 
-        //check if the related method exists on the model
+        // check if the related method exists on the model
         if (!method_exists($model, $field)) {
             throw $invalidArgument;
         }
 
-        //now that we know the method exists, we can determine if it's multiple or single
+        // now that we know the method exists, we can determine if it's multiple or single
         $related_model = $model->{$field}();
 
-        //check if this is a valid relationship object, and return the appropriate key
+        // check if this is a valid relationship object, and return the appropriate key
         if (is_a($related_model, $this->relationshipBase . 'BelongsTo')) {
             return 'belongs_to';
         } elseif (is_a($related_model, $this->relationshipBase . 'BelongsToMany')) {
@@ -327,7 +346,7 @@ class Factory
     {
         $fields = $this->getEditFields();
 
-        //return either the Field object or throw an InvalidArgumentException
+        // return either the Field object or throw an InvalidArgumentException
         if (!isset($fields[$field])) {
             throw new \InvalidArgumentException("The " . $field . " field does not exist on the " . $this->config->getOption('name') . " model");
         }
@@ -346,7 +365,7 @@ class Factory
     {
         $filters = $this->getFilters();
 
-        //return either the Field object or throw an InvalidArgumentException
+        // return either the Field object or throw an InvalidArgumentException
         if (!isset($filters[$field])) {
             throw new \InvalidArgumentException("The " . $field . " filter does not exist on the " . $this->config->getOption('name') . " model");
         }
@@ -357,8 +376,8 @@ class Factory
     /**
      * Creates the edit fields as Field objects
      *
-     * @param boolean 	$loadRelationships //if set to false, no relationship options will be loaded
-     * @param boolean 	$override //if set to true, the fields will be re-loaded, otherwise it will use the cached fields
+     * @param boolean 	$loadRelationships // if set to false, no relationship options will be loaded
+     * @param boolean 	$override // if set to true, the fields will be re-loaded, otherwise it will use the cached fields
      *
      * @return array
      */
@@ -367,7 +386,7 @@ class Factory
         if (!sizeof($this->editFields) || $override) {
             $this->editFields = array();
 
-            //iterate over each supplied edit field
+            // iterate over each supplied edit field
             foreach ($this->config->getOption('edit_fields') as $name => $options) {
                 $fieldObject                                             = $this->make($name, $options, $loadRelationships);
                 $this->editFields[$fieldObject->getOption('field_name')] = $fieldObject;
@@ -380,7 +399,7 @@ class Factory
     /**
      * Gets the array version of the edit fields objects
      *
-     * @param boolean 	$override 	//this will override the cached version if set to true
+     * @param boolean 	$override 	// this will override the cached version if set to true
      *
      * @return array
      */
@@ -388,11 +407,12 @@ class Factory
     {
         $return = array();
 
+        /** @var Field $fieldObject */
         foreach ($this->getEditFields(true, $override) as $fieldObject) {
             $return[$fieldObject->getOption('field_name')] = $fieldObject->getOptions();
         }
 
-        //get the key field if this is a model page
+        // get the key field if this is a model page
         if ($this->config->getType() === 'model') {
             $this->fillKeyField($return);
         }
@@ -412,7 +432,7 @@ class Factory
         $model   = $this->config->getDataModel();
         $keyName = $model->getKeyName();
 
-        //add the primary key field, which will be uneditable, but part of the data model
+        // add the primary key field, which will be uneditable, but part of the data model
         if ($this->config->getType() === 'model' && !isset($fields[$keyName])) {
             $keyField         = $this->make($keyName, array('visible' => false));
             $fields[$keyName] = $keyField->getOptions();
@@ -430,11 +450,11 @@ class Factory
         $model     = $this->config->getDataModel();
 
         foreach ($this->getEditFieldsArrays() as $name => $options) {
-            //if this is a key, set it to 0
+            // if this is a key, set it to 0
             if ($options['type'] === 'key') {
                 $dataModel[$name] = 0;
             } else {
-                //if this is a collection, convert it to an array
+                // if this is a collection, convert it to an array
                 if (is_a($model->$name, 'Illuminate\Database\Eloquent\Collection')) {
                     $dataModel[$name] = $model->$name->toArray();
                 } else {
@@ -453,15 +473,15 @@ class Factory
      */
     public function getFilters()
     {
-        //get the model's filter fields
+        // get the model's filter fields
         $configFilters = $this->config->getOption('filters');
 
-        //make sure that the filters array hasn't been created before and that there are supplied filters in the config
+        // make sure that the filters array hasn't been created before and that there are supplied filters in the config
         if (!sizeof($this->filters) && $configFilters) {
-            //iterate over the filters and create field objects for them
+            // iterate over the filters and create field objects for them
             foreach ($configFilters as $name => $filter) {
                 if ($fieldObject = $this->make($name, $filter)) {
-                    //the filters array is indexed on the field name and holds the arrayed values for the filters
+                    // the filters array is indexed on the field name and holds the arrayed values for the filters
                     $this->filters[$fieldObject->getOption('field_name')] = $fieldObject;
                 }
             }
@@ -498,14 +518,14 @@ class Factory
     {
         $info = false;
 
-        //we want to get the correct options depending on the type of field it is
+        // we want to get the correct options depending on the type of field it is
         if ($type === 'filter') {
             $fields = $this->getFilters();
         } else {
             $fields = $this->getEditFields();
         }
 
-        //iterate over the fields to get the one for this $field value
+        // iterate over the fields to get the one for this $field value
         foreach ($fields as $key => $val) {
             if ($key === $field) {
                 $info = $val;
@@ -519,16 +539,16 @@ class Factory
      * Given a model, field, type (filter or edit), and constraints (either int or array), returns an array of options
      *
      * @param string	$field
-     * @param string	$type			//either 'filter' or 'edit'
-     * @param array		$constraints	//an array of ids of the other model's items
-     * @param array		$selectedItems	//an array of ids that are currently selected
-     * @param string	$term			//the search term
+     * @param string	$type			// either 'filter' or 'edit'
+     * @param array		$constraints	// an array of ids of the other model's items
+     * @param array		$selectedItems	// an array of ids that are currently selected
+     * @param string	$term			// the search term
      *
      * @return array
      */
     public function updateRelationshipOptions($field, $type, $constraints, $selectedItems, $term = null)
     {
-        //first get the related model and fetch the field's options
+        // first get the related model and fetch the field's options
         $model           = $this->config->getDataModel();
         $relatedModel    = $model->{$field}()->getRelated();
         $relatedTable    = $relatedModel->getTable();
@@ -536,21 +556,21 @@ class Factory
         $relatedKeyTable = $relatedTable . '.' . $relatedKeyName;
         $fieldObject     = $this->getFieldObjectByName($field, $type);
 
-        //if we can't find the field, return an empty array
+        // if we can't find the field, return an empty array
         if (!$fieldObject) {
             return array();
         }
 
-        //make sure we're grouping by the model's id
+        // make sure we're grouping by the model's id
         $query = $relatedModel->newQuery();
 
-        //set up the selects
+        // set up the selects
         $query->select(array($this->db->raw($this->db->getTablePrefix() . $relatedTable . '.*')));
 
-        //format the selected items into an array
+        // format the selected items into an array
         $selectedItems = $this->formatSelectedItems($selectedItems);
 
-        //if this is an autocomplete field, check if there is a search term. If not, just return the selected items
+        // if this is an autocomplete field, check if there is a search term. If not, just return the selected items
         if ($fieldObject->getOption('autocomplete') && !$term) {
             if (sizeof($selectedItems)) {
                 $this->filterQueryBySelectedItems($query, $selectedItems, $fieldObject, $relatedKeyTable);
@@ -561,17 +581,17 @@ class Factory
             }
         }
 
-        //applies constraints if there are any
+        // applies constraints if there are any
         $this->applyConstraints($constraints, $query, $fieldObject);
 
-        //if there is a search term, limit the result set by that term
+        // if there is a search term, limit the result set by that term
         $this->filterBySearchTerm($term, $query, $fieldObject, $selectedItems, $relatedKeyTable);
 
-        //perform any user-supplied options filter
+        // perform any user-supplied options filter
         $filter = $fieldObject->getOption('options_filter');
         $filter($query);
 
-        //finally we can return the options
+        // finally we can return the options
         return $this->formatSelectOptions($fieldObject, $query->get());
     }
 
@@ -579,7 +599,7 @@ class Factory
      * Filters a relationship options query by a search term
      *
      * @param mixed										$term
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      * @param array										$selectedItems
      * @param string									$relatedKeyTable
@@ -593,12 +613,12 @@ class Factory
                 }
             });
 
-            //exclude the currently-selected items if there are any
+            // exclude the currently-selected items if there are any
             if (count($selectedItems)) {
                 $query->whereNotIn($relatedKeyTable, $selectedItems);
             }
 
-            //set up the limits
+            // set up the limits
             $query->take($fieldObject->getOption('num_options') + count($selectedItems));
         }
     }
@@ -613,7 +633,7 @@ class Factory
     public function formatSelectedItems($selectedItems)
     {
         if ($selectedItems) {
-            //if this isn't an array, set it up as one
+            // if this isn't an array, set it up as one
             return is_array($selectedItems) ? $selectedItems : explode(',', $selectedItems);
         } else {
             return array();
@@ -623,7 +643,7 @@ class Factory
     /**
      * Takes the supplied $selectedItems mixed value and formats it to a usable array
      *
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param array										$selectedItems
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      * @param string									$relatedKeyTable
@@ -634,11 +654,11 @@ class Factory
     {
         $query->whereIn($relatedKeyTable, $selectedItems);
 
-        //if this is a BelongsToMany and a sort field is set, order it by the sort field
+        // if this is a BelongsToMany and a sort field is set, order it by the sort field
         if ($fieldObject->getOption('multiple_values') && $fieldObject->getOption('sort_field')) {
             $query->orderBy($fieldObject->getOption('sort_field'));
         }
-        //otherwise order it by the name field
+        // otherwise order it by the name field
         else {
             $query->orderBy($fieldObject->getOption('name_field'));
         }
@@ -648,7 +668,7 @@ class Factory
      * Takes the supplied $selectedItems mixed value and formats it to a usable array
      *
      * @param mixed										$constraints
-     * @param \Illuminate\Database\Query\Builder		$query
+     * @param EloquentBuilder                   		$query
      * @param \DDPro\Admin\Fields\Field	$fieldObject
      *
      * @return array
@@ -658,23 +678,23 @@ class Factory
         $configConstraints = $fieldObject->getOption('constraints');
 
         if (sizeof($configConstraints)) {
-            //iterate over the config constraints
+            // iterate over the config constraints
             foreach ($configConstraints as $key => $relationshipName) {
-                //now that we're looping through the constraints, check to see if this one was supplied
+                // now that we're looping through the constraints, check to see if this one was supplied
                 if (isset($constraints[$key]) && $constraints[$key] && sizeof($constraints[$key])) {
-                    //first we get the other model and the relationship field on it
+                    // first we get the other model and the relationship field on it
                     $model        = $this->config->getDataModel();
                     $relatedModel = $model->{$fieldObject->getOption('field_name')}()->getRelated();
                     $otherModel   = $model->{$key}()->getRelated();
 
-                    //set the data model for the config
+                    // set the data model for the config
                     $this->config->setDataModel($otherModel);
                     $otherField = $this->make($relationshipName, array('type' => 'relationship'), false);
 
-                    //constrain the query
+                    // constrain the query
                     $otherField->constrainQuery($query, $relatedModel, $constraints[$key]);
 
-                    //set the data model back to the original
+                    // set the data model back to the original
                     $this->config->setDataModel($model);
                 }
             }

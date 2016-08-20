@@ -14,14 +14,16 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * rules, base data default values (0 for an integer, empty for a string, etc), and handles
  * populating the field data into model instances.
  *
+ * Fields are used in the new/edit model forms, as opposed to Columns which are used in the DataTable view.
+ *
  * ### Example
  *
  * ```php
  * // Example code goes here
  * ```
  *
- * @see  ...
- * @link ...
+ * @see  Factory
+ * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md#edit-fields
  */
 abstract class Field
 {
@@ -128,17 +130,17 @@ abstract class Field
     {
         $options = $this->suppliedOptions;
 
-        //set the title if it doesn't exist
+        // set the title if it doesn't exist
         $options['title'] = $this->validator->arrayGet($options, 'title', $options['field_name']);
 
-        //run the visible property closure if supplied
+        // run the visible property closure if supplied
         $visible = $this->validator->arrayGet($options, 'visible');
 
         if (is_callable($visible)) {
             $options['visible'] = $visible($this->config->getDataModel()) ? true : false;
         }
 
-        //run the editable property's closure if supplied
+        // run the editable property's closure if supplied
         $editable = $this->validator->arrayGet($options, 'editable');
 
         if (isset($editable) && is_callable($editable)) {
@@ -155,10 +157,10 @@ abstract class Field
      */
     public function validateOptions()
     {
-        //override the config
+        // override the config
         $this->validator->override($this->suppliedOptions, $this->getRules());
 
-        //if the validator failed, throw an exception
+        // if the validator failed, throw an exception
         if ($this->validator->fails()) {
             throw new \InvalidArgumentException("There are problems with your '" . $this->suppliedOptions['field_name'] . "' field in the " .
                                     $this->config->getOption('name') . " config: " .    implode('. ', $this->validator->messages()->all()));
@@ -214,7 +216,7 @@ abstract class Field
     {
         $model = $this->config->getDataModel();
 
-        //if this field has a min/max range, set it
+        // if this field has a min/max range, set it
         if ($this->getOption('min_max')) {
             if ($minValue = $this->getOption('min_value')) {
                 $query->where($model->getTable() . '.' . $this->getOption('field_name'), '>=', $minValue);
@@ -250,7 +252,7 @@ abstract class Field
     public function getOptions()
     {
         if (empty($this->userOptions)) {
-            //validate the options and then merge them into the defaults
+            // validate the options and then merge them into the defaults
             $this->build();
             $this->validateOptions();
             $this->userOptions = array_merge($this->getDefaults(), $this->suppliedOptions);

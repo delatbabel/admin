@@ -2,16 +2,16 @@
 namespace DDPro\Admin\DataTable\Columns;
 
 use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\DataTable\Columns\Relationships\BelongsTo;
-use DDPro\Admin\DataTable\Columns\Relationships\BelongsToMany;
-use DDPro\Admin\DataTable\Columns\Relationships\HasOneOrMany;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 
 /**
  * Class Factory
  *
- * This class builds column objects, which can either be one of the base Column class
+ * The DataTable manages the table view in the model index page.  Each column in the
+ * DataTable is represented by a Column object.
+ *
+ * This class builds Column objects, which can either be one of the base Column class
  * or one of the Laravel relationship classes (e.g. Illuminate\Database\Eloquent\Relations\HasMany,
  * etc).
  *
@@ -21,7 +21,9 @@ use Illuminate\Database\DatabaseManager as DB;
  * $columns_array = $columnFactory->getColumns();
  * </code>
  *
- * @see  Column
+ * @see Column
+ * @see DDPro\Admin\DataTable\DataTable
+ * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class Factory
 {
@@ -119,7 +121,7 @@ class Factory
      */
     public function __construct(Validator $validator, ConfigInterface $config, DB $db)
     {
-        //set the config, and then validate it
+        // set the config, and then validate it
         $this->config    = $config;
         $this->validator = $validator;
         $this->db        = $db;
@@ -162,7 +164,7 @@ class Factory
         $model     = $this->config->getDataModel();
         $namespace = __NAMESPACE__ . '\\';
 
-        //if the relationship is set
+        // if the relationship is set
         if ($method = $this->validator->arrayGet($options, 'relationship')) {
             if (method_exists($model, $method)) {
                 $relationship = $model->{$method}();
@@ -174,7 +176,7 @@ class Factory
                 }
             }
 
-            //assume it's a nested relationship
+            // assume it's a nested relationship
             return $namespace . 'Relationships\BelongsTo';
         }
 
@@ -196,12 +198,12 @@ class Factory
             $options = array();
         }
 
-        //if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
+        // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
         if (!is_string($name) || !is_array($options)) {
             throw new \InvalidArgumentException("One of the columns in your " . $this->config->getOption('name') . " model configuration file is invalid");
         }
 
-        //in any case, make sure the 'column_name' option is set
+        // in any case, make sure the 'column_name' option is set
         $options['column_name'] = $name;
 
         return $options;
@@ -214,10 +216,10 @@ class Factory
      */
     public function getColumns()
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->columns)) {
             foreach ($this->config->getOption('columns') as $name => $options) {
-                //if only a string value was supplied, may sure to turn it into an array
+                // if only a string value was supplied, may sure to turn it into an array
                 $object                                           = $this->make($this->parseOptions($name, $options));
                 $this->columns[$object->getOption('column_name')] = $object;
             }
@@ -233,7 +235,7 @@ class Factory
      */
     public function getColumnOptions()
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->columnOptions)) {
             foreach ($this->getColumns() as $column) {
                 $this->columnOptions[] = $column->getOptions();
@@ -252,7 +254,7 @@ class Factory
      */
     public function getIncludedColumns(array $fields)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->includedColumns)) {
             $model = $this->config->getDataModel();
 
@@ -264,12 +266,12 @@ class Factory
                 }
             }
 
-            //make sure the table key is included
+            // make sure the table key is included
             if (!$this->validator->arrayGet($this->includedColumns, $model->getKeyName())) {
                 $this->includedColumns[$model->getKeyName()] = $model->getTable() . '.' . $model->getKeyName();
             }
 
-            //make sure any belongs_to fields that aren't on the columns list are included
+            // make sure any belongs_to fields that aren't on the columns list are included
             foreach ($fields as $field) {
                 if (is_a($field, 'DDPro\\Administrator\\Fields\\Relationships\\BelongsTo')) {
                     $this->includedColumns[$field->getOption('foreign_key')] = $model->getTable() . '.' . $field->getOption('foreign_key');
@@ -287,7 +289,7 @@ class Factory
      */
     public function getRelatedColumns()
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->relatedColumns)) {
             foreach ($this->getColumns() as $column) {
                 if ($column->getOption('is_related')) {
@@ -306,7 +308,7 @@ class Factory
      */
     public function getComputedColumns()
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->computedColumns)) {
             foreach ($this->getColumns() as $column) {
                 if (!$column->getOption('is_related') && $column->getOption('is_computed')) {

@@ -67,34 +67,34 @@ class HasMany extends HasOneOrMany
      */
     public function filterQuery(QueryBuilder &$query, &$selects = null)
     {
-        //run the parent method
+        // run the parent method
         parent::filterQuery($query, $selects);
 
-        //get the values
+        // get the values
         $value   = $this->getOption('value');
         $table   = $this->getOption('table');
         $column  = $this->getOption('column');
         $column2 = $this->getOption('column2');
 
-        //if there is no value, return
+        // if there is no value, return
         if (!$value) {
             return;
         }
 
         $model = $this->config->getDataModel();
 
-        //if the table hasn't been joined yet, join it
+        // if the table hasn't been joined yet, join it
         if (!$this->validator->isJoined($query, $table)) {
             $query->join($table, $model->getTable() . '.' . $model->getKeyName(), '=', $column);
         }
 
-        //add where clause
+        // add where clause
         $query->whereIn($column2, $value);
 
-        //add having clauses
+        // add having clauses
         $query->havingRaw('COUNT(DISTINCT ' . $query->getConnection()->getTablePrefix() . $column2 . ') = ' . count($value));
 
-        //add select field
+        // add select field
         if ($selects && !in_array($column2, $selects)) {
             $selects[] = $column2;
         }

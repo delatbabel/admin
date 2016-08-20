@@ -146,14 +146,14 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function getModel($id = 0, array $fields, array $columns)
     {
-        //if we're getting an existing model, we'll want to first get the edit fields without the relationships loaded
+        // if we're getting an existing model, we'll want to first get the edit fields without the relationships loaded
         $originalModel = $model = $this->getDataModel();
 
-        //get the model by id
+        // get the model by id
         $model = $model->find($id);
         $model = $model ? $model : $originalModel;
 
-        //if the model exists, load up the existing related items
+        // if the model exists, load up the existing related items
         if ($model->exists) {
             $this->setExtraModelValues($fields, $model);
         }
@@ -171,13 +171,13 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function setExtraModelValues(array $fields, &$model)
     {
-        //make sure the relationships are loaded
+        // make sure the relationships are loaded
         foreach ($fields as $name => $field) {
             if ($field->getOption('relationship')) {
                 $this->setModelRelationship($model, $field);
             }
 
-            //if this is a setter field, unset it
+            // if this is a setter field, unset it
             if ($field->getOption('setter')) {
                 $model->__unset($name);
             }
@@ -194,7 +194,7 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function setModelRelationship(&$model, Field $field)
     {
-        //if this is a belongsToMany, we want to sort our initial values
+        // if this is a belongsToMany, we want to sort our initial values
         $relatedItems   = $this->getModelRelatedItems($model, $field);
         $name           = $field->getOption('field_name');
         $multipleValues = $field->getOption('multiple_values');
@@ -202,49 +202,49 @@ class Config extends ConfigBase implements ConfigInterface
         $autocomplete   = $field->getOption('autocomplete');
         $options        = $field->getOption('options');
 
-        //get all existing values for this relationship
+        // get all existing values for this relationship
         if ($relatedItems) {
-            //the array that holds all the ids of the currently-related items
+            // the array that holds all the ids of the currently-related items
             $relationsArray = array();
 
-            //the id-indexed array that holds all of the select option data for a relation.
-            //this holds the currently-related items and all of the available options
+            // the id-indexed array that holds all of the select option data for a relation.
+            // this holds the currently-related items and all of the available options
             $autocompleteArray = array();
 
-            //iterate over the items
+            // iterate over the items
             foreach ($relatedItems as $item) {
                 $keyName = $item->getKeyName();
 
-                //if this is a mutliple-value type (i.e. HasMany, BelongsToMany), make sure this is an array
+                // if this is a mutliple-value type (i.e. HasMany, BelongsToMany), make sure this is an array
                 if ($multipleValues) {
                     $relationsArray[] = $item->{$keyName};
                 } else {
                     $model->setAttribute($name, $item->{$keyName});
                 }
 
-                //if this is an autocomplete field, we'll need to provide an array of arrays with 'id' and 'text' indexes
+                // if this is an autocomplete field, we'll need to provide an array of arrays with 'id' and 'text' indexes
                 if ($autocomplete) {
                     $autocompleteArray[$item->{$keyName}] = array('id' => $item->{$keyName}, 'text' => $item->{$nameField});
                 }
             }
 
-            //if this is a BTM, set the relations array to the property that matches the relationship name
+            // if this is a BTM, set the relations array to the property that matches the relationship name
             if ($multipleValues) {
                 $model->{$name} = $relationsArray;
             }
 
-            //set the options attribute
+            // set the options attribute
             $model->setAttribute($name . '_options', $options);
 
-            //unset the relationships so we only get back what we need
+            // unset the relationships so we only get back what we need
             $model->relationships = array();
 
-            //set the autocomplete array
+            // set the autocomplete array
             if ($autocomplete) {
                 $model->setAttribute($name . '_autocomplete', $autocompleteArray);
             }
         }
-        //if there are no values, then just set an empty array
+        // if there are no values, then just set an empty array
         else {
             $model->{$name} = array();
         }
@@ -263,7 +263,7 @@ class Config extends ConfigBase implements ConfigInterface
         $name = $field->getOption('field_name');
 
         if ($field->getOption('multiple_values')) {
-            //if a sort_field is provided, use it, otherwise sort by the name field
+            // if a sort_field is provided, use it, otherwise sort by the name field
             if ($sortField = $field->getOption('sort_field')) {
                 return $model->{$name}()->orderBy($sortField)->get();
             } else {
@@ -285,18 +285,18 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function updateModel($model, FieldFactory $fieldFactory, ActionFactory $actionFactory)
     {
-        //set the data model to the active model
+        // set the data model to the active model
         $this->setDataModel($model->find($model->getKey()));
 
-        //include the item link if one was supplied
+        // include the item link if one was supplied
         if ($link = $this->getModelLink()) {
             $model->setAttribute('admin_item_link', $link);
         }
 
-        //set up the model with the edit fields new data
+        // set up the model with the edit fields new data
         $model->setAttribute('administrator_edit_fields', $fieldFactory->getEditFieldsArrays(true));
 
-        //set up the new actions data
+        // set up the new actions data
         $model->setAttribute('administrator_actions', $actionFactory->getActionsOptions(true));
         $model->setAttribute('administrator_action_permissions', $actionFactory->getActionPermissions(true));
 
@@ -311,18 +311,18 @@ class Config extends ConfigBase implements ConfigInterface
      * @param array						$actionPermissions
      * @param int						$id
      *
-     * @return mixed	//string if error, true if success
+     * @return mixed	// string if error, true if success
      */
     public function save(\Illuminate\Http\Request $input, array $fields, array $actionPermissions = null, $id = 0)
     {
         $model = $this->getDataModel()->find($id);
 
-        //fetch the proper model so we don't have to deal with any extra attributes
+        // fetch the proper model so we don't have to deal with any extra attributes
         if (!$model) {
             $model = $this->getDataModel();
         }
 
-        //make sure the user has the proper permissions
+        // make sure the user has the proper permissions
         if ($model->exists) {
             if (!$actionPermissions['update']) {
                 return "You do not have permission to save this item";
@@ -331,10 +331,10 @@ class Config extends ConfigBase implements ConfigInterface
             return "You do not have permission to create this item";
         }
 
-        //fill the model with our input
+        // fill the model with our input
         $this->fillModel($model, $input, $fields);
 
-        //validate the model
+        // validate the model
         $data            = $model->exists ? $model->getDirty() : $model->getAttributes();
         $validation_data = array_merge($data, $this->getRelationshipInputs($input, $fields));
         $rules           = $this->getModelValidationRules();
@@ -342,18 +342,18 @@ class Config extends ConfigBase implements ConfigInterface
         $messages        = $this->getModelValidationMessages();
         $validation      = $this->validateData($validation_data, $rules, $messages);
 
-        //if a string was kicked back, it's an error, so return it
+        // if a string was kicked back, it's an error, so return it
         if (is_string($validation)) {
             return $validation;
         }
 
-        //save the model
+        // save the model
         $model->save();
 
-        //save the relationships
+        // save the relationships
         $this->saveRelationships($input, $model, $fields);
 
-        //set/update the data model
+        // set/update the data model
         $this->setDataModel($model);
 
         return true;
@@ -370,18 +370,18 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function fillModel(&$model, \Illuminate\Http\Request $input, array $fields)
     {
-        //run through the edit fields to see if we need to unset relationships or uneditable fields
+        // run through the edit fields to see if we need to unset relationships or uneditable fields
         foreach ($fields as $name => $field) {
             if (!$field->getOption('external') && $field->getOption('editable')) {
                 $field->fillModel($model, $input->get($name, null));
             }
-            //if this is an "external" field (i.e. it's not a column on this model's table) or uneditable, unset it
+            // if this is an "external" field (i.e. it's not a column on this model's table) or uneditable, unset it
             elseif ($name !== $model->getKeyName()) {
                 $model->__unset($name);
             }
         }
 
-        //loop through the fields again to unset any setter fields
+        // loop through the fields again to unset any setter fields
         foreach ($fields as $name => $field) {
             $type = $field->getOption('type');
 
@@ -400,12 +400,12 @@ class Config extends ConfigBase implements ConfigInterface
     {
         $optionsRules = $this->getOption('rules');
 
-        //if the 'rules' option was provided for this model, it takes precedent
+        // if the 'rules' option was provided for this model, it takes precedent
         if (is_array($optionsRules)) {
             return $optionsRules;
         }
 
-        //otherwise look for the rules as a static property on the model
+        // otherwise look for the rules as a static property on the model
         return $rules = $this->getModelStaticValidationRules() ?: array();
     }
 
@@ -418,12 +418,12 @@ class Config extends ConfigBase implements ConfigInterface
     {
         $optionsMessages = $this->getOption('messages');
 
-        //if the 'rules' option was provided for this model, it takes precedent
+        // if the 'rules' option was provided for this model, it takes precedent
         if (is_array($optionsMessages)) {
             return $optionsMessages;
         }
 
-        //otherwise look for the messages as a static property on the model
+        // otherwise look for the messages as a static property on the model
         return $rules = $this->getModelStaticValidationMessages() ?: array();
     }
 
@@ -463,7 +463,7 @@ class Config extends ConfigBase implements ConfigInterface
     {
         $inputs = array();
 
-        //run through the edit fields to find the relationships
+        // run through the edit fields to find the relationships
         foreach ($fields as $name => $field) {
             if ($field->getOption('external')) {
                 $inputs[$name] = $this->formatRelationshipInput($request->get($name, null), $field);
@@ -503,7 +503,7 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function saveRelationships(\Illuminate\Http\Request $input, &$model, array $fields)
     {
-        //run through the edit fields to see if we need to set relationships
+        // run through the edit fields to see if we need to set relationships
         foreach ($fields as $name => $field) {
             if ($field->getOption('external')) {
                 $field->fillModel($model, $input->get($name, null));

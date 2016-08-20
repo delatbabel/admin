@@ -68,11 +68,11 @@ class Resize
             $resized = array();
 
             foreach ($sizes as $size) {
-                $this->new_width  = $size[0]; //$new_width;
-                $this->new_height = $size[1]; //$new_height;
-                $this->option     = $size[2]; //crop type
+                $this->new_width  = $size[0]; // $new_width;
+                $this->new_height = $size[1]; // $new_height;
+                $this->option     = $size[2]; // crop type
 
-                //ensure that the directory path exists
+                // ensure that the directory path exists
                 if (!is_dir($size[3])) {
                     mkdir($size[3]);
                 }

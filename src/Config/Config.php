@@ -83,10 +83,10 @@ abstract class Config
      */
     public function validateOptions()
     {
-        //override the config
+        // override the config
         $this->validator->override($this->suppliedOptions, $this->rules);
 
-        //if the validator failed, throw an exception
+        // if the validator failed, throw an exception
         if ($this->validator->fails()) {
             throw new \InvalidArgumentException('There are problems with your ' . $this->suppliedOptions['name'] . ' config: ' .
                         implode('. ', $this->validator->messages()->all()));
@@ -102,7 +102,7 @@ abstract class Config
     {
         $options = $this->suppliedOptions;
 
-        //check the permission
+        // check the permission
         $options['permission'] = isset($options['permission']) ? $options['permission']() : true;
 
         $this->suppliedOptions = $options;
@@ -125,9 +125,9 @@ abstract class Config
      */
     public function getOptions()
     {
-        //make sure the supplied options have been merged with the defaults
+        // make sure the supplied options have been merged with the defaults
         if (empty($this->options)) {
-            //validate the options and build them
+            // validate the options and build them
             $this->validateOptions();
             $this->build();
             $this->options = array_merge($this->defaults, $this->suppliedOptions);
@@ -163,10 +163,10 @@ abstract class Config
      */
     public function setOptions(array $options)
     {
-        //unset the current options
+        // unset the current options
         $this->options = array();
 
-        //override the supplied options
+        // override the supplied options
         $this->suppliedOptions = $options;
     }
 
@@ -186,7 +186,7 @@ abstract class Config
             $this->customValidator->setRules($rules);
             $this->customValidator->setCustomMessages($messages);
 
-            //if the validator fails, kick back the errors
+            // if the validator fails, kick back the errors
             if ($this->customValidator->fails()) {
                 return implode('. ', $this->customValidator->messages()->all());
             }

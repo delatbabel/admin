@@ -22,6 +22,8 @@ use DDPro\Admin\Validator;
  *     );
  * });
  * </code>
+ *
+ * @see Action
  */
 class Factory
 {
@@ -102,24 +104,24 @@ class Factory
     /**
      * Takes the model and an info array of options for the specific action
      *
-     * @param string		$name		//the key name for this action
+     * @param string		$name		the key name for this action
      * @param array			$options
      *
      * @return \DDPro\Admin\Actions\Action
      */
     public function make($name, array $options)
     {
-        //check the permission on this item
+        // check the permission on this item
         $options = $this->parseDefaults($name, $options);
 
-        //now we can instantiate the object
+        // now we can instantiate the object
         return $this->getActionObject($options);
     }
 
     /**
      * Sets up the default values for the $options array
      *
-     * @param string		$name		//the key name for this action
+     * @param string		$name		// the key name for this action
      * @param array			$options
      *
      * @return array
@@ -128,19 +130,19 @@ class Factory
     {
         $model = $this->config->getDataModel();
 
-        //if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
+        // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
         if (!is_string($name) || !is_array($options)) {
             throw new \InvalidArgumentException("A custom action in your  " . $this->config->getOption('action_name') . " configuration file is invalid");
         }
 
-        //set the action name
+        // set the action name
         $options['action_name'] = $name;
 
-        //set the permission
+        // set the permission
         $permission                = $this->validator->arrayGet($options, 'permission', false);
         $options['has_permission'] = is_callable($permission) ? $permission($model) : true;
 
-        //check if the messages array exists
+        // check if the messages array exists
         $options['messages'] = $this->validator->arrayGet($options, 'messages', array());
         $options['messages'] = is_array($options['messages']) ? $options['messages'] : array();
 
@@ -163,7 +165,7 @@ class Factory
      * Gets an action by name
      *
      * @param string	$name
-     * @param bool		$global //if true, search the global actions
+     * @param bool		$global // if true, search the global actions
      *
      * @return mixed
      */
@@ -171,7 +173,7 @@ class Factory
     {
         $actions = $global ? $this->getGlobalActions() : $this->getActions();
 
-        //loop over the actions to find our culprit
+        // loop over the actions to find our culprit
         foreach ($actions as $action) {
             if ($action->getOption('action_name') === $name) {
                 return $action;
@@ -190,11 +192,11 @@ class Factory
      */
     public function getActions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->actions) || $override) {
             $this->actions = array();
 
-            //loop over the actions to build the list
+            // loop over the actions to build the list
             foreach ($this->config->getOption('actions') as $name => $options) {
                 $this->actions[] = $this->make($name, $options);
             }
@@ -212,11 +214,12 @@ class Factory
      */
     public function getActionsOptions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->actionsOptions) || $override) {
             $this->actionsOptions = array();
 
-            //loop over the actions to build the list
+            // loop over the actions to build the list
+            /** @var Action $action */
             foreach ($this->getActions($override) as $name => $action) {
                 $this->actionsOptions[] = $action->getOptions(true);
             }
@@ -234,11 +237,11 @@ class Factory
      */
     public function getGlobalActions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->globalActions) || $override) {
             $this->globalActions = array();
 
-            //loop over the actions to build the list
+            // loop over the actions to build the list
             foreach ($this->config->getOption('global_actions') as $name => $options) {
                 $this->globalActions[] = $this->make($name, $options);
             }
@@ -256,11 +259,12 @@ class Factory
      */
     public function getGlobalActionsOptions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->globalActionsOptions) || $override) {
             $this->globalActionsOptions = array();
 
-            //loop over the global actions to build the list
+            // loop over the global actions to build the list
+            /** @var Action $action */
             foreach ($this->getGlobalActions($override) as $name => $action) {
                 $this->globalActionsOptions[] = $action->getOptions();
             }
@@ -278,17 +282,17 @@ class Factory
      */
     public function getActionPermissions($override = false)
     {
-        //make sure we only run this once and then return the cached version
+        // make sure we only run this once and then return the cached version
         if (!sizeof($this->actionPermissions) || $override) {
             $this->actionPermissions = array();
             $model                   = $this->config->getDataModel();
             $options                 = $this->config->getOption('action_permissions');
             $defaults                = $this->actionPermissionsDefaults;
 
-            //merge the user-supplied action permissions into the defaults
+            // merge the user-supplied action permissions into the defaults
             $permissions = array_merge($defaults, $options);
 
-            //loop over the actions to build the list
+            // loop over the actions to build the list
             foreach ($permissions as $action => $callback) {
                 if (is_callable($callback)) {
                     $this->actionPermissions[$action] = (bool) $callback($model);

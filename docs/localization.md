@@ -81,7 +81,7 @@ If you don't see the language you want, [contributing a new language is crazy ea
 <a name="contributing"></a>
 ## Contributing / Adding More Languages
 
-Administrator's language files are located in the package's `src/lang` directory. Each language currently requires two files: `administrator.php` and `knockout.php`. If you want to add a new language, first you should check out the [contributing section of the docs](/docs/contributing). You simply need to create those two files in the language directory that you want to add and submit a pull request. If you're not feeling up to forking and issuing a pull request on GitHub, no worries! You can simply [create a new issue](https://github.com/FrozenNode/Laravel-Administrator/issues) and write the translations in there. We'll make sure that they get added to the `lang` directory.
+Administrator's language files are located in the package's `src/lang` directory. Each language currently requires two files: `administrator.php` and `knockout.php`. If you want to add a new language, first you should check out the [contributing section of the docs](/src/contributing.md). You simply need to create those two files in the language directory that you want to add and submit a pull request. If you're not feeling up to forking and issuing a pull request on GitHub, no worries! You can simply [create a new issue](https://github.com/FrozenNode/Laravel-Administrator/issues) and write the translations in there. We'll make sure that they get added to the `lang` directory.
 
 <a name="plugins-used"></a>
 ## Plugins Used

@@ -164,9 +164,9 @@ If you want to have a submenu, instead of passing in a string, pass in an array 
 
 <img src="https://raw.github.com/FrozenNode/Laravel-Administrator/master/examples/images/menu.png" />
 
-> For a detailed description of all the model configuration options, see the **[model configuration docs](/docs/model-configuration)**
+> For a detailed description of all the model configuration options, see the **[model configuration docs](/docs/model-configuration.md)**
 
-> For a detailed description of all the settings configuration options, see the **[settings configuration docs](/docs/settings-configuration)**
+> For a detailed description of all the settings configuration options, see the **[settings configuration docs](/docs/settings-configuration.md)**
 
 <a name="permission"></a>
 ### Permission

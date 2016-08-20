@@ -60,10 +60,10 @@ class BelongsTo extends Relationship
      */
     public function filterQuery(QueryBuilder &$query, &$selects = null)
     {
-        //run the parent method
+        // run the parent method
         parent::filterQuery($query, $selects);
 
-        //if there is no value, return
+        // if there is no value, return
         if (!$this->getOption('value')) {
             return;
         }
