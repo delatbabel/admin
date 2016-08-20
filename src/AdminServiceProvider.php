@@ -312,29 +312,37 @@ class AdminServiceProvider extends ServiceProvider
 
             // Add the package wide JS assets
             $view->js=array(
-                'jquery' => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
-                'bootstrap' => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
-                'datatable' => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
-                'datatable-bootstrap' => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
-                'slim-scroll' => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
-                'adminlte-app' => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
-                'adminlte-demo' => $this->bowerAsset('admin-lte/dist/js/demo.js'),
-                // 'jquery'       => $this->asset('js/jquery/jquery-1.8.2.min.js'),
-                'jquery-ui'    => $this->asset('js/jquery/jquery-ui-1.10.3.custom.min.js'),
-                // FIXME should come from bower
+                'jquery'               => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
+                'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
+                'adminlte-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
+                'date-range-picker1'   => 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js',
+                'date-range-picker2'   => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.js'),
+                'bootstrap-datepicker' => $this->bowerAsset('admin-lte/plugins/datepicker/bootstrap-datepicker.js'),
+                'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.js'),
+                'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
+                'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
+                'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
+            );
+
+            // FIXME should come from bower
+            $view->js += array(
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             );
 
             // add the non-custom-page css assets
             // FIXME: These should come from bower
+            // FIXME: These were removed in the latest update
+            // FIXME: jqueryUI JS file was also removed in the latest update.
+            // FIXME: AdminLTE JS was also removed in the latest update, but I put it back.
+            /*
             if (!$view->page && !$view->dashboard) {
                 $view->css += array(
                     'jquery-ui'            => $this->asset('css/ui/jquery-ui-1.9.1.custom.min.css'),
                     'jquery-ui-timepicker' => $this->asset('css/ui/jquery.ui.timepicker.css'),
-                    'select2'              => $this->asset('js/jquery/select2/select2.css'),
                     'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
                 );
             }
+            */
 
             // add the adminlte-page css assets
             if (!$view->page && !$view->dashboard) {
@@ -342,10 +350,20 @@ class AdminServiceProvider extends ServiceProvider
                     'bootstrap'           => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
                     'fontawesome'         => $this->bowerAsset('fontawesome/css/font-awesome.min.css'),
                     'ionicons'            => $this->bowerAsset('Ionicons/css/ionicons.min.css'),
+                    'dateranger-picker'   => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.css'),
+                    'bootstrap-datepicker'=> $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
+                    'bootstrap-timepicker'=> $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
                     'datatable'           => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
                     'themestyle'          => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
                     'skinblue'            => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
                     'icheck'              => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
+                );
+            }
+
+            // add the non-custom-page css assets
+            if (!$view->page && !$view->dashboard) {
+                $view->css += array(
+                     'select2'              => $this->asset('js/jquery/select2/select2.css')
                 );
             }
 
@@ -360,7 +378,6 @@ class AdminServiceProvider extends ServiceProvider
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
-                    'jquery-ui-timepicker' => $this->asset('js/jquery/jquery-ui-timepicker-addon.js'),
                     'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
                     'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
@@ -382,7 +399,7 @@ class AdminServiceProvider extends ServiceProvider
                 // remaining js assets
                 // FIXME: These should come from bower
                 $view->js += array(
-                    'knockout'                 => $this->asset('js/knockout/knockout-3.4.0.js'),
+                    'knockout'                 => $this->bowerAsset('knockout/dist/knockout.js'),
                     'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),
                     'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
                     'knockout-update-data'     => $this->asset('js/knockout/knockout.updateData.js'),

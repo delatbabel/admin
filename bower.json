@@ -8,6 +8,7 @@
     "ladda": "~0.9.8",
     "moment": "~2.10.6",
     "Ionicons": "ionicons#^2.0.1",
-    "accountingjs": "^0.4.1"
+    "accountingjs": "^0.4.1",
+    "knockout": "~3.4.0",
   }
 }
