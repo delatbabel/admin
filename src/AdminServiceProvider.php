@@ -322,6 +322,7 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
+                'adminlet-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
             );
 
             // FIXME should come from bower
@@ -355,6 +356,7 @@ class AdminServiceProvider extends ServiceProvider
                     'bootstrap-timepicker'=> $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
                     'datatable'           => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
                     'themestyle'          => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
+                    'themestyle-min'      => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                     'skinblue'            => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
                     'icheck'              => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
                 );
