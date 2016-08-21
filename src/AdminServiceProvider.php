@@ -319,8 +319,12 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
+                'adminlet-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
+                // 'adminlet-demo'        => $this->bowerAsset('admin-lte/dist/js/demo.js')
             );
             $view->js += array(
+                // 'jquery'       => $this->asset('js/jquery/jquery-1.8.2.min.js'),
+                // 'jquery-ui'    => $this->asset('js/jquery/jquery-ui-1.10.3.custom.min.js'),
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             );
 
@@ -335,6 +339,7 @@ class AdminServiceProvider extends ServiceProvider
                     'bootstrap-timepicker'=> $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
                     'datatable'           => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
                     'themestyle'          => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
+                    'themestyle-min'          => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                     'skinblue'            => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
                     'icheck'              => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
                 );
@@ -343,7 +348,10 @@ class AdminServiceProvider extends ServiceProvider
             // add the non-custom-page css assets
             if (!$view->page && !$view->dashboard) {
                 $view->css += array(
+                //     'jquery-ui'            => $this->asset('css/ui/jquery-ui-1.9.1.custom.min.css'),
+                   // 'jquery-ui-timepicker' => $this->asset('css/ui/jquery.ui.timepicker.css'),
                      'select2'              => $this->asset('js/jquery/select2/select2.css')
+                //     'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
                 );
             }
 
@@ -357,6 +365,7 @@ class AdminServiceProvider extends ServiceProvider
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
+                    //'jquery-ui-timepicker' => $this->asset('js/jquery/jquery-ui-timepicker-addon.js'),
                     'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
                     'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
