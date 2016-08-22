@@ -323,7 +323,6 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
                 'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
-                'adminlet-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
             );
 
             // FIXME should come from bower
@@ -366,8 +365,10 @@ class AdminServiceProvider extends ServiceProvider
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
-                    'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
-                    'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
+                    // 'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
+                    // 'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
+                    'ckeditor'             => $this->bowerAsset('admin-lte/plugins/ckeditor/ckeditor.js'),
+                    'ckeditor-jquery'      => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
                     'plupload'             => $this->asset('js/plupload/js/plupload.full.js'),
                 );
