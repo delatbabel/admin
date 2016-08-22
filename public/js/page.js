@@ -110,7 +110,10 @@
     });
 })(jQuery);
 
-//fixes the issue with media queries not firing when the user resizes the browser in another tab
+// fixes the issue with media queries not firing when the user resizes the browser in another tab
+// Seems to cause other issues in AdminLTE, e.g. page borders going white.  Investigate later, commented
+// out for now.
+/*
 (function() {
     var hidden = "hidden";
 
@@ -147,3 +150,4 @@
         document.body.className = '';
     }
 })();
+*/
