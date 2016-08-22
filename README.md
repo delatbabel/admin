@@ -1,6 +1,10 @@
 
 # DDPro Administrator Panel
 
+[![Build Status](https://travis-ci.org/ddpro/admin.png?branch=master)](https://travis-ci.org/ddpro/admin)
+[![Latest Stable Version](https://poser.pugx.org/ddpro/admin/version.png)](https://packagist.org/packages/ddpro/admin)
+[![Total Downloads](https://poser.pugx.org/ddpro/admin/d/total.png)](https://packagist.org/packages/ddpro/admin)
+
 This is currently a work in progress to build a new Laravel 5 compatible administration panel based on [AdminLTE](https://almsaeedstudio.com/preview)
 
 First some history. Sitepro 3 (which was a private framework built on top of Laravel 3) has an administration panel. We considered porting this across to Laravel 5 and then decided that this was a bad idea for a bunch of reasons.
