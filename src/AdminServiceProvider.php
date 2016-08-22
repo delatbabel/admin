@@ -322,6 +322,7 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
+                'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
                 'adminlet-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
             );
 
@@ -329,21 +330,6 @@ class AdminServiceProvider extends ServiceProvider
             $view->js += array(
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             );
-
-            // add the non-custom-page css assets
-            // FIXME: These should come from bower
-            // FIXME: These were removed in the latest update
-            // FIXME: jqueryUI JS file was also removed in the latest update.
-            // FIXME: AdminLTE JS was also removed in the latest update, but I put it back.
-            /*
-            if (!$view->page && !$view->dashboard) {
-                $view->css += array(
-                    'jquery-ui'            => $this->asset('css/ui/jquery-ui-1.9.1.custom.min.css'),
-                    'jquery-ui-timepicker' => $this->asset('css/ui/jquery.ui.timepicker.css'),
-                    'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
-                );
-            }
-            */
 
             // add the adminlte-page css assets
             if (!$view->page && !$view->dashboard) {
