@@ -365,8 +365,6 @@ class AdminServiceProvider extends ServiceProvider
             if (!$view->page && !$view->dashboard) {
                 $view->js += array(
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
-                    // 'ckeditor'             => $this->asset('js/ckeditor/ckeditor.js'),
-                    // 'ckeditor-jquery'      => $this->asset('js/ckeditor/adapters/jquery.js'),
                     'ckeditor'             => $this->bowerAsset('admin-lte/plugins/ckeditor/ckeditor.js'),
                     'ckeditor-jquery'      => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
