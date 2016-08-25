@@ -419,7 +419,7 @@ class Factory
         /** @var Field $fieldObject */
         foreach ($this->getEditFields(true, $override) as $fieldObject) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'getoptions for fieldObject ' . $fieldObject->getOption('field_name'));
+                'getOptions for fieldObject ' . $fieldObject->getOption('field_name'));
             $return[$fieldObject->getOption('field_name')] = $fieldObject->getOptions();
         }
 

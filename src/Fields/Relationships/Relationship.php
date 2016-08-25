@@ -2,6 +2,8 @@
 namespace DDPro\Admin\Fields\Relationships;
 
 use DDPro\Admin\Fields\Field;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Log;
 
 abstract class Relationship extends Field
@@ -128,14 +130,24 @@ abstract class Relationship extends Field
         // if we want all of the possible items on the other model, load them up, otherwise leave the options empty
         $items        = array();
         $model        = $this->config->getDataModel();
+
+        /** @var Relation $relationship */
         $relationship = $model->{$options['field_name']}();
         $relatedModel = $relationship->getRelated();
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'loadRelationshipOptions for relationship field named ' . $options['field_name']);
+
         if ($this->validator->arrayGet($options, 'load_relationships')) {
+
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'going into main part of loadRelationshipOptions');
+
             // if a sort field was supplied, order the results by it
             if ($optionsSortField = $this->validator->arrayGet($options, 'options_sort_field')) {
                 $optionsSortDirection = $this->validator->arrayGet($options, 'options_sort_direction', $this->defaults['options_sort_direction']);
 
+                /** @var Builder $query */
                 $query = $relatedModel->orderBy($this->db->raw($optionsSortField), $optionsSortDirection);
             }
             // otherwise just pull back an unsorted list
@@ -143,8 +155,14 @@ abstract class Relationship extends Field
                 $query = $relatedModel->newQuery();
             }
 
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'query SQL before filter = ' . $query->toSql());
+
             // run the options filter
             $options['options_filter']($query);
+
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'query SQL after filter = ' . $query->toSql());
 
             // get the items
             $items = $query->get();
@@ -158,6 +176,9 @@ abstract class Relationship extends Field
                 $items = $relatedModel->where($relatedModel->getKeyName(), '=', $options['value'])->get();
             }
         }
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'items', $items);
 
         // map the options to the options property where array('id': [key], 'text': [nameField])
         $nameField          = $this->validator->arrayGet($options, 'name_field', $this->defaults['name_field']);
