@@ -177,9 +177,6 @@ abstract class Relationship extends Field
             }
         }
 
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'items', $items);
-
         // map the options to the options property where array('id': [key], 'text': [nameField])
         $nameField          = $this->validator->arrayGet($options, 'name_field', $this->defaults['name_field']);
         $keyField           = $relatedModel->getKeyName();
