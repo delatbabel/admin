@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Fields\Relationships;
 
 use DDPro\Admin\Fields\Field;
+use Illuminate\Support\Facades\Log;
 
 abstract class Relationship extends Field
 {
@@ -63,6 +64,9 @@ abstract class Relationship extends Field
         $options      = $this->suppliedOptions;
         $model        = $this->config->getDataModel();
         $relationship = $model->{$options['field_name']}();
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'build for relationship field named ' . $options['field_name']);
 
         // set the search fields to the name field if none exist
         $searchFields             = $this->validator->arrayGet($options, 'search_fields');

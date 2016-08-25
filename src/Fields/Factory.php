@@ -6,6 +6,7 @@ use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Field Factory
@@ -149,6 +150,9 @@ class Factory
      */
     public function make($name, $options, $loadRelationships = true)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'make field named ' . $name);
+
         // make sure the options array has all the proper default values
         $options = $this->prepareOptions($name, $options, $loadRelationships);
 
@@ -165,6 +169,8 @@ class Factory
     public function getFieldObject($options)
     {
         $class = $this->getFieldTypeClass($options['type']);
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'build field object of class ' . $class);
         return new $class($this->validator, $this->config, $this->db, $options);
     }
 
@@ -384,6 +390,9 @@ class Factory
     public function getEditFields($loadRelationships = true, $override = false)
     {
         if (!sizeof($this->editFields) || $override) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'build editFields array');
+
             $this->editFields = array();
 
             // iterate over each supplied edit field
@@ -409,6 +418,8 @@ class Factory
 
         /** @var Field $fieldObject */
         foreach ($this->getEditFields(true, $override) as $fieldObject) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'getoptions for fieldObject ' . $fieldObject->getOption('field_name'));
             $return[$fieldObject->getOption('field_name')] = $fieldObject->getOptions();
         }
 

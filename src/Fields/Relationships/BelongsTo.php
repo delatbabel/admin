@@ -28,6 +28,9 @@ class BelongsTo extends Relationship
         $relationship = $model->{$options['field_name']}();
         $relatedModel = $relationship->getRelated();
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'build for BelongsTo field named ' . $options['field_name']);
+
         $options['table']       = $relatedModel->getTable();
         $options['column']      = $relatedModel->getKeyName();
         $options['foreign_key'] = $relationship->getForeignKey();

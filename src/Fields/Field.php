@@ -5,6 +5,7 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Field
@@ -256,6 +257,8 @@ abstract class Field
             $this->build();
             $this->validateOptions();
             $this->userOptions = array_merge($this->getDefaults(), $this->suppliedOptions);
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'userOptions', $this->userOptions);
         }
 
         return $this->userOptions;
