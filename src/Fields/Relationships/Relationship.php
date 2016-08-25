@@ -4,7 +4,7 @@ namespace DDPro\Admin\Fields\Relationships;
 use DDPro\Admin\Fields\Field;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 abstract class Relationship extends Field
 {
@@ -155,14 +155,14 @@ abstract class Relationship extends Field
                 $query = $relatedModel->newQuery();
             }
 
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'query SQL before filter = ' . $query->toSql());
+            // Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            //     'query SQL before filter = ' . $query->toSql());
 
             // run the options filter
             $options['options_filter']($query);
 
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'query SQL after filter = ' . $query->toSql());
+            // Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            //     'query SQL after filter = ' . $query->toSql());
 
             // get the items
             $items = $query->get();

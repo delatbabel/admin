@@ -5,7 +5,7 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 /**
  * Class Field

@@ -1,6 +1,8 @@
 <?php
 namespace DDPro\Admin\Tests\Fields\Relationships;
 
+require_once __DIR__ . '/../../LogStub.php';
+
 use Mockery as m;
 
 class BelongsToEloquentStub {
@@ -37,6 +39,16 @@ class BelongsToTest extends \PHPUnit_Framework_TestCase {
      * @var Mockery
      */
     protected $field;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        // Stub out the log facade
+        if (! class_exists('Log')) {
+            class_alias('LogStub', 'Log');
+        }
+    }
 
     /**
      * Set up function
