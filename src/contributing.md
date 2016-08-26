@@ -4,6 +4,7 @@
 - [Bugs, Questions, and Feature Requests](#issues)
 - [Pull Requests](#pull-requests)
 - [Style Guide](#style-guide)
+- [Debug and Logging](#debugging)
 
 <a name="introduction"></a>
 ## Introduction
@@ -34,3 +35,52 @@ We love it when people submit pull requests. They don't always get merged into t
 ## Style Guide
 
 Please see the [style guide](/src/style-guide.md) page for more information about the style guide.
+
+<a name="debugging"></a>
+## Debug and Logging
+
+I am using my own [applog](https://github.com/delatbabel/applog) package to provide slightly improved debug and and logging in comparison to out-of-the-box Laravel.  There are a few points to note.
+
+### Correct Log Statement Format
+
+The correct log statement format is like this:
+
+```php
+    Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        'Some message goes here', $data);
+```
+
+`$data` is an optional array that contains data that will be converted to JSON format and stored along with the log entry.
+
+Of course you can substitute `debug` with one of the other log levels, such as `info`, `error`, etc.
+
+### Log Output
+
+The log output is written to the normal location (storage/logs) as well as to the database table `applogs`.
+
+Log output is not written to either log location if the log level is `debug` and if the `APP_DEBUG` environment variable is set to `false`.  Set this variable to `false` in production to disable debug logging.
+
+### Log Facade
+
+To use the Laravel log facade, use this use statement:
+
+```php
+    use Log;
+```
+
+... and not the full use statement which is:
+
+```php
+    use Illuminate\Support\Facades\Log;
+```
+
+This pulls in the Log facade by its alias -- in a Laravel application the Log facade is aliased to `Log`.  In a package test environment the facade is not available and so in the test cases you will see this alias instead:
+
+```php
+    // Stub out the log facade
+    if (! class_exists('Log')) {
+        class_alias('LogStub', 'Log');
+    }
+```
+
+... this stubs out the log facade by aliasing the `Log` alias to a class called `LogStub` which is defined in the test harness and essentially no-ops all logging calls.  This prevents errors caused by uninitialised facades, and has the side effect of disabling logging while running package level unit tests.
