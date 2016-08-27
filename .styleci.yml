@@ -19,5 +19,7 @@ enabled:
 finder:
   exclude:
     - "tests"
+    - "public/bower_components"
+    - "staging"
   name:
     - "*.php"
