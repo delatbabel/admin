@@ -48,42 +48,42 @@ class Action
      *
      * @var array
      */
-    protected $suppliedOptions = array();
+    protected $suppliedOptions = [];
 
     /**
      * The options array
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * The default configuration options
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'title'          => 'Custom Action',
         'has_permission' => true,
         'confirmation'   => false,
-        'messages'       => array(
+        'messages'       => [
             'active'  => 'Just a moment...',
             'success' => 'Success!',
             'error'   => 'There was an error performing this action',
-        ),
-    );
+        ],
+    ];
 
     /**
      * The base rules that all fields need to pass
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'title'        => 'string_or_callable',
         'confirmation' => 'string_or_callable',
         'messages'     => 'array|array_with_all_or_none:active,success,error',
         'action'       => 'required|callable',
-    );
+    ];
 
     /**
      * Create a new action Factory instance
@@ -126,11 +126,11 @@ class Action
         $options = $this->suppliedOptions;
 
         // build the string or callable values for title and confirmation
-        $this->buildStringOrCallable($options, array('confirmation', 'title'));
+        $this->buildStringOrCallable($options, ['confirmation', 'title']);
 
         // build the string or callable values for the messages
-        $messages = $this->validator->arrayGet($options, 'messages', array());
-        $this->buildStringOrCallable($messages, array('active', 'success', 'error'));
+        $messages = $this->validator->arrayGet($options, 'messages', []);
+        $this->buildStringOrCallable($messages, ['active', 'success', 'error']);
         $options['messages'] = $messages;
 
         // override the supplied options
@@ -189,7 +189,7 @@ class Action
     public function getOptions($override = false)
     {
         // if override is true, unset the current options
-        $this->options = $override ? array() : $this->options;
+        $this->options = $override ? [] : $this->options;
 
         // make sure the supplied options have been merged with the defaults
         if (empty($this->options) || (count($this->options) == 0)) {
@@ -213,7 +213,7 @@ class Action
     {
         $options = $this->getOptions();
 
-        if (!array_key_exists($key, $options)) {
+        if (! array_key_exists($key, $options)) {
             throw new \InvalidArgumentException("An invalid option was searched for in the '" . $options['action_name'] . "' action");
         }
 

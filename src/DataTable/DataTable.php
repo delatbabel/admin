@@ -165,7 +165,7 @@ class DataTable
         $this->config->runQueryFilter($countQuery);
 
         // set up initial array states for the selects
-        $selects = array($table . '.*');
+        $selects = [$table . '.*'];
 
         // set the filters
         $this->setFilters($filters, $dbQuery, $countQuery, $selects);
@@ -211,7 +211,7 @@ class DataTable
         $queryBindings = $query->getBindings();
 
         // return compact('query', 'querySql', 'queryBindings', 'countQuery', 'sort', 'selects');
-        return array($query, $querySql, $queryBindings, $countQuery, $sort, $selects);
+        return [$query, $querySql, $queryBindings, $countQuery, $sort, $selects];
     }
 
     /**
@@ -238,12 +238,12 @@ class DataTable
         $page    = (int) $page;
         $last    = (int) ceil($numRows / $this->rowsPerPage);
 
-        return array(
+        return [
             // if the current page is greater than the last page, set the current page to the last page
             'page'  => $page > $last ? $last : $page,
             'last'  => $last,
             'total' => $numRows,
-        );
+        ];
     }
 
     /**
@@ -281,12 +281,12 @@ class DataTable
      */
     public function parseResults($rows)
     {
-        $results = array();
+        $results = [];
 
         // convert the resulting set into arrays
         foreach ($rows as $item) {
             // iterate over the included and related columns
-            $arr = array();
+            $arr = [];
 
             $this->parseOnTableColumns($item, $arr);
 
@@ -319,17 +319,17 @@ class DataTable
 
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
-                $outputRow[$field] = array(
+                $outputRow[$field] = [
                     'raw'      => $attributeValue,
                     'rendered' => $columns[$field]->renderOutput($attributeValue, $item),
-                );
+                ];
             }
             // otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
             else {
-                $outputRow[$field] = array(
+                $outputRow[$field] = [
                     'raw'      => $attributeValue,
                     'rendered' => $attributeValue,
-                );
+                ];
             }
         }
     }
@@ -349,10 +349,10 @@ class DataTable
 
         // loop over the computed columns
         foreach ($computedColumns as $name => $column) {
-            $outputRow[$name] = array(
+            $outputRow[$name] = [
                 'raw'      => $item->{$name},
                 'rendered' => $columns[$name]->renderOutput($item->{$name}, $item),
-            );
+            ];
         }
     }
 
@@ -366,13 +366,13 @@ class DataTable
         $sort = $sort && is_array($sort) ? $sort : $this->config->getOption('sort');
 
         // set the sort values
-        $this->sort = array(
+        $this->sort = [
             'field'     => isset($sort['field']) ? $sort['field'] : $this->config->getDataModel()->getKeyName(),
             'direction' => isset($sort['direction']) ? $sort['direction'] : 'desc',
-        );
+        ];
 
         // if the sort direction isn't valid, set it to 'desc'
-        if (!in_array($this->sort['direction'], array('asc', 'desc'))) {
+        if (! in_array($this->sort['direction'], ['asc', 'desc'])) {
             $this->sort['direction'] = 'desc';
         }
     }
@@ -403,7 +403,7 @@ class DataTable
 
         $perPage = $session->get('administrator_' . $this->config->getOption('name') . '_rows_per_page');
 
-        if (!$perPage) {
+        if (! $perPage) {
             $perPage = (int) $globalPerPage;
         }
 

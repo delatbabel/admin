@@ -25,7 +25,7 @@ class Boolean extends Field
         $value = $this->validator->arrayGet($this->suppliedOptions, 'value', true);
 
         // we need to set the value to 'false' when it is falsey so it plays nicely with select2
-        if (!$value && $value !== '') {
+        if (! $value && $value !== '') {
             $this->suppliedOptions['value'] = 'false';
         }
     }
@@ -56,7 +56,7 @@ class Boolean extends Field
 
         // if it isn't null, we have to check the 'true'/'false' string
         if ($this->userOptions['value'] !== '') {
-            $this->userOptions['value'] = $this->userOptions['value'] === 'false' || !$this->userOptions['value'] ? 0 : 1;
+            $this->userOptions['value'] = $this->userOptions['value'] === 'false' || ! $this->userOptions['value'] ? 0 : 1;
         }
     }
 

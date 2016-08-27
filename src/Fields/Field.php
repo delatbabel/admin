@@ -69,7 +69,7 @@ abstract class Field
      *
      * @var array
      */
-    protected $baseDefaults = array(
+    protected $baseDefaults = [
         'relationship' => false,
         'external'     => false,
         'editable'     => true,
@@ -80,31 +80,31 @@ abstract class Field
         'min_value'    => '',
         'max_value'    => '',
         'min_max'      => false,
-    );
+    ];
 
     /**
      * The specific defaults for subclasses to override
      *
      * @var array
      */
-    protected $defaults = array();
+    protected $defaults = [];
 
     /**
      * The base rules that all fields need to pass
      *
      * @var array
      */
-    protected $baseRules = array(
+    protected $baseRules = [
         'type'       => 'required|string',
         'field_name' => 'required|string',
-    );
+    ];
 
     /**
      * The specific rules for subclasses to override
      *
      * @var array
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * Create a new Field instance
@@ -278,7 +278,7 @@ abstract class Field
     {
         $options = $this->getOptions();
 
-        if (!array_key_exists($key, $options)) {
+        if (! array_key_exists($key, $options)) {
             throw new \InvalidArgumentException("An invalid option '$key' was searched for in the '" . $this->userOptions['field_name'] . "' field");
         }
 

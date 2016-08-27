@@ -12,9 +12,9 @@ class HasOneOrMany extends Relationship
      *
      * @var array
      */
-    protected $relationshipDefaults = array(
+    protected $relationshipDefaults = [
         'editable' => false,
-    );
+    ];
 
     /**
      * Builds a few basic options

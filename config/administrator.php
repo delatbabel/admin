@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /**
      * Package URI
@@ -29,7 +29,7 @@ return array(
      *
      *  @type array
      */
-    'middleware' => array(),
+    'middleware' => [],
 
     /**
      * Page title
@@ -94,7 +94,7 @@ return array(
      *      'Analytics' => array('E-Commerce' => 'page.ecommerce.analytics'),
      *  )
      */
-    'menu' => array(),
+    'menu' => [],
 
     /**
      * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
@@ -105,8 +105,7 @@ return array(
      *
      * @type closure
      */
-    'permission'=> function()
-    {
+    'permission' => function () {
         return Auth::check();
     },
 
@@ -180,6 +179,6 @@ return array(
      *
      * @type array
      */
-    'locales' => array(),
+    'locales' => [],
 
-);
+];

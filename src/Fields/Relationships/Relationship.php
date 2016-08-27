@@ -14,7 +14,7 @@ abstract class Relationship extends Field
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'relationship'           => true,
         'external'               => true,
         'name_field'             => 'name',
@@ -24,28 +24,28 @@ abstract class Relationship extends Field
         'column'                 => '',
         'foreign_key'            => false,
         'multiple_values'        => false,
-        'options'                => array(),
+        'options'                => [],
         'self_relationship'      => false,
         'autocomplete'           => false,
         'num_options'            => 10,
-        'search_fields'          => array(),
-        'constraints'            => array(),
+        'search_fields'          => [],
+        'constraints'            => [],
         'load_relationships'     => false,
-    );
+    ];
 
     /**
      * The relationship-type-specific defaults for the relationship subclasses to override
      *
      * @var array
      */
-    protected $relationshipDefaults = array();
+    protected $relationshipDefaults = [];
 
     /**
      * The specific rules for subclasses to override
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'name_field'             => 'string',
         'sort_field'             => 'string',
         'options_sort_field'     => 'string',
@@ -54,7 +54,7 @@ abstract class Relationship extends Field
         'search_fields'          => 'array',
         'options_filter'         => 'callable',
         'constraints'            => 'array',
-    );
+    ];
 
     /**
      * Builds a few basic options
@@ -73,13 +73,14 @@ abstract class Relationship extends Field
         // set the search fields to the name field if none exist
         $searchFields             = $this->validator->arrayGet($options, 'search_fields');
         $nameField                = $this->validator->arrayGet($options, 'name_field', $this->defaults['name_field']);
-        $options['search_fields'] = empty($searchFields) ? array($nameField) : $searchFields;
+        $options['search_fields'] = empty($searchFields) ? [$nameField] : $searchFields;
 
         // determine if this is a self-relationship
         $options['self_relationship'] = $relationship->getRelated()->getTable() === $model->getTable();
 
         // make sure the options filter is set up
-        $options['options_filter'] = $this->validator->arrayGet($options, 'options_filter') ?: function () {};
+        $options['options_filter'] = $this->validator->arrayGet($options, 'options_filter') ?: function () {
+        };
 
         // set up and check the constraints
         $this->setUpConstraints($options);
@@ -104,7 +105,7 @@ abstract class Relationship extends Field
 
         // set up and check the constraints
         if (sizeof($constraints)) {
-            $validConstraints = array();
+            $validConstraints = [];
 
             // iterate over the constraints and only include the valid ones
             foreach ($constraints as $field => $rel) {
@@ -128,7 +129,7 @@ abstract class Relationship extends Field
     public function loadRelationshipOptions(&$options)
     {
         // if we want all of the possible items on the other model, load them up, otherwise leave the options empty
-        $items        = array();
+        $items        = [];
         $model        = $this->config->getDataModel();
 
         /** @var Relation $relationship */
@@ -139,7 +140,6 @@ abstract class Relationship extends Field
             'loadRelationshipOptions for relationship field named ' . $options['field_name']);
 
         if ($this->validator->arrayGet($options, 'load_relationships')) {
-
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'going into main part of loadRelationshipOptions');
 
@@ -194,13 +194,13 @@ abstract class Relationship extends Field
      */
     public function mapRelationshipOptions($items, $nameField, $keyField)
     {
-        $result = array();
+        $result = [];
 
         foreach ($items as $option) {
-            $result[] = array(
+            $result[] = [
                 'id'   => $option->{$keyField},
                 'text' => strval($option->{$nameField})
-            );
+            ];
         }
 
         return $result;

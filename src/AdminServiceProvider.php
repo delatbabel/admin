@@ -112,7 +112,7 @@ class AdminServiceProvider extends ServiceProvider
         // the admin validator
         $this->app['admin_validator'] = $this->app->share(function ($app) {
             // get the original validator class so we can set it back after creating our own
-            $originalValidator = LaravelValidator::make(array(), array());
+            $originalValidator = LaravelValidator::make([], []);
             $originalValidatorClass = get_class($originalValidator);
 
             // temporarily override the core resolver
@@ -123,7 +123,7 @@ class AdminServiceProvider extends ServiceProvider
             });
 
             // grab our validator instance
-            $validator = LaravelValidator::make(array(), array());
+            $validator = LaravelValidator::make([], []);
 
             // set the validator resolver back to the original validator
             LaravelValidator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) use ($originalValidatorClass) {
@@ -136,7 +136,7 @@ class AdminServiceProvider extends ServiceProvider
 
         // set up the shared instances
         $this->app['admin_config_factory'] = $this->app->share(function ($app) {
-            return new ConfigFactory($app->make('admin_validator'), LaravelValidator::make(array(), array()), config('administrator'));
+            return new ConfigFactory($app->make('admin_validator'), LaravelValidator::make([], []), config('administrator'));
         });
 
         $this->app['admin_field_factory'] = $this->app->share(function ($app) {
@@ -170,8 +170,8 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('admin_validator', 'admin_config_factory', 'admin_field_factory', 'admin_datatable', 'admin_column_factory',
-            'admin_action_factory', 'admin_menu');
+        return ['admin_validator', 'admin_config_factory', 'admin_field_factory', 'admin_datatable', 'admin_column_factory',
+            'admin_action_factory', 'admin_menu'];
     }
 
     /**
@@ -298,7 +298,7 @@ class AdminServiceProvider extends ServiceProvider
         });
 
         // header view
-        View::composer(array('adminlayouts.sidebar'), function ($view) {
+        View::composer(['adminlayouts.sidebar'], function ($view) {
             $view->menu = app('admin_menu')->getMenu();
             $view->settingsPrefix = app('admin_config_factory')->getSettingsPrefix();
             $view->pagePrefix = app('admin_config_factory')->getPagePrefix();
@@ -306,12 +306,12 @@ class AdminServiceProvider extends ServiceProvider
         });
 
         // the layout view
-        View::composer(array('adminlayouts.main'), function ($view) {
+        View::composer(['adminlayouts.main'], function ($view) {
             // set up the basic asset arrays
-            $view->css = array();
+            $view->css = [];
 
             // Add the package wide JS assets
-            $view->js=array(
+            $view->js = [
                 'jquery'               => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
                 'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
                 'adminlte-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
@@ -323,69 +323,69 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
                 'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
-            );
+            ];
 
             // FIXME should come from bower
-            $view->js += array(
+            $view->js += [
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
-            );
+            ];
 
             // add the adminlte-page css assets
-            if (!$view->page && !$view->dashboard) {
-                $view->css += array(
-                    'bootstrap'           => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
-                    'fontawesome'         => $this->bowerAsset('fontawesome/css/font-awesome.min.css'),
-                    'ionicons'            => $this->bowerAsset('Ionicons/css/ionicons.min.css'),
-                    'dateranger-picker'   => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.css'),
-                    'bootstrap-datepicker'=> $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
-                    'bootstrap-timepicker'=> $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
-                    'datatable'           => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
-                    'themestyle'          => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
-                    'themestyle-min'      => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
-                    'skinblue'            => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
-                    'icheck'              => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
-                );
+            if (! $view->page && ! $view->dashboard) {
+                $view->css += [
+                    'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
+                    'fontawesome'          => $this->bowerAsset('fontawesome/css/font-awesome.min.css'),
+                    'ionicons'             => $this->bowerAsset('Ionicons/css/ionicons.min.css'),
+                    'dateranger-picker'    => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.css'),
+                    'bootstrap-datepicker' => $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
+                    'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
+                    'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
+                    'themestyle'           => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
+                    'themestyle-min'       => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
+                    'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
+                    'icheck'               => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
+                ];
             }
 
             // add the non-custom-page css assets
-            if (!$view->page && !$view->dashboard) {
-                $view->css += array(
+            if (! $view->page && ! $view->dashboard) {
+                $view->css += [
                      'select2'              => $this->asset('js/jquery/select2/select2.css')
-                );
+                ];
             }
 
             // add the package-wide css assets
-            $view->css += array(
+            $view->css += [
                 'customscroll' => $this->asset('js/jquery/customscroll/customscroll.css'),
                 'main'         => $this->asset('css/main.css'),
-            );
+            ];
 
             // add the non-custom-page js assets
             // FIXME: These should come from bower
-            if (!$view->page && !$view->dashboard) {
-                $view->js += array(
+            if (! $view->page && ! $view->dashboard) {
+                $view->js += [
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
                     'ckeditor'             => $this->bowerAsset('admin-lte/plugins/ckeditor/ckeditor.js'),
                     'ckeditor-jquery'      => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
                     'plupload'             => $this->asset('js/plupload/js/plupload.full.js'),
-                );
+                ];
 
                 // localization js assets
                 $locale = config('app.locale');
 
                 if ($locale !== 'en') {
-                    $view->js += array(
+                    $view->js += [
                         'plupload-l18n'   => $this->asset('js/plupload/js/i18n/' . $locale . '.js'),
                         'timepicker-l18n' => $this->asset('js/jquery/localization/jquery-ui-timepicker-' . $locale . '.js'),
                         'datepicker-l18n' => $this->asset('js/jquery/i18n/jquery.ui.datepicker-' . $locale . '.js'),
                         'select2-l18n'    => $this->asset('js/jquery/select2/select2_locale_' . $locale . '.js'),
-                    );
+                    ];
                 }
 
                 // remaining js assets
                 // FIXME: These should come from bower
-                $view->js += array(
+                $view->js += [
                     'knockout'                 => $this->bowerAsset('knockout/dist/knockout.js'),
                     'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),
                     'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
@@ -396,11 +396,10 @@ class AdminServiceProvider extends ServiceProvider
                     'history'                  => $this->asset('js/history/native.history.js'),
                     'admin'                    => $this->asset('js/admin.js'),
                     'settings'                 => $this->asset('js/settings.js'),
-                );
-
+                ];
             }
 
-            $view->js += array('page' => $this->asset('js/page.js'));
+            $view->js += ['page' => $this->asset('js/page.js')];
         });
 
         // An example of bower-izing one of the assets
@@ -426,7 +425,7 @@ class AdminServiceProvider extends ServiceProvider
         // Temporary solution for middleware in routes
         // TODO: remove in favor of setting the config for middleware outside of the routes file
         //
-        $middleware_array = array('DDPro\Admin\Http\Middleware\ValidateAdmin');
+        $middleware_array = ['DDPro\Admin\Http\Middleware\ValidateAdmin'];
         if (is_array(config('administrator.middleware'))) {
             $middleware_array = array_merge(config('administrator.middleware'), $middleware_array);
         }
@@ -435,151 +434,151 @@ class AdminServiceProvider extends ServiceProvider
         // Routes
         //
         Route::group(
-            array(
+            [
                 'domain'     => config('administrator.domain'),
                 'prefix'     => config('administrator.uri'),
                 'middleware' => $middleware_array
-            ), function () {
-            // Admin Dashboard
-            Route::get('/', array(
+            ], function () {
+                // Admin Dashboard
+            Route::get('/', [
                 'as'   => 'admin_dashboard',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',
-            ));
+            ]);
 
             // File Downloads
-            Route::get('file_download', array(
+            Route::get('file_download', [
                 'as'   => 'admin_file_download',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload'
-            ));
+            ]);
 
             // Custom Pages
-            Route::get('page/{page}', array(
+            Route::get('page/{page}', [
                 'as'   => 'admin_page',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page'
-            ));
+            ]);
 
-            Route::group(
-                array(
+                Route::group(
+                [
                     'middleware' => [
                         'DDPro\Admin\Http\Middleware\ValidateSettings',
                         'DDPro\Admin\Http\Middleware\PostValidate']
-                ), function () {
-                // Settings Pages
-                Route::get('settings/{settings}', array(
+                ], function () {
+                    // Settings Pages
+                Route::get('settings/{settings}', [
                     'as'   => 'admin_settings',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings'
-                ));
+                ]);
 
                 // Display a settings file
-                Route::get('settings/{settings}/file', array(
+                Route::get('settings/{settings}/file', [
                     'as'   => 'admin_settings_display_file',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
-                ));
+                ]);
 
                 // Save Item
-                Route::post('settings/{settings}/save', array(
+                Route::post('settings/{settings}/save', [
                     'as'   => 'admin_settings_save',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsSave'
-                ));
+                ]);
 
                 // Custom Action
-                Route::post('settings/{settings}/custom_action', array(
+                Route::post('settings/{settings}/custom_action', [
                     'as'   => 'admin_settings_custom_action',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction'
-                ));
+                ]);
 
                 // Settings file upload
-                Route::post('settings/{settings}/{field}/file_upload', array(
+                Route::post('settings/{settings}/{field}/file_upload', [
                     'as'   => 'admin_settings_file_upload',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
-                ));
-            });
+                ]);
+                });
 
             // Switch locales
-            Route::get('switch_locale/{locale}', array(
+            Route::get('switch_locale/{locale}', [
                 'as'   => 'admin_switch_locale',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale'
-            ));
+            ]);
 
             // The route group for all other requests needs to validate admin, model, and add assets
             Route::group(
-                array(
+                [
                     'middleware' => [
                         'DDPro\Admin\Http\Middleware\ValidateModel',
                         'DDPro\Admin\Http\Middleware\PostValidate']
-                ), function () {
-                // Model Index
-                Route::get('{model}', array(
+                ], function () {
+                    // Model Index
+                Route::get('{model}', [
                     'as'   => 'admin_index',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@index'
-                ));
+                ]);
 
                 // New Item
-                Route::get('{model}/new', array(
+                Route::get('{model}/new', [
                     'as'   => 'admin_new_item',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
-                ));
+                ]);
 
                 // Update a relationship's items with constraints
-                Route::post('{model}/update_options', array(
+                Route::post('{model}/update_options', [
                     'as'   => 'admin_update_options',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@updateOptions'
-                ));
+                ]);
 
                 // Display an image or file field's image or file
-                Route::get('{model}/file', array(
+                Route::get('{model}/file', [
                     'as'   => 'admin_display_file',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
-                ));
+                ]);
 
                 // Updating Rows Per Page
-                Route::post('{model}/rows_per_page', array(
+                Route::post('{model}/rows_per_page', [
                     'as'   => 'admin_rows_per_page',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@rowsPerPage'
-                ));
+                ]);
 
                 // Get results
-                Route::post('{model}/results', array(
+                Route::post('{model}/results', [
                     'as'   => 'admin_get_results',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@results'
-                ));
+                ]);
 
                 // Custom Model Action
-                Route::post('{model}/custom_action', array(
+                Route::post('{model}/custom_action', [
                     'as'   => 'admin_custom_model_action',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelAction'
-                ));
+                ]);
 
                 // Get Item
-                Route::get('{model}/{id}', array(
+                Route::get('{model}/{id}', [
                     'as'   => 'admin_get_item',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
-                ));
+                ]);
 
                 // File Uploads
-                Route::post('{model}/{field}/file_upload', array(
+                Route::post('{model}/{field}/file_upload', [
                     'as'   => 'admin_file_upload',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
-                ));
+                ]);
 
                 // Save Item
-                Route::post('{model}/{id?}/save', array(
+                Route::post('{model}/{id?}/save', [
                     'as'   => 'admin_save_item',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@save'
-                ));
+                ]);
 
                 // Delete Item
-                Route::post('{model}/{id}/delete', array(
+                Route::post('{model}/{id}/delete', [
                     'as'   => 'admin_delete_item',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@delete'
-                ));
+                ]);
 
                 // Custom Item Action
-                Route::post('{model}/{id}/custom_action', array(
+                Route::post('{model}/{id}/custom_action', [
                     'as'   => 'admin_custom_model_item_action',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelItemAction'
-                ));
+                ]);
+                });
             });
-        });
     }
 }

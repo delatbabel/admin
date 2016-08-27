@@ -102,7 +102,7 @@ class Factory
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'uri'                  => 'required|string',
         'title'                => 'required|string',
         'domain'               => 'string',
@@ -116,7 +116,7 @@ class Factory
         'home_page'            => 'string',
         'login_path'           => 'required|string',
         'login_redirect_key'   => 'required|string',
-    );
+    ];
 
     /**
      * Create a new config Factory instance

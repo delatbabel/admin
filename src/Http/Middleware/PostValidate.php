@@ -25,7 +25,7 @@ class PostValidate
         $config = app('itemconfig');
 
         // if the model doesn't exist at all, redirect to 404
-        if (!$config) {
+        if (! $config) {
             abort(404, 'Page not found');
         }
 
@@ -33,7 +33,7 @@ class PostValidate
         $p = $config->getOption('permission');
 
         // if the user is simply not allowed permission to this model, redirect them to the dashboard
-        if (!$p) {
+        if (! $p) {
             return redirect()->route('admin_dashboard');
         }
 

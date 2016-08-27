@@ -9,9 +9,9 @@ class Password extends Text
      *
      * @var array
      */
-    protected $passwordDefaults = array(
+    protected $passwordDefaults = [
         'setter' => true,
-    );
+    ];
 
     /**
      * Gets all default values

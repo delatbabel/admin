@@ -12,9 +12,9 @@ class BelongsTo extends Relationship
      *
      * @var array
      */
-    protected $relationshipDefaults = array(
+    protected $relationshipDefaults = [
         'external' => false
-    );
+    ];
 
     /**
      * Builds a few basic options
@@ -68,7 +68,7 @@ class BelongsTo extends Relationship
         parent::filterQuery($query, $selects);
 
         // if there is no value, return
-        if (!$this->getOption('value')) {
+        if (! $this->getOption('value')) {
             return;
         }
 

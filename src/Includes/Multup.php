@@ -121,46 +121,46 @@ class Multup
     */
     public function upload()
     {
-        $this->image = array($this->input => Input::file($this->input));
-        $result      = array();
+        $this->image = [$this->input => Input::file($this->input)];
+        $result      = [];
 
         $result[] = $this->post_upload_process($this->upload_image());
 
         return $result;
 
         if ($image) {
-            $this->image = array(
-                $this->input => array(
+            $this->image = [
+                $this->input => [
                     'name'      => $image->getClientOriginalName(),
                     'type'      => $image->getClientMimeType(),
                     'tmp_name'  => $image->getFilename(),
                     'error'     => $image->getError(),
                     'size'      => $image->getSize(),
-                )
-            );
+                ]
+            ];
 
             $result[] = $this->post_upload_process($this->upload_image());
         }
 
         return $result;
 
-        if (!is_array($images)) {
-            $this->image = array($this->input => $images);
+        if (! is_array($images)) {
+            $this->image = [$this->input => $images];
 
             $result[] = $this->post_upload_process($this->upload_image());
         } else {
             $size = $count($images['name']);
 
             for ($i = 0; $i < $size; $i++) {
-                $this->image = array(
-                    $this->input => array(
+                $this->image = [
+                    $this->input => [
                         'name'      => $images['name'][$i],
                         'type'      => $images['type'][$i],
                         'tmp_name'  => $images['tmp_name'][$i],
                         'error'     => $images['error'][$i],
                         'size'      => $images['size'][$i]
-                    )
-                );
+                    ]
+                ];
 
                 $result[] = $this->post_upload_process($this->upload_image());
             }
@@ -176,8 +176,8 @@ class Multup
     {
 
         /* validate the image */
-        $validation    = Validator::make($this->image, array($this->input => $this->rules));
-        $errors        = array();
+        $validation    = Validator::make($this->image, [$this->input => $this->rules]);
+        $errors        = [];
         $original_name = $this->image[$this->input]->getClientOriginalName();
         $path          = '';
         $filename      = '';
@@ -285,7 +285,7 @@ class Multup
             /* add the saved image to the images array thing */
 
             if (is_callable($this->upload_callback)) {
-                if (!empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
+                if (! empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
                     $args = array_merge($this->upload_callback_args, $args);
                 }
 

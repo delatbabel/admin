@@ -83,46 +83,46 @@ class Column
      *
      * @var array
      */
-    protected $baseDefaults = array(
+    protected $baseDefaults = [
         'relationship'    => false,
         'sortable'        => true,
         'select'          => false,
         'output'          => '(:value)',
         'sort_field'      => null,
-        'nested'          => array(),
+        'nested'          => [],
         'is_related'      => false,
         'is_computed'     => false,
         'is_included'     => false,
         'external'        => false,
         'belongs_to_many' => false,
         'visible'         => true,
-    );
+    ];
 
     /**
      * The specific defaults for subclasses to override
      *
      * @var array
      */
-    protected $defaults = array();
+    protected $defaults = [];
 
     /**
      * The base rules that all fields need to pass
      *
      * @var array
      */
-    protected $baseRules = array(
+    protected $baseRules = [
         'column_name'  => 'required|string',
         'title'        => 'string',
         'relationship' => 'string',
         'select'       => 'required_with:relationship|string'
-    );
+    ];
 
     /**
      * The specific rules for subclasses to override
      *
      * @var array
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * The immediate relationship object for this column
@@ -256,7 +256,7 @@ class Column
     {
         $options = $this->getOptions();
 
-        if (!array_key_exists($key, $options)) {
+        if (! array_key_exists($key, $options)) {
             throw new \InvalidArgumentException("An invalid option was searched for in the '" . $options['column_name'] . "' column");
         }
 

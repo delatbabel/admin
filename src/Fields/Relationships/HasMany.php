@@ -11,11 +11,11 @@ class HasMany extends HasOneOrMany
      *
      * @var array
      */
-    protected $relationshipDefaults = array(
+    protected $relationshipDefaults = [
         'column2'         => '',
         'multiple_values' => true,
         'sort_field'      => false,
-    );
+    ];
 
     /**
      * Fill a model with input data
@@ -31,7 +31,7 @@ class HasMany extends HasOneOrMany
         //
         // $model is the model for which the above answers should be associated to
         $fieldName    = $this->getOption('field_name');
-        $input        = $input ? explode(',', $input) : array();
+        $input        = $input ? explode(',', $input) : [];
         $relationship = $model->{$fieldName}();
 
         // get the plain foreign key so we can set it to null:
@@ -77,14 +77,14 @@ class HasMany extends HasOneOrMany
         $column2 = $this->getOption('column2');
 
         // if there is no value, return
-        if (!$value) {
+        if (! $value) {
             return;
         }
 
         $model = $this->config->getDataModel();
 
         // if the table hasn't been joined yet, join it
-        if (!$this->validator->isJoined($query, $table)) {
+        if (! $this->validator->isJoined($query, $table)) {
             $query->join($table, $model->getTable() . '.' . $model->getKeyName(), '=', $column);
         }
 
@@ -95,7 +95,7 @@ class HasMany extends HasOneOrMany
         $query->havingRaw('COUNT(DISTINCT ' . $query->getConnection()->getTablePrefix() . $column2 . ') = ' . count($value));
 
         // add select field
-        if ($selects && !in_array($column2, $selects)) {
+        if ($selects && ! in_array($column2, $selects)) {
             $selects[] = $column2;
         }
     }

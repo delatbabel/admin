@@ -47,47 +47,47 @@ class Factory
      *
      * @var array
      */
-    protected $actions = array();
+    protected $actions = [];
 
     /**
      * The array of actions options
      *
      * @var array
      */
-    protected $actionsOptions = array();
+    protected $actionsOptions = [];
 
     /**
      * The action permissions array
      *
      * @var array
      */
-    protected $actionPermissions = array();
+    protected $actionPermissions = [];
 
     /**
      * The global actions array
      *
      * @var array
      */
-    protected $globalActions = array();
+    protected $globalActions = [];
 
     /**
      * The array of global actions options
      *
      * @var array
      */
-    protected $globalActionsOptions = array();
+    protected $globalActionsOptions = [];
 
     /**
      * The action permissions defaults
      *
      * @var array
      */
-    protected $actionPermissionsDefaults = array(
+    protected $actionPermissionsDefaults = [
         'create' => true,
         'delete' => true,
         'update' => true,
         'view'   => true,
-    );
+    ];
 
     /**
      * Create a new action Factory instance
@@ -131,7 +131,7 @@ class Factory
         $model = $this->config->getDataModel();
 
         // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
-        if (!is_string($name) || !is_array($options)) {
+        if (! is_string($name) || ! is_array($options)) {
             throw new \InvalidArgumentException("A custom action in your  " . $this->config->getOption('action_name') . " configuration file is invalid");
         }
 
@@ -143,8 +143,8 @@ class Factory
         $options['has_permission'] = is_callable($permission) ? $permission($model) : true;
 
         // check if the messages array exists
-        $options['messages'] = $this->validator->arrayGet($options, 'messages', array());
-        $options['messages'] = is_array($options['messages']) ? $options['messages'] : array();
+        $options['messages'] = $this->validator->arrayGet($options, 'messages', []);
+        $options['messages'] = is_array($options['messages']) ? $options['messages'] : [];
 
         return $options;
     }
@@ -193,8 +193,8 @@ class Factory
     public function getActions($override = false)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->actions) || $override) {
-            $this->actions = array();
+        if (! sizeof($this->actions) || $override) {
+            $this->actions = [];
 
             // loop over the actions to build the list
             foreach ($this->config->getOption('actions') as $name => $options) {
@@ -215,8 +215,8 @@ class Factory
     public function getActionsOptions($override = false)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->actionsOptions) || $override) {
-            $this->actionsOptions = array();
+        if (! sizeof($this->actionsOptions) || $override) {
+            $this->actionsOptions = [];
 
             // loop over the actions to build the list
             /** @var Action $action */
@@ -238,8 +238,8 @@ class Factory
     public function getGlobalActions($override = false)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->globalActions) || $override) {
-            $this->globalActions = array();
+        if (! sizeof($this->globalActions) || $override) {
+            $this->globalActions = [];
 
             // loop over the actions to build the list
             foreach ($this->config->getOption('global_actions') as $name => $options) {
@@ -260,8 +260,8 @@ class Factory
     public function getGlobalActionsOptions($override = false)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->globalActionsOptions) || $override) {
-            $this->globalActionsOptions = array();
+        if (! sizeof($this->globalActionsOptions) || $override) {
+            $this->globalActionsOptions = [];
 
             // loop over the global actions to build the list
             /** @var Action $action */
@@ -283,8 +283,8 @@ class Factory
     public function getActionPermissions($override = false)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->actionPermissions) || $override) {
-            $this->actionPermissions = array();
+        if (! sizeof($this->actionPermissions) || $override) {
+            $this->actionPermissions = [];
             $model                   = $this->config->getDataModel();
             $options                 = $this->config->getOption('action_permissions');
             $defaults                = $this->actionPermissionsDefaults;
