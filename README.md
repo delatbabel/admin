@@ -2,6 +2,7 @@
 # DDPro Administrator Panel
 
 [![Build Status](https://travis-ci.org/ddpro/admin.png?branch=master)](https://travis-ci.org/ddpro/admin)
+[![StyleCI](https://styleci.io/repos/64189152/shield)](https://styleci.io/repos/64189152)
 [![Latest Stable Version](https://poser.pugx.org/ddpro/admin/version.png)](https://packagist.org/packages/ddpro/admin)
 [![Total Downloads](https://poser.pugx.org/ddpro/admin/d/total.png)](https://packagist.org/packages/ddpro/admin)
 
