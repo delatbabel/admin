@@ -66,9 +66,9 @@ class Menu
      */
     public function getMenu($subMenu = null)
     {
-        $menu = array();
+        $menu = [];
 
-        if (!$subMenu) {
+        if (! $subMenu) {
             $subMenu = $this->config->get('administrator.menu');
         }
 

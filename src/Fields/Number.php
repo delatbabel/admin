@@ -9,25 +9,25 @@ class Number extends Field
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'min_max'             => true,
         'symbol'              => '',
         'decimals'            => 0,
         'thousands_separator' => ',',
         'decimal_separator'   => '.',
-    );
+    ];
 
     /**
      * The specific rules for subclasses to override
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'symbol'              => 'string',
         'decimals'            => 'integer',
         'thousands_separator' => 'string',
         'decimal_separator'   => 'string',
-    );
+    ];
 
     /**
      * Sets the filter options for this item

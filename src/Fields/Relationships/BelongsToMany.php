@@ -12,11 +12,11 @@ class BelongsToMany extends Relationship
      *
      * @var array
      */
-    protected $relationshipDefaults = array(
+    protected $relationshipDefaults = [
         'column2'         => '',
         'multiple_values' => true,
         'sort_field'      => false,
-    );
+    ];
 
     /**
      * Builds a few basic options
@@ -49,7 +49,7 @@ class BelongsToMany extends Relationship
      */
     public function fillModel(&$model, $input)
     {
-        $input        = $input ? explode(',', $input) : array();
+        $input        = $input ? explode(',', $input) : [];
         $fieldName    = $this->getOption('field_name');
         $relationship = $model->{$fieldName}();
 
@@ -60,7 +60,7 @@ class BelongsToMany extends Relationship
 
             // then re-attach them in the correct order
             foreach ($input as $i => $item) {
-                $relationship->attach($item, array($sortField => $i));
+                $relationship->attach($item, [$sortField => $i]);
             }
         } else {
             // elsewise the order doesn't matter, so use sync
@@ -91,14 +91,14 @@ class BelongsToMany extends Relationship
         $column2 = $this->getOption('column2');
 
         // if there is no value, return
-        if (!$value) {
+        if (! $value) {
             return;
         }
 
         $model = $this->config->getDataModel();
 
         // if the table hasn't been joined yet, join it
-        if (!$this->validator->isJoined($query, $table)) {
+        if (! $this->validator->isJoined($query, $table)) {
             $query->join($table, $model->getTable() . '.' . $model->getKeyName(), '=', $column);
         }
 
@@ -109,7 +109,7 @@ class BelongsToMany extends Relationship
         $query->havingRaw('COUNT(DISTINCT ' . $query->getConnection()->getTablePrefix() . $column2 . ') = ' . count($value));
 
         // add select field
-        if ($selects && !in_array($column2, $selects)) {
+        if ($selects && ! in_array($column2, $selects)) {
             $selects[] = $column2;
         }
     }
@@ -126,7 +126,7 @@ class BelongsToMany extends Relationship
     public function constrainQuery(EloquentBuilder &$query, $relatedModel, $constraint)
     {
         // if the column hasn't been joined yet, join it
-        if (!$this->validator->isJoined($query, $this->getOption('table'))) {
+        if (! $this->validator->isJoined($query, $this->getOption('table'))) {
             $query->join($this->getOption('table'), $relatedModel->getTable() . '.' . $relatedModel->getKeyName(), '=', $this->getOption('column2'));
         }
 

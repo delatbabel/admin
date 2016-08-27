@@ -17,9 +17,9 @@ class BelongsTo extends Relationship
      *
      * @var array
      */
-    protected $relationshipDefaults = array(
+    protected $relationshipDefaults = [
         'external' => false
-    );
+    ];
 
     /**
      * The class name of a BelongsTo relationship
@@ -39,8 +39,8 @@ class BelongsTo extends Relationship
         $this->tablePrefix = $this->db->getTablePrefix();
         $nested            = $this->getNestedRelationships($options['relationship']);
 
-        $relevantName      = $nested['pieces'][sizeof($nested['pieces'])-1];
-        $relevantModel     = $nested['models'][sizeof($nested['models'])-2];
+        $relevantName      = $nested['pieces'][sizeof($nested['pieces']) - 1];
+        $relevantModel     = $nested['models'][sizeof($nested['models']) - 2];
         $options['nested'] = $nested;
 
         $relationship = $relevantModel->{$relevantName}();
@@ -65,7 +65,7 @@ class BelongsTo extends Relationship
     public function getNestedRelationships($name)
     {
         $pieces     = explode('.', $name);
-        $models     = array();
+        $models     = [];
         $num_pieces = sizeof($pieces);
 
         // iterate over the relationships to see if they're all valid
@@ -76,7 +76,7 @@ class BelongsTo extends Relationship
             }
 
             // if the model method doesn't exist for any of the pieces along the way, exit out
-            if (!method_exists($models[$i], $rel) || !is_a($models[$i]->{$rel}(), self::BELONGS_TO)) {
+            if (! method_exists($models[$i], $rel) || ! is_a($models[$i]->{$rel}(), self::BELONGS_TO)) {
                 throw new \InvalidArgumentException("The '" . $this->getOption('column_name') . "' column in your " . $this->config->getOption('name') .
                     " model configuration needs to be either a belongsTo relationship method name or a sequence of them connected with a '.'");
             }
@@ -85,7 +85,7 @@ class BelongsTo extends Relationship
             $models[] = $models[$i]->{$rel}()->getRelated();
         }
 
-        return array('models' => $models, 'pieces' => $pieces);
+        return ['models' => $models, 'pieces' => $pieces];
     }
 
     /**
@@ -145,6 +145,6 @@ class BelongsTo extends Relationship
         $nested = $this->getOption('nested');
         $fk     = $nested['models'][0]->{$nested['pieces'][0]}()->getForeignKey();
 
-        return array($fk => $model->getTable() . '.' . $fk);
+        return [$fk => $model->getTable() . '.' . $fk];
     }
 }

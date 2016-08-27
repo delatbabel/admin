@@ -27,17 +27,17 @@ class Relationship extends Column
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'is_related' => true,
         'external'   => true
-    );
+    ];
 
     /**
      * The relationship-type-specific defaults for the relationship subclasses to override
      *
      * @var array
      */
-    protected $relationshipDefaults = array();
+    protected $relationshipDefaults = [];
 
     /**
      * Builds the necessary fields on the object
@@ -82,7 +82,7 @@ class Relationship extends Column
      */
     public function getIncludedColumn()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -164,7 +164,7 @@ class Relationship extends Column
      */
     public function interpolateQuery($query, array $params)
     {
-        $keys   = array();
+        $keys   = [];
         $values = $params;
 
         // build a regular expression for each parameter

@@ -12,21 +12,21 @@ class Time extends Field
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'min_max'     => true,
         'date_format' => 'yy-mm-dd',
         'time_format' => 'HH:mm',
-    );
+    ];
 
     /**
      * The specific rules for subclasses to override
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'date_format' => 'string',
         'time_format' => 'string',
-    );
+    ];
 
     /**
      * Filters a query object
@@ -74,7 +74,7 @@ class Time extends Field
         if (empty($input) && $field_name) {
             $model->{$field_name} = null;
             return;
-        } elseif (!empty($input) && $input !== '0000-00-00') {
+        } elseif (! empty($input) && $input !== '0000-00-00') {
             $time = new DateTime($input);
         }
 

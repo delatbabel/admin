@@ -102,12 +102,12 @@ class AdminController extends Controller
             // first try to find it if it's a model config item
             $config = $configFactory->make($home);
 
-            if (!$config) {
+            if (! $config) {
                 throw new \InvalidArgumentException("Administrator: " .  trans('administrator::administrator.valid_home_page'));
             } elseif ($config->getType() === 'model') {
-                return redirect()->route('admin_index', array($config->getOption('name')));
+                return redirect()->route('admin_index', [$config->getOption('name')]);
             } elseif ($config->getType() === 'settings') {
-                return redirect()->route('admin_settings', array($config->getOption('name')));
+                return redirect()->route('admin_settings', [$config->getOption('name')]);
             }
         }
     }
@@ -236,17 +236,17 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            $response = $actionPermissions['view'] ? response()->json($model) : response()->json(array(
+            $response = $actionPermissions['view'] ? response()->json($model) : response()->json([
                 'success' => false,
                 'errors'  => "You do not have permission to view this item",
-            ));
+            ]);
 
             // set the Vary : Accept header to avoid the browser caching the json response
             return $response->header('Vary', 'Accept');
         } else {
-            $this->view = view(config('administrator.model_index_view'), array(
+            $this->view = view(config('administrator.model_index_view'), [
                 'itemId' => $itemId,
-            ));
+            ]);
 
             return $this->view;
         }
@@ -278,19 +278,19 @@ class AdminController extends Controller
         $actionFactory = app('admin_action_factory');
 
         if (array_key_exists('form_request', $config->getOptions()) && $this->formRequestErrors !== null) {
-            return response()->json(array(
+            return response()->json([
                 'success' => false,
                 'errors'  => $this->formRequestErrors,
-            ));
+            ]);
         }
 
         $save = $config->save($this->request, $fieldFactory->getEditFields(), $actionFactory->getActionPermissions(), $id);
 
         if (is_string($save)) {
-            return response()->json(array(
+            return response()->json([
                 'success' => false,
                 'errors'  => $save,
-            ));
+            ]);
         } else {
             // override the config options so that we can get the latest
             app('admin_config_factory')->updateConfigOptions();
@@ -304,10 +304,10 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            return response()->json(array(
+            return response()->json([
                 'success' => true,
                 'data'    => $model->toArray(),
-            ));
+            ]);
         }
     }
 
@@ -335,23 +335,23 @@ class AdminController extends Controller
 
         $baseModel     = $config->getDataModel();
         $model         = $baseModel::find($id);
-        $errorResponse = array(
+        $errorResponse = [
             'success' => false,
             'error'   => "There was an error deleting this item. Please reload the page and try again.",
-        );
+        ];
 
         // if the model or the id don't exist, send back an error
         $permissions = $actionFactory->getActionPermissions();
 
-        if (!$model->exists || !$permissions['delete']) {
+        if (! $model->exists || ! $permissions['delete']) {
             return response()->json($errorResponse);
         }
 
         // delete the model
         if ($model->delete()) {
-            return response()->json(array(
+            return response()->json([
                 'success' => true,
-            ));
+            ]);
         } else {
             return response()->json($errorResponse);
         }
@@ -374,8 +374,8 @@ class AdminController extends Controller
 
         // get the sort options and filters
         $page        = $this->request->input('page', 1);
-        $sortOptions = $this->request->input('sortOptions', array());
-        $filters     = $this->request->input('filters', array());
+        $sortOptions = $this->request->input('sortOptions', []);
+        $filters     = $this->request->input('filters', []);
 
         // get the prepared query options
         $prepared = $dataTable->prepareQuery(app('db'), $page, $sortOptions, $filters);
@@ -386,21 +386,21 @@ class AdminController extends Controller
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
-            return response()->json(array('success' => false, 'error' => $result));
+            return response()->json(['success' => false, 'error' => $result]);
         }
         // if it's falsy, return the standard error message
-        elseif (!$result) {
+        elseif (! $result) {
             $messages = $action->getOption('messages');
 
-            return response()->json(array('success' => false, 'error' => $messages['error']));
+            return response()->json(['success' => false, 'error' => $messages['error']]);
         } else {
-            $response = array('success' => true);
+            $response = ['success' => true];
 
             // if it's a download response, flash the response to the session and return the download link
             if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
                 $file    = $result->getFile()->getRealPath();
                 $headers = $result->headers->all();
-                $this->session->put('administrator_download_response', array('file' => $file, 'headers' => $headers));
+                $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
 
                 $response['download'] = route('admin_file_download');
             }
@@ -442,13 +442,12 @@ class AdminController extends Controller
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
-            return response()->json(array('success' => false, 'error' => $result));
+            return response()->json(['success' => false, 'error' => $result]);
 
         // if it's falsy, return the standard error message
-        } elseif (!$result) {
+        } elseif (! $result) {
             $messages = $action->getOption('messages');
-            return response()->json(array('success' => false, 'error' => $messages['error']));
-
+            return response()->json(['success' => false, 'error' => $messages['error']]);
         } else {
             $fieldFactory  = app('admin_field_factory');
             $columnFactory = app('admin_column_factory');
@@ -459,13 +458,13 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            $response = array('success' => true, 'data' => $model->toArray());
+            $response = ['success' => true, 'data' => $model->toArray()];
 
             // if it's a download response, flash the response to the session and return the download link
             if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
                 $file    = $result->getFile()->getRealPath();
                 $headers = $result->headers->all();
-                $this->session->put('administrator_download_response', array('file' => $file, 'headers' => $headers));
+                $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
 
                 $response['download'] = route('admin_file_download');
 
@@ -492,8 +491,8 @@ class AdminController extends Controller
 
         // get the sort options and filters
         $page        = $this->request->input('page', 1);
-        $sortOptions = $this->request->input('sortOptions', array());
-        $filters     = $this->request->input('filters', array());
+        $sortOptions = $this->request->input('sortOptions', []);
+        $filters     = $this->request->input('filters', []);
 
         // return the rows
         return response()->json($dataTable->getRows(app('db'), $filters, $page, $sortOptions));
@@ -509,13 +508,13 @@ class AdminController extends Controller
     public function updateOptions($modelName)
     {
         $fieldFactory = app('admin_field_factory');
-        $response     = array();
+        $response     = [];
 
         // iterate over the supplied constrained fields
-        foreach ($this->request->input('fields', array()) as $field) {
+        foreach ($this->request->input('fields', []) as $field) {
             // get the constraints, the search term, and the currently-selected items
-            $constraints   = array_get($field, 'constraints', array());
-            $term          = array_get($field, 'term', array());
+            $constraints   = array_get($field, 'constraints', []);
+            $term          = array_get($field, 'term', []);
             $type          = array_get($field, 'type', false);
             $fieldName     = array_get($field, 'field', false);
             $selectedItems = array_get($field, 'selectedItems', false);
@@ -538,11 +537,11 @@ class AdminController extends Controller
         $data = File::get($path);
         $file = new SymfonyFile($path);
 
-        $headers = array(
+        $headers = [
             'Content-Type'        => $file->getMimeType(),
             'Content-Length'      => $file->getSize(),
             'Content-Disposition' => 'attachment; filename="' . $file->getFilename() . '"'
-        );
+        ];
 
         return response()->make($data, 200, $headers);
     }
@@ -580,7 +579,7 @@ class AdminController extends Controller
         $rows = (int) $this->request->input('rows', 20);
         $dataTable->setRowsPerPage(app('session.store'), 0, $rows);
 
-        return response()->JSON(array('success' => true));
+        return response()->JSON(['success' => true]);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -613,19 +612,19 @@ class AdminController extends Controller
         $save   = $config->save($this->request, app('admin_field_factory')->getEditFields());
 
         if (is_string($save)) {
-            return response()->json(array(
+            return response()->json([
                 'success' => false,
                 'errors'  => $save,
-            ));
+            ]);
         } else {
             // override the config options so that we can get the latest
             app('admin_config_factory')->updateConfigOptions();
 
-            return response()->json(array(
+            return response()->json([
                 'success' => true,
                 'data'    => $config->getDataModel(),
                 'actions' => app('admin_action_factory')->getActionsOptions(),
-            ));
+            ]);
         }
     }
 
@@ -652,21 +651,21 @@ class AdminController extends Controller
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
-            return response()->json(array('success' => false, 'error' => $result));
+            return response()->json(['success' => false, 'error' => $result]);
 
         // if it's falsy, return the standard error message
-        } elseif (!$result) {
+        } elseif (! $result) {
             $messages = $action->getOption('messages');
 
-            return response()->json(array('success' => false, 'error' => $messages['error']));
+            return response()->json(['success' => false, 'error' => $messages['error']]);
         } else {
-            $response = array('success' => true, 'actions' => $actionFactory->getActionsOptions(true));
+            $response = ['success' => true, 'actions' => $actionFactory->getActionsOptions(true)];
 
             // if it's a download response, flash the response to the session and return the download link
             if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
                 $file    = $result->getFile()->getRealPath();
                 $headers = $result->headers->all();
-                $this->session->put('administrator_download_response', array('file' => $file, 'headers' => $headers));
+                $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
 
                 $response['download'] = route('admin_file_download');
 
@@ -704,7 +703,7 @@ class AdminController extends Controller
                 // Parses the exceptions thrown by Illuminate\Foundation\Http\FormRequest
                 $errorMessages = $e->getResponse()->getContent();
                 $errorsArray   = json_decode($errorMessages);
-                if (!$errorsArray && is_string($errorMessages)) {
+                if (! $errorsArray && is_string($errorMessages)) {
                     return $errorMessages;
                 }
                 if ($errorsArray) {

@@ -58,24 +58,24 @@ class Config extends ConfigBase implements ConfigInterface
      *
      * @var array
      */
-    protected $defaults = array(
-        'filters'            => array(),
+    protected $defaults = [
+        'filters'            => [],
         'query_filter'       => null,
         'permission'         => true,
-        'action_permissions' => array(
+        'action_permissions' => [
             'create' => true,
             'delete' => true,
             'update' => true,
             'view'   => true,
-        ),
-        'actions'        => array(),
-        'global_actions' => array(),
-        'sort'           => array(),
+        ],
+        'actions'        => [],
+        'global_actions' => [],
+        'sort'           => [],
         'form_width'     => 285,
         'link'           => null,
         'rules'          => false,
         'messages'       => false,
-    );
+    ];
 
     /**
      * An instance of the Eloquent model object for this model
@@ -89,7 +89,7 @@ class Config extends ConfigBase implements ConfigInterface
      *
      * @var array
      */
-    protected $rules = array(
+    protected $rules = [
         'title'              => 'required|string',
         'single'             => 'required|string',
         'model'              => 'required|string|eloquent',
@@ -106,7 +106,7 @@ class Config extends ConfigBase implements ConfigInterface
         'link'               => 'callable',
         'rules'              => 'array',
         'messages'           => 'array',
-    );
+    ];
 
     /**
      * Fetches the data model for a config
@@ -115,7 +115,7 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function getDataModel()
     {
-        if (!$this->model) {
+        if (! $this->model) {
             $name        = $this->getOption('model');
             $this->model = new $name;
         }
@@ -205,11 +205,11 @@ class Config extends ConfigBase implements ConfigInterface
         // get all existing values for this relationship
         if ($relatedItems) {
             // the array that holds all the ids of the currently-related items
-            $relationsArray = array();
+            $relationsArray = [];
 
             // the id-indexed array that holds all of the select option data for a relation.
             // this holds the currently-related items and all of the available options
-            $autocompleteArray = array();
+            $autocompleteArray = [];
 
             // iterate over the items
             foreach ($relatedItems as $item) {
@@ -224,7 +224,7 @@ class Config extends ConfigBase implements ConfigInterface
 
                 // if this is an autocomplete field, we'll need to provide an array of arrays with 'id' and 'text' indexes
                 if ($autocomplete) {
-                    $autocompleteArray[$item->{$keyName}] = array('id' => $item->{$keyName}, 'text' => $item->{$nameField});
+                    $autocompleteArray[$item->{$keyName}] = ['id' => $item->{$keyName}, 'text' => $item->{$nameField}];
                 }
             }
 
@@ -237,7 +237,7 @@ class Config extends ConfigBase implements ConfigInterface
             $model->setAttribute($name . '_options', $options);
 
             // unset the relationships so we only get back what we need
-            $model->relationships = array();
+            $model->relationships = [];
 
             // set the autocomplete array
             if ($autocomplete) {
@@ -246,7 +246,7 @@ class Config extends ConfigBase implements ConfigInterface
         }
         // if there are no values, then just set an empty array
         else {
-            $model->{$name} = array();
+            $model->{$name} = [];
         }
     }
 
@@ -318,16 +318,16 @@ class Config extends ConfigBase implements ConfigInterface
         $model = $this->getDataModel()->find($id);
 
         // fetch the proper model so we don't have to deal with any extra attributes
-        if (!$model) {
+        if (! $model) {
             $model = $this->getDataModel();
         }
 
         // make sure the user has the proper permissions
         if ($model->exists) {
-            if (!$actionPermissions['update']) {
+            if (! $actionPermissions['update']) {
                 return "You do not have permission to save this item";
             }
-        } elseif (!$actionPermissions['update'] || !$actionPermissions['create']) {
+        } elseif (! $actionPermissions['update'] || ! $actionPermissions['create']) {
             return "You do not have permission to create this item";
         }
 
@@ -372,7 +372,7 @@ class Config extends ConfigBase implements ConfigInterface
     {
         // run through the edit fields to see if we need to unset relationships or uneditable fields
         foreach ($fields as $name => $field) {
-            if (!$field->getOption('external') && $field->getOption('editable')) {
+            if (! $field->getOption('external') && $field->getOption('editable')) {
                 $field->fillModel($model, $input->get($name, null));
             }
             // if this is an "external" field (i.e. it's not a column on this model's table) or uneditable, unset it
@@ -406,7 +406,7 @@ class Config extends ConfigBase implements ConfigInterface
         }
 
         // otherwise look for the rules as a static property on the model
-        return $rules = $this->getModelStaticValidationRules() ?: array();
+        return $rules = $this->getModelStaticValidationRules() ?: [];
     }
 
     /**
@@ -424,7 +424,7 @@ class Config extends ConfigBase implements ConfigInterface
         }
 
         // otherwise look for the messages as a static property on the model
-        return $rules = $this->getModelStaticValidationMessages() ?: array();
+        return $rules = $this->getModelStaticValidationMessages() ?: [];
     }
 
     /**
@@ -461,7 +461,7 @@ class Config extends ConfigBase implements ConfigInterface
      */
     protected function getRelationshipInputs(\Illuminate\Http\Request $request, array $fields)
     {
-        $inputs = array();
+        $inputs = [];
 
         // run through the edit fields to find the relationships
         foreach ($fields as $name => $field) {
@@ -486,7 +486,7 @@ class Config extends ConfigBase implements ConfigInterface
         $value = trim($value);
 
         if ($field->getOption('multiple_values')) {
-            $value = $value ? explode(',', $value) : array();
+            $value = $value ? explode(',', $value) : [];
         }
 
         return $value;

@@ -54,35 +54,35 @@ class Factory
      *
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * The column options arrays
      *
      * @var array
      */
-    protected $columnOptions = array();
+    protected $columnOptions = [];
 
     /**
      * The included column (used for pulling a certain range of selects from the DB)
      *
      * @var array
      */
-    protected $includedColumns = array();
+    protected $includedColumns = [];
 
     /**
      * The relationship columns
      *
      * @var array
      */
-    protected $relatedColumns = array();
+    protected $relatedColumns = [];
 
     /**
      * The computed columns (either an accessor or a select was supplied)
      *
      * @var array
      */
-    protected $computedColumns = array();
+    protected $computedColumns = [];
 
     /**
      * The class name of a BelongsTo relationship
@@ -195,11 +195,11 @@ class Factory
     {
         if (is_string($options)) {
             $name    = $options;
-            $options = array();
+            $options = [];
         }
 
         // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
-        if (!is_string($name) || !is_array($options)) {
+        if (! is_string($name) || ! is_array($options)) {
             throw new \InvalidArgumentException("One of the columns in your " . $this->config->getOption('name') . " model configuration file is invalid");
         }
 
@@ -217,7 +217,7 @@ class Factory
     public function getColumns()
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->columns)) {
+        if (! sizeof($this->columns)) {
             foreach ($this->config->getOption('columns') as $name => $options) {
                 // if only a string value was supplied, may sure to turn it into an array
                 $object                                           = $this->make($this->parseOptions($name, $options));
@@ -236,7 +236,7 @@ class Factory
     public function getColumnOptions()
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->columnOptions)) {
+        if (! sizeof($this->columnOptions)) {
             foreach ($this->getColumns() as $column) {
                 $this->columnOptions[] = $column->getOptions();
             }
@@ -255,19 +255,19 @@ class Factory
     public function getIncludedColumns(array $fields)
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->includedColumns)) {
+        if (! sizeof($this->includedColumns)) {
             $model = $this->config->getDataModel();
 
             foreach ($this->getColumns() as $column) {
                 if ($column->getOption('is_related')) {
                     $this->includedColumns = array_merge($this->includedColumns, $column->getIncludedColumn());
-                } elseif (!$column->getOption('is_computed')) {
+                } elseif (! $column->getOption('is_computed')) {
                     $this->includedColumns[$column->getOption('column_name')] = $model->getTable() . '.' . $column->getOption('column_name');
                 }
             }
 
             // make sure the table key is included
-            if (!$this->validator->arrayGet($this->includedColumns, $model->getKeyName())) {
+            if (! $this->validator->arrayGet($this->includedColumns, $model->getKeyName())) {
                 $this->includedColumns[$model->getKeyName()] = $model->getTable() . '.' . $model->getKeyName();
             }
 
@@ -290,7 +290,7 @@ class Factory
     public function getRelatedColumns()
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->relatedColumns)) {
+        if (! sizeof($this->relatedColumns)) {
             foreach ($this->getColumns() as $column) {
                 if ($column->getOption('is_related')) {
                     $this->relatedColumns[$column->getOption('column_name')] = $column->getOption('column_name');
@@ -309,9 +309,9 @@ class Factory
     public function getComputedColumns()
     {
         // make sure we only run this once and then return the cached version
-        if (!sizeof($this->computedColumns)) {
+        if (! sizeof($this->computedColumns)) {
             foreach ($this->getColumns() as $column) {
-                if (!$column->getOption('is_related') && $column->getOption('is_computed')) {
+                if (! $column->getOption('is_related') && $column->getOption('is_computed')) {
                     $this->computedColumns[$column->getOption('column_name')] = $column->getOption('column_name');
                 }
             }

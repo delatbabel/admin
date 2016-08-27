@@ -32,7 +32,7 @@ abstract class Config
      *
      * @var array
      */
-    protected $suppliedOptions = array();
+    protected $suppliedOptions = [];
 
     /**
      * The original configuration options that were supplied
@@ -46,14 +46,14 @@ abstract class Config
      *
      * @var array
      */
-    protected $defaults = array();
+    protected $defaults = [];
 
     /**
      * The rules property
      *
      * @var array
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * The type property, defines what type of config this is.
@@ -147,7 +147,7 @@ abstract class Config
     {
         $options = $this->getOptions();
 
-        if (!array_key_exists($key, $options)) {
+        if (! array_key_exists($key, $options)) {
             throw new \InvalidArgumentException("An invalid option was searched for in the '" . $options['name'] . "' config");
         }
 
@@ -164,7 +164,7 @@ abstract class Config
     public function setOptions(array $options)
     {
         // unset the current options
-        $this->options = array();
+        $this->options = [];
 
         // override the supplied options
         $this->suppliedOptions = $options;

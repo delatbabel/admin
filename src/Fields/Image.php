@@ -11,18 +11,18 @@ class Image extends File
      *
      * @var array
      */
-    protected $imageDefaults = array(
-        'sizes' => array(),
-    );
+    protected $imageDefaults = [
+        'sizes' => [],
+    ];
 
     /**
      * The specific rules for the image class
      *
      * @var array
      */
-    protected $imageRules = array(
+    protected $imageRules = [
         'sizes' => 'array',
-    );
+    ];
 
     /**
      * This static function is used to perform the actual upload and resizing using the Multup class

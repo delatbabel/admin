@@ -11,9 +11,9 @@ class Key extends Field
      *
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'editable' => false,
-    );
+    ];
 
     /**
      * Fill a model with input data
@@ -40,7 +40,7 @@ class Key extends Field
         parent::filterQuery($query, $selects);
 
         // if there is no value, return
-        if (!$this->getOption('value')) {
+        if (! $this->getOption('value')) {
             return;
         }
 

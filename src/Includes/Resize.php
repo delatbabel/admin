@@ -65,7 +65,7 @@ class Resize
         $this->file = $file;
 
         if (is_array($sizes)) {
-            $resized = array();
+            $resized = [];
 
             foreach ($sizes as $size) {
                 $this->new_width  = $size[0]; // $new_width;
@@ -73,7 +73,7 @@ class Resize
                 $this->option     = $size[2]; // crop type
 
                 // ensure that the directory path exists
-                if (!is_dir($size[3])) {
+                if (! is_dir($size[3])) {
                     mkdir($size[3]);
                 }
 
@@ -140,7 +140,7 @@ class Resize
 
             case 'png':
                 // Scale quality from 0-100 to 0-9
-                $scale_quality = round(($image_quality/100) * 9);
+                $scale_quality = round(($image_quality / 100) * 9);
 
                 // Invert quality setting as 0 is best, not 9
                 $invert_scale_quality = 9 - $scale_quality;
@@ -171,11 +171,11 @@ class Resize
         $sfile = new SFile($file);
 
         // If $file isn't an array, we'll turn it into one
-        if (!is_array($file)) {
-            $file = array(
+        if (! is_array($file)) {
+            $file = [
                 'type'        => $sfile->getMimeType(),
                 'tmp_name'    => $file
-            );
+            ];
         }
 
         $mime      = $file['type'];
@@ -231,10 +231,10 @@ class Resize
                 break;
         }
 
-        return array(
+        return [
             'optimal_width'        => $optimal_width,
             'optimal_height'       => $optimal_height
-        );
+        ];
     }
 
     /**
@@ -296,10 +296,10 @@ class Resize
             }
         }
 
-        return array(
+        return [
             'optimal_width'        => $optimal_width,
             'optimal_height'       => $optimal_height
-        );
+        ];
     }
 
     /**
@@ -315,10 +315,10 @@ class Resize
 
         $max = max($height_ratio, $width_ratio);
 
-        return array(
+        return [
             'optimal_width'        => $this->width / $max,
             'optimal_height'       => $this->height / $max,
-        );
+        ];
     }
 
     /**
@@ -342,10 +342,10 @@ class Resize
         $optimal_height    = $this->height / $optimal_ratio;
         $optimal_width     = $this->width  / $optimal_ratio;
 
-        return array(
+        return [
             'optimal_width'        => $optimal_width,
             'optimal_height'       => $optimal_height
-        );
+        ];
     }
 
     /**
