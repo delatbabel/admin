@@ -74,7 +74,9 @@ desired effect
 @endforeach
 <script>
   $(function () {
-    $("#customers").DataTable();
+    $("#customers").DataTable({
+        "searching": false
+    });
   });
 </script>
 </body>

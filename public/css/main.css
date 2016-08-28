@@ -1307,11 +1307,7 @@ a {
   font-weight: bold;
 }
 #admin_page div#sidebar {
-  /*float: right;*/
-  /*margin-right: 13px;*/
   margin-top: 35px;
-  border-top: 3px solid #d2d6de;
-  /*width: 245px;*/
 }
 #admin_page div#sidebar h2 {
   color: #444;
@@ -1346,13 +1342,13 @@ a {
   margin: 2px 0 0 2px;
 }
 #admin_page div#sidebar div.filters > div.min_max input[type=text] {
-  width: 87px;
+  width: 287px;
 }
-#admin_page div#sidebar div.filters > div.min_max span.symbol {
+/*#admin_page div#sidebar div.filters > div.min_max span.symbol {
   position: absolute;
   top: 27px;
   left: -15px;
-}
+}*/
 #admin_page div#sidebar div.filters > div.min_max.datetime input[type=text] {
   font-size: 11px;
 }
@@ -1958,6 +1954,19 @@ a {
 
 .box-header .with-border .box-title h2{
   margin-bottom: 0px;
+}
+
+.sidebar_section .box-body{
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+div.filters > input[type=text]{
+  width: 100%;
+}
+
+.filter_input{
+  width: 100%;
 }
 
 
