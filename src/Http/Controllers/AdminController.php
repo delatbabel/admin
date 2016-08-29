@@ -212,6 +212,9 @@ class AdminController extends Controller
      */
     public function item($modelName, $itemId = 0)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'model item fetch, modelName = ' . $modelName . ', itemId = ' . $itemId);
+
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
@@ -236,10 +239,17 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            $response = $actionPermissions['view'] ? response()->json($model) : response()->json([
-                'success' => false,
-                'errors'  => "You do not have permission to view this item",
-            ]);
+            if ($actionPermissions['view']) {
+                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                    'view model', $model->toArray());
+
+                $response = response()->json($model);
+            } else {
+                $response = response()->json([
+                    'success' => false,
+                    'errors'  => "You do not have permission to view this item",
+                ]);
+            }
 
             // set the Vary : Accept header to avoid the browser caching the json response
             return $response->header('Vary', 'Accept');
@@ -507,6 +517,9 @@ class AdminController extends Controller
      */
     public function updateOptions($modelName)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'get update options, model = ' . $modelName);
+
         $fieldFactory = app('admin_field_factory');
         $response     = [];
 
