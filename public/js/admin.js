@@ -531,7 +531,10 @@
              */
             closeItem: function()
             {
+                var $tableContainer = $('div.table_container');
+                $tableContainer.css('margin-right', 0);
                 History.pushState({modelName: this.modelName()}, null, route + this.modelName());
+
             },
 
             /**
