@@ -504,6 +504,12 @@ class AdminController extends Controller
         $sortOptions = $this->request->input('sortOptions', []);
         $filters     = $this->request->input('filters', []);
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'fetch results for model = ' . $modelName . ', page = ' . $page, [
+            'sortOptions'   => $sortOptions,
+            'filters'       => $filters,
+        ]);
+
         // return the rows
         return response()->json($dataTable->getRows(app('db'), $filters, $page, $sortOptions));
     }
