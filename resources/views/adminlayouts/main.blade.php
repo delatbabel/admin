@@ -44,6 +44,17 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="skin-blue sidebar-mini">
+{{-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. --}}
+
+{{-- This is where the JS files for DDPro Admin get inserted.  These get created in the
+     setViewComposers() function in AdminServiceProvider --}}
+@foreach ($js as $url)
+    <script src="{{$url}}"></script>
+@endforeach
+
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -62,29 +73,5 @@ desired effect
     @include('adminlayouts.control')
 </div><!-- ./wrapper -->
 
-{{-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. --}}
-
-{{-- This is where the JS files for DDPro Admin get inserted.  These get created in the
-     setViewComposers() function in AdminServiceProvider --}}
-@foreach ($js as $url)
-    <script src="{{$url}}"></script>
-@endforeach
-<script type="text/javascript">
-    // Set up the DataTable in table.blade.php
-    $(function () {
-        $("#customers").DataTable({
-            "processing": true,
-            "searching": false,
-            "serverSide": true,
-            "ajax": {
-                "url": "{!! route('admin_get_datatable_results', array($config->getOption('name'))) !!}",
-                "type": "POST"
-            }
-        });
-    });
-</script>
 </body>
 </html>

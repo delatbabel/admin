@@ -246,6 +246,30 @@ class Factory
     }
 
     /**
+     * Get the column options as an integer-indexed array
+     *
+     * This returns the format required by DataTable.  Example here:
+     * https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column
+     *
+     * @return array
+     */
+    public function getColumnsForDataTable()
+    {
+        $columnOptions  = $this->getColumnOptions();
+        $result         = [];
+        foreach ($columnOptions as $columnData) {
+            $column = [
+                'name'      => $columnData['name'],
+                'orderable' => $columnData['sortable'],
+            ];
+
+            $result[] = $column;
+        }
+
+        return $result;
+    }
+
+    /**
      * Gets the columns that are on the model's table (i.e. not related or computed)
      *
      * @param array		$fields

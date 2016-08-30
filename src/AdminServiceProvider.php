@@ -262,6 +262,7 @@ class AdminServiceProvider extends ServiceProvider
             $view->arrayFields = $fieldFactory->getEditFieldsArrays();
             $view->dataModel = $fieldFactory->getDataModel();
             $view->columnModel = $columnFactory->getColumnOptions();
+            $view->columnOptions = $columnFactory->getColumnsForDataTable();
             $view->actions = $actionFactory->getActionsOptions();
             $view->globalActions = $actionFactory->getGlobalActionsOptions();
             $view->actionPermissions = $actionFactory->getActionPermissions();

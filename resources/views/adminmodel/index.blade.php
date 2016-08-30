@@ -109,4 +109,20 @@
     @include('adminmodel.filters')
     </script>
 
+    <script type="text/javascript">
+        // Set up the DataTable in table.blade.php
+        $(function () {
+            $("#customers").DataTable({
+                "processing": true,
+                "searching": false,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{!! route('admin_get_datatable_results', array($config->getOption('name'))) !!}",
+                    "type": "POST"
+                },
+                "columns": {!! json_encode($columnOptions) !!}}
+            });
+        });
+    </script>
+
 @endsection
