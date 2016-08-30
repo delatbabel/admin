@@ -132,6 +132,46 @@ class DataTable
     /**
      * Builds a results array (with results and pagination info)
      *
+     * Used for server side DataTable
+     *
+     * @param \Illuminate\Database\DatabaseManager 	$db
+     * @param array									$input
+     *
+     * @return array
+     */
+    public function getDataTableRows(DB $db, $input)
+    {
+        // prepare the query
+        // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
+        // presence and type of the variables.
+        // extract($this->prepareQuery($db, $page, $sort, $filters));
+        // This is functionally equivalent.
+        /** @var QueryBuilder $query */
+        list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
+            $this->prepareQuery($db, 1, null, null);
+
+        // run the count query
+        $countResult = $this->performCountQuery($countQuery, $querySql, $queryBindings, 1);
+
+        // now we need to limit and offset the rows in remembrance of our dear lost friend paginate()
+        $query->take($input['length']);
+        $query->skip($input['start']);
+
+        // parse the results
+        $output['recordsTotal']     = $countResult['total'];
+        $output['recordsFiltered']  = $countResult['total'];
+        $output['data']             = $this->parseResults($query->get(), true);
+        $output['draw']             = (integer) $input['draw'];
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'getRows result', $output);
+
+        return $output;
+    }
+
+    /**
+     * Builds a results array (with results and pagination info)
+     *
      * @param \Illuminate\Database\DatabaseManager 	$db
      * @param int									$page
      * @param array									$sort (with 'field' and 'direction' keys)
@@ -276,10 +316,11 @@ class DataTable
      * Parses the results of a getRows query and converts it into a manageable array with the proper rendering
      *
      * @param 	Collection|array	$rows
+     * @param   boolean             $forDataTable
      *
      * @return	array
      */
-    public function parseResults($rows)
+    public function parseResults($rows, $forDataTable = false)
     {
         $results = [];
 
@@ -288,7 +329,11 @@ class DataTable
             // iterate over the included and related columns
             $arr = [];
 
-            $this->parseOnTableColumns($item, $arr);
+            if ($forDataTable) {
+                $this->parseOnDataTableColumns($item, $arr);
+            } else {
+                $this->parseOnTableColumns($item, $arr);
+            }
 
             // then grab the computed, unsortable columns
             $this->parseComputedColumns($item, $arr);
@@ -330,6 +375,35 @@ class DataTable
                     'raw'      => $attributeValue,
                     'rendered' => $attributeValue,
                 ];
+            }
+        }
+    }
+
+    /**
+     * Goes through all related columns and sets the proper values for this row
+     *
+     * @param \Illuminate\Database\Eloquent\Model	$item
+     * @param array									$outputRow
+     *
+     * @return void
+     */
+    public function parseOnDataTableColumns($item, array &$outputRow)
+    {
+        $columns         = $this->columnFactory->getColumns();
+        $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
+        $relatedColumns  = $this->columnFactory->getRelatedColumns();
+
+        // loop over both the included and related columns
+        foreach (array_merge($includedColumns, $relatedColumns) as $field => $col) {
+            $attributeValue = $item->getAttribute($field);
+
+            // if this column is in our objects array, render the output with the given value
+            if (isset($columns[$field])) {
+                $outputRow[] = $columns[$field]->renderOutput($attributeValue, $item);
+            }
+            // otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
+            else {
+                $outputRow[] = $attributeValue;
             }
         }
     }

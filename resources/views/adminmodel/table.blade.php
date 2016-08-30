@@ -43,15 +43,3 @@
 <div class="item_edit_container" data-bind="itemTransition: activeItem() !== null || loadingItem(), style: {width: expandWidth() + 'px'}">
     <div class="item_edit box box-primary" data-bind="template: 'itemFormTemplate', style: 'width: 100% !important;'"></div>
 </div>
-
-<script>
-    $(function () {
-        $("#customers").DataTable({
-            serverSide: true,
-            ajax: {
-                url: "/admin/" + modelName() + "/datatable_results",
-                type: "POST"
-            }
-        });
-    });
-</script>

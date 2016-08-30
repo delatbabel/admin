@@ -530,9 +530,7 @@ class AdminController extends Controller
         $dataTable = app('admin_datatable');
         $input = $this->request->all();
 
-        $result = [
-            'draw'      => (integer) $input['draw'],
-        ];
+        $result = $dataTable->getDataTableRows(app('db'), $input);
 
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'fetch dataTable results for model = ' . $modelName, [
