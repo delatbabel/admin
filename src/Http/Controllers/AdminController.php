@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager as Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -512,6 +513,34 @@ class AdminController extends Controller
 
         // return the rows
         return response()->json($dataTable->getRows(app('db'), $filters, $page, $sortOptions));
+    }
+
+    /**
+     * Gets the database results for the current model
+     *
+     * Called by DataTable
+     *
+     * @param string $modelName
+     * @return string JSON
+     * @link https://www.datatables.net/manual/server-side
+     */
+    public function dataTableResults($modelName)
+    {
+        /** @var DataTable $dataTable */
+        $dataTable = app('admin_datatable');
+        $input = $this->request->all();
+
+        $result = [
+            'draw'      => (integer) $input['draw'],
+        ];
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'fetch dataTable results for model = ' . $modelName, [
+            'input'     => $input,
+            'result'    => $result,
+        ]);
+
+        return response()->json($result);
     }
 
     /**

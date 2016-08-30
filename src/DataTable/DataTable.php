@@ -104,9 +104,6 @@ class DataTable
      */
     public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
     {
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'getRows');
-
         // prepare the query
         // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
         // presence and type of the variables.
@@ -125,6 +122,9 @@ class DataTable
 
         // parse the results
         $output['results'] = $this->parseResults($query->get());
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'getRows result', $output);
 
         return $output;
     }

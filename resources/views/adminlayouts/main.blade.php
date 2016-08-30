@@ -72,12 +72,5 @@ desired effect
 @foreach ($js as $url)
     <script src="{{$url}}"></script>
 @endforeach
-<script>
-  $(function () {
-    $("#customers").DataTable({
-        "searching": false
-    });
-  });
-</script>
 </body>
 </html>

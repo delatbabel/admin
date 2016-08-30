@@ -542,6 +542,10 @@ class AdminServiceProvider extends ServiceProvider
                     'as'   => 'admin_get_results',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@results'
                 ]);
+                Route::post('{model}/datatable_results', [
+                    'as'   => 'admin_get_datatable_results',
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dataTableResults'
+                ]);
 
                 // Custom Model Action
                 Route::post('{model}/custom_action', [
