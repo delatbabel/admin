@@ -21,7 +21,7 @@
 
             <div class="action_message" data-bind="css: { error: globalStatusMessageType() == 'error', success: globalStatusMessageType() == 'success' },
                                             notification: globalStatusMessage "></div>
-        </div> 
+        </div>
 
         <table class="results" border="0" cellspacing="0" id="customers" cellpadding="0">
             <thead>
@@ -58,7 +58,7 @@
             <div><?php echo trans('administrator::administrator.loading') ?></div>
         </div>
     </div>
-       
+
 </div>
 
 <div class="item_edit_container" data-bind="itemTransition: activeItem() !== null || loadingItem(), style: {width: expandWidth() + 'px'}">

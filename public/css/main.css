@@ -1,13 +1,16 @@
+#admin_page {
+  position: relative;
+}
 #admin_page #content {
   padding-top: 35px;
-  min-height: 570px;
+  min-height: auto;
   /* edit form */
 }
 #admin_page #content div.table_container {
   position: relative;
 }
 #admin_page #content div.table_container div.results_header {
-  
+
   text-shadow: white 0 1px 0;
   border: solid 1px #d4d4d4;
   border-top-color: #e6e6e6;
@@ -308,7 +311,7 @@
   bottom: 0;
   right: 0;
   width: 285px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 #admin_page #content div.item_edit_container div.item_edit {
   position: relative;

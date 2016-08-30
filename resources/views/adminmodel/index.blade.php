@@ -18,13 +18,15 @@
         <section class="content">
             <div id="admin_page" class="with_sidebar">
                 <div class="row">
-                    <div class="col-md-9" style="padding-right: 0px">
-                        <div id="content" data-bind="template: 'adminTemplate'"></div>  
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <div id="sidebar">
-                            <div class="panel sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
-                        </div>    
+                            <div class="sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content" data-bind="template: 'adminTemplate'"></div>
                     </div>
                 </div>
             </div>

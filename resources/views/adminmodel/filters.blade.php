@@ -11,7 +11,7 @@
             <div class="row">
             <!-- ko foreach: $root.filters -->
                 <!-- ko if: visible -->
-                
+
                     <div data-bind="attr: {class: type + ' ' + (min_max ? 'min_max' : '')}">
                         <div class="col-xs-3" style="margin-top: 10px;">
                             <div class="row">

@@ -1538,7 +1538,7 @@
             {
                 var winHeight = $(window).height(),
                     itemEditHeight = $('div.item_edit').outerHeight() + 50,
-                    usedHeight = winHeight > itemEditHeight ? winHeight - 45 : itemEditHeight,
+                    usedHeight = winHeight > itemEditHeight ? winHeight : itemEditHeight,
                     size = window.getComputedStyle(document.body, ':after').getPropertyValue('content');
 
                 //resize the page height
