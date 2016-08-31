@@ -80,13 +80,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->config->getOption('name'), 'model_name');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGetOptionThrowsException()
+    public function testGetMissingOption()
     {
         $this->config->shouldReceive('getOptions')->once()->andReturn(array('name' => 'model_name'));
-        $this->config->getOption('foo');
+        $this->assertNull($this->config->getOption('foo'));
     }
 
     public function testValidateDataValidates()

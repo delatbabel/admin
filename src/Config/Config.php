@@ -148,7 +148,7 @@ abstract class Config
         $options = $this->getOptions();
 
         if (! array_key_exists($key, $options)) {
-            return false;
+            return null;
         }
 
         return $options[$key];
