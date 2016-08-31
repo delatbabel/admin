@@ -50,7 +50,13 @@
         <!-- Main content -->
         <section class="content">
             <div id="admin_page" class="with_sidebar">
+                {{--
+                FIXME: Only want to display filters when server side processing is enabled, but removing
+                the filters throws errors in knockout.js caused by admin.js setting the bindings to the
+                filters when they are not there.  Best solution is probably to remove knockout.js from
+                the filters template completely.
                 @if ($config->getOption('server_side'))
+                --}}
                 <div class="row">
                     <div class="col-md-12">
                         <div id="sidebar">
@@ -58,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                @endif
+                {{-- @endif --}}
                 <div class="row">
                     <div class="col-md-12">
                         <div id="content" data-bind="template: 'adminTemplate'"></div>
@@ -108,11 +114,9 @@
     @include('adminmodel.edit')
     </script>
 
-@if ($config->getOption('server_side'))
     <script id="filtersTemplate" type="text/html">
     @include('adminmodel.filters')
     </script>
-@endif
 
     <script type="text/javascript">
         // Set up the DataTable in table.blade.php

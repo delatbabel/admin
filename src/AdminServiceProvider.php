@@ -323,7 +323,6 @@ class AdminServiceProvider extends ServiceProvider
                 'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
                 'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
-                'jquery-colorpicker'   => $this->asset('css/jquery.lw-colorpicker.css'),
             ];
 
             // FIXME should come from bower
@@ -357,8 +356,9 @@ class AdminServiceProvider extends ServiceProvider
 
             // add the package-wide css assets
             $view->css += [
-                'customscroll' => $this->asset('js/jquery/customscroll/customscroll.css'),
-                'main'         => $this->asset('css/main.css'),
+                'jquery-colorpicker'    => $this->asset('css/jquery.lw-colorpicker.css'),
+                'customscroll'          => $this->asset('js/jquery/customscroll/customscroll.css'),
+                'main'                  => $this->asset('css/main.css'),
             ];
 
             // add the non-custom-page js assets
