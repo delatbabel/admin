@@ -177,7 +177,7 @@ class DataTable
 
         // update the sort options
         $sort = [];
-        if (isset($input['order']) && is_array($input['order]'])) {
+        if (isset($input['order']) && is_array($input['order'])) {
             // If this is set then it will have this structure:
             // ['column' => $column_number, 'dir' => 'asc'|'desc']
             // Have to find the column name from the column number
