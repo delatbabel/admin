@@ -106,29 +106,8 @@ class DataTable
      */
     public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
     {
-        // prepare the query
-        // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
-        // presence and type of the variables.
-        // extract($this->prepareQuery($db, $page, $sort, $filters));
-        // This is functionally equivalent.
-        /** @var QueryBuilder $query */
-        list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
-            $this->prepareQuery($db, $page, $sort, $filters);
-
-        // run the count query
-        $output = $this->performCountQuery($countQuery, $querySql, $queryBindings, $page);
-
-        // now we need to limit and offset the rows in remembrance of our dear lost friend paginate()
-        $query->take($this->rowsPerPage);
-        $query->skip($this->rowsPerPage * ($output['page'] === 0 ? $output['page'] : $output['page'] - 1));
-
-        // parse the results
-        $output['results'] = $this->parseResults($query->get());
-
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'getRows result', $output);
-
-        return $output;
+        // deprecated
+        return [];
     }
 
     /**
@@ -150,7 +129,7 @@ class DataTable
         // This is functionally equivalent.
         /** @var QueryBuilder $query */
         list($query, $querySql, $queryBindings, $countQuery, $sort, $selects) =
-            $this->prepareQuery($db, 1, null, null);
+            $this->prepareQuery($db, $input);
 
         // run the count query
         $countResult = $this->performCountQuery($countQuery, $querySql, $queryBindings, 1);
@@ -166,7 +145,7 @@ class DataTable
         // parse the results
         $output['recordsTotal']     = $countResult['total'];
         $output['recordsFiltered']  = $countResult['total'];
-        $output['data']             = $this->parseResults($query->get(), true);
+        $output['data']             = $this->parseResults($query->get());
         if (! empty($input['draw'])) {
             $output['draw']         = (integer) $input['draw'];
         }
@@ -178,19 +157,36 @@ class DataTable
      * Builds a results array (with results and pagination info)
      *
      * @param \Illuminate\Database\DatabaseManager 	$db
-     * @param int									$page
-     * @param array									$sort (with 'field' and 'direction' keys)
-     * @param array									$filters
+     * @param array									$input
      *
      * @return array
      */
-    public function prepareQuery(DB $db, $page = 1, $sort = null, $filters = null)
+    public function prepareQuery(DB $db, $input)
     {
         // grab the model instance
         /** @var Model $model */
         $model = $this->config->getDataModel();
 
+        // Grab the columns array from the input
+        if (! isset($input['columns']) || ! is_array($input['columns'])) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Input array does not contain a columns array, cannot continue.', $input);
+            return [];
+        }
+        $inputColumns = $input['columns'];
+
         // update the sort options
+        $sort = [];
+        if (isset($input['order']) && is_array($input['order]'])) {
+            // If this is set then it will have this structure:
+            // ['column' => $column_number, 'dir' => 'asc'|'desc']
+            // Have to find the column name from the column number
+            $inputOrder = $input['order]'];
+            $sort      = [
+                'field'     => $inputColumns[$inputOrder['column']],
+                'direction' => $inputOrder['dir'],
+            ];
+        }
         $this->setSort($sort);
         $sort = $this->getSort();
 
@@ -213,7 +209,7 @@ class DataTable
         $selects = [$table . '.*'];
 
         // set the filters
-        $this->setFilters($filters, $dbQuery, $countQuery, $selects);
+        // FIXME: $this->setFilters($filters, $dbQuery, $countQuery, $selects);
 
         // set the selects
         $dbQuery->select($selects);
@@ -298,7 +294,18 @@ class DataTable
     /**
      * Sets the query filters when getting the rows
      *
-     * @param mixed									$filters
+     * This takes an array of this structure:
+     *
+     * ```php
+     * [
+     *     'field_name'     => $field_name,
+     *     'value'          => $value,
+     *     'min_value'      => $min_value,
+     *     'max_value'      => $max_value,
+     * ]
+     * ```
+     *
+     * @param array									$filters
      * @param \Illuminate\Database\Query\Builder	$query
      * @param \Illuminate\Database\Query\Builder	$countQuery
      * @param array									$selects
@@ -325,11 +332,10 @@ class DataTable
      * Parses the results of a getRows query and converts it into a manageable array with the proper rendering
      *
      * @param 	Collection|array	$rows
-     * @param   boolean             $forDataTable
      *
      * @return	array
      */
-    public function parseResults($rows, $forDataTable = false)
+    public function parseResults($rows)
     {
         $results = [];
 
@@ -338,15 +344,12 @@ class DataTable
             // iterate over the included and related columns
             $arr = [];
 
-            if ($forDataTable) {
-                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                    'parse data table columns from ', $item->toArray());
-                $this->parseOnDataTableColumns($item, $arr);
-            } else {
-                $this->parseOnTableColumns($item, $arr);
-                // then grab the computed, unsortable columns
-                $this->parseComputedColumns($item, $arr);
-            }
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'parse data table columns from ', $item->toArray());
+            $this->parseOnTableColumns($item, $arr);
+
+            // then grab the computed, unsortable columns
+            $this->parseComputedColumns($item, $arr);
 
             $results[] = $arr;
         }
@@ -361,44 +364,8 @@ class DataTable
      * @param array									$outputRow
      *
      * @return void
-     * @deprecated
      */
     public function parseOnTableColumns($item, array &$outputRow)
-    {
-        $columns         = $this->columnFactory->getColumns();
-        $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
-        $relatedColumns  = $this->columnFactory->getRelatedColumns();
-
-        // loop over both the included and related columns
-        foreach (array_merge($includedColumns, $relatedColumns) as $field => $col) {
-            $attributeValue = $item->getAttribute($field);
-
-            // if this column is in our objects array, render the output with the given value
-            if (isset($columns[$field])) {
-                $outputRow[$field] = [
-                    'raw'      => $attributeValue,
-                    'rendered' => $columns[$field]->renderOutput($attributeValue, $item),
-                ];
-            }
-            // otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
-            else {
-                $outputRow[$field] = [
-                    'raw'      => $attributeValue,
-                    'rendered' => $attributeValue,
-                ];
-            }
-        }
-    }
-
-    /**
-     * Goes through all related columns and sets the proper values for this row
-     *
-     * @param \Illuminate\Database\Eloquent\Model	$item
-     * @param array									$outputRow
-     *
-     * @return void
-     */
-    public function parseOnDataTableColumns($item, array &$outputRow)
     {
         $columns         = $this->columnFactory->getColumns();
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
@@ -425,20 +392,29 @@ class DataTable
      */
     public function parseComputedColumns($item, array &$outputRow)
     {
+        Log::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'parse computed columns called, this has not been checked ', $item->toArray());
+
         $columns         = $this->columnFactory->getColumns();
         $computedColumns = $this->columnFactory->getComputedColumns();
 
         // loop over the computed columns
         foreach ($computedColumns as $name => $column) {
-            $outputRow[$name] = [
-                'raw'      => $item->{$name},
-                'rendered' => $columns[$name]->renderOutput($item->{$name}, $item),
-            ];
+            $outputRow[] = $columns[$name]->renderOutput($item->{$name}, $item);
         }
     }
 
     /**
      * Sets up the sort options
+     *
+     * Takes in an array like this:
+     *
+     * ```php
+     * [
+     *     'field'     => $fieldname,
+     *     'direction' => 'asc'|'desc',
+     * ]
+     * ```
      *
      * @param array		$sort
      */
