@@ -267,7 +267,7 @@ class AdminServiceProvider extends ServiceProvider
             $view->globalActions = $actionFactory->getGlobalActionsOptions();
             $view->actionPermissions = $actionFactory->getActionPermissions();
             $view->filters = $fieldFactory->getFiltersArrays();
-            $view->rows = $dataTable->getRows(app('db'), $view->filters);
+            // $view->rows = $dataTable->getRows(app('db'), $view->filters);
             $view->formWidth = $config->getOption('form_width');
             $view->baseUrl = $baseUrl;
             $view->assetUrl = url('packages/ddpro/admin/');

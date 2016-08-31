@@ -47,7 +47,7 @@
                 @if ($itemId !== null)
                 id: "{!! $itemId !!}",
                 @endif
-                rows: {!! json_encode($rows) !!},
+                {{-- rows: {!! json_encode($rows) !!}, --}}
                 rows_per_page: {!! $dataTable->getRowsPerPage() !!},
                 sortOptions: {!! json_encode($dataTable->getSort()) !!},
                 model_name: "{!! $config->getOption('name') !!}",
