@@ -23,7 +23,7 @@
                                             notification: globalStatusMessage "></div>
         </div>
 
-        <table class="results" border="0" cellspacing="0" id="customers" cellpadding="0">
+        <table class="table table-bordered table-striped" border="0" cellspacing="0" id="customers" cellpadding="0">
             <thead>
                 <tr>
                     <!-- ko foreach: columns -->

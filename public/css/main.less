@@ -13,7 +13,7 @@
 	#content {
 		padding-top: 35px;
 		min-height: 570px;
-		
+
 		div.table_container {
 			position: relative;
 
@@ -114,97 +114,6 @@
 			div.table_scrollable {
 				width:100%;
 				overflow-x:auto;
-			}
-
-			table.results {
-				width: 100%;
-				margin-bottom: 10px;
-				border: 0;
-				border-spacing: 0;
-
-				th {
-					.verticalGradient(#efefef, #dfe1e2);
-					text-shadow: white 0 1px 0;
-					border: solid 1px #d4d4d4;
-					border-top-color: #e6e6e6;
-					border-bottom-color: #cdcdcd;
-					border-right: none;
-					-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-					-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-					-ms-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-					-o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-					box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-					font-weight: bold;
-					line-height: 18px;
-					color: #5e6469;
-					padding: 5px 12px 3px 12px;
-					text-align: left;
-
-					div {
-						color: #5e6469;
-						text-decoration: none;
-						display: block;
-						white-space: nowrap;
-						.overflowEllipsis;
-					}
-
-					&.sortable {
-						cursor: pointer;
-
-						div {
-							background: url("../img/orderable.png") no-repeat 0 4px;
-							padding-left: 13px;
-							cursor: pointer;
-						}
-					}
-
-					&.sorted-asc, &.sorted-desc {
-						.verticalGradient(#e2e2e2, #d2d4d6);
-					}
-
-					&.sorted-asc {
-						div {
-							background-position: 0 -27px;
-						}
-					}
-
-					&.sorted-desc {
-						div {
-							background-position: 0 -56px;
-						}
-					}
-
-					&:last-child {
-						border-right: solid 1px #d4d4d4;
-					}
-				}
-
-				tr.result {
-					cursor:pointer;
-
-					td {
-						padding: 10px 12px 8px 12px;
-						border-bottom: 1px solid #e8e8e8;
-						vertical-align: top;
-					}
-
-					&.even {
-						td {
-							background: #f4f5f5;
-						}
-					}
-
-					&.selected {
-						td {
-							background: #d9e4ec;
-						}
-					}
-
-					&:hover {
-						outline: 1px solid #ddd;
-					}
-
-				}
 			}
 
 			div.loading_rows {
