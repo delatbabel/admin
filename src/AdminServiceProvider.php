@@ -538,11 +538,13 @@ class AdminServiceProvider extends ServiceProvider
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@rowsPerPage'
                 ]);
 
-                // Get results
+                // Get results -- old route
                 Route::post('{model}/results', [
                     'as'   => 'admin_get_results',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@results'
                 ]);
+
+                // Get results -- new route for DataTable via AJAX POST
                 Route::post('{model}/datatable_results', [
                     'as'   => 'admin_get_datatable_results',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dataTableResults'
