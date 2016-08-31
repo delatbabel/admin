@@ -184,11 +184,10 @@ class DataTable
             // ['column' => $column_number, 'dir' => 'asc'|'desc']
             // Have to find the column name from the column number
             $inputOrder = $input['order'][0];
-            $sort      = [
+            $sort       = [
                 'field'     => $inputColumns[$inputOrder['column']]['name'],
                 'direction' => $inputOrder['dir'],
             ];
-
         }
         $this->setSort($sort);
         $sort = $this->getSort();
