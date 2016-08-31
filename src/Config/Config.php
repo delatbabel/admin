@@ -148,7 +148,7 @@ abstract class Config
         $options = $this->getOptions();
 
         if (! array_key_exists($key, $options)) {
-            throw new \InvalidArgumentException("An invalid option was searched for in the '" . $options['name'] . "' config");
+            return false;
         }
 
         return $options[$key];
