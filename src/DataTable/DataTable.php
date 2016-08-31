@@ -2,6 +2,7 @@
 namespace DDPro\Admin\DataTable;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\DataTable\Columns\Column;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Fields\Factory as FieldFactory;
 use Illuminate\Database\DatabaseManager as DB;
@@ -101,6 +102,7 @@ class DataTable
      * @param array									$sort (with 'field' and 'direction' keys)
      *
      * @return array
+     * @deprecated
      */
     public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
     {
@@ -222,7 +224,11 @@ class DataTable
         // get the columns
         $columns = $this->columnFactory->getColumns();
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'columns = ', $columns);
+
         // iterate over the columns to check if we need to join any values or add any extra columns
+        /** @var Column $column */
         foreach ($columns as $column) {
             // if this is a related column, we'll need to add some selects
             $column->filterQuery($selects);
@@ -333,13 +339,14 @@ class DataTable
             $arr = [];
 
             if ($forDataTable) {
+                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                    'parse data table columns from ', $item->toArray());
                 $this->parseOnDataTableColumns($item, $arr);
             } else {
                 $this->parseOnTableColumns($item, $arr);
+                // then grab the computed, unsortable columns
+                $this->parseComputedColumns($item, $arr);
             }
-
-            // then grab the computed, unsortable columns
-            $this->parseComputedColumns($item, $arr);
 
             $results[] = $arr;
         }
@@ -354,6 +361,7 @@ class DataTable
      * @param array									$outputRow
      *
      * @return void
+     * @deprecated
      */
     public function parseOnTableColumns($item, array &$outputRow)
     {
@@ -403,10 +411,6 @@ class DataTable
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
                 $outputRow[] = $columns[$field]->renderOutput($attributeValue, $item);
-            }
-            // otherwise it's likely the primary key column which wasn't included (though it's needed for identification purposes)
-            else {
-                $outputRow[] = $attributeValue;
             }
         }
     }

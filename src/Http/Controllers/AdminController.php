@@ -494,6 +494,7 @@ class AdminController extends Controller
      * @param string		$modelName
      *
      * @return string JSON containing an array of rows
+     * @deprecated
      */
     public function results($modelName)
     {
