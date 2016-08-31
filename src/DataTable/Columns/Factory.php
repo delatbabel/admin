@@ -259,7 +259,7 @@ class Factory
         $result         = [];
         foreach ($columnOptions as $columnData) {
             $column = [
-                'name'      => $columnData['name'],
+                'name'      => $columnData['column_name'],
                 'orderable' => $columnData['sortable'],
             ];
 

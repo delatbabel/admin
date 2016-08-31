@@ -114,13 +114,15 @@
         $(function () {
             $("#customers").DataTable({
                 "processing": true,
+                @if ($config->getOption('server_side'))
                 "searching": false,
                 "serverSide": true,
+                @endif
                 "ajax": {
                     "url": "{!! route('admin_get_datatable_results', array($config->getOption('name'))) !!}",
                     "type": "POST"
                 },
-                "columns": {!! json_encode($columnOptions) !!}}
+                "columns": {!! json_encode($columnOptions) !!}
             });
         });
     </script>
