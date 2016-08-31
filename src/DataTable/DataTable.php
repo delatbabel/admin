@@ -181,7 +181,7 @@ class DataTable
             // If this is set then it will have this structure:
             // ['column' => $column_number, 'dir' => 'asc'|'desc']
             // Have to find the column name from the column number
-            $inputOrder = $input['order]'];
+            $inputOrder = $input['order'];
             $sort      = [
                 'field'     => $inputColumns[$inputOrder['column']],
                 'direction' => $inputOrder['dir'],
