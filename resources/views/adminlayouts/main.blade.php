@@ -23,7 +23,7 @@
     <link href="{{$url}}" media="all" type="text/css" rel="stylesheet">
 @endforeach
 </head>
-<!--
+{{--
 BODY TAG OPTIONS:
 =================
 Apply one or more of the following classes to get the
@@ -42,8 +42,11 @@ desired effect
 |               | sidebar-collapse                        |
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
--->
+--}}
 <body class="skin-blue sidebar-mini">
+{{-- Contains admin data, required to be set up in advance by custom-bindings.js --}}
+@yield('admindata')
+
 {{-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
@@ -57,21 +60,21 @@ desired effect
 
 <div class="wrapper">
 
-    <!-- Main Header -->
+    {{-- Main Header --}}
     @include('adminlayouts.header')
 
-    <!-- Left side column. contains the logo and sidebar -->
+    {{-- Left side column. contains the logo and sidebar --}}
     @include('adminlayouts.sidebar')
 
-    <!-- Content Wrapper. Contains page content -->
+    {{-- Content Wrapper. Contains page content --}}
     @yield('content')
 
-    <!-- Main Footer -->
+    {{-- Main Footer --}}
     @include('adminlayouts.footer')
 
-    <!-- Control Sidebar -->
+    {{-- Control Sidebar --}}
     @include('adminlayouts.control')
-</div><!-- ./wrapper -->
+</div>{{-- ./wrapper --}}
 
 </body>
 </html>

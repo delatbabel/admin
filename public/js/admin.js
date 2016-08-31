@@ -128,11 +128,6 @@
              */
             primaryKey: 'id',
 
-            /* The rows of the current result set
-             * array
-             */
-            rows: ko.observableArray(),
-
             /* The number of rows per page
              * int
              */
@@ -152,14 +147,6 @@
              * object
              */
             listOptions: {},
-
-            /* The current sort options
-             * object
-             */
-            sortOptions: {
-                field: ko.observable(),
-                direction: ko.observable()
-            },
 
             /* The current pagination options
              * object
@@ -310,7 +297,6 @@
                     {
                         if (response.success) {
                             self.statusMessage(self.languages['saved']).statusMessageType('success');
-                            self.updateRows();
                             self.updateSelfRelationships();
                             self.setData(response.data);
 
@@ -353,7 +339,6 @@
                         if (response.success)
                         {
                             self.statusMessage(self.languages['deleted']).statusMessageType('success');
-                            self.updateRows();
                             self.updateSelfRelationships();
 
                             setTimeout(function()
@@ -586,7 +571,6 @@
                 else
                 {
                     url = base_url + self.modelName() + '/custom_action';
-                    data.sortOptions = self.sortOptions;
                     data.filters = self.getFilters();
                     data.page = self.pagination.page();
                     self.globalStatusMessage(messages.active).globalStatusMessageType('');
@@ -624,8 +608,6 @@
                             //if there was a file download initiated, redirect the user to the file download address
                             if (response.download)
                                 self.downloadFile(response.download);
-
-                            self.updateRows();
                         }
                         else
                         {
@@ -657,91 +639,6 @@
                 }
 
                 iframe.src = url;
-            },
-
-            /**
-             * Updates the rows given the data model's current state. Set sort, filters, and anything else before you call this.
-             * Calling this locks the results table.
-             *
-             * @param object    data
-             */
-            updateRows: function()
-            {
-                var self = this,
-                    id = ++self.rowLoadingId,
-                    data = {
-                        _token: csrf,
-                        sortOptions: self.sortOptions,
-                        filters: self.getFilters(),
-                        page: self.pagination.page()
-                    };
-
-                //if the page hasn't been initialized yet, don't update the rows
-                if (!this.initialized())
-                    return;
-
-                //if we're on page 0 (i.e. there is currently no result set, set the page to 1)
-                if (!data.page)
-                    data.page = 1;
-
-                $.ajax({
-                    url: base_url + self.modelName() + '/results',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: data,
-                    success: function(response)
-                    {
-                        //if the row loading id has changed, that means it's old...so don't use this data
-                        if (self.rowLoadingId !== id)
-                        {
-                            return;
-                        }
-
-                        //otherwise the rows aren't loading anymore and we can replace the data
-                        self.pagination.page(response.last ? response.page : response.last);
-                        self.pagination.last(response.last);
-                        self.pagination.total(response.total);
-                        self.rows(response.results);
-                    }
-                });
-            },
-
-            /**
-             * Updates the sort options when a column header is clicked
-             *
-             * @param string    field
-             */
-            setSortOptions: function(field)
-            {
-                //check if the field is a valid column
-                var found = false;
-
-                //iterate over the columns to check if it's a valid sort_field or field
-                $.each(this.columns(), function(i, col)
-                {
-                    if (field === col.sort_field || field === col.column_name)
-                    {
-                        found = true;
-                        return false;
-                    }
-                })
-
-                if (!found)
-                    return false;
-
-                //the direction depends on the field
-                if (field == this.sortOptions.field())
-                    //reverse the direction
-                    this.sortOptions.direction( (this.sortOptions.direction() == 'asc') ? 'desc' : 'asc' );
-                else
-                    //set the direction to asc
-                    this.sortOptions.direction('asc');
-
-                //update the field
-                this.sortOptions.field(field);
-
-                //update the rows
-                this.updateRows();
             },
 
             /**
@@ -789,29 +686,6 @@
 
                 this.pagination.page(newPage);
 
-                //update the rows
-                this.updateRows();
-            },
-
-            /**
-             * Updates the rows per page for this model when the item is changed
-             *
-             * @param int
-             */
-            updateRowsPerPage: function(rows)
-            {
-                var self = this;
-
-                $.ajax({
-                    url: rows_per_page_url,
-                    data: {_token: csrf, rows: rows},
-                    dataType: 'json',
-                    type: 'POST',
-                    complete: function()
-                    {
-                        self.updateRows();
-                    }
-                });
             },
 
             /**
@@ -957,12 +831,6 @@
 
             $.extend(this.viewModel, viewModel);
 
-            this.viewModel.rows(adminData.rows.results);
-            this.viewModel.pagination.page(adminData.rows.page);
-            this.viewModel.pagination.last(adminData.rows.last);
-            this.viewModel.pagination.total(adminData.rows.total);
-            this.viewModel.sortOptions.field(adminData.sortOptions.field);
-            this.viewModel.sortOptions.direction(adminData.sortOptions.direction);
             this.viewModel.columns(this.prepareColumns());
             this.viewModel.modelName(adminData.model_name);
             this.viewModel.modelTitle(adminData.model_title);
@@ -1149,9 +1017,7 @@
         {
             var self = this,
                 runFilter = function(val)
-                {
-                    self.viewModel.updateRows();
-                };
+                { };
 
             //iterate over filters
             $.each(self.filtersViewModel.filters, function(ind, filter)
@@ -1167,8 +1033,6 @@
                         self.filtersViewModel.filters[ind].value(intVal);
                     }
 
-                    //update the rows now that we've got new filters
-                    self.viewModel.updateRows();
                 });
 
                 //check if there's a min and max value. if so, subscribe to those as well
@@ -1196,12 +1060,6 @@
             self.viewModel.pagination.page.subscribe(function(val)
             {
                 self.viewModel.page(val);
-            });
-
-            //subscribe to rows per page change
-            self.viewModel.rowsPerPage.subscribe(function(val)
-            {
-                self.viewModel.updateRowsPerPage(parseInt(val));
             });
         },
 

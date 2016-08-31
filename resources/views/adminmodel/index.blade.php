@@ -1,38 +1,6 @@
 @extends('adminlayouts.main')
 
-@section('content')
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                {{ Config::get('administrator.title') }}
-                <small>{{ $config->getOption('title') }}</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div id="admin_page" class="with_sidebar">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="sidebar">
-                            <div class="sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="content" data-bind="template: 'adminTemplate'"></div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
+@section('admindata')
     <script type="text/javascript">
         var site_url = "{!! url('/') !!}",
             base_url = "{!! $baseUrl !!}/",
@@ -63,6 +31,42 @@
                 languages: {!! json_encode(trans('administrator::knockout')) !!}
             };
     </script>
+@endsection
+
+@section('content')
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                {{ Config::get('administrator.title') }}
+                <small>{{ $config->getOption('title') }}</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div id="admin_page" class="with_sidebar">
+                @if ($config->getOption('server_side'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="sidebar">
+                            <div class="sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content" data-bind="template: 'adminTemplate'"></div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
 
     <style type="text/css">
 
@@ -104,9 +108,11 @@
     @include('adminmodel.edit')
     </script>
 
+@if ($config->getOption('server_side'))
     <script id="filtersTemplate" type="text/html">
     @include('adminmodel.filters')
     </script>
+@endif
 
     <script type="text/javascript">
         // Set up the DataTable in table.blade.php

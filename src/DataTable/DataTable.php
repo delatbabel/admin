@@ -154,17 +154,20 @@ class DataTable
         $countResult = $this->performCountQuery($countQuery, $querySql, $queryBindings, 1);
 
         // now we need to limit and offset the rows in remembrance of our dear lost friend paginate()
-        $query->take($input['length']);
-        $query->skip($input['start']);
+        if (! empty($input['length'])) {
+            $query->take($input['length']);
+        }
+        if (! empty($input['start'])) {
+            $query->skip($input['start']);
+        }
 
         // parse the results
         $output['recordsTotal']     = $countResult['total'];
         $output['recordsFiltered']  = $countResult['total'];
         $output['data']             = $this->parseResults($query->get(), true);
-        $output['draw']             = (integer) $input['draw'];
-
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'getRows result', $output);
+        if (! empty($input['draw'])) {
+            $output['draw']         = (integer) $input['draw'];
+        }
 
         return $output;
     }
