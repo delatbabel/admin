@@ -1,6 +1,8 @@
 <?php
 namespace DDPro\Admin\Tests\DataTable\Columns;
 
+require_once __DIR__ . '/../../LogStub.php';
+
 use Mockery as m;
 
 class EloquentStub {
@@ -43,6 +45,16 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
      * @var Mockery
      */
     protected $factory;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        // Stub out the log facade
+        if (! class_exists('Log')) {
+            class_alias('LogStub', 'Log');
+        }
+    }
 
     /**
      * The namespace prefix that we have to use in order to get around the weird php quirk that requires you to specify the
