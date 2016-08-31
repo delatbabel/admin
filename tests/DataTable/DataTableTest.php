@@ -107,8 +107,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model)
                         ->shouldReceive('runQueryFilter')->twice();
         $this->dataTable->shouldReceive('setSort')->once()
-                        ->shouldReceive('getSort')->once()->andReturn(array('field' => 'id', 'direction' => 'asc'))
-                        ->shouldReceive('setFilters')->once();
+                        ->shouldReceive('getSort')->once()->andReturn(array('field' => 'id', 'direction' => 'asc'));
         $output = array(
             $query,
             'sql string',
@@ -167,8 +166,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
         $model = m::mock('Illuminate\Database\Eloquent\Model');
         $model->shouldReceive('getAttribute')->times(3)->andReturn('raw');
         $outputRow = array();
-        $regColumnOutput = array('raw'=>'raw','rendered'=>'rendered');
-        $testOutput = array('column1' => $regColumnOutput, 'column2' => $regColumnOutput, 'key_column' => array('raw'=>'raw','rendered'=>'raw'));
+        $testOutput = ['rendered', 'rendered'];
         $this->dataTable->parseOnTableColumns($model, $outputRow);
         $this->assertEquals($outputRow, $testOutput);
     }
@@ -184,8 +182,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
         $model->column1 = 'raw';
         $model->column2 = 'raw';
         $outputRow = array();
-        $regColumnOutput = array('raw'=>'raw','rendered'=>'rendered');
-        $testOutput = array('column1' => $regColumnOutput, 'column2' => $regColumnOutput);
+        $testOutput = ['rendered', 'rendered'];
         $this->dataTable->parseComputedColumns($model, $outputRow);
         $this->assertEquals($outputRow, $testOutput);
     }

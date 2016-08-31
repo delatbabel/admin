@@ -161,23 +161,25 @@ class DataTable
      *
      * @return array
      */
-    public function prepareQuery(DB $db, $input)
+    public function prepareQuery(DB $db, $input = [])
     {
         // grab the model instance
         /** @var Model $model */
         $model = $this->config->getDataModel();
 
-        // Grab the columns array from the input
         if (! isset($input['columns']) || ! is_array($input['columns'])) {
-            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'Input array does not contain a columns array, cannot continue.', $input);
-            return [];
+            Log::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Input array does not contain a columns array, cannot get column options.', $input);
+        } else {
+            // Grab the columns array from the input
+            // We have provided input columns so we can get the sort structure from that.
+            $inputColumns = $input['columns'];
         }
-        $inputColumns = $input['columns'];
 
         // update the sort options
         $sort = [];
-        if (isset($input['order']) && is_array($input['order'])) {
+        if (isset($input['order']) && is_array($input['order']) && isset($inputColumns)) {
+
             // If this is set then it will have this structure:
             // ['column' => $column_number, 'dir' => 'asc'|'desc']
             // Have to find the column name from the column number
@@ -186,6 +188,7 @@ class DataTable
                 'field'     => $inputColumns[$inputOrder['column']]['name'],
                 'direction' => $inputOrder['dir'],
             ];
+
         }
         $this->setSort($sort);
         $sort = $this->getSort();
@@ -344,8 +347,6 @@ class DataTable
             // iterate over the included and related columns
             $arr = [];
 
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'parse data table columns from ', $item->toArray());
             $this->parseOnTableColumns($item, $arr);
 
             // then grab the computed, unsortable columns
@@ -393,7 +394,7 @@ class DataTable
     public function parseComputedColumns($item, array &$outputRow)
     {
         Log::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'parse computed columns called, this has not been checked ', $item->toArray());
+            'parse computed columns called, this has not been checked');
 
         $columns         = $this->columnFactory->getColumns();
         $computedColumns = $this->columnFactory->getComputedColumns();
