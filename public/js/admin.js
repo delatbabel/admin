@@ -208,11 +208,6 @@
              */
             itemLoadingId: ko.observable(null),
 
-            /* If this is set to true, the row loading screen will be visible
-             * bool
-             */
-            loadingRows: ko.observable(false),
-
             /* The id of the rows currently being loaded
              * int
              */
@@ -689,9 +684,6 @@
                 if (!data.page)
                     data.page = 1;
 
-                //set loadingRows to true so that the loading box comes up
-                self.loadingRows(true);
-
                 $.ajax({
                     url: base_url + self.modelName() + '/results',
                     type: 'POST',
@@ -710,7 +702,6 @@
                         self.pagination.last(response.last);
                         self.pagination.total(response.total);
                         self.rows(response.results);
-                        self.loadingRows(false);
                     }
                 });
             },

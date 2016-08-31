@@ -32,10 +32,6 @@
                 </tr>
             </thead>
         </table>
-
-        <div class="loading_rows" data-bind="visible: loadingRows">
-            <div><?php echo trans('administrator::administrator.loading') ?></div>
-        </div>
     </div>
 
 </div>

@@ -153,28 +153,6 @@
   width: 100%;
   overflow-x: auto;
 }
-#admin_page #content div.table_container div.loading_rows {
-  position: absolute;
-  top: 95px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #000;
-  opacity: 0.50;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: progid:dximagetransform.microsoft.alpha(opacity=50);
-  filter: alpha(opacity=50);
-  text-align: center;
-}
-#admin_page #content div.table_container div.loading_rows > div {
-  position: absolute;
-  top: 45%;
-  left: 0;
-  right: 0;
-  color: #fff;
-  font-size: 35px;
-  text-shadow: #000 1px 1px 1px;
-}
 #admin_page #content div.table_container div.no_results {
   position: absolute;
   top: 180px;
