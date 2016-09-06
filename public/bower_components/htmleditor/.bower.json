@@ -1,0 +1,31 @@
+{
+  "name": "htmleditor",
+  "version": "0.3.1",
+  "ignore": [
+    "node_modules"
+  ],
+  "authors": [
+    "Brett Zamir <brettz9@yahoo.com>"
+  ],
+  "description": "HTML Editor based on CodeMirror's mixed mode syntax with split-screen preview",
+  "keywords": [
+    "html",
+    "editor"
+  ],
+  "devDependencies": {
+    "codemirror": "5.x",
+    "split-pane": "0.4.x"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/brettz9/htmleditor",
+  "_release": "0.3.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.1",
+    "commit": "ce821739a2a6ab4793eb19d8695c7c0ec33925f7"
+  },
+  "_source": "https://github.com/brettz9/htmleditor.git",
+  "_target": "^0.3.1",
+  "_originalSource": "htmleditor",
+  "_direct": true
+}
