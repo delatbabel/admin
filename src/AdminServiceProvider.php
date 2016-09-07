@@ -397,7 +397,7 @@ class AdminServiceProvider extends ServiceProvider
                 ];
             }
 
-            $view->js += ['page' => $this->asset('js/page.js')];
+            // $view->js += ['page' => $this->asset('js/page.js')];
         });
 
         // An example of bower-izing one of the assets
