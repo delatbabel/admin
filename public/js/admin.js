@@ -38,14 +38,6 @@
         $dataTable: null,
 
         /*
-         * If this is true, the dataTable is scrollable instead of
-         * skipping columns at the end
-         *
-         * @type bool
-         */
-        dataTableScrollable: false,
-
-        /*
          * The pixel points where the columns are hidden
          *
          * @type object
@@ -132,11 +124,6 @@
              * int
              */
             rowsPerPage: ko.observable(20),
-
-            /* The options (1-100 ...set up in init method) for the rows per page
-             * array
-             */
-            rowsPerPageOptions: [],
 
             /* The columns for the current data model
              * array
@@ -843,12 +830,6 @@
             this.viewModel.actionPermissions = adminData.action_permissions;
             this.viewModel.languages = adminData.languages;
 
-            //set up the rowsPerPageOptions
-            for (var i = 1; i <= 100; i++)
-            {
-                this.viewModel.rowsPerPageOptions.push({id: i, text: i + ''});
-            }
-
             //now that we have most of our data, we can set up the computed values
             this.initComputed();
 
@@ -877,6 +858,9 @@
 
             //run an initial page resize
             this.resizePage();
+
+            // Not sure if this should go here or not. Set up the markitup region
+            $(".markitup").markItUp(mySettings);
 
             //finally run a timer to overcome bugs with select2
             setTimeout(function()
@@ -1393,75 +1377,7 @@
                 //resize the page height
                 $('#admin_page').css({minHeight: usedHeight});
 
-                //resize or scroll the data table
-                if (window.admin) {
-                    if (! window.admin.dataTableScrollable)
-                        window.admin.resizeDataTable();
-                    else
-                    window.admin.scrollDataTable();
-                }
             }, 50);
-        },
-
-        /**
-         * Allows to scroll wide data tables (alternative to resizeDataTable)
-         */
-        scrollDataTable: function()
-        {
-            if (!self.$tableContainer)
-            {
-                self.$tableContainer = $('div.table_container');
-                self.$dataTable = self.$tableContainer.find('table.results');
-            }
-
-            // exit if table is already wrapped
-            if (self.$dataTable.parent().hasClass('table_scrollable')) return true;
-
-            // wrap table within div.table_scrollable
-            self.$dataTable.wrap('<div class="table_scrollable"></div>')
-        },
-
-        /**
-         * Hides columns until the table container is at least as wide as the data table
-         */
-        resizeDataTable: function()
-        {
-            var self = window.admin,
-                winWidth = $(window).width();
-
-            if (!self.$tableContainer)
-            {
-                self.$tableContainer = $('div.table_container');
-                self.$dataTable = self.$tableContainer.find('table.results');
-            }
-
-            //grab the columns
-            var columns = self.viewModel.columns();
-
-            //iterate over the column hide points to see if we should unhide any of them
-            $.each(self.columnHidePoints, function(i, el)
-            {
-                if (el < winWidth)
-                    columns[i].visible(true);
-            });
-
-            //walk backwards over the columns to determine which ones to hide
-            for (var i = columns.length - 1; i >= 2; i--)
-            {
-                //if the datatable is visible and the table is large than its container
-                if (columns.length >= 2 && self.$dataTable.is(':visible') && (self.$tableContainer.width() < self.$dataTable.width()) )
-                {
-                    //we don't want to hide all the columns
-                    if (i <= 1)
-                        return;
-                    if (columns[i].visible())
-                    {
-                        columns[i].visible(false);
-                        self.columnHidePoints[i] = winWidth;
-                        break;
-                    }
-                }
-            }
         }
     };
 

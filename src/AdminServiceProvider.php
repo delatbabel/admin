@@ -330,7 +330,7 @@ class AdminServiceProvider extends ServiceProvider
                 'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
             ];
 
-            // add the adminlte-page css assets
+            // add the non-custom-page css assets
             if (! $view->page && ! $view->dashboard) {
                 $view->css += [
                     'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
@@ -344,13 +344,9 @@ class AdminServiceProvider extends ServiceProvider
                     'themestyle-min'       => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                     'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
                     'icheck'               => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
-                ];
-            }
-
-            // add the non-custom-page css assets
-            if (! $view->page && ! $view->dashboard) {
-                $view->css += [
-                     'select2'              => $this->asset('js/jquery/select2/select2.css')
+                    'select2'              => $this->asset('js/jquery/select2/select2.css'),
+                    'markitup-style'       => $this->bowerAsset('markitup/markitup/skins/markitup/style.css'),
+                    'markitup-settings'    => $this->bowerAsset('markitup/markitup/sets/default/style.css'),
                 ];
             }
 
@@ -362,7 +358,6 @@ class AdminServiceProvider extends ServiceProvider
             ];
 
             // add the non-custom-page js assets
-            // FIXME: These should come from bower
             if (! $view->page && ! $view->dashboard) {
                 $view->js += [
                     'select2'              => $this->asset('js/jquery/select2/select2.js'),
@@ -370,6 +365,8 @@ class AdminServiceProvider extends ServiceProvider
                     'ckeditor-jquery'      => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
                     'markdown'             => $this->asset('js/markdown.js'),
                     'plupload'             => $this->asset('js/plupload/js/plupload.full.js'),
+                    'markitup'             => $this->bowerAsset('markitup/markitup/jquery.markitup.js'),
+                    'markitup-settings'    => $this->bowerAsset('markitup/markitup/sets/default/set.js'),
                 ];
 
                 // localization js assets

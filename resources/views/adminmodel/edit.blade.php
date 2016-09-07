@@ -48,12 +48,17 @@
                     <!-- /ko -->
                 <!-- /ko -->
 
-                <!-- ko if: type === 'wysiwyg' -->
+                    <!-- ko if: type === 'wysiwyg' -->
                     <textarea class="wysiwyg" data-bind="attr: {disabled: $root.freezeForm, id: field_id},
                                 wysiwyg: {value: $root[field_name], id: field_id}"></textarea>
-                <!-- /ko -->
+                    <!-- /ko -->
 
-                <!-- ko if: type === 'markdown' -->
+                    <!-- ko if: type === 'html' -->
+                    <textarea class="markitup" data-bind="attr: {disabled: $root.freezeForm, id: field_id},
+                                markitup: {value: $root[field_name], id: field_id}"></textarea>
+                    <!-- /ko -->
+
+                    <!-- ko if: type === 'markdown' -->
                     <!-- ko if: editable -->
                         <div class="markdown_container" data-bind="style: {height: height + 'px'}">
                             <div class="characters_left" data-bind="charactersLeft: {value: $root[field_name], limit: limit}"></div>
