@@ -277,6 +277,11 @@ class AdminController extends Controller
      */
     public function save($modelName, $id = null)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'model item save, modelName = ' . $modelName . ', id = ' . $id, [
+            'input' => $this->request->all(),
+        ]);
+
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
