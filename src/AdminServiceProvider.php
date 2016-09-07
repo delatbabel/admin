@@ -325,11 +325,6 @@ class AdminServiceProvider extends ServiceProvider
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
             ];
 
-            // FIXME should come from bower
-            $view->js += [
-                'customscroll' => $this->asset('js/jquery/customscroll/jquery.customscroll.js'),
-            ];
-
             // add the non-custom-page css assets
             if (! $view->page && ! $view->dashboard) {
                 $view->css += [
@@ -353,7 +348,6 @@ class AdminServiceProvider extends ServiceProvider
             // add the package-wide css assets
             $view->css += [
                 'jquery-colorpicker'    => $this->asset('css/jquery.lw-colorpicker.css'),
-                'customscroll'          => $this->asset('js/jquery/customscroll/customscroll.css'),
                 'main'                  => $this->asset('css/main.css'),
             ];
 
@@ -396,8 +390,6 @@ class AdminServiceProvider extends ServiceProvider
                     'settings'                 => $this->asset('js/settings.js'),
                 ];
             }
-
-            // $view->js += ['page' => $this->asset('js/page.js')];
         });
 
         // An example of bower-izing one of the assets
