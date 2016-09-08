@@ -6,6 +6,7 @@
     - [Title](#title) *(required)*
     - [Single](#single) *(required)*
     - [Model](#model) *(required)*
+    - [Server Side](#server_side)
     - [Columns](#columns) *(required)*
     - [Edit Fields](#edit-fields) *(required)*
     - [Filters](#filters)
@@ -75,6 +76,20 @@ This is used anywhere in Administrator where a singular name must be used. For e
     'model' => 'Collection',
 
 This must be the fully-qualified class name of your Eloquent model. In this case I've got a `Collection` model. If you are namespacing your models, you'll want to provide the full namespaced class name.
+
+<a name="server_side"></a>
+### Server Side
+
+    /**
+     * Whether to do table pagination on the server side or client side (default)
+     *
+     * @type boolean
+     */
+    'server_side' => true,
+
+If this is set to *true* then the table display will only show the first *n* rows (where *n* is selected in the **Show n entries** pulldown above the table).  Moving from page to page through the table will fetch an additional *n* rows for each page.  This is useful for large data sets.  If this is set to *false* then all of the rows for the table are fetched at once, and sorting, searching, and pagination are done on the client side.
+
+Setting this to *true* also shows the **Filters** form.  Setting this to *false* hides the filters form and instead shows a single **Search** field above the table which can be used for searching and filtering of the table data.
 
 <a name="columns"></a>
 ### Columns *(required)*
