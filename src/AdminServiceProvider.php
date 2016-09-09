@@ -95,6 +95,7 @@ class AdminServiceProvider extends ServiceProvider
         // from having to register them each individually.
         $this->app->register(\Delatbabel\SiteConfig\SiteConfigServiceProvider::class);
         $this->app->register(\Delatbabel\ViewPages\ViewPagesServiceProvider::class);
+        $this->app->register(\Delatbabel\Applog\DebugServiceProvider::class);
     }
 
     /**
