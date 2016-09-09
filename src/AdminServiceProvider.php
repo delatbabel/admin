@@ -412,11 +412,17 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected function publishRoutes()
     {
+        // Register the additional middleware that we provide
+        Route::middleware('post.validate', \DDPro\Admin\Http\Middleware\PostValidate::class);
+        Route::middleware('validate.admin', \DDPro\Admin\Http\Middleware\ValidateAdmin::class);
+        Route::middleware('validate.model', \DDPro\Admin\Http\Middleware\ValidateModel::class);
+        Route::middleware('validate.settings', \DDPro\Admin\Http\Middleware\ValidateSettings::class);
+
         //
         // Temporary solution for middleware in routes
         // TODO: remove in favor of setting the config for middleware outside of the routes file
         //
-        $middleware_array = ['DDPro\Admin\Http\Middleware\ValidateAdmin'];
+        $middleware_array = ['validate.admin'];
         if (is_array(config('administrator.middleware'))) {
             $middleware_array = array_merge(config('administrator.middleware'), $middleware_array);
         }
@@ -448,12 +454,13 @@ class AdminServiceProvider extends ServiceProvider
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page'
             ]);
 
-                Route::group(
-                [
-                    'middleware' => [
-                        'DDPro\Admin\Http\Middleware\ValidateSettings',
-                        'DDPro\Admin\Http\Middleware\PostValidate']
-                ], function () {
+            // Switch locales
+            Route::get('switch_locale/{locale}', [
+                'as'   => 'admin_switch_locale',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale'
+            ]);
+
+            Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
                     // Settings Pages
                 Route::get('settings/{settings}', [
                     'as'   => 'admin_settings',
@@ -483,21 +490,10 @@ class AdminServiceProvider extends ServiceProvider
                     'as'   => 'admin_settings_file_upload',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
                 ]);
-                });
-
-            // Switch locales
-            Route::get('switch_locale/{locale}', [
-                'as'   => 'admin_switch_locale',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale'
-            ]);
+            });
 
             // The route group for all other requests needs to validate admin, model, and add assets
-            Route::group(
-                [
-                    'middleware' => [
-                        'DDPro\Admin\Http\Middleware\ValidateModel',
-                        'DDPro\Admin\Http\Middleware\PostValidate']
-                ], function () {
+            Route::group(['middleware' => ['validate.model', 'post.validate']], function () {
                     // Model Index
                 Route::get('{model}', [
                     'as'   => 'admin_index',
@@ -575,7 +571,7 @@ class AdminServiceProvider extends ServiceProvider
                     'as'   => 'admin_custom_model_item_action',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelItemAction'
                 ]);
-                });
             });
+        });
     }
 }
