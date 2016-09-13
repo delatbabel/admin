@@ -307,7 +307,7 @@ class AdminServiceProvider extends ServiceProvider
             $view->configType = app()->bound('itemconfig') ? app('itemconfig')->getType() : false;
         });
 
-        // the layout view
+        // the main layout view, gets used for all authenticated users. Shows the menu, etc.
         View::composer(['adminlayouts.main'], function ($view) {
             // set up the basic asset arrays
             $view->css = [];
@@ -391,6 +391,33 @@ class AdminServiceProvider extends ServiceProvider
                     'settings'                 => $this->asset('js/settings.js'),
                 ];
             }
+        });
+
+        // the "noauth" layout view, gets used for all non-authenticated users, e.g. the login screens, etc.
+        View::composer(['adminlayouts.noauth'], function ($view) {
+            // set up the basic asset arrays
+            $view->css = [];
+
+            // Add the package wide JS assets
+            $view->js = [
+                'jquery'               => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
+                'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
+                'adminlte-app'         => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
+            ];
+
+            // add the non-custom-page css assets
+            $view->css += [
+                'bootstrap'            => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
+                'fontawesome'          => $this->bowerAsset('fontawesome/css/font-awesome.min.css'),
+                'ionicons'             => $this->bowerAsset('Ionicons/css/ionicons.min.css'),
+                'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
+                'icheck'               => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
+            ];
+
+            // add the package-wide css assets
+            $view->css += [
+                'main'                  => $this->asset('css/main.css'),
+            ];
         });
 
         // An example of bower-izing one of the assets
