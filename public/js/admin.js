@@ -289,8 +289,10 @@
 
                             setTimeout(function()
                             {
-                                History.pushState({modelName: self.modelName()}, null, route + self.modelName());
+                                window.admin.viewModel.closeItem();
                             }, 200);
+                            // Reset DataTable
+                            $("#customers").DataTable().ajax.reload(null, false);
                         }
                         else
                             self.statusMessage(response.errors).statusMessageType('error');
@@ -330,8 +332,10 @@
 
                             setTimeout(function()
                             {
-                                History.pushState({modelName: self.modelName()}, null, route + self.modelName());
+                                window.admin.viewModel.closeItem();
                             }, 500);
+                            // Reset DataTable
+                            $("#customers").DataTable().ajax.reload(null, false);
                         }
                         else
                             self.statusMessage(response.error).statusMessageType('error');
@@ -1254,6 +1258,14 @@
                 History.pushState({modelName: self.viewModel.modelName(), id: 0}, null, route + self.viewModel.modelName() + '/new');
             });
 
+            //clicking the edit item button
+            $('#content').on('click', 'div.results_header a.edit_item', function(e)
+            {
+                e.preventDefault();
+                var tmpID = $($(this)[0]).attr('data-id');
+                History.pushState({modelName: self.viewModel.modelName(), id: tmpID}, null, route + self.viewModel.modelName() + '/' + tmpID);
+            });
+
             //resizing the window
             $(window).resize(self.resizePage);
 
@@ -1271,9 +1283,9 @@
 
                 //if the model name is present
                 if ('modelName' in state.data)
-                    //if that model name isn't the current model name, we are updating the model
+                //if that model name isn't the current model name, we are updating the model
                     if (state.data.modelName !== self.viewModel.modelName())
-                        //get the new model
+                    //get the new model
                         self.viewModel.getNewModel(state.data);
 
                 //if the state data has an id field and if it's not the active item
@@ -1370,7 +1382,7 @@
             setTimeout(function()
             {
                 var winHeight = $(window).height(),
-                    itemEditHeight = $('div.item_edit').outerHeight() + 50,
+                    itemEditHeight = $('div.item_edit').outerHeight() + 200,
                     usedHeight = winHeight > itemEditHeight ? winHeight : itemEditHeight,
                     size = window.getComputedStyle(document.body, ':after').getPropertyValue('content');
 

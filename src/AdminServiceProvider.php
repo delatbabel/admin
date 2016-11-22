@@ -321,8 +321,9 @@ class AdminServiceProvider extends ServiceProvider
                 'date-range-picker2'   => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.js'),
                 'bootstrap-datepicker' => $this->bowerAsset('admin-lte/plugins/datepicker/bootstrap-datepicker.js'),
                 'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.js'),
-                'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/jquery.dataTables.min.js'),
-                'datatable-bootstrap'  => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.min.js'),
+                'datatable'            => $this->bowerAsset('datatables.net/js/jquery.dataTables.min.js'),
+                'datatable-bootstrap'  => $this->bowerAsset('datatables.net-bs/js/dataTables.bootstrap.min.js'),
+                'datatable-select'     => $this->bowerAsset('datatables.net-select/js/dataTables.select.min.js'),
                 'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
             ];
 
@@ -335,7 +336,8 @@ class AdminServiceProvider extends ServiceProvider
                     'dateranger-picker'    => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.css'),
                     'bootstrap-datepicker' => $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
                     'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
-                    'datatable'            => $this->bowerAsset('admin-lte/plugins/datatables/dataTables.bootstrap.css'),
+                    'datatable-bs'         => $this->bowerAsset('datatables.net-bs/css/dataTables.bootstrap.min.css'),
+                    'datatable-select-bs'  => $this->bowerAsset('datatables.net-select-bs/css/select.bootstrap.min.css'),
                     'themestyle'           => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
                     'themestyle-min'       => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                     'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
@@ -463,7 +465,7 @@ class AdminServiceProvider extends ServiceProvider
                 'prefix'     => config('administrator.uri'),
                 'middleware' => $middleware_array
             ], function () {
-                // Admin Dashboard
+            // Admin Dashboard
             Route::get('/', [
                 'as'   => 'admin_dashboard',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',

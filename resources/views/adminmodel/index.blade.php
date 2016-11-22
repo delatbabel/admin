@@ -60,7 +60,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="sidebar">
-                            <div class="sidebar_section" id="filters_sidebar_section" data-bind="template: 'filtersTemplate'"></div>
+                            <div class="sidebar_section" id="filters_sidebar_section"
+                                 data-bind="template: 'filtersTemplate'"></div>
                         </div>
                     </div>
                 </div>
@@ -93,10 +94,10 @@
             width: {{ intval(($formWidth - 75) / 2) }}px !important;
         }
 
-        div.item_edit form.edit_form input[type="text"], div.item_edit form.edit_form input[type="password"], div.item_edit form.edit_form textarea {
-            max-width: {{ $formWidth - 75 }}px !important;
-            width: {{ $formWidth - 75 }}px !important;
-        }
+        {{--div.item_edit form.edit_form input[type="text"], div.item_edit form.edit_form input[type="password"], div.item_edit form.edit_form textarea {--}}
+            {{--max-width: {{ $formWidth - 75 }}px !important;--}}
+            {{--width: {{ $formWidth - 75 }}px !important;--}}
+        {{--}--}}
 
         div.item_edit form.edit_form > div.image img, div.item_edit form.edit_form > div.image div.image_container {
             max-width: {{ $formWidth - 65 }}px;
@@ -104,7 +105,7 @@
 
     </style>
 
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
     <script id="adminTemplate" type="text/html">
     @include('adminmodel.table')
@@ -122,6 +123,10 @@
         // Set up the DataTable in table.blade.php
         $(function () {
             $("#customers").DataTable({
+                @if ($actionPermissions['update'])
+                "deferRender": true,
+                "select": 'single',
+                @endif
                 "processing": true,
                 @if ($config->getOption('server_side'))
                 "searching": false,
@@ -132,7 +137,26 @@
                     "type": "POST"
                 },
                 "columns": {!! json_encode($columnOptions) !!}
-            });
+            })
+                .on('select', function (e, dt, type, indexes) {
+                    var rowData = dt.rows(indexes).data().toArray()[0];
+                    var flg = false;
+                    $.each(adminData.column_model, function (key, obj) {
+                        if (obj.column_name == adminData.primary_key) {
+                            $('a.edit_item').attr('data-id', rowData[key]).show();
+                            flg = true;
+                        }
+                    });
+                    if (!flg) {
+                        alert('For edit item, you should add an column for primary key')
+                    }
+                })
+                .on('deselect', function (e, dt, type, indexes) {
+                    $('a.edit_item').hide();
+                })
+                .on('draw.dt', function () {
+                    $('a.edit_item').hide();
+                });
         });
     </script>
 
