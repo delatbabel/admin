@@ -6,6 +6,7 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
+use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\View as FacadeView;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
@@ -194,10 +196,16 @@ class AdminController extends Controller
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'model index view');
 
-        // set the layout content and title
-        $this->view = view(config('administrator.model_index_view'));
+        /** @var Config $config */
+        $config = app('itemconfig');
+        if ($bladePath = $config->getOption('blade_view_index')) {
+            FacadeView::composer($bladePath, ModelViewComposer::class);
 
-        return $this->view;
+            return $this->view = view($bladePath);
+        }
+
+        // set the layout content and title
+        return $this->view = view(config('administrator.model_index_view'));
     }
 
     /**
@@ -255,6 +263,14 @@ class AdminController extends Controller
             // set the Vary : Accept header to avoid the browser caching the json response
             return $response->header('Vary', 'Accept');
         } else {
+            /** @var Config $config */
+            $config = app('itemconfig');
+            if ($bladePath = $config->getOption('blade_view_form')) {
+                FacadeView::composer($bladePath, ModelViewComposer::class);
+
+                return $this->view = view($bladePath);
+            }
+
             $this->view = view(config('administrator.model_index_view'), [
                 'itemId' => $itemId,
             ]);
