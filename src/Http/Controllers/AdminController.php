@@ -194,7 +194,7 @@ class AdminController extends Controller
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'model index view');
 
-        return $this->getModelViewTemplate();
+        return $this->getModelViewTemplate('blade_view_index');
     }
 
     /**
@@ -252,7 +252,7 @@ class AdminController extends Controller
             // set the Vary : Accept header to avoid the browser caching the json response
             return $response->header('Vary', 'Accept');
         } else {
-            return $this->getModelViewTemplate([
+            return $this->getModelViewTemplate('blade_view_form', [
                 'itemId' => $itemId,
             ]);
         }
@@ -768,14 +768,15 @@ class AdminController extends Controller
     /**
      * Get view from setting or model config
      *
+     * @param string $name ModelViewName
      * @param array $arrParameter Data
      * @return View
      */
-    protected function getModelViewTemplate($arrParameter = [])
+    protected function getModelViewTemplate($name, $arrParameter = [])
     {
         /** @var Config $config */
         $config = app('itemconfig');
-        if ($bladePath = $config->getOption('blade_view_index')) {
+        if ($bladePath = $config->getOption($name)) {
             FacadeView::composer($bladePath, ModelViewComposer::class);
 
             return $this->view = view($bladePath);
