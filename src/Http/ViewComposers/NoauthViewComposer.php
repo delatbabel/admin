@@ -5,7 +5,6 @@ use Illuminate\View\View;
 
 class NoauthViewComposer extends ViewComposer
 {
-    use TraitViewComposer;
 
     /**
      * Bind data to the view.
