@@ -47,7 +47,7 @@ class MainViewComposer extends ViewComposer
                 'themestyle-min'       => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                 'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
                 'icheck'               => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
-                'select2'              => $this->asset('js/jquery/select2/select2.css'),
+                'select2'              => $this->bowerAsset('admin-lte/plugins/select2/select2.min.css'),
                 'markitup-style'       => $this->bowerAsset('markitup/markitup/skins/markitup/style.css'),
                 'markitup-settings'    => $this->bowerAsset('markitup/markitup/sets/default/style.css'),
             ];
@@ -62,7 +62,7 @@ class MainViewComposer extends ViewComposer
         // add the non-custom-page js assets
         if (!$view->page && !$view->dashboard) {
             $view->js += [
-                'select2'           => $this->asset('js/jquery/select2/select2.js'),
+                'select2'           => $this->bowerAsset('admin-lte/plugins/select2/select2.full.min.js'),
                 'ckeditor'          => $this->bowerAsset('admin-lte/plugins/ckeditor/ckeditor.js'),
                 'ckeditor-jquery'   => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
                 'markdown'          => $this->asset('js/markdown.js'),

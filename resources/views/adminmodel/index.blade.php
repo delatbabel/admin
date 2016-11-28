@@ -64,33 +64,11 @@
             </div>
         </section>
     </div>
-    <style type="text/css">
-        div.item_edit form.edit_form select, div.item_edit form.edit_form input[type=hidden], div.item_edit form.edit_form .select2-container {
-            width: {{ $formWidth - 59 }}px !important;
-        }
-
-        div.item_edit form.edit_form .cke {
-            width: {{ $formWidth - 67 }}px !important;
-        }
-
-        div.item_edit form.edit_form div.markdown textarea {
-            width: {{ intval(($formWidth - 75) / 2) - 12 }}px !important;
-            max-width: {{ intval(($formWidth - 75) / 2) - 12 }}px !important;
-        }
-
-        div.item_edit form.edit_form div.markdown div.preview {
-            width: {{ intval(($formWidth - 75) / 2) }}px !important;
-        }
-
-        div.item_edit form.edit_form > div.image img, div.item_edit form.edit_form > div.image div.image_container {
-            max-width: {{ $formWidth - 65 }}px;
-        }
-    </style>
-    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
     <script type="text/javascript">
         // Set up the DataTable in table.blade.php
         $(function () {
-            $("#customers").DataTable({
+            var ajaxParams = {};
+            var tmpDatatable = $("#customers").DataTable({
                 @if ($actionPermissions['update'])
                 "deferRender": true,
                 "select": 'single',
@@ -102,7 +80,12 @@
                 @endif
                 "ajax": {
                     "url": "{!! route('admin_get_datatable_results', array($config->getOption('name'))) !!}",
-                    "type": "POST"
+                    "type": "POST",
+                    "data": function (data) { // add request parameters before submit
+                        $.each(ajaxParams, function (key, value) {
+                            data[key] = value;
+                        });
+                    },
                 },
                 "columns": {!! json_encode($columnOptions) !!}
             }).on('select', function (e, dt, type, indexes) {
@@ -122,6 +105,54 @@
             }).on('draw.dt', function () {
                 $('a.edit_item').hide();
             });
+            $('.btn-filter').click(function () {
+                // get all typeable inputs
+                $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])').each(function () {
+                    setAjaxParam($(this).attr("name"), $(this).val());
+                });
+                // get all checkboxes
+                $('input.form-filter[type="checkbox"]:checked').each(function () {
+                    addAjaxParam($(this).attr("name"), $(this).val());
+                });
+                // get all radio buttons
+                $('input.form-filter[type="radio"]:checked').each(function () {
+                    setAjaxParam($(this).attr("name"), $(this).val());
+                });
+                tmpDatatable.ajax.reload();
+            });
+            $('.btn-filter-reset').click(function () {
+                $('textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
+                $(".select2").val('').trigger('change');
+
+                clearAjaxParams();
+                tmpDatatable.ajax.reload();
+            });
+            function setAjaxParam(name, value) {
+                ajaxParams[name] = value;
+            }
+
+            function addAjaxParam(name, value) {
+                if (!ajaxParams[name]) {
+                    ajaxParams[name] = [];
+                }
+                skip = false;
+                for (var i = 0; i < (ajaxParams[name]).length; i++) { // check for duplicates
+                    if (ajaxParams[name][i] === value) {
+                        skip = true;
+                    }
+                }
+                if (skip === false) {
+                    ajaxParams[name].push(value);
+                }
+            }
+
+            function clearAjaxParams(name, value) {
+                ajaxParams = {};
+            }
         });
     </script>
 @endsection

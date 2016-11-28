@@ -3,14 +3,11 @@
         <div class="results_header box-header">
             <h2 class="box-title">{{$config->getOption('title')}}</h2>
             <div class="actions" style="padding-right: 7px;">
-                <!-- ko if: globalActions().length -->
-                <!-- ko foreach: globalActions -->
-                <!-- ko if: has_permission -->
-                <input type="button" class="btn btn-info" data-bind="click: function(){$root.customAction(false, action_name, messages, confirmation)}, value: title,
-                                                                            attr: {disabled: $root.freezeForm() || $root.freezeActions()}"/>
-                <!-- /ko -->
-                <!-- /ko -->
-                <!-- /ko -->
+                @foreach($globalActions as $arr)
+                    @if($arr['has_permission'])
+                        <input type="button" class="btn btn-info" value="{{$arr['title']}}"/>
+                    @endif
+                @endforeach
                 @if(isset($actionPermissions['update']) === true)
                     <a class="edit_item btn btn-primary" style="display: none">
                         {{trans('administrator::administrator.edit')}} {{$config->getOption('single')}}
