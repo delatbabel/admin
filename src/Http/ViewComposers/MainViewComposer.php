@@ -28,7 +28,7 @@ class MainViewComposer extends ViewComposer
             'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.js'),
             'datatable'            => $this->bowerAsset('datatables.net/js/jquery.dataTables.min.js'),
             'datatable-bootstrap'  => $this->bowerAsset('datatables.net-bs/js/dataTables.bootstrap.min.js'),
-            'datatable-select'     => $this->bowerAsset('datatables.net-select/js/dataTables.select.min.js'),
+            // 'datatable-select'     => $this->bowerAsset('datatables.net-select/js/dataTables.select.min.js'),
             'slim-scroll'          => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
         ];
 
@@ -42,7 +42,7 @@ class MainViewComposer extends ViewComposer
                 'bootstrap-datepicker' => $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
                 'bootstrap-timepicker' => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
                 'datatable-bs'         => $this->bowerAsset('datatables.net-bs/css/dataTables.bootstrap.min.css'),
-                'datatable-select-bs'  => $this->bowerAsset('datatables.net-select-bs/css/select.bootstrap.min.css'),
+                // 'datatable-select-bs'  => $this->bowerAsset('datatables.net-select-bs/css/select.bootstrap.min.css'),
                 'themestyle'           => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
                 'themestyle-min'       => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
                 'skinblue'             => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
@@ -86,16 +86,16 @@ class MainViewComposer extends ViewComposer
             // remaining js assets
             // FIXME: These should come from bower
             $view->js += [
-                'knockout'                 => $this->bowerAsset('knockout/dist/knockout.js'),
-                'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),
-                'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
-                'knockout-update-data'     => $this->asset('js/knockout/knockout.updateData.js'),
-                'knockout-custom-bindings' => $this->asset('js/knockout/custom-bindings.js'),
+                // 'knockout'                 => $this->bowerAsset('knockout/dist/knockout.js'),
+                // 'knockout-mapping'         => $this->asset('js/knockout/knockout.mapping.js'),
+                // 'knockout-notification'    => $this->asset('js/knockout/KnockoutNotification.knockout.min.js'),
+                // 'knockout-update-data'     => $this->asset('js/knockout/knockout.updateData.js'),
+                // 'knockout-custom-bindings' => $this->asset('js/knockout/custom-bindings.js'),
                 'accounting'               => $this->bowerAsset('accountingjs/accounting.min.js'),
                 'colorpicker'              => $this->asset('js/jquery/jquery.lw-colorpicker.min.js'),
                 'history'                  => $this->asset('js/history/native.history.js'),
-                'admin'                    => $this->asset('js/admin.js'),
-                'settings'                 => $this->asset('js/settings.js'),
+                // 'admin'                    => $this->asset('js/admin.js'),
+                // 'settings'                 => $this->asset('js/settings.js'),
             ];
         }
     }
