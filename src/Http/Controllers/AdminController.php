@@ -305,10 +305,7 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            return response()->json([
-                'success' => true,
-                'data'    => $model->toArray(),
-            ]);
+            return redirect()->route('admin_index', [$modelName]);
         }
     }
 
