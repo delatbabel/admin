@@ -244,7 +244,7 @@ class AdminController extends Controller
                 'model'  => $model,
             ]);
         } else {
-            abort(403, "You do not have permission to view this item");
+            return redirect()->route('admin_index');
         }
     }
 
