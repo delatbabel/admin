@@ -228,33 +228,23 @@ class AdminController extends Controller
         $actionPermissions = $actionFactory->getActionPermissions();
         $fields            = $fieldFactory->getEditFields();
 
-        // if it's ajax, we just return the item information as json
-        if ($this->request->ajax()) {
-            // try to get the object
-            $model = $config->getModel($itemId, $fields, $columnFactory->getIncludedColumns($fields));
+        // try to get the object
+        $model = $config->getModel($itemId, $fields, $columnFactory->getIncludedColumns($fields));
 
-            if ($model->exists) {
-                $model = $config->updateModel($model, $fieldFactory, $actionFactory);
-            }
+        if ($model->exists) {
+            $model = $config->updateModel($model, $fieldFactory, $actionFactory);
+        }
 
-            if ($actionPermissions['view']) {
-                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                    'view model', $model->toArray());
+        if ($actionPermissions['view']) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'view model', $model->toArray());
 
-                $response = response()->json($model);
-            } else {
-                $response = response()->json([
-                    'success' => false,
-                    'errors'  => "You do not have permission to view this item",
-                ]);
-            }
-
-            // set the Vary : Accept header to avoid the browser caching the json response
-            return $response->header('Vary', 'Accept');
-        } else {
             return $this->getModelViewTemplate('blade_view_form', [
                 'itemId' => $itemId,
+                'model'  => $model,
             ]);
+        } else {
+            return redirect()->route('admin_index');
         }
     }
 
@@ -315,10 +305,7 @@ class AdminController extends Controller
                 $model = $config->updateModel($model, $fieldFactory, $actionFactory);
             }
 
-            return response()->json([
-                'success' => true,
-                'data'    => $model->toArray(),
-            ]);
+            return redirect()->route('admin_index', [$modelName]);
         }
     }
 
@@ -779,7 +766,7 @@ class AdminController extends Controller
         if ($bladePath = $config->getOption($name)) {
             FacadeView::composer($bladePath, ModelViewComposer::class);
 
-            return $this->view = view($bladePath);
+            return $this->view = view($bladePath, $arrParameter);
         }
 
         // set the layout content and title
