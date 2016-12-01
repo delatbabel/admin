@@ -6,7 +6,6 @@ use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
-use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -43,11 +42,6 @@ class AdminController extends Controller
     protected $session;
 
     /**
-     * @var string
-     */
-    protected $formRequestErrors;
-
-    /**
      * @var View
      */
     protected $view;
@@ -62,8 +56,6 @@ class AdminController extends Controller
     {
         $this->request = $request;
         $this->session = $session;
-
-        $this->formRequestErrors = $this->resolveDynamicFormRequestErrors($request);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +262,9 @@ class AdminController extends Controller
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
-        $config        = app('itemconfig');/* Customize Save Handle */
+        $config = app('itemconfig');
+
+        /* Customize Save Handle */
         if ($className = $config->getOption('template_handle')) {
             $formHandle = new $className();
             $methodName = 'saveFormData';
@@ -285,11 +279,9 @@ class AdminController extends Controller
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
-        if (array_key_exists('form_request', $config->getOptions()) && $this->formRequestErrors !== null) {
-            return response()->json([
-                'success' => false,
-                'errors'  => $this->formRequestErrors,
-            ]);
+        /* Validate from form_request */
+        if ($formRequestClass = $config->getOption('form_request')) {
+            $this->request = app($formRequestClass);
         }
 
         $save = $config->save($this->request, $fieldFactory->getEditFields(), $actionFactory->getActionPermissions(), $id);
@@ -449,8 +441,8 @@ class AdminController extends Controller
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
 
-        // if it's falsy, return the standard error message
         } elseif (! $result) {
+            // if it's falsy, return the standard error message
             $messages = $action->getOption('messages');
             return response()->json(['success' => false, 'error' => $messages['error']]);
         } else {
@@ -465,16 +457,16 @@ class AdminController extends Controller
 
             $response = ['success' => true, 'data' => $model->toArray()];
 
-            // if it's a download response, flash the response to the session and return the download link
             if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
+                // if it's a download response, flash the response to the session and return the download link
                 $file    = $result->getFile()->getRealPath();
                 $headers = $result->headers->all();
                 $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
 
                 $response['download'] = route('admin_file_download');
 
-            // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
             } elseif (is_a($result, '\Illuminate\Http\RedirectResponse')) {
+                // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
                 $response['redirect'] = $result->getTargetUrl();
             }
 
@@ -698,7 +690,7 @@ class AdminController extends Controller
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
 
-        // if it's falsy, return the standard error message
+            // if it's falsy, return the standard error message
         } elseif (! $result) {
             $messages = $action->getOption('messages');
 
@@ -714,49 +706,13 @@ class AdminController extends Controller
 
                 $response['download'] = route('admin_file_download');
 
-            // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
+                // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
             } elseif (is_a($result, '\Illuminate\Http\RedirectResponse')) {
                 $response['redirect'] = $result->getTargetUrl();
             }
 
             return response()->json($response);
         }
-    }
-
-    /**
-     * POST method to capture any form request errors
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return string
-     */
-    protected function resolveDynamicFormRequestErrors(Request $request)
-    {
-        try {
-            $config       = app('itemconfig');
-            $fieldFactory = app('admin_field_factory');
-        } catch (\ReflectionException $e) {
-            return null;
-        }
-        if (array_key_exists('form_request', $config->getOptions())) {
-            try {
-                $model = $config->getFilledDataModel($request, $fieldFactory->getEditFields(), $request->id);
-
-                $request->merge($model->toArray());
-                $formRequestClass = $config->getOption('form_request');
-                app($formRequestClass);
-            } catch (HttpResponseException $e) {
-                // Parses the exceptions thrown by Illuminate\Foundation\Http\FormRequest
-                $errorMessages = $e->getResponse()->getContent();
-                $errorsArray   = json_decode($errorMessages);
-                if (! $errorsArray && is_string($errorMessages)) {
-                    return $errorMessages;
-                }
-                if ($errorsArray) {
-                    return implode(".", array_dot($errorsArray));
-                }
-            }
-        }
-        return null;
     }
 
     /**
