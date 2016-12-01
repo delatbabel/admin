@@ -194,7 +194,7 @@ class AdminController extends Controller
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'model index view');
 
-        return $this->getModelViewTemplate('blade_view_index');
+        return $this->getModelViewTemplate();
     }
 
     /**
@@ -239,7 +239,7 @@ class AdminController extends Controller
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'view model', $model->toArray());
 
-            return $this->getModelViewTemplate('blade_view_form', [
+            return $this->getModelViewTemplate( [
                 'itemId' => $itemId,
                 'model'  => $model,
             ]);
@@ -270,7 +270,14 @@ class AdminController extends Controller
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
-        $config        = app('itemconfig');
+        $config        = app('itemconfig');/* Customize Save Handle */
+        if ($className = $config->getOption('template_handle')) {
+            $formHandle = new $className();
+            $methodName = 'saveFormData';
+            if (method_exists($formHandle, $methodName)) {
+                return $formHandle->{$methodName}($modelName, $id);
+            }
+        }
 
         /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
         $fieldFactory  = app('admin_field_factory');
@@ -755,21 +762,31 @@ class AdminController extends Controller
     /**
      * Get view from setting or model config
      *
-     * @param string $name ModelViewName
-     * @param array $arrParameter Data
+     * @param array $arrParams Data
      * @return View
      */
-    protected function getModelViewTemplate($name, $arrParameter = [])
+    protected function getModelViewTemplate($arrParams = [])
     {
+        $viewName = config('administrator.model_index_view');
+
+        /* Customize View */
         /** @var Config $config */
         $config = app('itemconfig');
-        if ($bladePath = $config->getOption($name)) {
-            FacadeView::composer($bladePath, ModelViewComposer::class);
-
-            return $this->view = view($bladePath, $arrParameter);
+        if ($className = $config->getOption('template_handle')) {
+            $formHandle = new $className();
+            $currentRName = \Request::route()->getName();
+            $methodViewName = ($currentRName == 'admin_index') ? 'getBladeViewIndex' : 'getBladeViewForm';
+            $methodDataName = ($currentRName == 'admin_index') ? 'getIndexData' : 'getFormData';
+            if (method_exists($formHandle, $methodViewName)) {
+                $viewName = $formHandle->{$methodViewName}();
+                FacadeView::composer($viewName, ModelViewComposer::class);
+            }
+            if (method_exists($formHandle, $methodDataName)) {
+                $formHandle->{$methodDataName}($arrParams);
+            }
         }
 
         // set the layout content and title
-        return $this->view = view(config('administrator.model_index_view'), $arrParameter);
+        return $this->view = view($viewName, $arrParams);
     }
 }
