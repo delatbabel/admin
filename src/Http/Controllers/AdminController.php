@@ -269,7 +269,7 @@ class AdminController extends Controller
             $formHandle = new $className();
             $methodName = 'saveFormData';
             if (method_exists($formHandle, $methodName)) {
-                return $formHandle->{$methodName}($modelName, $id);
+                return $formHandle->{$methodName}($this->request, $this->session, $modelName, $id);
             }
         }
 
@@ -285,27 +285,22 @@ class AdminController extends Controller
         }
 
         $save = $config->save($this->request, $fieldFactory->getEditFields(), $actionFactory->getActionPermissions(), $id);
-
-        if (is_string($save)) {
-            return response()->json([
-                'success' => false,
-                'errors'  => $save,
-            ]);
-        } else {
-            // override the config options so that we can get the latest
-            app('admin_config_factory')->updateConfigOptions();
-
-            // grab the latest model data
-            $columnFactory = app('admin_column_factory');
-            $fields        = $fieldFactory->getEditFields();
-            $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
-
-            if ($model->exists) {
-                $model = $config->updateModel($model, $fieldFactory, $actionFactory);
-            }
-
-            return redirect()->route('admin_index', [$modelName]);
+        if ($save !== true) {
+            return redirect()->back()->withErrors($config->getCustomValidator());
         }
+        // override the config options so that we can get the latest
+        app('admin_config_factory')->updateConfigOptions();
+
+        // grab the latest model data
+        $columnFactory = app('admin_column_factory');
+        $fields        = $fieldFactory->getEditFields();
+        $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
+
+        if ($model->exists) {
+            $model = $config->updateModel($model, $fieldFactory, $actionFactory);
+        }
+
+        return redirect()->route('admin_index', [$modelName]);
     }
 
     /**

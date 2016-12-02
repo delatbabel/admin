@@ -360,6 +360,16 @@ class Config extends ConfigBase implements ConfigInterface
     }
 
     /**
+     * Get Custom Validator
+     *
+     * @return \Illuminate\Validation\Validator
+     */
+    public function getCustomValidator()
+    {
+        return $this->customValidator;
+    }
+
+    /**
      * Prepare a model for saving given a post input array
      *
      * @param \Illuminate\Database\Eloquent\Model	$model
