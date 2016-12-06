@@ -16,8 +16,6 @@ The `file` field type should be a text-like type in your database. The file's na
         'naming' => 'random',
         'length' => 20,
         'size_limit' => 2,
-        'display_raw_value' => false,
-        'mimes' => 'pdf,psd,doc',
     )
 
 In the edit form, an admin user will be presented with a file uploader.
