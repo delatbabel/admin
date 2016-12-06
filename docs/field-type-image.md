@@ -15,8 +15,6 @@ The `image` field type should be a text-like type in your database. The image's 
         'location' => public_path() . '/uploads/products/originals/',
         'naming' => 'random',
         'length' => 20,
-        'size_limit' => 2,
-        'display_raw_value' => false,
         'sizes' => array(
             array(65, 57, 'crop', public_path() . '/uploads/products/thumbs/small/', 100),
             array(220, 138, 'landscape', public_path() . '/uploads/products/thumbs/medium/', 100),

@@ -13,7 +13,7 @@ class Text extends Field
      */
     protected $defaults = [
         'limit'  => 0,
-        'height' => 100,
+        'height' => 20,
     ];
 
     /**

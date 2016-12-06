@@ -6,6 +6,9 @@ use DDPro\Admin\Config\Config as ConfigBase;
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Fields\Factory as FieldFactory;
 use DDPro\Admin\Fields\Field as Field;
+use DDPro\Admin\Fields\File;
+use DDPro\Admin\Fields\Image;
+use DDPro\Admin\Fields\Relationships\BelongsTo;
 
 /**
  * Model Config class.
@@ -336,7 +339,7 @@ class Config extends ConfigBase implements ConfigInterface
 
         // validate the model
         $data            = $model->exists ? $model->getDirty() : $model->getAttributes();
-        $validation_data = array_merge($data, $this->getRelationshipInputs($input, $fields));
+        $validation_data = array_merge($data, $this->getSpecialInputs($input, $fields));
         $rules           = $this->getModelValidationRules();
         $rules           = $model->exists ? array_intersect_key($rules, $validation_data) : $rules;
         $messages        = $this->getModelValidationMessages();
@@ -345,6 +348,15 @@ class Config extends ConfigBase implements ConfigInterface
         // if a string was kicked back, it's an error, so return it
         if (is_string($validation)) {
             return $validation;
+        }
+
+        /* Upload File */
+        foreach ($fields as $name => $field) {
+            if (get_class($field) == File::class || get_class($field) == Image::class) {
+                if ($input->hasFile($name)) {
+                    $model->{$name} = $field->doUploadRealField();
+                }
+            }
         }
 
         // save the model
@@ -463,21 +475,22 @@ class Config extends ConfigBase implements ConfigInterface
     }
 
     /**
-     * Gets the relationship inputs
+     * Gets the relationship and files inputs
      *
      * @param \Illuminate\Http\Request				$request
      * @param array									$fields
      *
      * @return array
      */
-    protected function getRelationshipInputs(\Illuminate\Http\Request $request, array $fields)
+    protected function getSpecialInputs(\Illuminate\Http\Request $request, array $fields)
     {
         $inputs = [];
-
         // run through the edit fields to find the relationships
         foreach ($fields as $name => $field) {
-            if ($field->getOption('external')) {
+            if ($field->getOption('external') || get_class($field) == BelongsTo::class) {
                 $inputs[$name] = $this->formatRelationshipInput($request->get($name, null), $field);
+            } elseif (get_class($field) == File::class || get_class($field) == Image::class) {
+                $inputs[$name] = $request->{$name};
             }
         }
 

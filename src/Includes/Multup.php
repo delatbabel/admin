@@ -23,55 +23,55 @@ class Multup
     /*
         image array
     */
-    private $image;
+    protected $image;
 
     /*
         string of laravel validation rules
     */
-    private $rules;
+    protected $rules;
 
     /*
         randomize uploaded filename
     */
-    private $random;
+    protected $random;
 
     /*
         path relative to /public/ that the image should be saved in
     */
-    private $path;
+    protected $path;
 
     /*
         id/name of the file input to find
     */
-    private $input;
+    protected $input;
 
     /*
         How long the random filename should be
     */
-    private $random_length = 32;
+    protected $random_length = 32;
 
     /*
     *	Callback function for setting your own random filename
     */
-    private $random_cb;
+    protected $random_cb;
 
     /*
     * Sizing information for thumbs to create
     * array ( width, height, crop_type, path_to_save, quality)
     */
-    private $image_sizes;
+    protected $image_sizes;
 
     /*
     *	Upload callback function to be called after an image is done being uploaded
     *	@var function/closure
     */
-    private $upload_callback;
+    protected $upload_callback;
 
     /*
     *	Arry of additional arguements to be passed into the callback function
     *	@var array
     */
-    private $upload_callback_args;
+    protected $upload_callback_args;
 
     /**
      * Instantiates the Multup
@@ -172,7 +172,7 @@ class Multup
     /*
     *	Upload the image
     */
-    private function upload_image()
+    protected function upload_image()
     {
 
         /* validate the image */
@@ -220,7 +220,7 @@ class Multup
     /*
     * Default random filename generation
     */
-    private function generate_random_filename()
+    protected function generate_random_filename()
     {
         return Str::random($this->random_length);
     }
@@ -279,7 +279,7 @@ class Multup
             filename -> the name of the successfully uploaded file
         @return void
     */
-    private function post_upload_process($args)
+    protected function post_upload_process($args)
     {
         if (empty($args['errors'])) {
             /* add the saved image to the images array thing */
