@@ -1,112 +1,66 @@
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title"><?php echo trans('administrator::administrator.filters') ?></h3>
-        <div class="actions" style="padding-right: 7px;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>{{trans('administrator::administrator.filters')}}</h5>
+        <div class="ibox-tools">
             <a class="btn-filter btn btn-primary">Filter</a>
             <a class="btn-filter-reset btn btn-default">Reset</a>
         </div>
     </div>
-    <div class="box-body">
+    <div class="ibox-content">
         <div class="row">
-            @foreach($filters as $key => $arrCol)
-                @if($arrCol['visible'])
-                    <?php $tmpID = "filter_field_" . $arrCol['field_name']; ?>
-                    <?php $tmpName = "filters[{$key}][value]"; ?>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="{{$tmpID}}">{{$arrCol['title']}}</label>
-                            <input type="hidden" class="form-filter" name="filters[{{$key}}][field_name]"
-                                   value="{{$arrCol['field_name']}}">
-                            @if(in_array($arrCol['type'], ['key', 'text', 'color' ]))
-                                <input type="text" class="form-control input-sm form-filter" name="{{$tmpName}}"/>
-                            @elseif($arrCol['type'] == 'number')
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <input type="text" name="filters[{{$key}}][min_value]"
-                                               class="form-control input-sm form-filter"/>
-                                    </div>
-                                    <span class="col-xs-2 text-center">-</span>
-                                    <div class="col-xs-5">
-                                        <input type="text" name="filters[{{$key}}][max_value]"
-                                               class="form-control input-sm form-filter"/>
-                                    </div>
-                                </div>
-                            @elseif($arrCol['type'] == 'bool')
-                                <select name="{{$tmpName}}" class="form-control input-sm form-filter">
-                                    <option value="">All</option>
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            @elseif($arrCol['type'] == 'enum')
-                                <select name="{{$tmpName}}" class="form-control input-sm form-filter" id="{{$tmpID}}">
-                                    <option value="">All</option>
-                                    @foreach($arrCol['options']  as $item)
-                                        <option value="{{$item['id']}}">{{$item['text']}}</option>
-                                    @endforeach
-                                </select>
-                            @elseif($arrCol['type'] == 'date')
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <input type="text" name="filters[{{$key}}][min_value]"
-                                               class="form-control input-sm form-filter date-picker"
-                                               data-date-format="{{$arrCol['date_format']}}"/>
-                                    </div>
-                                    <span class="col-xs-2 text-center">-</span>
-                                    <div class="col-xs-5">
-                                        <input type="text" name="filters[{{$key}}][max_value]"
-                                               class="form-control input-sm form-filter date-picker"
-                                               data-date-format="{{$arrCol['date_format']}}"/>
-                                    </div>
-                                </div>
-                            @elseif($arrCol['type'] == 'time')
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="bootstrap-timepicker">
-                                            <input type="text" id="{{$tmpID}}_min"
-                                                   name="{{$tmpName}}"
-                                                   value="{{$arrCol['min_value']}}"
-                                                   class="form-control input-sm form-filter timepicker"/>
+            <div class="col-sm-12">
+                <form role="form">
+                    @foreach($filters as $key => $arrCol)
+                        @if($arrCol['visible'])
+                            <?php $tmpID = "filter_field_" . $arrCol['field_name']; ?>
+                            <?php $tmpName = "filters[{$key}][value]"; ?>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{$tmpID}}">{{$arrCol['title']}}</label>
+                                    {!! Form::hidden("filters[{$key}][field_name]", $arrCol['field_name'], ['class'=>"form-filter"]) !!}
+                                    @if(!in_array($arrCol['type'],['number','date','datetime','time'] ))
+                                        @include('adminmodel.field',[
+                                           'type'         => $arrCol['type'],
+                                           'name'         => "filters[{$key}][value]",
+                                           'id'           => $tmpID,
+                                           'value'        => null,
+                                           'arrCol'       => $arrCol,
+                                           'defaultClass' => 'form-control input-sm form-filter',
+                                           'flagFilter'   => true,
+                                        ])
+                                    @else
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                @include('adminmodel.field',[
+                                                   'type'         => $arrCol['type'],
+                                                   'name'         => "filters[{$key}][min_value]",
+                                                   'id'           => $tmpID.'_min',
+                                                   'value'        => null,
+                                                   'arrCol'       => $arrCol,
+                                                   'defaultClass' => 'form-control input-sm form-filter',
+                                                   'flagFilter'   => true,
+                                                ])
+                                            </div>
+                                            <span class="col-xs-2 text-center">-</span>
+                                            <div class="col-xs-5">
+                                                @include('adminmodel.field',[
+                                                   'type'         => $arrCol['type'],
+                                                   'name'         => "filters[{$key}][max_value]",
+                                                   'id'           => $tmpID.'_max',
+                                                   'value'        => null,
+                                                   'arrCol'       => $arrCol,
+                                                   'defaultClass' => 'form-control input-sm form-filter',
+                                                   'flagFilter'   => true,
+                                                ])
+                                            </div>
                                         </div>
-                                    </div>
-                                    <span class="col-xs-2 text-center">-</span>
-                                    <div class="col-xs-5">
-                                        <div class="bootstrap-timepicker">
-                                            <input type="text" id="{{$tmpID}}_max"
-                                                   name="{{$tmpName}}"
-                                                   value="{{$arrCol['max_value']}}"
-                                                   class="form-control input-sm form-filter timepicker"/>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
-                            @elseif($arrCol['type'] == 'belongs_to')
-                                <select name="{{$tmpName}}" class="form-control input-sm form-filter" id="{{$tmpID}}">
-                                    <option value="">All</option>
-                                    @foreach($arrCol['options']  as $item)
-                                        <option value="{{$item['id']}}">{{$item['text']}}</option>
-                                    @endforeach
-                                </select>
-                            @elseif($arrCol['type'] == 'belongs_to_many')
-                                <select name="{{$tmpName}}" class="form-control input-sm form-filter select2"
-                                        multiple="multiple"
-                                        id="{{$tmpID}}">
-                                    @foreach($arrCol['options']  as $item)
-                                        <option value="{{$item['id']}}">{{$item['text']}}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                        </div>
-                    </div>
-                @endif
-            @endforeach
+                            </div>
+                        @endif
+                    @endforeach
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('.date-picker').datepicker();
-        $('.timepicker').timepicker({
-            showInputs: false
-        });
-        $(".select2").select2();
-    });
-</script>
