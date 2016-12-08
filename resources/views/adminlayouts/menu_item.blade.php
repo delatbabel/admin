@@ -1,18 +1,17 @@
 @if (is_array($item))
-    <li class="treeview">
-        <a href="#"><i class='fa'></i>
-            <span>{{$key}}</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+    <li>
+        <a href="#">
+            <i class="fa fa-sitemap"></i>
+            <span class="nav-label">{{$key}} </span>
+            <span class="fa arrow"></span>
         </a>
-        <ul class="treeview-menu">
+        <ul class="nav nav-second-level collapse">
             @foreach ($item as $k => $subitem)
                 <?php echo view("adminlayouts.menu_item", array(
-                        'item' => $subitem,
-                        'key' => $k,
-                        'settingsPrefix' => $settingsPrefix,
-                        'pagePrefix' => $pagePrefix
+                    'item'           => $subitem,
+                    'key'            => $k,
+                    'settingsPrefix' => $settingsPrefix,
+                    'pagePrefix'     => $pagePrefix
                 ))?>
             @endforeach
         </ul>
@@ -20,11 +19,15 @@
 @else
     <li>
         @if (strpos($key, $settingsPrefix) === 0)
-            <a href="{{route('admin_settings', array(substr($key, strlen($settingsPrefix))))}}"><i class='fa fa-link'></i> {{$item}}</a>
+            <?php $tmpURL = route('admin_settings', array(substr($key, strlen($settingsPrefix)))); ?>
         @elseif (strpos($key, $pagePrefix) === 0)
-            <a href="{{route('admin_page', array(substr($key, strlen($pagePrefix))))}}"><i class='fa fa-link'></i> {{$item}}</a>
+            <?php $tmpURL = route('admin_page', array(substr($key, strlen($pagePrefix)))); ?>
         @else
-            <a href="{{route('admin_index', array($key))}}"><i class='fa fa-link'></i> {{$item}}</a>
+            <?php $tmpURL = route('admin_index', array($key)); ?>
         @endif
+        <a href="{{$tmpURL}}">
+            <i class="fa fa-magic"></i>
+            <span class="nav-label">{{$item}}</span>
+        </a>
     </li>
 @endif

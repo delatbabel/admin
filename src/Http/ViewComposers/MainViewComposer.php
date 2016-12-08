@@ -5,91 +5,38 @@ use Illuminate\View\View;
 
 class MainViewComposer extends ViewComposer
 {
-
-    /**
-     * Bind data to the view.
-     *
-     * @param  View $view
-     * @return void
-     */
     public function compose(View $view)
     {
-        // set up the basic asset arrays
-        $view->css = [];
+        /* Mainly CSS */
+        $view->css[] = $this->asset('assets/css/bootstrap.min.css');
+        $view->css[] = $this->asset('assets/font-awesome/css/font-awesome.css');
+        $view->css[] = $this->asset('assets/css/style.css');
+        $view->css[] = $this->asset('assets/css/animate.css');
 
-        // Add the package wide JS assets
-        $view->js = [
-            'jquery'                => $this->bowerAsset('admin-lte/plugins/jQuery/jquery-2.2.3.min.js'),
-            'bootstrap'             => $this->bowerAsset('admin-lte/bootstrap/js/bootstrap.min.js'),
-            'adminlte-app'          => $this->bowerAsset('admin-lte/dist/js/app.min.js'),
-            'date-range-picker1'    => 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js',
-            'date-range-picker2'    => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.js'),
-            'bootstrap-colorpicker' => $this->bowerAsset('admin-lte/plugins/colorpicker/bootstrap-colorpicker.min.js'),
-            'bootstrap-datepicker'  => $this->bowerAsset('admin-lte/plugins/datepicker/bootstrap-datepicker.js'),
-            'bootstrap-timepicker'  => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.js'),
-            'datatable'             => $this->bowerAsset('datatables.net/js/jquery.dataTables.min.js'),
-            'datatable-bootstrap'   => $this->bowerAsset('datatables.net-bs/js/dataTables.bootstrap.min.js'),
-            'slim-scroll'           => $this->bowerAsset('admin-lte/plugins/slimScroll/jquery.slimscroll.min.js'),
-        ];
+        /* Custom and plugin CSS */
+        $view->css[] = $this->asset('assets/css/plugins/dataTables/datatables.min.css');
+        $view->css[] = $this->asset('assets/css/plugins/select2/select2.min.css');
+        $view->css[] = $this->asset('assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css');
+        $view->css[] = $this->bowerAsset('markitup/markitup/skins/markitup/style.css');
+        $view->css[] = $this->bowerAsset('markitup/markitup/sets/default/style.css');
+        $view->css[] = $this->bowerAsset('jquery-ui/themes/flick/jquery-ui.min.css');
+        $view->css[] = $this->bowerAsset('jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css');
 
-        // add the non-custom-page css assets
-        if (!$view->page && !$view->dashboard) {
-            $view->css += [
-                'bootstrap'             => $this->bowerAsset('admin-lte/bootstrap/css/bootstrap.min.css'),
-                'fontawesome'           => $this->bowerAsset('fontawesome/css/font-awesome.min.css'),
-                'ionicons'              => $this->bowerAsset('Ionicons/css/ionicons.min.css'),
-                'dateranger-picker'     => $this->bowerAsset('admin-lte/plugins/daterangepicker/daterangepicker.css'),
-                'bootstrap-colorpicker' => $this->bowerAsset('admin-lte/plugins/colorpicker/bootstrap-colorpicker.min.css'),
-                'bootstrap-datepicker'  => $this->bowerAsset('admin-lte/plugins/datepicker/datepicker3.css'),
-                'bootstrap-timepicker'  => $this->bowerAsset('admin-lte/plugins/timepicker/bootstrap-timepicker.min.css'),
-                'datatable-bs'          => $this->bowerAsset('datatables.net-bs/css/dataTables.bootstrap.min.css'),
-                'themestyle'            => $this->bowerAsset('admin-lte/dist/css/AdminLTE.css'),
-                'themestyle-min'        => $this->bowerAsset('admin-lte/dist/css/AdminLTE.min.css'),
-                'skinblue'              => $this->bowerAsset('admin-lte/dist/css/skins/skin-blue.min.css'),
-                'icheck'                => $this->bowerAsset('admin-lte/plugins/iCheck/square/blue.css'),
-                'select2'               => $this->bowerAsset('admin-lte/plugins/select2/select2.min.css'),
-                'markitup-style'        => $this->bowerAsset('markitup/markitup/skins/markitup/style.css'),
-                'markitup-settings'     => $this->bowerAsset('markitup/markitup/sets/default/style.css'),
-            ];
-        }
+        /* Mainly scripts */
+        $view->js[] = $this->asset('assets/js/jquery-2.1.1.js');
+        $view->js[] = $this->asset('assets/js/bootstrap.min.js');
+        $view->js[] = $this->asset('assets/js/plugins/metisMenu/jquery.metisMenu.js');
+        $view->js[] = $this->asset('assets/js/plugins/slimscroll/jquery.slimscroll.min.js');
 
-        // add the package-wide css assets
-        $view->css += [
-            'jquery-colorpicker' => $this->asset('css/jquery.lw-colorpicker.css'),
-            'main'               => $this->asset('css/main.css'),
-        ];
-
-        // add the non-custom-page js assets
-        if (!$view->page && !$view->dashboard) {
-            $view->js += [
-                'select2'           => $this->bowerAsset('admin-lte/plugins/select2/select2.full.min.js'),
-                'ckeditor'          => $this->bowerAsset('admin-lte/plugins/ckeditor/ckeditor.js'),
-                'ckeditor-jquery'   => $this->bowerAsset('admin-lte/plugins/ckeditor/adapters/jquery.js'),
-                'markdown'          => $this->asset('js/markdown.js'),
-                'plupload'          => $this->asset('js/plupload/js/plupload.full.js'),
-                'markitup'          => $this->bowerAsset('markitup/markitup/jquery.markitup.js'),
-                'markitup-settings' => $this->bowerAsset('markitup/markitup/sets/default/set.js'),
-            ];
-
-            // localization js assets
-            $locale = config('app.locale');
-
-            if ($locale !== 'en') {
-                $view->js += [
-                    'plupload-l18n'   => $this->asset('js/plupload/js/i18n/' . $locale . '.js'),
-                    'timepicker-l18n' => $this->asset('js/jquery/localization/jquery-ui-timepicker-' . $locale . '.js'),
-                    'datepicker-l18n' => $this->asset('js/jquery/i18n/jquery.ui.datepicker-' . $locale . '.js'),
-                    'select2-l18n'    => $this->asset('js/jquery/select2/select2_locale_' . $locale . '.js'),
-                ];
-            }
-
-            // remaining js assets
-            // FIXME: These should come from bower
-            $view->js += [
-                'accounting'  => $this->bowerAsset('accountingjs/accounting.min.js'),
-                'colorpicker' => $this->asset('js/jquery/jquery.lw-colorpicker.min.js'),
-                'history'     => $this->asset('js/history/native.history.js'),
-            ];
-        }
+        /* Custom and plugin javascript */
+        $view->js[] = $this->asset('assets/js/inspinia.js');
+        $view->js[] = $this->asset('assets/js/plugins/pace/pace.min.js');
+        $view->js[] = $this->asset('assets/js/plugins/dataTables/datatables.min.js');
+        $view->js[] = $this->asset('assets/js/plugins/select2/select2.full.min.js');
+        $view->js[] = $this->asset('assets/js/plugins/colorpicker/bootstrap-colorpicker.min.js');
+        $view->js[] = $this->bowerAsset('markitup/markitup/jquery.markitup.js');
+        $view->js[] = $this->bowerAsset('markitup/markitup/sets/default/set.js');
+        $view->js[] = $this->bowerAsset('jquery-ui/jquery-ui.min.js');
+        $view->js[] = $this->bowerAsset('jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js');
     }
 }
