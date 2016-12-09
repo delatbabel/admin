@@ -42,10 +42,10 @@
         @endforeach
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-2">
-                <button type="submit" class="btn btn-info ">Save & Close</button>
                 <a href="{{route('admin_index', $config->getOption('name'))}}" class="btn btn-default ">
                     Cancel
                 </a>
+                <button type="submit" class="btn btn-primary">Save & Close</button>
             </div>
         </div>
         {!! Form::close() !!}

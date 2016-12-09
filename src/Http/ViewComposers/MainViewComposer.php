@@ -17,6 +17,8 @@ class MainViewComposer extends ViewComposer
         $view->css[] = $this->asset('assets/css/plugins/dataTables/datatables.min.css');
         $view->css[] = $this->asset('assets/css/plugins/select2/select2.min.css');
         $view->css[] = $this->asset('assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css');
+        $view->css[] = $this->asset('assets/css/plugins/chosen/bootstrap-chosen.css');
+        $view->css[] = $this->asset('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
         $view->css[] = $this->bowerAsset('markitup/markitup/skins/markitup/style.css');
         $view->css[] = $this->bowerAsset('markitup/markitup/sets/default/style.css');
         $view->css[] = $this->bowerAsset('jquery-ui/themes/flick/jquery-ui.min.css');
@@ -34,6 +36,7 @@ class MainViewComposer extends ViewComposer
         $view->js[] = $this->asset('assets/js/plugins/dataTables/datatables.min.js');
         $view->js[] = $this->asset('assets/js/plugins/select2/select2.full.min.js');
         $view->js[] = $this->asset('assets/js/plugins/colorpicker/bootstrap-colorpicker.min.js');
+        $view->js[] = $this->asset('assets/js/plugins/chosen/chosen.jquery.js');
         $view->js[] = $this->bowerAsset('markitup/markitup/jquery.markitup.js');
         $view->js[] = $this->bowerAsset('markitup/markitup/sets/default/set.js');
         $view->js[] = $this->bowerAsset('jquery-ui/jquery-ui.min.js');
