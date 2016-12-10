@@ -96,23 +96,6 @@ class DataTable
     /**
      * Builds a results array (with results and pagination info)
      *
-     * @param \Illuminate\Database\DatabaseManager 	$db
-     * @param array									$filters
-     * @param int									$page
-     * @param array									$sort (with 'field' and 'direction' keys)
-     *
-     * @return array
-     * @deprecated
-     */
-    public function getRows(DB $db, $filters = null, $page = 1, $sort = null)
-    {
-        // deprecated
-        return [];
-    }
-
-    /**
-     * Builds a results array (with results and pagination info)
-     *
      * Used for server side DataTable
      *
      * @param \Illuminate\Database\DatabaseManager 	$db

@@ -472,34 +472,6 @@ class AdminController extends Controller
     /**
      * Gets the database results for the current model
      *
-     * @param string		$modelName
-     *
-     * @return string JSON containing an array of rows
-     * @deprecated
-     */
-    public function results($modelName)
-    {
-        /** @var DataTable $dataTable */
-        $dataTable = app('admin_datatable');
-
-        // get the sort options and filters
-        $page        = $this->request->input('page', 1);
-        $sortOptions = $this->request->input('sortOptions', []);
-        $filters     = $this->request->input('filters', []);
-
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'fetch results for model = ' . $modelName . ', page = ' . $page, [
-            'sortOptions'   => $sortOptions,
-            'filters'       => $filters,
-        ]);
-
-        // return the rows
-        return response()->json($dataTable->getRows(app('db'), $filters, $page, $sortOptions));
-    }
-
-    /**
-     * Gets the database results for the current model
-     *
      * Called by DataTable
      *
      * @param string $modelName
