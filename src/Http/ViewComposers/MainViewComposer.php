@@ -3,8 +3,18 @@ namespace DDPro\Admin\Http\ViewComposers;
 
 use Illuminate\View\View;
 
+/**
+ * Class MainViewComposer
+ * @package DDPro\Admin\Http\ViewComposers
+ */
 class MainViewComposer extends ViewComposer
 {
+    /**
+     * Bind data to the view.
+     *
+     * @param  View $view
+     * @return void
+     */
     public function compose(View $view)
     {
         /* Mainly CSS */

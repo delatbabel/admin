@@ -1,14 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: longhm
- * Date: 24/11/2016
- * Time: 4:52 CH
- */
 
 namespace DDPro\Admin\Http\ViewComposers;
 
-
+/**
+ * Class ViewComposer
+ * @package DDPro\Admin\Http\ViewComposers
+ */
 abstract class ViewComposer
 {
     /**

@@ -3,6 +3,10 @@ namespace DDPro\Admin\Http\ViewComposers;
 
 use Illuminate\View\View;
 
+/**
+ * Class SidebarViewComposer
+ * @package DDPro\Admin\Http\ViewComposers
+ */
 class SidebarViewComposer
 {
     /**

@@ -4,6 +4,10 @@ namespace DDPro\Admin\Http\ViewComposers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
+/**
+ * Class ModelViewComposer
+ * @package DDPro\Admin\Http\ViewComposers
+ */
 class ModelViewComposer
 {
     /**
