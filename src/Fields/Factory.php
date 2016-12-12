@@ -41,6 +41,7 @@ class Factory
         'wysiwyg'  => 'DDPro\\Admin\\Fields\\Text',
         'markdown' => 'DDPro\\Admin\\Fields\\Text',
         'html'     => 'DDPro\\Admin\\Fields\\Text',
+        'json'     => 'DDPro\\Admin\\Fields\\Text',
         'password' => 'DDPro\\Admin\\Fields\\Password',
         'date'     => 'DDPro\\Admin\\Fields\\Time',
         'time'     => 'DDPro\\Admin\\Fields\\Time',

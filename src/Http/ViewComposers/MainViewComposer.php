@@ -36,6 +36,8 @@ class MainViewComposer extends ViewComposer
         $view->css[] = $this->bowerAsset('markitup/markitup/sets/markdown/style.css');
         $view->css[] = $this->bowerAsset('jquery-ui/themes/flick/jquery-ui.min.css');
         $view->css[] = $this->bowerAsset('jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css');
+        $view->css[] = $this->bowerAsset('jsoneditor/dist/jsoneditor.min.css');
+
 
         /* Mainly scripts */
         $view->js[] = $this->asset('assets/js/jquery-2.1.1.js');
@@ -55,5 +57,6 @@ class MainViewComposer extends ViewComposer
         $view->js[] = $this->bowerAsset('markitup/markitup/sets/markdown/set.js');
         $view->js[] = $this->bowerAsset('jquery-ui/jquery-ui.min.js');
         $view->js[] = $this->bowerAsset('jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js');
+        $view->js[] = $this->bowerAsset('jsoneditor/dist/jsoneditor.min.js');
     }
 }
