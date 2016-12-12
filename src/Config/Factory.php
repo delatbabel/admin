@@ -98,6 +98,13 @@ class Factory
     protected $pagePrefix = 'page.';
 
     /**
+     * The custom route menu prefix
+     *
+     * @var string
+     */
+    protected $routePrefix = 'route.';
+
+    /**
      * The rules array
      *
      * @var array
@@ -156,7 +163,9 @@ class Factory
         $options = $this->searchMenu($name);
 
         // return the config object if the file/array was found, or false if it wasn't
-        $config = $options ? $this->getItemConfigObject($options) : ($this->type === 'page' ? true : false);
+        $config = $options ?
+            $this->getItemConfigObject($options) :
+            (($this->type === 'page' || $this->type === 'route') ? true : false);
 
         // set the primary config
         $this->config = $primary ? $config : $this->config;
@@ -206,6 +215,10 @@ class Factory
         elseif (strpos($name, $this->pagePrefix) === 0) {
             return $this->type = 'page';
         }
+        // otherwise if the name is prefixed with the route prefix
+        elseif (strpos($name, $this->routePrefix) === 0) {
+            return $this->type = 'route';
+        }
         // otherwise it's a model
         else {
             return $this->type = 'model';
@@ -251,7 +264,7 @@ class Factory
     }
 
     /**
-     * Gets the prefix for the currently-searched item
+     * Gets the prefix for the settings items
      */
     public function getSettingsPrefix()
     {
@@ -259,11 +272,19 @@ class Factory
     }
 
     /**
-     * Gets the prefix for the currently-searched item
+     * Gets the prefix for the page items
      */
     public function getPagePrefix()
     {
         return $this->pagePrefix;
+    }
+
+    /**
+     * Gets the prefix for the route items
+     */
+    public function getRoutePrefix()
+    {
+        return $this->routePrefix;
     }
 
     /**
@@ -273,6 +294,8 @@ class Factory
     {
         if ($this->type === 'settings') {
             return $this->settingsPrefix;
+        } elseif ($this->type === 'route') {
+            return $this->routePrefix;
         } elseif ($this->type === 'page') {
             return $this->pagePrefix;
         }
