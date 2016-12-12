@@ -227,17 +227,17 @@ class AdminController extends Controller
             $model = $config->updateModel($model, $fieldFactory, $actionFactory);
         }
 
-        if ($actionPermissions['view']) {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'view model', $model->toArray());
-
-            return $this->getModelViewTemplate( [
-                'itemId' => $itemId,
-                'model'  => $model,
-            ]);
-        } else {
+        if (! $actionPermissions['view']) {
             return redirect()->route('admin_index');
         }
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'view model', $model->toArray());
+
+        return $this->getModelViewTemplate( [
+            'itemId' => $itemId,
+            'model'  => $model,
+        ]);
     }
 
     /**
