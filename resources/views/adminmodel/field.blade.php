@@ -32,14 +32,36 @@
     @endsection
 @elseif($type == 'markdown')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").markItUp(myMarkdownSettings);
-        });
-    </script>
-@endsection
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                $("#{{$id}}").markItUp(myMarkdownSettings);
+            });
+        </script>
+    @endsection
+@elseif($type == 'json')
+    {!! Form::hidden($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                var jsonString{{$id}} = null;
+                @if($value)
+                    jsonString{{$id}} = JSON.parse('{!! str_replace("'", "\\'",$value) !!}');
+                @endif
+                var editorJSON{{$id}} = new JSONEditor(document.getElementById("jsoneditor{{$id}}"), {
+                        mode: 'view',
+                        modes: ['code', 'form', 'text', 'tree', 'view'],
+                        onChange: function () {
+                            var tmpJSON = editorJSON{{$id}}.get();
+                            $("#{{$id}}").val(JSON.stringify(tmpJSON));
+                        }
+                    }, jsonString{{$id}});
+            });
+        </script>
+    @endsection
 @elseif($type == 'wysiwyg')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
     @section('javascript')
