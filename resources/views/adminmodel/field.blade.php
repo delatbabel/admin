@@ -1,19 +1,3 @@
-{{--
- Done:
-    key
-    text
-    password
-    color
-    markdown textarea html
-    wysiwyg (CKeditor)
-    bool
-    date
-    time
-    number
-    enum belongs_to
-    belongs_to_many
-    file, image
- --}}
 @if($type == 'key')
     @if($flagFilter)
         {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
@@ -34,34 +18,40 @@
         });
     </script>
 @endsection
-@elseif(in_array($type, ['markdown', 'textarea', 'html']))
-    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
+@elseif($type == 'textarea')
+    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
+@elseif($type == 'html')
+    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                $("#{{$id}}").markItUp(myHtmlSettings);
+            });
+        </script>
+    @endsection
+@elseif($type == 'markdown')
+    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
 @section('javascript')
     @parent
     <script type="text/javascript">
         $(function () {
-            var customSetting_{{$id}} = {};
-            @if(isset($arrCol['markitup_type']))
-                customSetting_{{$id}}.nameSpace = '{{$arrCol['markitup_type']}}';
-            @elseif($type == 'markdown')
-                customSetting_{{$id}}.nameSpace = '{{$type}}';
-            @endif
-            $("#{{$id}}").markItUp(mySettings, customSetting_{{$id}});
+            $("#{{$id}}").markItUp(myMarkdownSettings);
         });
     </script>
 @endsection
 @elseif($type == 'wysiwyg')
-    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'rows'=>$arrCol['height'], 'maxlength'=>$arrCol['limit'], 'id'=>$id]) !!}
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            CKEDITOR.replace('{{$id}}', {
-                uiColor: '#CCEAEE'
+    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                CKEDITOR.replace('{{$id}}', {
+                    uiColor: '#CCEAEE'
+                });
             });
-        });
-    </script>
-@endsection
+        </script>
+    @endsection
 @elseif($type == 'number')
     <div class="input-group">
         <span class="input-group-addon">{{$arrCol['symbol']}}</span>

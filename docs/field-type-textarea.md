@@ -14,7 +14,6 @@ The `textarea` field type should be any text-like type in your database.
         'title' => 'Name',
         'limit' => 300, //optional, defaults to no limit
         'height' => 130, //optional, defaults to 100
-        'markitup_type' => 'markitup', //optional [html, bbcode, textile, markdown, wiki], defaults to markitup
     )
 
 In the edit form, an admin user will be presented with a textarea.
