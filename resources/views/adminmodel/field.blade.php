@@ -41,24 +41,22 @@
         </script>
     @endsection
 @elseif($type == 'json')
-    {!! Form::hidden($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    <?php $tmpValue = is_array($value) && !empty($value) ? json_encode($value) : null; ?>
+    {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
     <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
     @section('javascript')
         @parent
         <script type="text/javascript">
             $(function () {
-                var jsonString{{$id}} = null;
-                @if($value)
-                    jsonString{{$id}} = JSON.parse('{!! str_replace("'", "\\'",$value) !!}');
-                @endif
+                var jsonString{{$id}} = {!! $tmpValue ?: 'null'!!};
                 var editorJSON{{$id}} = new JSONEditor(document.getElementById("jsoneditor{{$id}}"), {
-                        mode: 'view',
-                        modes: ['code', 'form', 'text', 'tree', 'view'],
-                        onChange: function () {
-                            var tmpJSON = editorJSON{{$id}}.get();
-                            $("#{{$id}}").val(JSON.stringify(tmpJSON));
-                        }
-                    }, jsonString{{$id}});
+                    mode: 'view',
+                    modes: ['code', 'form', 'text', 'tree', 'view'],
+                    onChange: function () {
+                        var tmpJSON = editorJSON{{$id}}.get();
+                        $("#{{$id}}").val(JSON.stringify(tmpJSON));
+                    }
+                }, jsonString{{$id}});
             });
         </script>
     @endsection
