@@ -286,7 +286,7 @@ class AdminController extends Controller
 
         $save = $config->save($this->request, $fieldFactory->getEditFields(), $actionFactory->getActionPermissions(), $id);
         if ($save !== true) {
-            return redirect()->back()->withErrors($config->getCustomValidator());
+            return redirect()->back()->withInput()->withErrors($config->getCustomValidator());
         }
         // override the config options so that we can get the latest
         app('admin_config_factory')->updateConfigOptions();

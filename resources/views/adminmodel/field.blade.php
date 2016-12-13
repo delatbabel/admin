@@ -42,6 +42,7 @@
     @endsection
 @elseif($type == 'json')
     <?php $tmpValue = is_array($value) && !empty($value) ? json_encode($value) : null; ?>
+    <?php $tmpValue = old($name, $tmpValue); ?>
     {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
     <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
     @section('javascript')
