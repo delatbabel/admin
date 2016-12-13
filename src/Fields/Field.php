@@ -191,7 +191,25 @@ abstract class Field
      */
     public function fillModel(&$model, $input)
     {
-        $model->{$this->getOption('field_name')} = is_null($input) ? '' : $input;
+        if ($model::isJsonCastable($this->getOption('field_name')) && $this->isJson($input)) {
+            /* For Casting Array Case */
+            $model->{$this->getOption('field_name')} = json_decode($input);
+        } else {
+            $model->{$this->getOption('field_name')} = is_null($input) ? '' : $input;
+        }
+    }
+
+    /**
+     * Validate JSON String
+     *
+     * @param $string
+     * @return bool
+     */
+    protected function isJson($string)
+    {
+        json_decode($string);
+
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 
     /**
