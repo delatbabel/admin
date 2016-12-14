@@ -5,6 +5,7 @@
     "markitup": "^1.1.14",
     "jquery-ui": "^1.12.1",
     "jqueryui-timepicker-addon": "^1.6.3",
-    "jsoneditor": "^5.5.10"
+    "jsoneditor": "^5.5.10",
+    "ckeditor": "^4.6.1"
   }
 }
