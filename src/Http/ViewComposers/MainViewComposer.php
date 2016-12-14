@@ -58,5 +58,6 @@ class MainViewComposer extends ViewComposer
         $view->js[] = $this->bowerAsset('jquery-ui/jquery-ui.min.js');
         $view->js[] = $this->bowerAsset('jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js');
         $view->js[] = $this->bowerAsset('jsoneditor/dist/jsoneditor.min.js');
+        $view->js[] = $this->bowerAsset('ckeditor/ckeditor.js');
     }
 }
