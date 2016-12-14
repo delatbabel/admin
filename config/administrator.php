@@ -181,6 +181,11 @@ return [
      */
     'locales' => [],
 
+    /**
+     * Assets that get loaded by the main ViewComposer
+     *
+     * @type array
+     */
     'assets' => [
         'css'   => [
             'base' => [
@@ -231,6 +236,7 @@ return [
                 'jquery-ui/jquery-ui.min.js',
                 'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
                 'jsoneditor/dist/jsoneditor.min.js',
+                'ckeditor/ckeditor.js',
             ],
         ],
     ],

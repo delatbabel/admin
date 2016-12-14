@@ -19,6 +19,7 @@
     - [Redirect Key](#redirect-key)
     - [Global Rows Per Page](#global-rows-per-page)
     - [Locales](#locales)
+    - [Assets](#assets)
 
 <a name="introduction"></a>
 ## Introduction
@@ -309,3 +310,19 @@ When provided, this array of locale strings gives the administrative user the ch
 <img src="https://raw.github.com/FrozenNode/Laravel-Administrator/master/examples/images/localization.png" />
 
 The user's choice of locale will persist across page loads until a user's session expires.
+
+<a name="assets"></a>
+### Assets
+
+    /**
+     * Assets that get loaded by the main ViewComposer
+     * 
+     * @type array
+     */
+    'assets' => [
+        'css'   => [
+            'base' => [
+                // Main CSS
+                // ... etc
+
+This array defines the assets that get loaded by the administrator dashboard.  You can use the provided array as a default and modify it from there.  If you want to modify or add to the base AdminLTE look and feel then you can start here.
