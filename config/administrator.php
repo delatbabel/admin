@@ -181,4 +181,57 @@ return [
      */
     'locales' => [],
 
+    'assets' => [
+        'css'   => [
+            'base' => [
+                // Main CSS
+                'assets/css/bootstrap.min.css',
+                'assets/font-awesome/css/font-awesome.css',
+                'assets/css/style.css',
+                'assets/css/custom.css',
+                'assets/css/animate.css',
+
+                // Custom and plugin CSS
+                'assets/css/plugins/dataTables/datatables.min.css',
+                'assets/css/plugins/select2/select2.min.css',
+                'assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css',
+                'assets/css/plugins/chosen/bootstrap-chosen.css',
+                'assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+            ],
+            'bower' => [
+                'markitup/markitup/skins/markitup/style.css',
+                'markitup/markitup/sets/default/style.css',
+                'markitup/markitup/sets/html/style.css',
+                'markitup/markitup/sets/markdown/style.css',
+                'jquery-ui/themes/flick/jquery-ui.min.css',
+                'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
+                'jsoneditor/dist/jsoneditor.min.css',
+            ],
+        ],
+        'js'    => [
+            'base' => [
+                // Main scripts
+                'assets/js/jquery-2.1.1.js',
+                'assets/js/bootstrap.min.js',
+                'assets/js/plugins/metisMenu/jquery.metisMenu.js',
+                'assets/js/plugins/slimscroll/jquery.slimscroll.min.js',
+
+                // Custom and plugin javascript
+                'assets/js/inspinia.js',
+                'assets/js/plugins/pace/pace.min.js',
+                'assets/js/plugins/dataTables/datatables.min.js',
+                'assets/js/plugins/select2/select2.full.min.js',
+                'assets/js/plugins/colorpicker/bootstrap-colorpicker.min.js',
+                'assets/js/plugins/chosen/chosen.jquery.js',
+            ],
+            'bower' => [
+                'markitup/markitup/jquery.markitup.js',
+                'markitup/markitup/sets/html/set.js',
+                'markitup/markitup/sets/markdown/set.js',
+                'jquery-ui/jquery-ui.min.js',
+                'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
+                'jsoneditor/dist/jsoneditor.min.js',
+            ],
+        ],
+    ],
 ];
