@@ -9,6 +9,7 @@ use DDPro\Admin\Fields\Field as Field;
 use DDPro\Admin\Fields\File;
 use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
+use DDPro\Admin\Http\Controllers\AdminModelController;
 
 /**
  * Model Config class.
@@ -71,13 +72,14 @@ class Config extends ConfigBase implements ConfigInterface
             'update' => true,
             'view'   => true,
         ],
-        'actions'        => [],
-        'global_actions' => [],
-        'sort'           => [],
-        'form_width'     => 285,
-        'link'           => null,
-        'rules'          => false,
-        'messages'       => false,
+        'actions'            => [],
+        'global_actions'     => [],
+        'sort'               => [],
+        'form_width'         => 285,
+        'link'               => null,
+        'rules'              => false,
+        'messages'           => false,
+        'controller_handler' => AdminModelController::class,
     ];
 
     /**
@@ -109,6 +111,7 @@ class Config extends ConfigBase implements ConfigInterface
         'link'               => 'callable',
         'rules'              => 'array',
         'messages'           => 'array',
+        'controller_handler' => 'string',
     ];
 
     /**

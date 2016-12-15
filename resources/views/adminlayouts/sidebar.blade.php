@@ -1,3 +1,4 @@
+@inject('user', 'App\Services\User')
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -6,10 +7,10 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">David Williams</strong>
+                                <strong class="font-bold">{{ $user->fullName() }}</strong>
                             </span>
                             <span class="text-muted text-xs block">
-                                Art Director <b class="caret"></b>
+                                {{ $user->timeZone() }} <b class="caret"></b>
                             </span>
                         </span>
                     </a>

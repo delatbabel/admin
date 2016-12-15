@@ -2,17 +2,19 @@
 
 namespace DDPro\Admin;
 
+use App\Http\Controllers\Controller;
 use DDPro\Admin\Actions\Factory as ActionFactory;
 use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Fields\Factory as FieldFactory;
+use DDPro\Admin\Http\Controllers\AdminController;
+use DDPro\Admin\Http\Controllers\AdminModelController;
 use DDPro\Admin\Http\ViewComposers\MainViewComposer;
 use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
 use DDPro\Admin\Http\ViewComposers\NoauthViewComposer;
 use DDPro\Admin\Http\ViewComposers\SettingViewComposer;
 use DDPro\Admin\Http\ViewComposers\SidebarViewComposer;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\Facades\View;
@@ -264,7 +266,7 @@ class AdminServiceProvider extends ServiceProvider
             [
                 'domain'     => config('administrator.domain'),
                 'prefix'     => config('administrator.uri'),
-                'middleware' => $middleware_array
+                'middleware' => $middleware_array,
             ], function () {
             // Admin Dashboard
             Route::get('/', [
@@ -275,127 +277,133 @@ class AdminServiceProvider extends ServiceProvider
             // File Downloads
             Route::get('file_download', [
                 'as'   => 'admin_file_download',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload'
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload',
             ]);
 
             // Custom Pages
             Route::get('page/{page}', [
                 'as'   => 'admin_page',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page'
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page',
             ]);
 
             // Switch locales
             Route::get('switch_locale/{locale}', [
                 'as'   => 'admin_switch_locale',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale'
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale',
             ]);
 
             Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
-                    // Settings Pages
+                // Settings Pages
                 Route::get('settings/{settings}', [
                     'as'   => 'admin_settings',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings'
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings',
                 ]);
 
                 // Display a settings file
                 Route::get('settings/{settings}/file', [
                     'as'   => 'admin_settings_display_file',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile',
                 ]);
 
                 // Save Item
                 Route::post('settings/{settings}/save', [
                     'as'   => 'admin_settings_save',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsSave'
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsSave',
                 ]);
 
                 // Custom Action
                 Route::post('settings/{settings}/custom_action', [
                     'as'   => 'admin_settings_custom_action',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction'
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction',
                 ]);
 
                 // Settings file upload
                 Route::post('settings/{settings}/{field}/file_upload', [
                     'as'   => 'admin_settings_file_upload',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
+                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
                 ]);
             });
 
             // The route group for all other requests needs to validate admin, model, and add assets
             Route::group(['middleware' => ['validate.model', 'post.validate']], function () {
-                    // Model Index
-                Route::get('{model}', [
-                    'as'   => 'admin_index',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@index'
-                ]);
+                // Model Index
+                Route::get('{model}', function () {
+                    return $this->setController('index', func_get_args());
+                })->name('admin_index');
 
                 // New Item
-                Route::get('{model}/new', [
-                    'as'   => 'admin_new_item',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
-                ]);
+                Route::get('{model}/new', function () {
+                    return $this->setController('item', func_get_args());
+                })->name('admin_new_item');
 
                 // Update a relationship's items with constraints
-                Route::post('{model}/update_options', [
-                    'as'   => 'admin_update_options',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@updateOptions'
-                ]);
+                Route::post('{model}/update_options', function () {
+                    return $this->setController('updateOptions', func_get_args());
+                })->name('admin_update_options');
 
                 // Display an image or file field's image or file
-                Route::get('{model}/file', [
-                    'as'   => 'admin_display_file',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile'
-                ]);
+                Route::get('{model}/file', function () {
+                    return $this->setController('displayFile', func_get_args());
+                })->name('admin_display_file');
 
                 // Updating Rows Per Page
-                Route::post('{model}/rows_per_page', [
-                    'as'   => 'admin_rows_per_page',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@rowsPerPage'
-                ]);
+                Route::post('{model}/rows_per_page', function () {
+                    return $this->setController('rowsPerPage', func_get_args());
+                })->name('admin_rows_per_page');
 
                 // Get results -- new route for DataTable via AJAX POST
-                Route::post('{model}/datatable_results', [
-                    'as'   => 'admin_get_datatable_results',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dataTableResults'
-                ]);
+                Route::post('{model}/datatable_results', function () {
+                    return $this->setController('dataTableResults', func_get_args());
+                })->name('admin_get_datatable_results');
 
                 // Custom Model Action
-                Route::post('{model}/custom_action', [
-                    'as'   => 'admin_custom_model_action',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelAction'
-                ]);
+                Route::post('{model}/custom_action', function () {
+                    return $this->setController('customModelAction', func_get_args());
+                })->name('admin_custom_model_action');
 
                 // Get Item
-                Route::get('{model}/{id}', [
-                    'as'   => 'admin_get_item',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@item'
-                ]);
+                Route::get('{model}/{id}', function () {
+
+                    return $this->setController('item', func_get_args());
+                })->name('admin_get_item');
 
                 // File Uploads
-                Route::post('{model}/{field}/file_upload', [
-                    'as'   => 'admin_file_upload',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload'
-                ]);
+                Route::post('{model}/{field}/file_upload', function () {
+                    return $this->setController('fileUpload', func_get_args());
+                })->name('admin_file_upload');
 
                 // Save Item
-                Route::post('{model}/{id?}/save', [
-                    'as'   => 'admin_save_item',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@save'
-                ]);
+                Route::post('{model}/{id?}/save', function () {
+                    return $this->setController('save', func_get_args());
+                })->name('admin_save_item');
 
                 // Delete Item
-                Route::post('{model}/{id}/delete', [
-                    'as'   => 'admin_delete_item',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@delete'
-                ]);
+                Route::post('{model}/{id}/delete', function () {
+                    return $this->setController('delete', func_get_args());
+                })->name('admin_delete_item');
 
                 // Custom Item Action
-                Route::post('{model}/{id}/custom_action', [
-                    'as'   => 'admin_custom_model_item_action',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@customModelItemAction'
-                ]);
+                Route::post('{model}/{id}/custom_action', function () {
+                    return $this->setController('customModelItemAction', func_get_args());
+                })->name('admin_custom_model_item_action');
             });
         });
+    }
+
+    /**
+     * Set Controller base on model
+     *      Default or Custom Controller
+     * @param       $methodName
+     * @param array $params
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function setController($methodName, $params = [])
+    {
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var Controller $controller */
+        $controller = app($config->getOption('controller_handler'));
+
+        return $controller->callAction($methodName, $params);
     }
 }

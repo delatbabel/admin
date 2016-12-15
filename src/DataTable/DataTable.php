@@ -194,7 +194,6 @@ class DataTable
         $selects = [$table . '.*'];
 
         // set the filters
-        // FIXME: $this->setFilters($filters, $dbQuery, $countQuery, $selects);
         if (isset($input['filters'])) {
             $this->setFilters($input['filters'], $dbQuery, $countQuery, $selects);
         }
