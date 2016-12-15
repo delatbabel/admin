@@ -9,6 +9,7 @@
     - [Server Side](#server_side)
     - [Columns](#columns) *(required)*
     - [Edit Fields](#edit-fields) *(required)*
+    - [Controller Handler](#controller-handler)
     - [Filters](#filters)
     - [Query Filter](#query-filter)
     - [Permission](#permission)
@@ -158,6 +159,12 @@ The `edit_fields` array lets you define the editable fields for a model. There a
 
 > For a detailed description of all the edit field types and options, see the **[field docs](/docs/fields.md)**
 
+<a name="controller-handler"></a>
+### Controller Handler
+    controller_handler = AdminModelController::class
+
+The Controller Handler option let you custom your controller for template, working process. It must be extend from ` AdminModelController` 
+    
 <a name="filters"></a>
 ### Filters
 
