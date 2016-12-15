@@ -15,7 +15,13 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 /**
  * DDPro Admin Model Controller
  *
- * Manage model from admin page
+ * This controller manage everything relate to the Model (List, Edit, Create, Download...)
+ * If there are any Model, which working with a special template or process, it should be declared a controller on
+ * `controller_handler` option and which controller should extend from this controller
+ *
+ * ### Entry Points
+ * The entry points for each function are documented in the function docblocks.
+ * See also `php artisan route:list | grep {model}`.
  */
 class AdminModelController extends Controller
 {
@@ -43,9 +49,11 @@ class AdminModelController extends Controller
         $this->request = $request;
         $this->session = $session;
     }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Model routes
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * The main view for any of the data models
      *

@@ -14,11 +14,10 @@ use Illuminate\View\View;
 /**
  * DDPro Admin Controller
  *
- * This is the main controller class for all DDPro Admin requests.  It handles
- * all requests related to managing the data models.
+ * This is the main controller class for all DDPro Admin requests.
+ * It handle for Dashboard, Utility and Settings pages
  *
  * ### Entry Points
- *
  * The entry points for each function are documented in the function docblocks.
  * See also `php artisan route:list`.
  */
