@@ -21,16 +21,16 @@ class MainViewComposer extends ViewComposer
 
         // Load the CSS and JS files as defined in the config.
         foreach ($assets['css']['base'] as $asset) {
-            $view->css[] =  $this->asset($asset);
+            $view->css[] = $this->asset($asset);
         }
         foreach ($assets['css']['bower'] as $asset) {
-            $view->css[] =  $this->bowerAsset($asset);
+            $view->css[] = $this->bowerAsset($asset);
         }
         foreach ($assets['js']['base'] as $asset) {
-            $view->js[] =  $this->asset($asset);
+            $view->js[] = $this->asset($asset);
         }
         foreach ($assets['js']['bower'] as $asset) {
-            $view->js[] =  $this->bowerAsset($asset);
+            $view->js[] = $this->bowerAsset($asset);
         }
     }
 }
