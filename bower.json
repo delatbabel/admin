@@ -7,6 +7,6 @@
     "jqueryui-timepicker-addon": "^1.6.3",
     "jsoneditor": "^5.5.10",
     "ckeditor": "^4.6.1",
-    "switchery": "^0.8.2"
+    "bootstrap-tagsinput": "^0.8.0"
   }
 }

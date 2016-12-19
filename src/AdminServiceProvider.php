@@ -2,13 +2,12 @@
 
 namespace DDPro\Admin;
 
-use App\Http\Controllers\Controller;
 use DDPro\Admin\Actions\Factory as ActionFactory;
 use DDPro\Admin\Config\Factory as ConfigFactory;
+use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Fields\Factory as FieldFactory;
-use DDPro\Admin\Http\Controllers\AdminController;
 use DDPro\Admin\Http\Controllers\AdminModelController;
 use DDPro\Admin\Http\ViewComposers\MainViewComposer;
 use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
@@ -328,80 +327,81 @@ class AdminServiceProvider extends ServiceProvider
             Route::group(['middleware' => ['validate.model', 'post.validate']], function () {
                 // Model Index
                 Route::get('{model}', function () {
-                    return $this->setController('index', func_get_args());
+                    return $this->getController('index', func_get_args());
                 })->name('admin_index');
 
                 // New Item
                 Route::get('{model}/new', function () {
-                    return $this->setController('item', func_get_args());
+                    return $this->getController('item', func_get_args());
                 })->name('admin_new_item');
 
                 // Update a relationship's items with constraints
                 Route::post('{model}/update_options', function () {
-                    return $this->setController('updateOptions', func_get_args());
+                    return $this->getController('updateOptions', func_get_args());
                 })->name('admin_update_options');
 
                 // Display an image or file field's image or file
                 Route::get('{model}/file', function () {
-                    return $this->setController('displayFile', func_get_args());
+                    return $this->getController('displayFile', func_get_args());
                 })->name('admin_display_file');
 
                 // Updating Rows Per Page
                 Route::post('{model}/rows_per_page', function () {
-                    return $this->setController('rowsPerPage', func_get_args());
+                    return $this->getController('rowsPerPage', func_get_args());
                 })->name('admin_rows_per_page');
 
                 // Get results -- new route for DataTable via AJAX POST
                 Route::post('{model}/datatable_results', function () {
-                    return $this->setController('dataTableResults', func_get_args());
+                    return $this->getController('dataTableResults', func_get_args());
                 })->name('admin_get_datatable_results');
 
                 // Custom Model Action
                 Route::post('{model}/custom_action', function () {
-                    return $this->setController('customModelAction', func_get_args());
+                    return $this->getController('customModelAction', func_get_args());
                 })->name('admin_custom_model_action');
 
                 // Get Item
                 Route::get('{model}/{id}', function () {
 
-                    return $this->setController('item', func_get_args());
+                    return $this->getController('item', func_get_args());
                 })->name('admin_get_item');
 
                 // File Uploads
                 Route::post('{model}/{field}/file_upload', function () {
-                    return $this->setController('fileUpload', func_get_args());
+                    return $this->getController('fileUpload', func_get_args());
                 })->name('admin_file_upload');
 
                 // Save Item
                 Route::post('{model}/{id?}/save', function () {
-                    return $this->setController('save', func_get_args());
+                    return $this->getController('save', func_get_args());
                 })->name('admin_save_item');
 
                 // Delete Item
                 Route::post('{model}/{id}/delete', function () {
-                    return $this->setController('delete', func_get_args());
+                    return $this->getController('delete', func_get_args());
                 })->name('admin_delete_item');
 
                 // Custom Item Action
                 Route::post('{model}/{id}/custom_action', function () {
-                    return $this->setController('customModelItemAction', func_get_args());
+                    return $this->getController('customModelItemAction', func_get_args());
                 })->name('admin_custom_model_item_action');
             });
         });
     }
 
     /**
-     * Set Controller base on model
-     *      Default or Custom Controller
+     * Set Controller base on model: AdminModelController or Custom Controller
+     * Please refer controller_handler option on Model Config
+     *
      * @param       $methodName
      * @param array $params
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function setController($methodName, $params = [])
+    protected function getController($methodName, $params = [])
     {
         /** @var Config $config */
         $config = app('itemconfig');
-        /** @var Controller $controller */
+        /** @var AdminModelController $controller */
         $controller = app($config->getOption('controller_handler'));
 
         return $controller->callAction($methodName, $params);
