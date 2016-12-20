@@ -186,24 +186,19 @@ return [
      *
      * @type array
      */
-    'assets' => [
-        'css'   => [
-            'base' => [
+    'main-assets' => [
+        'css' => [
+            'bower' => [
                 // Main CSS
-                'assets/css/bootstrap.min.css',
-                'assets/font-awesome/css/font-awesome.css',
-                'assets/css/style.css',
-                'assets/css/custom.css',
-                'assets/css/animate.css',
+                'bootstrap/dist/css/bootstrap.min.css',
+                'font-awesome/css/font-awesome.min.css',
 
                 // Custom and plugin CSS
-                'assets/css/plugins/dataTables/datatables.min.css',
-                'assets/css/plugins/select2/select2.min.css',
-                'assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css',
-                'assets/css/plugins/chosen/bootstrap-chosen.css',
-                'assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
-            ],
-            'bower' => [
+                'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+                'chosen/chosen.css',
+                'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+                'select2/dist/css/select2.min.css',
+                'datatables.net-bs/css/dataTables.bootstrap.min.css',
                 'markitup/markitup/skins/markitup/style.css',
                 'markitup/markitup/sets/default/style.css',
                 'markitup/markitup/sets/html/style.css',
@@ -211,25 +206,30 @@ return [
                 'jquery-ui/themes/flick/jquery-ui.min.css',
                 'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
                 'jsoneditor/dist/jsoneditor.min.css',
+                'bootstrap-tagsinput/dist/bootstrap-tagsinput.css',
+            ],
+            'base'  => [
+                // Main CSS
+                'assets/css/style.css',
+                'assets/css/custom.css',
+                'assets/css/animate.css',
             ],
         ],
-        'js'    => [
-            'base' => [
+        'js'  => [
+            'bower' => [
                 // Main scripts
-                'assets/js/jquery-2.1.1.js',
-                'assets/js/bootstrap.min.js',
-                'assets/js/plugins/metisMenu/jquery.metisMenu.js',
-                'assets/js/plugins/slimscroll/jquery.slimscroll.min.js',
+                'jquery/dist/jquery.min.js',
+                'bootstrap/dist/js/bootstrap.min.js',
+                'metisMenu/dist/metisMenu.min.js',
+                'jquery-slimscroll/jquery.slimscroll.min.js',
 
                 // Custom and plugin javascript
-                'assets/js/inspinia.js',
-                'assets/js/plugins/pace/pace.min.js',
-                'assets/js/plugins/dataTables/datatables.min.js',
-                'assets/js/plugins/select2/select2.full.min.js',
-                'assets/js/plugins/colorpicker/bootstrap-colorpicker.min.js',
-                'assets/js/plugins/chosen/chosen.jquery.js',
-            ],
-            'bower' => [
+                'chosen/chosen.jquery.js',
+                'bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+                'PACE/pace.min.js',
+                'select2/dist/js/select2.full.min.js',
+                'datatables.net/js/jquery.dataTables.min.js',
+                'datatables.net-bs/js/dataTables.bootstrap.min.js',
                 'markitup/markitup/jquery.markitup.js',
                 'markitup/markitup/sets/html/set.js',
                 'markitup/markitup/sets/markdown/set.js',
@@ -237,6 +237,32 @@ return [
                 'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
                 'jsoneditor/dist/jsoneditor.min.js',
                 'ckeditor/ckeditor.js',
+                'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
+            ],
+            'base'  => [
+                // Custom and plugin javascript
+                'assets/js/inspinia.js',
+                'assets/js/customDataTable.js',
+            ],
+        ],
+    ],
+
+    /**
+     * Assets that get loaded by the No Auth ViewComposer
+     *
+     * @type array
+     */
+    'noauth-assets' => [
+        'css' => [
+            'bower' => [
+                // Main CSS
+                'bootstrap/dist/css/bootstrap.min.css',
+                'font-awesome/css/font-awesome.min.css',
+            ],
+            'base'  => [
+                // Main CSS
+                'assets/css/style.css',
+                'assets/css/animate.css',
             ],
         ],
     ],
