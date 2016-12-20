@@ -17,8 +17,8 @@ class NoauthViewComposer extends ViewComposer
      */
     public function compose(View $view)
     {
-        $view->css[] = $this->asset('assets/css/bootstrap.min.css');
-        $view->css[] = $this->asset('assets/font-awesome/css/font-awesome.css');
+        $view->css[] = $this->bowerAsset('bootstrap/dist/css/bootstrap.min.css');
+        $view->css[] = $this->bowerAsset('font-awesome/css/font-awesome.min.css');
         $view->css[] = $this->asset('assets/css/animate.css');
         $view->css[] = $this->asset('assets/css/style.css');
     }
