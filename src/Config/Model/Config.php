@@ -353,7 +353,7 @@ class Config extends ConfigBase implements ConfigInterface
             return $validation;
         }
 
-        /* Upload File */
+        // Upload File
         foreach ($fields as $name => $field) {
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {

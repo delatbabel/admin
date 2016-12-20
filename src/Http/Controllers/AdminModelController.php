@@ -140,7 +140,7 @@ class AdminModelController extends Controller
         $fieldFactory = app('admin_field_factory');
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
-        /* Validate from form_request */
+        // Validate from form_request
         if ($formRequestClass = $config->getOption('form_request')) {
             $this->request = app($formRequestClass);
         }

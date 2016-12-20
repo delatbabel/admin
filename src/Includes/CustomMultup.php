@@ -28,7 +28,7 @@ class CustomMultup extends Multup
             $filename = $original_name;
         }
 
-        /* upload the file */
+        // Upload the file
         $save = $this->image[$this->input]->move($this->path, $filename);
 
         if ($save) {

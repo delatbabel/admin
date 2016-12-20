@@ -192,7 +192,7 @@ abstract class Field
     public function fillModel(&$model, $input)
     {
         if ($model::isJsonCastable($this->getOption('field_name')) && $this->isJson($input)) {
-            /* For Casting Array Case */
+            // For Casting Array Case
             $model->{$this->getOption('field_name')} = json_decode($input);
         } else {
             $model->{$this->getOption('field_name')} = is_null($input) ? '' : $input;
