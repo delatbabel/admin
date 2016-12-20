@@ -7,6 +7,18 @@
     "jqueryui-timepicker-addon": "^1.6.3",
     "jsoneditor": "^5.5.10",
     "ckeditor": "^4.6.1",
-    "bootstrap-tagsinput": "^0.8.0"
+    "bootstrap-tagsinput": "^0.8.0",
+    "datatables.net": "^1.10.13",
+    "datatables.net-bs": "^1.10.13",
+    "font-awesome": "^4.7.0",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
+    "select2": "^4.0.3",
+    "PACE": "pace#^1.0.2",
+    "metisMenu": "^2.6.1",
+    "jquery-slimscroll": "slimscroll#^1.3.8",
+    "bootstrap-colorpicker": "^2.3.6",
+    "chosen": "^1.6.2",
+    "awesome-bootstrap-checkbox": "^0.3.7"
   }
 }
