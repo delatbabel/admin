@@ -17,20 +17,9 @@ class MainViewComposer extends ViewComposer
      */
     public function compose(View $view)
     {
-        $assets = config('administrator.assets');
+        $assets = config('administrator.main-assets');
 
         // Load the CSS and JS files as defined in the config.
-        foreach ($assets['css']['bower'] as $asset) {
-            $view->css[] = $this->bowerAsset($asset);
-        }
-        foreach ($assets['css']['base'] as $asset) {
-            $view->css[] = $this->asset($asset);
-        }
-        foreach ($assets['js']['bower'] as $asset) {
-            $view->js[] = $this->bowerAsset($asset);
-        }
-        foreach ($assets['js']['base'] as $asset) {
-            $view->js[] = $this->asset($asset);
-        }
+        $this->generateAssets($view, $assets);
     }
 }
