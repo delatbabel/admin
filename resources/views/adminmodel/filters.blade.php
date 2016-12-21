@@ -1,12 +1,12 @@
-<div class="ibox float-e-margins">
-    <div class="ibox-title">
-        <h5>{{trans('administrator::administrator.filters')}}</h5>
-        <div class="ibox-tools">
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{trans('administrator::administrator.filters')}}</h3>
+        <div class="box-tools pull-right">
             <a class="btn-filter btn btn-primary">Filter</a>
             <a class="btn-filter-reset btn btn-default">Reset</a>
         </div>
     </div>
-    <div class="ibox-content">
+    <div class="box-body">
         <div class="row">
             <div class="col-sm-12">
                 <form role="form">
@@ -64,3 +64,5 @@
         </div>
     </div>
 </div>
+
+

@@ -7,14 +7,14 @@ return [
      *
      * @type string
      */
-    'uri' => 'admin',
+    'uri'                  => 'admin',
 
     /**
      *  Domain for routing.
      *
-     *  @type string
+     * @type string
      */
-    'domain' => '',
+    'domain'               => '',
 
     /**
      *  Middleware for admin routing.
@@ -27,44 +27,44 @@ return [
      * * DDPro\Admin\Http\Middleware\ValidateModel (model only)
      * * DDPro\Admin\Http\Middleware\PostValidate
      *
-     *  @type array
+     * @type array
      */
-    'middleware' => [],
+    'middleware'           => [],
 
     /**
      * Page title
      *
      * @type string
      */
-    'title' => 'Admin',
+    'title'                => 'Admin',
 
     /**
      * The company name, that will appear in the copyright message in the page footer.
      *
      * @type string
      */
-    'company_name'  => 'Babel Consulting',
+    'company_name'         => 'Babel Consulting',
 
     /**
      * The company website URL, that will appear in the copyright message in the page footer.
      *
      * @type string
      */
-    'company_url'  => 'https://www.babel.com.au/',
+    'company_url'          => 'https://www.babel.com.au/',
 
     /**
      * The message that will appear in the page footer.
      *
      * @type string
      */
-    'footer_message'  => 'Example Application using DDPro Classes',
+    'footer_message'       => 'Example Application using DDPro Classes',
 
     /**
      * The path to your model config directory
      *
      * @type string
      */
-    'model_config_path' => config_path('administrator'),
+    'model_config_path'    => config_path('administrator'),
 
     /**
      * The path to your settings config directory
@@ -94,7 +94,7 @@ return [
      *      'Analytics' => array('E-Commerce' => 'page.ecommerce.analytics'),
      *  )
      */
-    'menu' => [],
+    'menu'                 => [],
 
     /**
      * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
@@ -105,7 +105,7 @@ return [
      *
      * @type closure
      */
-    'permission' => function () {
+    'permission'           => function () {
         return Auth::check();
     },
 
@@ -115,56 +115,56 @@ return [
      *
      * @type bool
      */
-    'use_dashboard' => true,
+    'use_dashboard'        => true,
 
     /**
      * If you want to create a dashboard view, provide the view string here.
      *
      * @type string
      */
-    'dashboard_view' => 'admindashboard.admin',
+    'dashboard_view'       => 'admindashboard.admin',
 
     /**
      * The name of the model index view
      *
      * @type string
      */
-    'model_index_view' => 'adminmodel.index',
+    'model_index_view'     => 'adminmodel.index',
 
     /**
      * The menu item that should be used as the default landing page of the administrative section
      *
      * @type string
      */
-    'home_page' => '',
+    'home_page'            => '',
 
     /**
      * The route to which the user will be taken when they click the "back to site" button
      *
      * @type string
      */
-    'back_to_site_path' => '/',
+    'back_to_site_path'    => '/',
 
     /**
      * The login path is the path where Administrator will send the user if they fail a permission check
      *
      * @type string
      */
-    'login_path' => 'auth/login',
+    'login_path'           => 'auth/login',
 
     /**
      * The logout path is the path where Administrator will send the user when they click the logout link
      *
      * @type string
      */
-    'logout_path' => 'auth/logout',
+    'logout_path'          => 'auth/logout',
 
     /**
      * This is the key of the return path that is sent with the redirection to your login_action. Session::get('redirect') will hold the return URL.
      *
      * @type string
      */
-    'login_redirect_key' => 'redirect',
+    'login_redirect_key'   => 'redirect',
 
     /**
      * Global default rows per page
@@ -179,21 +179,24 @@ return [
      *
      * @type array
      */
-    'locales' => [],
+    'locales'              => [],
 
     /**
      * Assets that get loaded by the main ViewComposer
      *
      * @type array
      */
-    'main-assets' => [
+    'main-assets'          => [
         'css' => [
             'bower' => [
-                // Main CSS
+                // Main
                 'bootstrap/dist/css/bootstrap.min.css',
                 'font-awesome/css/font-awesome.min.css',
+                'AdminLTE/bootstrap/css/bootstrap.min.css',
+                'AdminLTE/dist/css/AdminLTE.min.css',
+                'AdminLTE/dist/css/skins/skin-blue.min.css',
 
-                // Custom and plugin CSS
+                // Custom
                 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
                 'chosen/chosen.css',
                 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
@@ -209,24 +212,19 @@ return [
                 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css',
             ],
             'base'  => [
-                // Main CSS
-                'assets/css/style.css',
                 'assets/css/custom.css',
-                'assets/css/animate.css',
             ],
         ],
         'js'  => [
             'bower' => [
-                // Main scripts
+                // Main
                 'jquery/dist/jquery.min.js',
                 'bootstrap/dist/js/bootstrap.min.js',
-                'metisMenu/dist/metisMenu.min.js',
                 'jquery-slimscroll/jquery.slimscroll.min.js',
 
-                // Custom and plugin javascript
+                // Custom
                 'chosen/chosen.jquery.js',
                 'bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
-                'PACE/pace.min.js',
                 'select2/dist/js/select2.full.min.js',
                 'datatables.net/js/jquery.dataTables.min.js',
                 'datatables.net-bs/js/dataTables.bootstrap.min.js',
@@ -238,32 +236,15 @@ return [
                 'jsoneditor/dist/jsoneditor.min.js',
                 'ckeditor/ckeditor.js',
                 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
+                'AdminLTE/dist/js/app.min.js',
             ],
             'base'  => [
-                // Custom and plugin javascript
-                'assets/js/inspinia.js',
                 'assets/js/customDataTable.js',
             ],
         ],
     ],
-
-    /**
-     * Assets that get loaded by the No Auth ViewComposer
-     *
-     * @type array
-     */
-    'noauth-assets' => [
-        'css' => [
-            'bower' => [
-                // Main CSS
-                'bootstrap/dist/css/bootstrap.min.css',
-                'font-awesome/css/font-awesome.min.css',
-            ],
-            'base'  => [
-                // Main CSS
-                'assets/css/style.css',
-                'assets/css/animate.css',
-            ],
-        ],
+    'noauth-assets'        => [
+        'bower' => [],
+        'base'  => [],
     ],
 ];

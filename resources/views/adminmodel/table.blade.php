@@ -1,9 +1,10 @@
 @if ($config->getOption('server_side') && !empty($filters))
     @include('adminmodel.filters')
 @endif
-<div class="ibox float-e-margins">
-    <div class="ibox-title">
-        <div class="ibox-tools">
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Hover Data Table</h3>
+        <div class="box-tools pull-right">
             @foreach($globalActions as $arr)
                 @if($arr['has_permission'])
                     <input type="button" class="btn btn-info"
@@ -23,19 +24,17 @@
             @endif
         </div>
     </div>
-    <div class="ibox-content">
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover dataTables-example" id="customers">
-                <thead>
-                <tr>
-                    @foreach($columnModel as $tmpArr)
-                        <th>{{$tmpArr['title']}}</th>
-                    @endforeach
-                    <th>Actions</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
+    <div class="box-body table-responsive">
+        <table class="table table-striped table-bordered table-hover dataTables-example" id="customers">
+            <thead>
+            <tr>
+                @foreach($columnModel as $tmpArr)
+                    <th>{{$tmpArr['title']}}</th>
+                @endforeach
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 @section('javascript')

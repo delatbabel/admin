@@ -1,46 +1,40 @@
-@inject('user', 'App\Services\User')
-<nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header">
-                <div class="dropdown profile-element">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="clear">
-                            <span class="block m-t-xs">
-                                <strong class="font-bold">{{ $user->fullName() }}</strong>
-                            </span>
-                            <span class="text-muted text-xs block">
-                                {{ $user->timeZone() }} <b class="caret"></b>
-                            </span>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li>
-                            <a href="{{url(config('administrator.logout_path'))}}">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="logo-element">IN+</div>
-            </li>
-            {{-- Sidebar Menu --}}
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{{ asset('packages/ddpro/admin/bower_components/AdminLTE/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
+            </div>
+            <div class="pull-left info">
+                <p>USERNAME</p>
+                <!-- Status -->
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+
+        <!-- search form (Optional) -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search..."/>
+          <span class="input-group-btn">
+            <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+          </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+            <li class="header">Admin Menu</li>
             @foreach ($menu as $key => $item)
                 @include('adminlayouts.menu_item')
             @endforeach
-            {{-- Centaur Routes --}}
-            @if (Sentinel::check() && Sentinel::inRole('administrator'))
-                <li class="{{ Request::is('users*') ? 'active' : '' }}">
-                    <a href="{{ route('users.index') }}">
-                        <i class="fa fa-magic"></i>
-                        <span class="nav-label">Users</span>
-                    </a>
-                </li>
-                <li class="{{ Request::is('roles*') ? 'active' : '' }}">
-                    <a href="{{ route('roles.index') }}">
-                        <i class="fa fa-magic"></i>
-                        <span class="nav-label">Roles</span>
-                    </a>
-                </li>
-            @endif
-        </ul>
-    </div>
-</nav>
+        </ul><!-- /.sidebar-menu -->
+
+    </section>
+    <!-- /.sidebar -->
+</aside>

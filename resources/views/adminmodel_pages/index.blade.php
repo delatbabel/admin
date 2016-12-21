@@ -1,23 +1,20 @@
 @extends('adminlayouts.main')
 @section('content')
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>
-                {{$sTitle or 'Customize View'}}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Custom Layout
                 <small>{{ $config->getOption('title') }}</small>
-            </h2>
+            </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active"><strong>Here</strong></li>
+                <li class="active">Here</li>
             </ol>
-        </div>
-    </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-lg-12">
-                <?php $tmpRouteName = Route::getCurrentRoute()->getName(); ?>
+        </section>
+        <section class="content">
+            <div id="admin_page" class="with_sidebar">
                 @include('adminmodel.table')
             </div>
-        </div>
+        </section>
     </div>
 @endsection
