@@ -57,15 +57,15 @@ desired effect
 @endif
 <div class="wrapper">
     {{-- Main Header --}}
-    @include('adminlayouts.header')
+    @include('admin.layouts.header')
     {{-- Left side column. contains the logo and sidebar --}}
-    @include('adminlayouts.sidebar')
+    @include('admin.layouts.sidebar')
     {{-- Content Wrapper. Contains page content --}}
     @yield('content')
     {{-- Main Footer --}}
-    @include('adminlayouts.footer')
+    @include('admin.layouts.footer')
     {{-- Control Sidebar --}}
-    @include('adminlayouts.control')
+    @include('admin.layouts.control')
 </div>
 {{-- ./wrapper --}}
 @yield('javascript')

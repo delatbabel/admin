@@ -1,4 +1,4 @@
-@extends('adminlayouts.noauth')
+@extends('admin.layouts.noauth')
 
 @section('content')
 <body class="login-page">

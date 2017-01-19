@@ -216,13 +216,13 @@ class AdminServiceProvider extends ServiceProvider
         View::composer('administrator::settings', SettingViewComposer::class);
 
         // header view
-        View::composer(['adminlayouts.sidebar'], SidebarViewComposer::class);
+        View::composer(['admin.layouts.sidebar'], SidebarViewComposer::class);
 
         // the main layout view, gets used for all authenticated users. Shows the menu, etc.
-        View::composer(['adminlayouts.main'], MainViewComposer::class);
+        View::composer(['admin.layouts.main'], MainViewComposer::class);
 
         // the "noauth" layout view, gets used for all non-authenticated users, e.g. the login screens, etc.
-        View::composer(['adminlayouts.noauth'], NoauthViewComposer::class );
+        View::composer(['admin.layouts.noauth'], NoauthViewComposer::class );
 
         // An example of bower-izing one of the assets
         //

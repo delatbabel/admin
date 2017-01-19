@@ -31,7 +31,7 @@
         <ul class="sidebar-menu">
             <li class="header">Admin Menu</li>
             @foreach ($menu as $key => $item)
-                @include('adminlayouts.menu_item')
+                @include('admin.layouts.menu_item')
             @endforeach
         </ul><!-- /.sidebar-menu -->
 

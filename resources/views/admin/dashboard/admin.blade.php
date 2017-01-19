@@ -1,4 +1,4 @@
-@extends('adminlayouts.main')
+@extends('admin.layouts.main')
 
 @section('content')
     <div class="content-wrapper">
@@ -16,7 +16,7 @@
 
         <!-- Main content -->
         <section class="content">
-            @include('admindashboard.sample')
+            @include('admin.dashboard.sample')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 @endsection

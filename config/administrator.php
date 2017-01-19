@@ -122,7 +122,7 @@ return [
      *
      * @type string
      */
-    'dashboard_view'       => 'admindashboard.admin',
+    'dashboard_view'       => 'admin.dashboard.admin',
 
     /**
      * The name of the model index view
