@@ -19,7 +19,7 @@
                                     <label for="{{$tmpID}}">{{$arrCol['title']}}</label>
                                     {!! Form::hidden("filters[{$key}][field_name]", $arrCol['field_name'], ['class'=>"form-filter"]) !!}
                                     @if(!in_array($arrCol['type'],['number','date','datetime','time'] ))
-                                        @include('adminmodel.field',[
+                                        @include('admin.model.field',[
                                            'type'         => $arrCol['type'],
                                            'name'         => "filters[{$key}][value]",
                                            'id'           => $tmpID,
@@ -31,7 +31,7 @@
                                     @else
                                         <div class="row">
                                             <div class="col-xs-5">
-                                                @include('adminmodel.field',[
+                                                @include('admin.model.field',[
                                                    'type'         => $arrCol['type'],
                                                    'name'         => "filters[{$key}][min_value]",
                                                    'id'           => $tmpID.'_min',
@@ -43,7 +43,7 @@
                                             </div>
                                             <span class="col-xs-2 text-center">-</span>
                                             <div class="col-xs-5">
-                                                @include('adminmodel.field',[
+                                                @include('admin.model.field',[
                                                    'type'         => $arrCol['type'],
                                                    'name'         => "filters[{$key}][max_value]",
                                                    'id'           => $tmpID.'_max',

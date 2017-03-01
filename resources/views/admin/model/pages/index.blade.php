@@ -3,7 +3,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                {{ Config::get('administrator.title') }}
+                Custom Layout
                 <small>{{ $config->getOption('title') }}</small>
             </h1>
             <ol class="breadcrumb">
@@ -13,12 +13,7 @@
         </section>
         <section class="content">
             <div id="admin_page" class="with_sidebar">
-                <?php $tmpRouteName = Route::getCurrentRoute()->getName(); ?>
-                @if( $tmpRouteName == 'admin_index')
-                    @include('adminmodel.table')
-                @else
-                    @include('adminmodel.form')
-                @endif
+                @include('admin.model.table')
             </div>
         </section>
     </div>

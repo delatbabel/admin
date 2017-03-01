@@ -47,7 +47,7 @@
                                                     <?php $tmpClass = in_array($key,
                                                         ['content', 'websites']) ? 'col-md-10' : 'col-md-8'; ?>
                                                     <div class="{{$tmpClass}}">
-                                                        @include('adminmodel.field',[
+                                                        @include('admin.model.field',[
                                                            'type'         => $arrCol['type'],
                                                            'name'         => $arrCol['field_name'],
                                                            'id'           => $arrCol['field_name'],

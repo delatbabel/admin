@@ -23,7 +23,7 @@
                                 {{$arrCol['title']}}:
                             </label>
                             <div class="col-md-10">
-                                @include('adminmodel.field',[
+                                @include('admin.model.field',[
                                    'type'         => $arrCol['type'],
                                    'name'         => $arrCol['field_name'],
                                    'id'           => $arrCol['field_name'],
