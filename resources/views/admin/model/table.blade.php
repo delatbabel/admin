@@ -1,5 +1,5 @@
 @if ($config->getOption('server_side') && !empty($filters))
-    @include('adminmodel.filters')
+    @include('admin.model.filters')
 @endif
 <div class="box box-primary">
     <div class="box-header with-border">
