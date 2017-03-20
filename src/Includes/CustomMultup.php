@@ -29,17 +29,27 @@ class CustomMultup extends Multup
         }
 
         // Upload the file
-        $save = $this->image[$this->input]->move($this->path, $filename);
+        $disk = config('filesystems.default');
+        $storage = \Storage::disk($disk);
+        $save = $storage->put($this->path . $filename, file_get_contents($this->image[$this->input]), 'public');
 
         if ($save) {
-            if (is_array($this->image_sizes)) {
-                $resizer = new Resize();
-                $resizer->create($save, $this->path, $filename, $this->image_sizes);
-            }
+            // Do resize here
+//            if (is_array($this->image_sizes)) {
+//                // Move the file to local storage & make thumbnails
+//                $file = $this->image[$this->input]->move('/tmp/', $filename);
+//
+//                $resizer = new Resize();
+//                $resizer->create($file, '/tmp/', $filename, $this->image_sizes);
+//
+//                foreach ($this->image_sizes as $size) {
+//                    $storage->put($size[3] . $filename, file_get_contents($size[3] . $filename), 'public');
+//                }
+//            }
         } else {
             abort(500, 'Could not save image');
         }
 
-        return $filename;
+        return $this->path . $filename;
     }
 }
