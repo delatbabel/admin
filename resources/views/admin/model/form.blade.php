@@ -20,7 +20,7 @@
                     @if($arrCol['visible'] && $arrCol['editable'])
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
-                                {{$arrCol['title']}}:
+                                {!! $arrCol['title'] !!}:
                             </label>
                             <div class="col-md-10">
                                 @include('admin.model.field',[

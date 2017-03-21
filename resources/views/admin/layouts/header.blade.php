@@ -1,4 +1,5 @@
 <!-- Main Header -->
+@inject('user', 'DDPro\Admin\Services\User')
 <header class="main-header">
     <!-- Logo -->
     <a href="{{ url(config('administrator.uri')) }}" class="logo">
@@ -112,17 +113,27 @@
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        <img src="/packages/ddpro/admin/bower_components/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                        <img src="//www.gravatar.com/avatar/{{ md5($user->getUser()->email) }}?d=mm" alt="{{ $user->getUser()->email }}" class="user-image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">USERNAME</span>
+                        <span class="hidden-xs">
+                            @if ($user->fullName())
+                                {{ $user->fullName() }}
+                            @else
+                                {{ $user->getUser()->email }}
+                            @endif
+                        </span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="/packages/ddpro/admin/bower_components/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                            <img src="//www.gravatar.com/avatar/{{ md5($user->getUser()->email) }}?d=mm" alt="{{ $user->getUser()->email }}" class="img-circle">
                             <p>
-                                USERNAME
-                                <small>Member since DDMMYYYY</small>
+                                @if ($user->fullName())
+                                    {{ $user->fullName() }}
+                                @else
+                                    {{ $user->getUser()->email }}
+                                @endif
+                                <small>Member since <small>{{ $user->getUser()->created_at->format('d/m/Y') }}</small></small>
                             </p>
                         </li>
                         <!-- Menu Body -->

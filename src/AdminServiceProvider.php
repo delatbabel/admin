@@ -102,6 +102,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register(\Delatbabel\SiteConfig\SiteConfigServiceProvider::class);
         $this->app->register(\Delatbabel\ViewPages\ViewPagesServiceProvider::class);
         $this->app->register(\Delatbabel\Applog\DebugServiceProvider::class);
+        $this->app->register(\Centaur\CentaurServiceProvider::class);
     }
 
     /**
@@ -387,6 +388,10 @@ class AdminServiceProvider extends ServiceProvider
                 })->name('admin_custom_model_item_action');
             });
         });
+
+        if (! $this->app->routesAreCached()) {
+            require __DIR__.'/Routes/Auth.php';
+        }
     }
 
     /**

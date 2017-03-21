@@ -2,13 +2,13 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>
-                Custom Layout
+            <h2>
+                {{$sTitle or 'Customize View'}}
                 <small>{{ $config->getOption('title') }}</small>
-            </h1>
+            </h2>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li class="active"><strong>Here</strong></li>
             </ol>
         </section>
         <section class="content">
