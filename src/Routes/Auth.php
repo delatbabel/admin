@@ -6,6 +6,9 @@ Route::get('/login', ['as' => 'auth.login.form', 'uses' => '\DDPro\Admin\Http\Co
 Route::post('/login', ['as' => 'auth.login.attempt', 'uses' => '\DDPro\Admin\Http\Controllers\Auth\SessionController@postLogin']);
 Route::get('/logout', ['as' => 'auth.logout', 'uses' => '\DDPro\Admin\Http\Controllers\Auth\SessionController@getLogout']);
 
+// Dashboard
+Route::get('dashboard', ['as' => 'dashboard', 'uses' => '\DDPro\Admin\Http\Controllers\DashboardController@index']);
+
 // Registration
 Route::get('register', ['as' => 'auth.register.form', 'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@getRegister']);
 Route::post('register', ['as' => 'auth.register.attempt', 'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@postRegister']);
