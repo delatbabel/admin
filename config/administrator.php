@@ -210,6 +210,7 @@ return [
                 'jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
                 'jsoneditor/dist/jsoneditor.min.css',
                 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css',
+				'pnotify/pnotify.custom.min.css',
             ],
             'base'  => [
                 'assets/css/custom.css',
@@ -237,6 +238,7 @@ return [
                 'ckeditor/ckeditor.js',
                 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
                 'AdminLTE/dist/js/app.min.js',
+				'pnotify/pnotify.custom.min.js',
             ],
             'base'  => [
                 'assets/js/customDataTable.js',

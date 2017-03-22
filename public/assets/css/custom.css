@@ -10,3 +10,21 @@
 .bootstrap-tagsinput {
     width: 100% !important;
 }
+
+.dataTables_length {
+    float: left;
+}
+
+.hr-line-dashed {
+    background-color: #ffffff;
+    border-top: 1px dashed #e7eaec;
+    color: #ffffff;
+    height: 1px;
+    margin: 20px 0;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    clear: both;
+    padding-top: 8px;
+    white-space: nowrap;
+}
