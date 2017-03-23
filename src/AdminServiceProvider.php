@@ -103,6 +103,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register(\Delatbabel\ViewPages\ViewPagesServiceProvider::class);
         $this->app->register(\Delatbabel\Applog\DebugServiceProvider::class);
         $this->app->register(\Centaur\CentaurServiceProvider::class);
+
+        $this->app->register(\Spatie\Backup\BackupServiceProvider::class);
+        $this->app->register(\DDPro\BackupManager\BackupManagerServiceProvider::class);
     }
 
     /**
