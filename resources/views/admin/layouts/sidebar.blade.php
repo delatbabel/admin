@@ -37,7 +37,6 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <li class="header">Admin Menu</li>
-            <li><a href="{{ url(config('administrator.uri', 'admin').'/backup') }}"><i class="fa fa-hdd-o"></i> <span>Backups</span></a></li>
             @foreach ($menu as $key => $item)
                 @include('admin.layouts.menu_item')
             @endforeach

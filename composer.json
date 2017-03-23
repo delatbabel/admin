@@ -20,19 +20,12 @@
         "delatbabel/fluents": "~1.0",
         "laravel/framework": "5.1.*",
         "rcrowe/twigbridge": "^0.9.2",
-		"srlabs/centaur": "1.*",
-        "ddpro/backupmanager": "dev-master"
+		"srlabs/centaur": "1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
         "mockery/mockery": "~0.9"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "ssh://git@gitlab.babel.com.au:22/ddpro/backupmanager.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "DDPro\\Admin\\": "src/"
