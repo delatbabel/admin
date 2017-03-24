@@ -147,7 +147,15 @@
         $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
     }
     ?>
-    {!! Form::select($name, $tmpArr, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    {!! Form::select($name, $tmpArr, isset($arrCol['default']) ? $arrCol['default']: null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                $("#{{$id}}").select2();
+            });
+        </script>
+    @endsection
 @elseif($type == 'belongs_to_many')
     <select class="{{$defaultClass}} select2"
             multiple="multiple"
