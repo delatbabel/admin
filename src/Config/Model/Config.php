@@ -9,6 +9,7 @@ use DDPro\Admin\Fields\Field as Field;
 use DDPro\Admin\Fields\File;
 use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
+use DDPro\Admin\Fields\Relationships\BelongsToMany;
 use DDPro\Admin\Http\Controllers\AdminModelController;
 
 /**
@@ -490,7 +491,8 @@ class Config extends ConfigBase implements ConfigInterface
         $inputs = [];
         // run through the edit fields to find the relationships
         foreach ($fields as $name => $field) {
-            if ($field->getOption('external') || get_class($field) == BelongsTo::class) {
+            // Todo: verify this: BelongsToMany input is an array, so it cannot go through formatRelationshipInput function
+            if (($field->getOption('external') || get_class($field) == BelongsTo::class) && get_class($field) != BelongsToMany::class) {
                 $inputs[$name] = $this->formatRelationshipInput($request->get($name, null), $field);
             } elseif (get_class($field) == File::class || get_class($field) == Image::class) {
                 $inputs[$name] = $request->{$name};

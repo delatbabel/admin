@@ -22,7 +22,15 @@
                             <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
                                 {!! $arrCol['title'] !!}:
                             </label>
-                            <div class="col-md-10">
+                            <div
+                                @if (isset($arrCol['attributes']))
+                                    @foreach ($arrCol['attributes'] as $attribute => $value)
+                                        {!! $attribute !!}="{!! $value !!}"
+                                    @endforeach
+                                @else
+                                    class="col-md-10"
+                                @endif
+                            >
                                 @include('admin.model.field',[
                                    'type'         => $arrCol['type'],
                                    'name'         => $arrCol['field_name'],

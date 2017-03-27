@@ -49,7 +49,6 @@ class BelongsToMany extends Relationship
      */
     public function fillModel(&$model, $input)
     {
-        $input        = $input ? explode(',', $input) : [];
         $fieldName    = $this->getOption('field_name');
         $relationship = $model->{$fieldName}();
 

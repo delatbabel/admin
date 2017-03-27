@@ -142,12 +142,16 @@
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'enum' || $type == 'belongs_to')
     <?php
-    $tmpArr = ['' => $flagFilter ? 'All' : ''];
-    foreach ($arrCol['options'] as $tmpSubArr) {
-        $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
-    }
+        $tmpArr = ['' => $flagFilter ? 'All' : ''];
+        foreach ($arrCol['options'] as $tmpSubArr) {
+            $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
+        }
+        $tmpDefault = null;
+        if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
+            $tmpDefault = $arrCol['default'];
+        }
     ?>
-    {!! Form::select($name, $tmpArr, isset($arrCol['default']) ? $arrCol['default']: null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id]) !!}
     @section('javascript')
         @parent
         <script type="text/javascript">
@@ -159,7 +163,7 @@
 @elseif($type == 'belongs_to_many')
     <select class="{{$defaultClass}} select2"
             multiple="multiple"
-            name="{{ $name }}"
+            name="{{ $name }}[]"
             id="{{ $id }}">
         @foreach($arrCol['options']  as $item)
             <?php $tmpSelected = is_array($value) && in_array($item['id'], $value) ? 'selected="selected"' : null ?>
@@ -168,12 +172,12 @@
             </option>
         @endforeach
     </select>
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").select2();
-        });
-    </script>
-@endsection
+    @section('javascript')
+        @parent
+        <script type="text/javascript">
+            $(function () {
+                $("#{{$id}}").select2();
+            });
+        </script>
+    @endsection
 @endif
