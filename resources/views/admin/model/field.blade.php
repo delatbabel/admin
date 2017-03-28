@@ -21,7 +21,7 @@
 @elseif($type == 'textarea')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
 @elseif($type == 'html')
-    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
+    {!! $arrCol['content'] !!}
 @section('javascript')
     @parent
     <script type="text/javascript">
@@ -140,6 +140,11 @@
 @endsection
 @elseif($type == 'file'||$type == 'image')
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    @if ($type == 'image' && isset($model) && isset($model->{$name}))
+        <div>
+            <img src="{!! $model->{$name} !!}" style="width:100%; max-width: 600px;">
+        </div>
+    @endif
 @elseif($type == 'enum' || $type == 'belongs_to')
     <?php
         $tmpArr = ['' => $flagFilter ? 'All' : ''];

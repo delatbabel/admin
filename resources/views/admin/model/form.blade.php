@@ -19,9 +19,11 @@
                 @foreach($arrayFields as $key => $arrCol)
                     @if($arrCol['visible'] && $arrCol['editable'])
                         <div class="form-group">
-                            <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
-                                {!! $arrCol['title'] !!}:
-                            </label>
+                            @if ($arrCol['type'] != 'html')
+                                <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
+                                    {!! $arrCol['title'] !!}:
+                                </label>
+                            @endif
                             <div
                                 @if (isset($arrCol['attributes']))
                                     @foreach ($arrCol['attributes'] as $attribute => $value)

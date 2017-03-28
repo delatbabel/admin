@@ -40,7 +40,7 @@ class Factory
         'textarea' => 'DDPro\\Admin\\Fields\\Text',
         'wysiwyg'  => 'DDPro\\Admin\\Fields\\Text',
         'markdown' => 'DDPro\\Admin\\Fields\\Text',
-        'html'     => 'DDPro\\Admin\\Fields\\Text',
+        'html'     => 'DDPro\\Admin\\Fields\\Html',
         'json'     => 'DDPro\\Admin\\Fields\\Text',
         'password' => 'DDPro\\Admin\\Fields\\Password',
         'date'     => 'DDPro\\Admin\\Fields\\Time',
