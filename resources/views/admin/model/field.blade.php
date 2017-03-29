@@ -95,12 +95,16 @@
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
     </div>
+    <?php
+    $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
+    ?>
 @section('javascript')
     @parent
     <script type="text/javascript">
         $(function () {
             $("#{{$id}}").datepicker({
-                dateFormat: "{{$arrCol['date_format']}}"
+                dateFormat: "{{$arrCol['date_format']}}",
+                minDate: "{!! $minDate !!}"
             });
         });
     </script>

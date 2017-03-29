@@ -75,7 +75,17 @@ class Time extends Field
             $model->{$field_name} = null;
             return;
         } elseif (! empty($input) && $input !== '0000-00-00') {
-            $time = new DateTime($input);
+            $PHPFormatOptions = array('Y', 'm', 'd');
+            // There may be a bug with the datepicker we are using - the format 'yyyy' duplicates the year value
+            $DatePickerFormatOptions = array('yy', 'mm', 'dd'); // And so on
+            if ($this->getOption('date_format')) {
+                $format = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $this->getOption('date_format'));
+            } else {
+                $format = 'Y-m-d';
+            }
+            
+            
+            $time = DateTime::createFromFormat($format, $input);
         }
 
         // first we validate that it's a date/time
