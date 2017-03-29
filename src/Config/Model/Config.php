@@ -359,6 +359,8 @@ class Config extends ConfigBase implements ConfigInterface
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
                     $model->{$name} = $field->doUploadRealField();
+                } elseif ($model->getOriginal($name)) {
+                    $model->{$name}  = $model->getOriginal($name);
                 }
             }
         }
