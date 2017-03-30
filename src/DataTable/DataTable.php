@@ -356,8 +356,8 @@ class DataTable
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
 
-        // loop over both the included and related columns
-        foreach (array_merge($includedColumns, $relatedColumns) as $field => $col) {
+        // loop over all columns
+        foreach (array_merge($columns, $includedColumns, $relatedColumns) as $field => $col) {
             $attributeValue = $item->getAttribute($field);
 
             // if this column is in our objects array, render the output with the given value
