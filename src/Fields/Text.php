@@ -12,7 +12,7 @@ class Text extends Field
      * @var array
      */
     protected $defaults = [
-        'limit'  => 0,
+        'limit' => null,
         'height' => 20,
     ];
 
