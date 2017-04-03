@@ -151,7 +151,7 @@
     @endif
 @elseif($type == 'enum' || $type == 'belongs_to')
     <?php
-        $tmpArr = ['' => $flagFilter ? 'All' : ''];
+        $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
         foreach ($arrCol['options'] as $tmpSubArr) {
             $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
         }
@@ -170,6 +170,11 @@
         </script>
     @endsection
 @elseif($type == 'belongs_to_many')
+    <?php
+    if (old($id)) {
+        $value = old($id);
+    }
+    ?>
     <select class="{{$defaultClass}} select2"
             multiple="multiple"
             name="{{ $name }}[]"
