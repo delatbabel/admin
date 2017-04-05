@@ -34,6 +34,32 @@
                 <th>Actions</th>
             </tr>
             </thead>
+            @if (array_key_exists('batch_select', $config->getOption('columns')))
+                <tfoot>
+                <tr>
+                    <th><input id="selectAll" value="1" type="checkbox"></th>
+                    <th>
+                        <button id="batchDelete">Delete</button>
+                    </th>
+                    @if ($config->getOption('activation'))
+                        <th>
+                            <button id="batchActivate">Activate</button>
+                        </th>
+                        <th>
+                            <button id="batchDeactivate">Deactivate</button>
+                        </th>
+                        @for($i=0; $i<count($columnModel)-3;$i++)
+                            <th></th>
+                        @endfor
+                    @else
+                        @for($i=0; $i<count($columnModel)-1;$i++)
+                            <th></th>
+                        @endfor
+                    @endif
+
+                </tr>
+                </tfoot>
+            @endif
         </table>
     </div>
 </div>

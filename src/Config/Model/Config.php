@@ -72,6 +72,8 @@ class Config extends ConfigBase implements ConfigInterface
             'delete' => true,
             'update' => true,
             'view'   => true,
+            'active' => true,
+            'inactive' => true
         ],
         'actions'            => [],
         'global_actions'     => [],

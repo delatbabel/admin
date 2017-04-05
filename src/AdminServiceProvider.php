@@ -382,6 +382,16 @@ class AdminServiceProvider extends ServiceProvider
                     return $this->getController('delete', func_get_args());
                 })->name('admin_delete_item');
 
+                // Batch Delete Items
+                Route::post('{model}/destroy', function () {
+                    return $this->getController('destroy', func_get_args());
+                })->name('admin_destroy_items');
+
+                // Toggle Activate Items
+                Route::post('{model}/toggle_activate', function () {
+                    return $this->getController('toggleActivate', func_get_args());
+                })->name('admin_toggle_activate_items');
+
                 // Custom Item Action
                 Route::post('{model}/{id}/custom_action', function () {
                     return $this->getController('customModelItemAction', func_get_args());

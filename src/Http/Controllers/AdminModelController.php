@@ -203,6 +203,73 @@ class AdminModelController extends Controller
         }
     }
 
+    public function destroy($modelName)
+    {
+        $ids = $this->request->get('ids');
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $actionFactory = app('admin_action_factory');
+
+        $errorResponse = [
+            'success' => false,
+            'error'   => "There was an error deleting selected item(s). Please reload the page and try again.",
+        ];
+        // checking permission
+        $permissions = $actionFactory->getActionPermissions();
+        if (!$permissions['delete']) {
+            return response()->json($errorResponse);
+        }
+
+        $baseModel = $config->getDataModel();
+        $primaryKey = $baseModel->getKeyName();
+        $models = $baseModel::whereIn($primaryKey, $ids);
+        // delete the models
+        if ($models && $models->delete()) {
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json($errorResponse);
+        }
+    }
+
+    public function toggleActivate($modelName)
+    {
+        $ids = $this->request->get('ids');
+        $status = $this->request->get('status');
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $actionFactory = app('admin_action_factory');
+
+        $errorResponse = [
+            'success' => false,
+            'error'   => "There was an error deleting selected item(s). Please reload the page and try again.",
+        ];
+        // checking permission
+        $permissions = $actionFactory->getActionPermissions();
+        if (!in_array($status, ['active', 'inactive']) || ($status == 'active' && !$permissions['active']) || ($status == 'inactive' && !$permissions['inactive'])) {
+            return response()->json($errorResponse);
+        }
+
+        $baseModel = $config->getDataModel();
+        $primaryKey = $baseModel->getKeyName();
+        $models = $baseModel::whereIn($primaryKey, $ids);
+        // update status of the models
+        if ($models && $models->update(['status' => $status])) {
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json($errorResponse);
+        }
+    }
+
     /**
      * POST method for handling custom model actions
      *
