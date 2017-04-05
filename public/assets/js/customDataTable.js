@@ -166,7 +166,7 @@ var DataTableHandle = function () {
                     .val('')
                     .removeAttr('checked')
                     .removeAttr('selected');
-                $(".select2").val('').trigger('change');
+                $('.select2-hidden-accessible').val('').trigger('change');
 
                 the.initAjaxParams();
                 dataTable.ajax.reload();
