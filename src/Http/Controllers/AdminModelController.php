@@ -479,4 +479,11 @@ class AdminModelController extends Controller
 
         return response()->JSON(['success' => true]);
     }
+
+    public function customModelItemData($modelName, $itemId)
+    {
+        $data = $this->request->get('data');
+        $functionName = "get" . ucfirst($data);
+        return $this->$functionName($modelName, $itemId);
+    }
 }

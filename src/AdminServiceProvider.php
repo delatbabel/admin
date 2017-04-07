@@ -396,6 +396,11 @@ class AdminServiceProvider extends ServiceProvider
                 Route::post('{model}/{id}/custom_action', function () {
                     return $this->getController('customModelItemAction', func_get_args());
                 })->name('admin_custom_model_item_action');
+
+                // Get Custom Item Data
+                Route::get('{model}/{id}/custom_data', function () {
+                    return $this->getController('customModelItemData', func_get_args());
+                })->name('admin_custom_model_item_data');
             });
         });
 

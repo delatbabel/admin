@@ -88,6 +88,29 @@
                     dom: '<"html5buttons"B>lTfgitp'
                 }
             });
+
+            $('#customers').on("click", '[data-toggle="ajaxModal"]', function(e) {
+                $('#ajaxModal').remove();
+                e.preventDefault();
+                var $this = $(this),
+                        $remote = $this.data('remote') || $this.attr('href'),
+                        $modal = $('<div class="modal" id="ajaxModal"><div class="modal-body"></div></div>');
+                $("body").append($modal);
+                $.ajax({
+                    url: $remote,
+                    dataType: "json",
+                    type: "GET",
+                    success: function(result) {
+                        if (result.success) {
+                            $modal.append(result.html);
+                            $modal.modal({backdrop: 'static', keyboard: false, show:true});
+                        } else {
+                            alert(result.message);
+                        }
+
+                    }
+                });
+            });
         });
     </script>
 @endsection
