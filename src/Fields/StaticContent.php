@@ -1,7 +1,7 @@
 <?php
 namespace DDPro\Admin\Fields;
 
-class Html extends Field
+class StaticContent extends Field
 {
     /**
      * The specific defaults for subclasses to override

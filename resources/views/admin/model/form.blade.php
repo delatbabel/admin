@@ -19,7 +19,7 @@
                 @foreach($arrayFields as $key => $arrCol)
                     @if($arrCol['visible'] && $arrCol['editable'])
                         <div class="form-group">
-                            @if ($arrCol['type'] != 'html')
+                            @if ($arrCol['type'] != 'static')
                                 <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
                                     {!! $arrCol['title'] !!}:
                                 </label>
