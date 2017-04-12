@@ -46,6 +46,12 @@ var DataTableHandle = function () {
                             }
                         }
                     ],
+                    createdRow: function( row, data, dataIndex ) {
+                        primaryCol = the.getPrimaryKeyCol();
+                        if (primaryCol != null) {
+                            $(row).attr('data-id', data[primaryCol]);
+                        }
+                    },
                     drawCallback: function() { // Do not display tfoot if datatable is empty
                         if(this.api().rows().count() === 0) {
                             this.find('tfoot').hide();
@@ -67,6 +73,11 @@ var DataTableHandle = function () {
 
             var $table = $(options.src);
             var dataTable = $table.DataTable(options.dataTable);
+
+            if (dataTable.column('lft:name').length > 0) {
+                dataTable.order( [ dataTable.column('lft:name').index(), 'desc' ] );
+                dataTable.draw();
+            }
 
             $table.on('click', 'button.btn-remove', function () {
                 if (!window.confirm('Are you sure you want to delete this item? This cannot be reversed.')) {
