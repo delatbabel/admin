@@ -73,7 +73,8 @@ class Config extends ConfigBase implements ConfigInterface
             'update' => true,
             'view'   => true,
             'active' => true,
-            'inactive' => true
+            'inactive' => true,
+            'reorder' => true,
         ],
         'actions'            => [],
         'global_actions'     => [],

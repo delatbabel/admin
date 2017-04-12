@@ -247,13 +247,29 @@ class AdminModelController extends Controller
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
+        if (!in_array($status, ['active', 'inactive'])) {
+            $errorResponse = [
+                'success' => false,
+                'error'   => "Unsupported action. Please reload the page and try again.",
+            ];
+            return response()->json($errorResponse);
+        }
+
+        $mapping = [
+            'active' => 'activating',
+            'inactive' => 'deactivating'
+        ];
+
+        $mapped_action = $mapping[$status];
+
         $errorResponse = [
             'success' => false,
-            'error'   => "There was an error deleting selected item(s). Please reload the page and try again.",
+            'error'   => "There was an error $mapped_action selected item(s). Please reload the page and try again.",
         ];
+
         // checking permission
         $permissions = $actionFactory->getActionPermissions();
-        if (!in_array($status, ['active', 'inactive']) || ($status == 'active' && !$permissions['active']) || ($status == 'inactive' && !$permissions['inactive'])) {
+        if (($status == 'active' && !$permissions['active']) || ($status == 'inactive' && !$permissions['inactive'])) {
             return response()->json($errorResponse);
         }
 
@@ -485,5 +501,46 @@ class AdminModelController extends Controller
         $data = $this->request->get('data');
         $functionName = "get" . ucfirst($data);
         return $this->$functionName($modelName, $itemId);
+    }
+
+    public function reorderItem($modelName)
+    {
+        $id = $this->request->get('id');
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $actionFactory = app('admin_action_factory');
+
+        $errorResponse = [
+            'success' => false,
+            'error'   => "There was an error reordering selected item. Please reload the page and try again.",
+        ];
+        // checking permission
+        $permissions = $actionFactory->getActionPermissions();
+        if (!$permissions['reorder']) {
+            return response()->json($errorResponse);
+        }
+
+        $baseModel = $config->getDataModel();
+        if ($model = $baseModel::find($id)) {
+            if ($this->request->get('prev_sibling_id')) {
+                $pre = $baseModel::find($this->request->get('prev_sibling_id'));
+                if (!$pre || !$model->makePreviousSiblingOf($pre)) {
+                    return response()->json($errorResponse);
+                }
+            } elseif ($this->request->get('next_sibling_id')) {
+                $next = $baseModel::find($this->request->get('next_sibling_id'));
+                if (!$next || !$model->makeNextSiblingOf($next)) {
+                    return response()->json($errorResponse);
+                }
+            }
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json($errorResponse);
+        }
     }
 }

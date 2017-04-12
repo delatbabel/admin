@@ -105,12 +105,55 @@
                             $modal.append(result.html);
                             $modal.modal({backdrop: 'static', keyboard: false, show:true});
                         } else {
-                            alert(result.message);
+                            alert(result.error);
                         }
 
                     }
                 });
             });
+
+            var reordering = "{!! array_key_exists('lft', $config->getOption('columns')) ? true : false !!}";
+            if (reordering) {
+                $( "#customers tbody" ).sortable({
+                    appendTo: document.body,
+                    axis: "y",
+                    update: function (e, ui) {
+                        // send reorder request
+                        var id = $(ui.item).data('id');
+                        var prev_sibling_id = $(ui.item).prev().data('id');
+                        var next_sibling_id = $(ui.item).next().data('id');
+                        var dataTable = $('#customers').DataTable();
+
+                        var order = dataTable.order();
+                        var defaultOrder = [ dataTable.column('lft:name').index(), 'desc' ];
+
+                        if (order[0].toString() !== defaultOrder.toString()) {
+                            alert('Resetting to default order, then you can perform row reordering');
+                            dataTable.order(defaultOrder).draw();
+                            return;
+                        }
+
+                        if (prev_sibling_id || next_sibling_id) {
+                            $.ajax({
+                                url: "{!! route('admin_reorder_item', ['model' => $config->getOption('name')]) !!}",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    id: id,
+                                    prev_sibling_id: prev_sibling_id,
+                                    next_sibling_id: next_sibling_id
+                                },
+                                success: function(result) {
+                                    if (!result.success) {
+                                        alert(result.error);
+                                    }
+                                    dataTable.order(defaultOrder).ajax.reload();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         });
     </script>
 @endsection
