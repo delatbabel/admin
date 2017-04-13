@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * DDPro Admin Model Controller
@@ -542,5 +543,25 @@ class AdminModelController extends Controller
         } else {
             return response()->json($errorResponse);
         }
+    }
+
+    public function exportCSV($modelName)
+    {
+        $config = app('itemconfig');
+        $actionFactory = app('admin_action_factory');
+        $permissions = $actionFactory->getActionPermissions();
+        if ($config->getOption('export_csv') && isset($permissions['export_csv'])) {
+            $baseModel = $config->getDataModel();
+            $data = $baseModel::get()->toArray();
+            return Excel::create($modelName, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->download('csv');
+        } else {
+            return abort('403');
+        }
+
     }
 }

@@ -16,6 +16,12 @@
                     {{trans('administrator::administrator.edit')}} {{$config->getOption('single')}}
                 </a>
             @endif
+            @if ($config->getOption('export_csv') && isset($actionPermissions['export_csv']) === true)
+                <a class="btn btn-default"
+                   href="{{ route('admin_export_csv', [$config->getOption('name')]) }}">
+                    Export CSV
+                </a>
+            @endif
             @if(isset($actionPermissions['create']) === true)
                 <a class="new_item btn btn-primary"
                    href="{{ route('admin_new_item', [$config->getOption('name')]) }}">

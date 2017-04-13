@@ -103,6 +103,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register(\Delatbabel\ViewPages\ViewPagesServiceProvider::class);
         $this->app->register(\Delatbabel\Applog\DebugServiceProvider::class);
         $this->app->register(\Centaur\CentaurServiceProvider::class);
+        $this->app->register(\Maatwebsite\Excel\ExcelServiceProvider::class);
     }
 
     /**
@@ -360,6 +361,11 @@ class AdminServiceProvider extends ServiceProvider
                 Route::post('{model}/custom_action', function () {
                     return $this->getController('customModelAction', func_get_args());
                 })->name('admin_custom_model_action');
+
+                // Export CSV
+                Route::get('{model}/export_csv', function () {
+                    return $this->getController('exportCSV', func_get_args());
+                })->name('admin_export_csv');
 
                 // Get Item
                 Route::get('{model}/{id}', function () {
