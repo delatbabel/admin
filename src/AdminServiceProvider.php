@@ -363,9 +363,9 @@ class AdminServiceProvider extends ServiceProvider
                 })->name('admin_custom_model_action');
 
                 // Export CSV
-                Route::get('{model}/export_csv', function () {
-                    return $this->getController('exportCSV', func_get_args());
-                })->name('admin_export_csv');
+                Route::get('{model}/export', function () {
+                    return $this->getController('export', func_get_args());
+                })->name('admin_export');
 
                 // Get Item
                 Route::get('{model}/{id}', function () {

@@ -545,23 +545,68 @@ class AdminModelController extends Controller
         }
     }
 
-    public function exportCSV($modelName)
+    public function export($modelName)
     {
         $config = app('itemconfig');
         $actionFactory = app('admin_action_factory');
         $permissions = $actionFactory->getActionPermissions();
-        if ($config->getOption('export_csv') && isset($permissions['export_csv'])) {
-            $baseModel = $config->getDataModel();
-            $data = $baseModel::get()->toArray();
-            return Excel::create($modelName, function($excel) use ($data) {
-                $excel->sheet('mySheet', function($sheet) use ($data)
+        if ($config->getOption('export') && isset($permissions['export'])) {
+            // field names
+            $arrColumns = [];
+            foreach ($config->getOption('export')['columns'] as $key => $column) {
+                $arrColumns[$key] = $column['title'];
+            }
+
+            // parse data
+            $arrResults = [];
+            $query = $this->prepareExportQuery($config->getDataModel());
+            foreach ($query->get() as $index => $model) {
+                foreach ($config->getOption('export')['columns'] as $key => $column) {
+                    $attributeValue = $model->getAttribute($key);
+                    if (isset($column['type']) && $column['type'] == 'enum') {
+                        $options = [];
+                        if (isset($column['options'])) {
+                            $options = $column['options'];
+                        } elseif (isset($column['callback'])) {
+                            $options = call_user_func_array(array($column['callback']['class'], $column['callback']['method']), isset($column['callback']['params']) ? $column['callback']['params'] : []);
+                        }
+                        if (isset($options[$attributeValue])) {
+                            $attributeValue = $options[$attributeValue];
+                        }
+                    }
+                    $arrResults[$index][] = $attributeValue;
+                }
+            }
+            return Excel::create($modelName, function($excel) use ($arrResults, $arrColumns) {
+                $excel->sheet('mySheet', function($sheet) use ($arrResults, $arrColumns)
                 {
-                    $sheet->fromArray($data);
+                    $sheet->fromArray($arrResults, null, 'A1', false, false)->prependRow(array_values($arrColumns));
                 });
-            })->download('csv');
+            })->download($config->getOption('export')['type']);
         } else {
             return abort('403');
         }
 
+    }
+
+    private function prepareExportQuery($model) {
+        // get things going by grouping the set
+        $table   = $model->getTable();
+        $keyName = $model->getKeyName();
+        /** @var EloquentBuilder $query */
+        $query   = $model->groupBy($table . '.' . $keyName);
+        // set up initial array states for the selects
+        $selects = [$table . '.*'];
+        // column factory
+        $columnFactory = app('admin_column_factory');
+        $columns = $columnFactory->getExportColumns();
+        if ($columns) {
+            foreach ($columns as $column) {
+                // if this is a related column, we'll need to add some selects
+                $column->filterQuery($selects);
+            }
+        }
+        $query->getQuery()->select($selects);
+        return $query;
     }
 }

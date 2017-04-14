@@ -58,6 +58,13 @@ class Factory
     protected $columns = [];
 
     /**
+     * The export column objects
+     *
+     * @var array
+     */
+    protected $exportColumns = [];
+
+    /**
      * The column options arrays
      *
      * @var array
@@ -235,6 +242,26 @@ class Factory
         }
 
         return $this->columns;
+    }
+
+    /**
+     * Gets the relationship column objects
+     *
+     * @return array
+     */
+    public function getExportColumns()
+    {
+        // make sure we only run this once and then return the cached version
+        if (isset($this->config->getOption('export')['columns'])) {
+            if (! sizeof($this->exportColumns)) {
+                foreach ($this->config->getOption('export')['columns'] as $name => $options) {
+                    // if only a string value was supplied, may sure to turn it into an array
+                    $object = $this->make($this->parseOptions($name, $options));
+                    $this->exportColumns[$object->getOption('column_name')] = $object;
+                }
+            }
+            return $this->exportColumns;
+        }
     }
 
     /**
