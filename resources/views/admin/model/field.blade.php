@@ -144,33 +144,51 @@
         });
     </script>
 @endsection
-@elseif($type == 'file'||$type == 'image')
+@elseif($type == 'file')
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
-    @if ($type == 'image' && isset($model) && isset($model->{$name}))
-        <div>
-            <img src="{!! $model->{$name} !!}" style="width:100%; max-width: 600px;">
+@elseif($type == 'image')
+    <!-- bootstrap-imageupload. -->
+    <div class="{{ $id }}_imageupload panel panel-default">
+        <div class="file-tab panel-body">
+            <label class="btn btn-default btn-file">
+                <span>Browse</span>
+                <input type="file" name="{{ $id }}">
+            </label>
+            <button type="button" class="btn btn-default">Remove</button>
         </div>
-    @endif
-@elseif($type == 'enum' || $type == 'belongs_to')
-    <?php
-        $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
-        foreach ($arrCol['options'] as $tmpSubArr) {
-            $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
-        }
-        $tmpDefault = null;
-        if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
-            $tmpDefault = $arrCol['default'];
-        }
-    ?>
-    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id]) !!}
+        <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
+    </div>
+
     @section('javascript')
         @parent
         <script type="text/javascript">
             $(function () {
-                $("#{{$id}}").select2();
+                var $imageupload = $('.{{ $id }}_imageupload');
+                var defaultImage = "{!! ($model && $model->{$id . '_preview'}) ? base64_encode($model->{$id. '_preview'}) : null !!}";
+                $imageupload.imageupload({defaultImage: defaultImage});
             });
         </script>
     @endsection
+@elseif($type == 'enum' || $type == 'belongs_to')
+    <?php
+    $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
+    foreach ($arrCol['options'] as $tmpSubArr) {
+        $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
+    }
+    $tmpDefault = null;
+    if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
+        $tmpDefault = $arrCol['default'];
+    }
+    ?>
+    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id]) !!}
+@section('javascript')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $("#{{$id}}").select2();
+        });
+    </script>
+@endsection
 @elseif($type == 'belongs_to_many')
     <?php
     if (old($id)) {
@@ -188,12 +206,12 @@
             </option>
         @endforeach
     </select>
-    @section('javascript')
-        @parent
-        <script type="text/javascript">
-            $(function () {
-                $("#{{$id}}").select2();
-            });
-        </script>
-    @endsection
+@section('javascript')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $("#{{$id}}").select2();
+        });
+    </script>
+@endsection
 @endif

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Log;
+use Mockery\CountValidator\Exception;
 
 /**
  * Class DataTable
@@ -356,12 +357,21 @@ class DataTable
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
 
+        $disk = config('filesystems.default');
+        $storage = \Storage::disk($disk);
+
         // loop over all columns
         foreach (array_merge($columns, $includedColumns, $relatedColumns) as $field => $col) {
-            $attributeValue = $item->getAttribute($field);
-
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
+                $attributeValue = $item->getAttribute($field);
+                if ($attributeValue) {
+                    if ($columns[$field]->getOption('type') == 'image') {
+                        $row_image = 'data:image/jpeg;base64,' . base64_encode($storage->get($attributeValue));
+                        $attributeValue = '<img src="'. $row_image. '" style="max-width: 250px; max-height: 250px" />';
+                    }
+                }
+
                 $outputRow[] = $columns[$field]->renderOutput($attributeValue, $item);
             }
         }

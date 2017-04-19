@@ -96,6 +96,7 @@ class Column
         'external'        => false,
         'belongs_to_many' => false,
         'visible'         => true,
+        'type'            => null,
     ];
 
     /**

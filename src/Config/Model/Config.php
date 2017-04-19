@@ -186,6 +186,14 @@ class Config extends ConfigBase implements ConfigInterface
         foreach ($fields as $name => $field) {
             if ($field->getOption('relationship')) {
                 $this->setModelRelationship($model, $field);
+            } elseif ($field->getOption('type') == 'image') {
+                if ($file_name = $model->getAttribute($name)) {
+                    $disk = config('filesystems.default');
+                    $storage = \Storage::disk($disk);
+                    if ($storage->has($file_name)) {
+                        $model->setAttribute($name . '_preview', $storage->get($file_name));
+                    }
+                }
             }
 
             // if this is a setter field, unset it
@@ -363,8 +371,8 @@ class Config extends ConfigBase implements ConfigInterface
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
                     $model->{$name} = $field->doUploadRealField();
-                } elseif ($model->getOriginal($name)) {
-                    $model->{$name}  = $model->getOriginal($name);
+                } else {
+                    $model->{$name} = $input->get($name . '_original');
                 }
             }
         }
