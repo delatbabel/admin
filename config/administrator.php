@@ -242,6 +242,7 @@ return [
             ],
             'base'  => [
                 'assets/js/customDataTable.js',
+				'assets/js/bootstrap-imageupload.js',
             ],
         ],
     ],
