@@ -104,7 +104,7 @@ if (typeof jQuery === 'undefined') {
             resetUrlTab($urlTab);
         });
 
-        if (options.defaultImage.length > 0) {
+        if (options.defaultImage && options.defaultImage.length > 0) {
             $fileTab.prepend(getImageThumbnailHtml('data:image/jpeg;base64,' + options.defaultImage));
             var $browseFileButton = $fileTab.find('.btn:eq(0)');
             $browseFileButton.find('span').text('Change');

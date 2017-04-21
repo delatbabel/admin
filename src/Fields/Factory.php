@@ -494,6 +494,10 @@ class Factory
         if (! sizeof($this->filters) && $configFilters) {
             // iterate over the filters and create field objects for them
             foreach ($configFilters as $name => $filter) {
+                // Default option of the filter can be callable
+                if (isset($filter['default']) && is_callable($filter['default'])) {
+                    $filter['default'] = $filter['default']();
+                }
                 if ($fieldObject = $this->make($name, $filter)) {
                     // the filters array is indexed on the field name and holds the arrayed values for the filters
                     $this->filters[$fieldObject->getOption('field_name')] = $fieldObject;
