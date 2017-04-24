@@ -196,6 +196,15 @@ class DataTable
 
         // set the filters
         if (isset($input['filters'])) {
+            foreach($input['filters'] as $key => &$value) {
+                if (is_array($value['value'])) {
+                    foreach ($value['value'] as $key1 => $value1) {
+                        if (empty($value1)) {
+                            unset($value['value'][$key1]);
+                        }
+                    }
+                }
+            }
             $this->setFilters($input['filters'], $dbQuery, $countQuery, $selects);
         }
 

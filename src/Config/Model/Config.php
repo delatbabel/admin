@@ -549,7 +549,7 @@ class Config extends ConfigBase implements ConfigInterface
         // run through the edit fields to see if we need to set relationships
         foreach ($fields as $name => $field) {
             if ($field->getOption('external')) {
-                $field->fillModel($model, $input->get($name, null));
+                $field->fillModel($model, $input->get($name, []));
             }
         }
     }
