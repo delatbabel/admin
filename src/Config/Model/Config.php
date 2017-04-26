@@ -191,7 +191,9 @@ class Config extends ConfigBase implements ConfigInterface
                     $disk = config('filesystems.default');
                     $storage = \Storage::disk($disk);
                     if ($storage->has($file_name)) {
-                        $model->setAttribute($name . '_preview', $storage->get($file_name));
+                        $mime_type = $storage->mimeType($file_name);
+                        $row_image = "data:$mime_type;base64," . base64_encode($storage->get($file_name));
+                        $model->setAttribute($name . '_preview', $row_image);
                     }
                 }
             }

@@ -164,7 +164,7 @@
         <script type="text/javascript">
             $(function () {
                 var $imageupload = $('.{{ $id }}_imageupload');
-                var defaultImage = "{!! ($model && $model->{$id . '_preview'}) ? base64_encode($model->{$id. '_preview'}) : null !!}";
+                var defaultImage = "{!! ($model && $model->{$id . '_preview'}) ? $model->{$id. '_preview'} : null !!}";
                 $imageupload.imageupload({defaultImage: defaultImage});
             });
         </script>

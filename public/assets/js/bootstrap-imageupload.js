@@ -105,7 +105,7 @@ if (typeof jQuery === 'undefined') {
         });
 
         if (options.defaultImage && options.defaultImage.length > 0) {
-            $fileTab.prepend(getImageThumbnailHtml('data:image/jpeg;base64,' + options.defaultImage));
+            $fileTab.prepend(getImageThumbnailHtml(options.defaultImage));
             var $browseFileButton = $fileTab.find('.btn:eq(0)');
             $browseFileButton.find('span').text('Change');
             var $removeFileButton = $fileTab.find('.btn:eq(1)');

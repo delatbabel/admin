@@ -376,7 +376,8 @@ class DataTable
                 $attributeValue = $item->getAttribute($field);
                 if ($attributeValue) {
                     if ($columns[$field]->getOption('type') == 'image') {
-                        $row_image = 'data:image/jpeg;base64,' . base64_encode($storage->get($attributeValue));
+                        $mime_type = $storage->mimeType($attributeValue);
+                        $row_image = "data:$mime_type;base64," . base64_encode($storage->get($attributeValue));
                         $attributeValue = '<img src="'. $row_image. '" style="max-width: 250px; max-height: 250px" />';
                     }
                 }
