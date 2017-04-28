@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 /**
  * DDPro Admin Service Provider
@@ -104,6 +105,11 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register(\Delatbabel\Applog\DebugServiceProvider::class);
         $this->app->register(\Centaur\CentaurServiceProvider::class);
         $this->app->register(\Maatwebsite\Excel\ExcelServiceProvider::class);
+        $this->app->register(\Proengsoft\JsValidation\JsValidationServiceProvider::class);
+
+        // register aliases
+        $loader = AliasLoader::getInstance();
+        $loader->alias('JsValidator', \Proengsoft\JsValidation\Facades\JsValidatorFacade::class);
     }
 
     /**
