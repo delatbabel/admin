@@ -15,7 +15,7 @@
                     else if (element.attr("type") == "checkbox") {
                         error.insertAfter(element.parents('label'));
                     }
-                    else if (element.attr("type") == "file") {
+                    else if (element.attr("type") == "file" && element.parents('div[class*="_imageupload"]').length) { // Image upload
                         error.insertAfter(element.parents('div[class*="_imageupload"]'));
                     }
                     else {
