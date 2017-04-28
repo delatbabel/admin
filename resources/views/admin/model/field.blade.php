@@ -150,10 +150,10 @@
     <!-- bootstrap-imageupload. -->
     <div class="{{ $id }}_imageupload panel panel-default">
         <div class="file-tab panel-body">
-            <label class="btn btn-default btn-file">
+            <div class="btn btn-default btn-file">
                 <span>Browse</span>
                 <input type="file" name="{{ $id }}">
-            </label>
+            </div>
             <button type="button" class="btn btn-default">Remove</button>
         </div>
         <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
@@ -185,7 +185,9 @@
     @parent
     <script type="text/javascript">
         $(function () {
-            $("#{{$id}}").select2();
+            $("#{{$id}}").select2().on('change', function() {
+                $(this).valid();
+            });
         });
     </script>
 @endsection
@@ -210,7 +212,9 @@
     @parent
     <script type="text/javascript">
         $(function () {
-            $("#{{$id}}").select2();
+            $("#{{$id}}").select2().on('change', function() {
+                $(this).valid();
+            });
         });
     </script>
 @endsection

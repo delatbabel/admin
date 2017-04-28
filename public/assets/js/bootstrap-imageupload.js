@@ -87,6 +87,7 @@ if (typeof jQuery === 'undefined') {
             $(this).blur();
             $imageupload.find('.original').val('');
             resetFileTab($fileTab);
+            $browseFileButton.valid();
         });
 
         $urlTabButton.on('click', function() {
