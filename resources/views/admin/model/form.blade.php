@@ -65,4 +65,6 @@
         </div>
     </div>
 </div>
-{!! JsValidator::formRequest($config->getOption('form_request'), '#my-form') !!}
+@if ($config->getOption('form_request'))
+    {!! \JsValidator::formRequest($config->getOption('form_request'), '#my-form') !!}
+@endif
