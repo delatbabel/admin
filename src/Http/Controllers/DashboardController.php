@@ -31,15 +31,22 @@ class DashboardController extends Controller
      */
     public function Index()
     {
-        // FIXME: Update the router for each user type
-        // $user = \Sentinel::getUser();
-        // if ($user->contact_id) {
-        //     return redirect()->route('customer_dashboard');
-        // }
-        // if ($user->supplier_id) {
-        //     return redirect()->route('supplier_dashboard');
-        // }
-
-        return redirect()->route('admin_dashboard');
+        // Return the appropriate response
+        $expected_dashboard = 'admin_dashboard';
+        if (\Sentinel::getUser()) {
+            $role_dashboard_mapping = config('administrator.role_dashboard_mapping');
+            // Loop through role_dashboard_mapping config, in case a user has many roles, the first appropriate dashboard
+            // in the config will be chosen
+            foreach ($role_dashboard_mapping as $role => $dashboard) {
+                if (\Sentinel::inRole($role)) {
+                    $expected_dashboard = $dashboard;
+                    break;
+                }
+            }
+        }
+        if ($expected_dashboard != '/') {
+            $expected_dashboard = route($expected_dashboard);
+        }
+        return redirect($expected_dashboard);
     }
 }

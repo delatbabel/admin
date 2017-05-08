@@ -86,24 +86,7 @@ class SessionController extends Controller
         // Attempt the Login
         $result = $this->authManager->authenticate($credentials, $remember);
 
-        // Return the appropriate response
-        $expected_dashboard = 'admin_dashboard';
-        if ($result->isSuccessful()) {
-            $role_dashboard_mapping = config('administrator.role_dashboard_mapping');
-            // Loop through role_dashboard_mapping config, in case a user has many roles, the first appropriate dashboard
-            // in the config will be chosen
-            foreach ($role_dashboard_mapping as $role => $dashboard) {
-                if (Sentinel::inRole($role)) {
-                    $expected_dashboard = $dashboard;
-                    break;
-                }
-            }
-        }
-        if ($expected_dashboard != '/') {
-            $expected_dashboard = route($expected_dashboard);
-        }
-
-        $path = session()->pull('url.intended', $expected_dashboard);
+        $path = session()->pull('url.intended', route('dashboard'));
         return $result->dispatch($path);
     }
 
@@ -118,6 +101,6 @@ class SessionController extends Controller
         $result = $this->authManager->logout(null, null);
 
         // Return the appropriate response
-        return $result->dispatch(route('admin_dashboard'));
+        return $result->dispatch(route('dashboard'));
     }
 }
