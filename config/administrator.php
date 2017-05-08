@@ -8,6 +8,14 @@ return [
      * @type string
      */
     'uri'                  => 'admin',
+	
+	// Dashboard mapping
+	'role_dashboard_mapping' => [
+        'administrator' => 'admin_dashboard',
+        'moderator' => 'admin_dashboard',
+        'customer' => '/',
+        'supplier' => '/',
+    ],
 
     /**
      *  Domain for routing.
