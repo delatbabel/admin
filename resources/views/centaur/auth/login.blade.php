@@ -28,6 +28,9 @@
                             <p style="margin-top:5px; margin-bottom:0"><a href="{{ route('auth.password.request.form') }}" type="submit">Forgot your password?</a></p>
                         </fieldset>
                     </form>
+					@if (Session::has('error'))
+						<p class="text-danger">{!! session('error') !!}</p>
+					@endif
                 </div>
             </div>
         </div>
