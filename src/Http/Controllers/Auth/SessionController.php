@@ -72,7 +72,7 @@ class SessionController extends Controller
     {
         // Validate the Form Data
         $this->validate($request, [
-            'email'    => 'required',
+            'email'    => 'required|email|max:255',
             'password' => 'required'
         ]);
 

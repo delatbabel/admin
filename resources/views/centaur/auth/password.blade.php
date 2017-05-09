@@ -17,6 +17,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary block full-width m-b">Save</button>
                         {!! Form::close() !!}
+						@if (Session::has('error'))
+							<p class="text-danger">{!! session('error') !!}</p>
+						@elseif (Session::has('success'))
+							<p class="text-danger">{!! session('success') !!}</p>
+						@endif
                     </div>
                 </div>
             </div>

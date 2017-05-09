@@ -126,7 +126,7 @@ class PasswordController extends Controller
         Session::flash('success', $message);
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'password reset return to dashboard');
-        return redirect('/dashboard');
+        return redirect(route('auth.password.request.form'));
     }
 
     /**
@@ -142,7 +142,7 @@ class PasswordController extends Controller
             // This route will not be accessed via ajax;
             // no need for a json response
             Session::flash('error', 'Invalid or expired password reset code; please request a new link.');
-            return redirect()->route('admin_dashboard');
+            return redirect()->route('auth.password.request.form');
         }
 
         return view('centaur.auth.password')
@@ -164,10 +164,6 @@ class PasswordController extends Controller
 
         // Attempt the password reset
         $result = $this->authManager->resetPassword($code, $request->get('password'));
-
-        if ($result->isFailure()) {
-            return $result->dispatch();
-        }
 
         // Return the appropriate response
         return $result->dispatch(route('auth.login.form'));
