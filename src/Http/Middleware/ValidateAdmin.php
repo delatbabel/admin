@@ -22,10 +22,8 @@ class ValidateAdmin
      */
     public function handle($request, Closure $next)
     {
-        $configFactory = app('admin_config_factory');
-
-        // get the admin check closure that should be supplied in the config
-        /** @var Closure $permission */
+        // get the admin check function that should be supplied in the config
+        /** @var string $permission */
         $permission = config('administrator.permission');
 
         // if this is a simple false value, send the user to the login redirect

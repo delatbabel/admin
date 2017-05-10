@@ -108,14 +108,9 @@ return [
      * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
      * is allowed to view the admin section. Any "falsey" response will send the user back to the 'login_path' defined below.
      *
-     * TODO: We want to move the config out of the config files and into the database but we can't do that while there is
-     * a closure in the config file. Replace this with something else (e.g. a class/static function name, etc).
-     *
-     * @type closure
+     * @type string
      */
-    'permission'           => function () {
-        return Auth::check();
-    },
+    'permission' => '\DDPro\Admin\Http\Helpers::detectAdminAccess',
 
     /**
      * This determines if you will have a dashboard (whose view you provide in the dashboard_view option) or a non-dashboard home
@@ -158,14 +153,14 @@ return [
      *
      * @type string
      */
-    'login_path'           => 'auth/login',
+    'login_path'           => '/login',
 
     /**
      * The logout path is the path where Administrator will send the user when they click the logout link
      *
      * @type string
      */
-    'logout_path'          => 'auth/logout',
+    'logout_path'          => '/logout',
 
     /**
      * This is the key of the return path that is sent with the redirection to your login_action. Session::get('redirect') will hold the return URL.
