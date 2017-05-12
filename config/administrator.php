@@ -110,7 +110,7 @@ return [
      *
      * @type string
      */
-    'permission' => '\DDPro\Admin\Http\Helpers::detectAdminAccess',
+    'permission' => '\DDPro\Admin\Helpers\AdminHelper::detectAdminAccess',
 
     /**
      * This determines if you will have a dashboard (whose view you provide in the dashboard_view option) or a non-dashboard home
