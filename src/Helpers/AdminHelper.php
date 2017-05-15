@@ -9,4 +9,8 @@ class AdminHelper {
         }
         return false;
     }
+
+    public static function getOutputForCheckbox($value, $model) {
+        return '<input type="checkbox" class="deleteRow" value="' . $model->getAttribute($model->getKeyName()) . '">';
+    }
 }
