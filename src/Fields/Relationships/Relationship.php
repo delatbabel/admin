@@ -54,6 +54,7 @@ abstract class Relationship extends Field
         'search_fields'          => 'array',
         'options_filter'         => 'callable',
         'constraints'            => 'array',
+        'options_filter_params'  => 'array',
     ];
 
     /**
@@ -159,7 +160,12 @@ abstract class Relationship extends Field
             //     'query SQL before filter = ' . $query->toSql());
 
             // run the options filter
-            $options['options_filter']($query);
+            if (isset($options['options_filter_params'])) {
+                array_unshift($options['options_filter_params'], $query);
+                call_user_func_array($options['options_filter'], $options['options_filter_params']);
+            } else {
+                $options['options_filter']($query);
+            }
 
             // Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             //     'query SQL after filter = ' . $query->toSql());
