@@ -147,7 +147,7 @@
 @elseif($type == 'file')
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'image')
-    <!-- bootstrap-imageupload. -->
+    {{-- bootstrap-imageupload. --}}
     <div class="{{ $id }}_imageupload panel panel-default">
         <div class="file-tab panel-body">
             <div class="btn btn-default btn-file">
@@ -178,6 +178,11 @@
     $tmpDefault = null;
     if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
         $tmpDefault = $arrCol['default'];
+    }
+
+    // Check for option "persist"
+    if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['persist']) && $arrCol['persist']) {
+        $tmpDefault = session('persist__' . $name);
     }
     ?>
     {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id]) !!}

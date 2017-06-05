@@ -418,9 +418,15 @@ class Config extends ConfigBase implements ConfigInterface
             if (! $field->getOption('external') && $field->getOption('editable')) {
                 $field->fillModel($model, $input->get($name, null));
             }
+
             // if this is an "external" field (i.e. it's not a column on this model's table) or uneditable, unset it
             elseif ($name !== $model->getKeyName()) {
                 $model->__unset($name);
+            }
+
+            // If this field should be persisted, then store the value in the session
+            if ($field->getOption('persist')) {
+                session(['persist__' . $name => $input->get($name, null)]);
             }
         }
 
