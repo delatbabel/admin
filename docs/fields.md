@@ -7,6 +7,7 @@
 - [Setter Option](#setter-option)
 - [Visible Option](#visible-option)
 - [Value Option](#value-option)
+- [Persist Option](#persist-option)
 - [Description Option](#description-option)
 - [Filters](#filters)
 - [Settings Page](#settings-page)
@@ -156,6 +157,17 @@ The `value` option lets you define a default value for a field. In a filter set 
         'title' => 'Stuff',
         'type' => 'text',
         'value' => 'foo'
+    ),
+
+<a name="persist-option"></a>
+## Persist Option
+
+The `persist` option lets you save the value for this field between successive creations.  This only works in edit fields and only works when creating new items, not when editing existing items.
+
+    'stuff' => array(
+        'title' => 'Stuff',
+        'type' => 'enum',
+        'persist' => true
     ),
 
 <a name="description-option"></a>
