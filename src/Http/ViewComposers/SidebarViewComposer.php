@@ -17,10 +17,10 @@ class SidebarViewComposer
      */
     public function compose(View $view)
     {
-        $view->menu = app('admin_menu')->getMenu();
+        $view->menu           = app('admin_menu')->getMenu();
         $view->settingsPrefix = app('admin_config_factory')->getSettingsPrefix();
-        $view->pagePrefix = app('admin_config_factory')->getPagePrefix();
-        $view->routePrefix = app('admin_config_factory')->getRoutePrefix();
-        $view->configType = app()->bound('itemconfig') ? app('itemconfig')->getType() : false;
+        $view->pagePrefix     = app('admin_config_factory')->getPagePrefix();
+        $view->routePrefix    = app('admin_config_factory')->getRoutePrefix();
+        $view->configType     = app()->bound('itemconfig') ? app('itemconfig')->getType() : false;
     }
 }

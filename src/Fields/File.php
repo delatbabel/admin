@@ -40,7 +40,7 @@ class File extends Field
         parent::build();
 
         // set the upload url depending on the type of config this is
-        $url = $this->validator->getUrlInstance();
+        $url   = $this->validator->getUrlInstance();
         $route = $this->config->getType() === 'settings' ? 'admin_settings_file_upload' : 'admin_file_upload';
 
         // set the upload url to the proper route

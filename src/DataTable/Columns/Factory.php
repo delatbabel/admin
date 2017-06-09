@@ -256,7 +256,7 @@ class Factory
             if (! sizeof($this->exportColumns)) {
                 foreach ($this->config->getOption('export')['columns'] as $name => $options) {
                     // if only a string value was supplied, may sure to turn it into an array
-                    $object = $this->make($this->parseOptions($name, $options));
+                    $object                                                 = $this->make($this->parseOptions($name, $options));
                     $this->exportColumns[$object->getOption('column_name')] = $object;
                 }
             }

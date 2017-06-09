@@ -14,11 +14,11 @@ use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
 use DDPro\Admin\Http\ViewComposers\NoauthViewComposer;
 use DDPro\Admin\Http\ViewComposers\SettingViewComposer;
 use DDPro\Admin\Http\ViewComposers\SidebarViewComposer;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 /**
  * DDPro Admin Service Provider
@@ -230,7 +230,7 @@ class AdminServiceProvider extends ServiceProvider
         View::composer(['admin.layouts.main'], MainViewComposer::class);
 
         // the "noauth" layout view, gets used for all non-authenticated users, e.g. the login screens, etc.
-        View::composer(['admin.layouts.noauth'], NoauthViewComposer::class );
+        View::composer(['admin.layouts.noauth'], NoauthViewComposer::class);
 
         // An example of bower-izing one of the assets
         //
@@ -275,7 +275,7 @@ class AdminServiceProvider extends ServiceProvider
                 'prefix'     => config('administrator.uri'),
                 'middleware' => $middleware_array,
             ], function () {
-            // Admin Dashboard
+                // Admin Dashboard
             Route::get('/', [
                 'as'   => 'admin_dashboard',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',
@@ -299,8 +299,8 @@ class AdminServiceProvider extends ServiceProvider
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale',
             ]);
 
-            Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
-                // Settings Pages
+                Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
+                    // Settings Pages
                 Route::get('settings/{settings}', [
                     'as'   => 'admin_settings',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings',
@@ -329,7 +329,7 @@ class AdminServiceProvider extends ServiceProvider
                     'as'   => 'admin_settings_file_upload',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
                 ]);
-            });
+                });
 
             // The route group for all other requests needs to validate admin, model, and add assets
             Route::group(['middleware' => ['validate.model', 'post.validate']], function () {
@@ -375,7 +375,6 @@ class AdminServiceProvider extends ServiceProvider
 
                 // Get Item
                 Route::get('{model}/{id}', function () {
-
                     return $this->getController('item', func_get_args());
                 })->name('admin_get_item');
 
@@ -419,7 +418,7 @@ class AdminServiceProvider extends ServiceProvider
                     return $this->getController('reorderItem', func_get_args());
                 })->name('admin_reorder_item');
             });
-        });
+            });
 
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/Routes/Auth.php';

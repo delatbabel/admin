@@ -39,27 +39,27 @@ class ModelViewComposer
         /** @var DataTable $dataTable */
         $dataTable = app('admin_datatable');
 
-        $model = $config->getDataModel();
+        $model   = $config->getDataModel();
         $baseUrl = route('admin_dashboard');
-        $route = parse_url($baseUrl);
+        $route   = parse_url($baseUrl);
 
         // add the view fields
-        $view->config = $config;
-        $view->dataTable = $dataTable;
-        $view->primaryKey = $model->getKeyName();
-        $view->editFields = $fieldFactory->getEditFields();
-        $view->arrayFields = $fieldFactory->getEditFieldsArrays();
-        $view->dataModel = $fieldFactory->getDataModel();
-        $view->columnModel = $columnFactory->getColumnOptions();
-        $view->columnOptions = $columnFactory->getColumnsForDataTable();
-        $view->actions = $actionFactory->getActionsOptions();
-        $view->globalActions = $actionFactory->getGlobalActionsOptions();
+        $view->config            = $config;
+        $view->dataTable         = $dataTable;
+        $view->primaryKey        = $model->getKeyName();
+        $view->editFields        = $fieldFactory->getEditFields();
+        $view->arrayFields       = $fieldFactory->getEditFieldsArrays();
+        $view->dataModel         = $fieldFactory->getDataModel();
+        $view->columnModel       = $columnFactory->getColumnOptions();
+        $view->columnOptions     = $columnFactory->getColumnsForDataTable();
+        $view->actions           = $actionFactory->getActionsOptions();
+        $view->globalActions     = $actionFactory->getGlobalActionsOptions();
         $view->actionPermissions = $actionFactory->getActionPermissions();
-        $view->filters = $fieldFactory->getFiltersArrays();
-        $view->formWidth = $config->getOption('form_width');
-        $view->baseUrl = $baseUrl;
-        $view->assetUrl = url('packages/ddpro/admin/');
-        $view->route = $route['path'] . '/';
-        $view->itemId = isset($view->itemId) ? $view->itemId : null;
+        $view->filters           = $fieldFactory->getFiltersArrays();
+        $view->formWidth         = $config->getOption('form_width');
+        $view->baseUrl           = $baseUrl;
+        $view->assetUrl          = url('packages/ddpro/admin/');
+        $view->route             = $route['path'] . '/';
+        $view->itemId            = isset($view->itemId) ? $view->itemId : null;
     }
 }

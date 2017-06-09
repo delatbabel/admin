@@ -25,15 +25,15 @@ class SettingViewComposer
         $actionFactory = app('admin_action_factory');
 
         $baseUrl = route('admin_dashboard');
-        $route = parse_url($baseUrl);
+        $route   = parse_url($baseUrl);
 
         // add the view fields
-        $view->config = $config;
-        $view->editFields = $fieldFactory->getEditFields();
+        $view->config      = $config;
+        $view->editFields  = $fieldFactory->getEditFields();
         $view->arrayFields = $fieldFactory->getEditFieldsArrays();
-        $view->actions = $actionFactory->getActionsOptions();
-        $view->baseUrl = $baseUrl;
-        $view->assetUrl = url('packages/ddpro/admin/');
-        $view->route = $route['path'] . '/';
+        $view->actions     = $actionFactory->getActionsOptions();
+        $view->baseUrl     = $baseUrl;
+        $view->assetUrl    = url('packages/ddpro/admin/');
+        $view->route       = $route['path'] . '/';
     }
 }

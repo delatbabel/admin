@@ -171,7 +171,7 @@ class RegistrationController extends Controller
         $user = Sentinel::findUserByCredentials(['email' => $request->get('email')]);
 
         // Only send them an email if they have a valid, inactive account
-        if (!Activation::completed($user)) {
+        if (! Activation::completed($user)) {
             // Generate a new code
             $activation = Activation::create($user);
 

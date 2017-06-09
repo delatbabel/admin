@@ -68,14 +68,14 @@ class Config extends ConfigBase implements ConfigInterface
         'query_filter'       => null,
         'permission'         => true,
         'action_permissions' => [
-            'create' => true,
-            'delete' => true,
-            'update' => true,
-            'view'   => true,
-            'active' => true,
+            'create'   => true,
+            'delete'   => true,
+            'update'   => true,
+            'view'     => true,
+            'active'   => true,
             'inactive' => true,
-            'reorder' => true,
-            'export' => true,
+            'reorder'  => true,
+            'export'   => true,
         ],
         'actions'            => [],
         'global_actions'     => [],
@@ -188,7 +188,7 @@ class Config extends ConfigBase implements ConfigInterface
                 $this->setModelRelationship($model, $field);
             } elseif ($field->getOption('type') == 'image') {
                 if ($file_name = $model->getAttribute($name)) {
-                    $disk = config('filesystems.default');
+                    $disk    = config('filesystems.default');
                     $storage = \Storage::disk($disk);
                     if ($storage->has($file_name)) {
                         $mime_type = $storage->mimeType($file_name);

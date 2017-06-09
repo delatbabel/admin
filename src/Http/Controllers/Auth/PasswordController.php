@@ -138,7 +138,7 @@ class PasswordController extends Controller
     public function getReset(Request $request, $code)
     {
         // Is this a valid code?
-        if (!$this->validatePasswordResetCode($code)) {
+        if (! $this->validatePasswordResetCode($code)) {
             // This route will not be accessed via ajax;
             // no need for a json response
             Session::flash('error', 'Invalid or expired password reset code; please request a new link.');
