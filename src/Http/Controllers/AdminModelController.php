@@ -10,8 +10,8 @@ use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
  * DDPro Admin Model Controller
@@ -103,7 +103,7 @@ class AdminModelController extends Controller
         if ($model->exists) {
             $model = $config->updateModel($model, $fieldFactory, $actionFactory);
         }
-        if (!$actionPermissions['view']) {
+        if (! $actionPermissions['view']) {
             return redirect()->route('admin_index');
         }
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
@@ -191,7 +191,7 @@ class AdminModelController extends Controller
         ];
         // if the model or the id don't exist, send back an error
         $permissions = $actionFactory->getActionPermissions();
-        if (!$model->exists || !$permissions['delete']) {
+        if (! $model->exists || ! $permissions['delete']) {
             return response()->json($errorResponse);
         }
         // delete the model
@@ -220,13 +220,13 @@ class AdminModelController extends Controller
         ];
         // checking permission
         $permissions = $actionFactory->getActionPermissions();
-        if (!$permissions['delete']) {
+        if (! $permissions['delete']) {
             return response()->json($errorResponse);
         }
 
-        $baseModel = $config->getDataModel();
+        $baseModel  = $config->getDataModel();
         $primaryKey = $baseModel->getKeyName();
-        $models = $baseModel::whereIn($primaryKey, $ids);
+        $models     = $baseModel::whereIn($primaryKey, $ids);
         // delete the models
         if ($models && $models->delete()) {
             return response()->json([
@@ -239,7 +239,7 @@ class AdminModelController extends Controller
 
     public function toggleActivate($modelName)
     {
-        $ids = $this->request->get('ids');
+        $ids    = $this->request->get('ids');
         $status = $this->request->get('status');
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
@@ -248,7 +248,7 @@ class AdminModelController extends Controller
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
-        if (!in_array($status, ['active', 'inactive'])) {
+        if (! in_array($status, ['active', 'inactive'])) {
             $errorResponse = [
                 'success' => false,
                 'error'   => "Unsupported action. Please reload the page and try again.",
@@ -257,7 +257,7 @@ class AdminModelController extends Controller
         }
 
         $mapping = [
-            'active' => 'activating',
+            'active'   => 'activating',
             'inactive' => 'deactivating'
         ];
 
@@ -270,13 +270,13 @@ class AdminModelController extends Controller
 
         // checking permission
         $permissions = $actionFactory->getActionPermissions();
-        if (($status == 'active' && !$permissions['active']) || ($status == 'inactive' && !$permissions['inactive'])) {
+        if (($status == 'active' && ! $permissions['active']) || ($status == 'inactive' && ! $permissions['inactive'])) {
             return response()->json($errorResponse);
         }
 
-        $baseModel = $config->getDataModel();
+        $baseModel  = $config->getDataModel();
         $primaryKey = $baseModel->getKeyName();
-        $models = $baseModel::whereIn($primaryKey, $ids);
+        $models     = $baseModel::whereIn($primaryKey, $ids);
         // update status of the models
         if ($models && $models->update(['status' => $status])) {
             return response()->json([
@@ -313,7 +313,7 @@ class AdminModelController extends Controller
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
         } // if it's falsy, return the standard error message
-        elseif (!$result) {
+        elseif (! $result) {
             $messages = $action->getOption('messages');
 
             return response()->json(['success' => false, 'error' => $messages['error']]);
@@ -359,7 +359,7 @@ class AdminModelController extends Controller
         // if the result is a string, return that as an error.
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
-        } elseif (!$result) {
+        } elseif (! $result) {
             // if it's falsy, return the standard error message
             $messages = $action->getOption('messages');
 
@@ -499,7 +499,7 @@ class AdminModelController extends Controller
 
     public function customModelItemData($modelName, $itemId)
     {
-        $data = $this->request->get('data');
+        $data         = $this->request->get('data');
         $functionName = "get" . ucfirst($data);
         return $this->$functionName($modelName, $itemId);
     }
@@ -520,7 +520,7 @@ class AdminModelController extends Controller
         ];
         // checking permission
         $permissions = $actionFactory->getActionPermissions();
-        if (!$permissions['reorder']) {
+        if (! $permissions['reorder']) {
             return response()->json($errorResponse);
         }
 
@@ -528,12 +528,12 @@ class AdminModelController extends Controller
         if ($model = $baseModel::find($id)) {
             if ($this->request->get('prev_sibling_id')) {
                 $pre = $baseModel::find($this->request->get('prev_sibling_id'));
-                if (!$pre || !$model->makePreviousSiblingOf($pre)) {
+                if (! $pre || ! $model->makePreviousSiblingOf($pre)) {
                     return response()->json($errorResponse);
                 }
             } elseif ($this->request->get('next_sibling_id')) {
                 $next = $baseModel::find($this->request->get('next_sibling_id'));
-                if (!$next || !$model->makeNextSiblingOf($next)) {
+                if (! $next || ! $model->makeNextSiblingOf($next)) {
                     return response()->json($errorResponse);
                 }
             }
@@ -547,9 +547,9 @@ class AdminModelController extends Controller
 
     public function export($modelName)
     {
-        $config = app('itemconfig');
+        $config        = app('itemconfig');
         $actionFactory = app('admin_action_factory');
-        $permissions = $actionFactory->getActionPermissions();
+        $permissions   = $actionFactory->getActionPermissions();
         if ($config->getOption('export') && isset($permissions['export'])) {
             // field names
             $arrColumns = [];
@@ -559,7 +559,7 @@ class AdminModelController extends Controller
 
             // parse data
             $arrResults = [];
-            $query = $this->prepareExportQuery($config->getDataModel());
+            $query      = $this->prepareExportQuery($config->getDataModel());
             foreach ($query->get() as $index => $model) {
                 foreach ($config->getOption('export')['columns'] as $key => $column) {
                     $attributeValue = $model->getAttribute($key);
@@ -568,7 +568,7 @@ class AdminModelController extends Controller
                         if (isset($column['options'])) {
                             $options = $column['options'];
                         } elseif (isset($column['callback'])) {
-                            $options = call_user_func_array(array($column['callback']['class'], $column['callback']['method']), isset($column['callback']['params']) ? $column['callback']['params'] : []);
+                            $options = call_user_func_array([$column['callback']['class'], $column['callback']['method']], isset($column['callback']['params']) ? $column['callback']['params'] : []);
                         }
                         if (isset($options[$attributeValue])) {
                             $attributeValue = $options[$attributeValue];
@@ -577,19 +577,18 @@ class AdminModelController extends Controller
                     $arrResults[$index][] = $attributeValue;
                 }
             }
-            return Excel::create($modelName, function($excel) use ($arrResults, $arrColumns) {
-                $excel->sheet('mySheet', function($sheet) use ($arrResults, $arrColumns)
-                {
+            return Excel::create($modelName, function ($excel) use ($arrResults, $arrColumns) {
+                $excel->sheet('mySheet', function ($sheet) use ($arrResults, $arrColumns) {
                     $sheet->fromArray($arrResults, null, 'A1', false, false)->prependRow(array_values($arrColumns));
                 });
             })->download($config->getOption('export')['type']);
         } else {
             return abort('403');
         }
-
     }
 
-    private function prepareExportQuery($model) {
+    private function prepareExportQuery($model)
+    {
         // get things going by grouping the set
         $table   = $model->getTable();
         $keyName = $model->getKeyName();
@@ -599,7 +598,7 @@ class AdminModelController extends Controller
         $selects = [$table . '.*'];
         // column factory
         $columnFactory = app('admin_column_factory');
-        $columns = $columnFactory->getExportColumns();
+        $columns       = $columnFactory->getExportColumns();
         if ($columns) {
             foreach ($columns as $column) {
                 // if this is a related column, we'll need to add some selects

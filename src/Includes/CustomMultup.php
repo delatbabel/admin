@@ -21,7 +21,7 @@ class CustomMultup extends Multup
             if (is_callable($this->random_cb)) {
                 $filename = call_user_func($this->random_cb, $original_name);
             } else {
-                $ext = \File::extension($original_name);
+                $ext      = \File::extension($original_name);
                 $filename = $this->generate_random_filename() . '.' . $ext;
             }
         } else {
@@ -29,9 +29,9 @@ class CustomMultup extends Multup
         }
 
         // Upload the file
-        $disk = config('filesystems.default');
+        $disk    = config('filesystems.default');
         $storage = \Storage::disk($disk);
-        $save = $storage->put($this->path . $filename, file_get_contents($this->image[$this->input]), 'public');
+        $save    = $storage->put($this->path . $filename, file_get_contents($this->image[$this->input]), 'public');
 
         if ($save) {
             // Do resize here

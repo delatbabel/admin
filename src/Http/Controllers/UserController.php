@@ -3,10 +3,10 @@
 namespace DDPro\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use DDPro\Admin\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Cartalyst\Sentinel\Users\IlluminateUserRepository;
 use Centaur\AuthManager;
+use DDPro\Admin\Http\Requests\UserFormRequest;
 use Delatbabel\Keylists\Models\Keytype;
 use Delatbabel\Keylists\Models\Keyvalue;
 use Mail;
@@ -133,7 +133,7 @@ class UserController extends Controller
             return $result->dispatch();
         }
         // Do we need to send an activation email?
-        if (!$activate) {
+        if (! $activate) {
             $code  = $result->activation->getCode();
             $email = $result->user->email;
             Mail::queue('centaur.email.welcome', ['code' => $code, 'email' => $email],

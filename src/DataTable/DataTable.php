@@ -196,7 +196,7 @@ class DataTable
 
         // set the filters
         if (isset($input['filters'])) {
-            foreach($input['filters'] as $key => &$value) {
+            foreach ($input['filters'] as $key => &$value) {
                 if (isset($value['value']) && is_array($value['value'])) {
                     foreach ($value['value'] as $key1 => $value1) {
                         if (empty($value1)) {
@@ -366,7 +366,7 @@ class DataTable
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
 
-        $disk = config('filesystems.default');
+        $disk    = config('filesystems.default');
         $storage = \Storage::disk($disk);
 
         // loop over all columns
@@ -376,8 +376,8 @@ class DataTable
                 $attributeValue = $item->getAttribute($field);
                 if ($attributeValue) {
                     if ($columns[$field]->getOption('type') == 'image') {
-                        $mime_type = $storage->mimeType($attributeValue);
-                        $row_image = "data:$mime_type;base64," . base64_encode($storage->get($attributeValue));
+                        $mime_type      = $storage->mimeType($attributeValue);
+                        $row_image      = "data:$mime_type;base64," . base64_encode($storage->get($attributeValue));
                         $attributeValue = '<img src="'. $row_image. '" style="max-width: 250px; max-height: 250px" />';
                     }
                 }

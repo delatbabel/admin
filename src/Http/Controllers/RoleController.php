@@ -3,8 +3,8 @@
 namespace DDPro\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use DDPro\Admin\Http\Requests\RoleFormRequest;
 use Cartalyst\Sentinel\Roles\IlluminateRoleRepository;
+use DDPro\Admin\Http\Requests\RoleFormRequest;
 use Illuminate\Http\Request;
 use Sentinel;
 
@@ -151,7 +151,7 @@ class RoleController extends Controller
     {
         // Fetch the role object
         $role = $this->roleRepository->findById($id);
-        if (!$role) {
+        if (! $role) {
             session()->flash('error', 'Invalid role.');
 
             return redirect()->back()->withInput();

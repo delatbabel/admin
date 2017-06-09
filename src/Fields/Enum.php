@@ -14,7 +14,7 @@ class Enum extends Field
     protected $rules = [
         // Fixme: this validation seems not working
         'callback' => 'required_without:options|array|not_empty',
-        'options' => 'required_without:callback|array|not_empty',
+        'options'  => 'required_without:callback|array|not_empty',
     ];
 
     /**
@@ -26,11 +26,10 @@ class Enum extends Field
 
         $options = $this->suppliedOptions;
 
-        if(isset($options['callback'])) {
-            $dataOptions = call_user_func_array(array($options['callback']['class'], $options['callback']['method']), isset($options['callback']['params']) ? $options['callback']['params'] : []);
+        if (isset($options['callback'])) {
+            $dataOptions = call_user_func_array([$options['callback']['class'], $options['callback']['method']], isset($options['callback']['params']) ? $options['callback']['params'] : []);
         } else {
             $dataOptions = $options['options'];
-
         }
         $options['options'] = [];
 

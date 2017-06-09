@@ -5,8 +5,8 @@ namespace DDPro\Admin\Services;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\UserInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Fluent;
 
 /**
  * Class User

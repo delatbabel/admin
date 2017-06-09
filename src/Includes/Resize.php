@@ -311,7 +311,7 @@ class Resize
     private function get_size_by_fit($new_width, $new_height)
     {
         $height_ratio    = $this->height / $new_height;
-        $width_ratio     = $this->width /  $new_width;
+        $width_ratio     = $this->width / $new_width;
 
         $max = max($height_ratio, $width_ratio);
 
@@ -331,7 +331,7 @@ class Resize
     private function get_optimal_crop($new_width, $new_height)
     {
         $height_ratio    = $this->height / $new_height;
-        $width_ratio     = $this->width /  $new_width;
+        $width_ratio     = $this->width / $new_width;
 
         if ($height_ratio < $width_ratio) {
             $optimal_ratio = $height_ratio;
@@ -340,7 +340,7 @@ class Resize
         }
 
         $optimal_height    = $this->height / $optimal_ratio;
-        $optimal_width     = $this->width  / $optimal_ratio;
+        $optimal_width     = $this->width / $optimal_ratio;
 
         return [
             'optimal_width'        => $optimal_width,
@@ -359,7 +359,7 @@ class Resize
     private function crop($optimal_width, $optimal_height, $new_width, $new_height)
     {
         // Find center - this will be used for the crop
-        $crop_start_x = ($optimal_width  / 2) - ($new_width  / 2);
+        $crop_start_x = ($optimal_width / 2) - ($new_width / 2);
         $crop_start_y = ($optimal_height / 2) - ($new_height / 2);
 
         $crop = $this->image_resized;
