@@ -58,9 +58,14 @@ if (typeof jQuery === 'undefined') {
         var $submitUrlButton = $urlTab.find('.btn:eq(0)');
         var $removeUrlButton = $urlTab.find('.btn:eq(1)');
 
+        var defaultImage = null;
+        if ($fileTab.find('img.thumbnail').length > 0) {
+            defaultImage = $fileTab.find('img.thumbnail').attr('src');
+        }
+
 
         // Do a complete reset.
-        resetFileTab($fileTab);
+        resetFileTab($fileTab, defaultImage);
         resetUrlTab($urlTab);
         showFileTab($fileTab);
         enable.call($imageupload);
@@ -105,12 +110,10 @@ if (typeof jQuery === 'undefined') {
             resetUrlTab($urlTab);
         });
 
-        if (options.defaultImage && options.defaultImage.length > 0) {
-            $fileTab.prepend(getImageThumbnailHtml(options.defaultImage));
-            var $browseFileButton = $fileTab.find('.btn:eq(0)');
-            $browseFileButton.find('span').text('Change');
-            var $removeFileButton = $fileTab.find('.btn:eq(1)');
-            $removeFileButton.css('display', 'inline-block');
+        if (defaultImage) {
+            $fileTab.prepend(getImageThumbnailHtml(defaultImage));
+            $fileTab.find('.btn span').text('Change');
+            $fileTab.find('.btn:eq(1)').show();
         }
     }
 
