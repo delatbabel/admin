@@ -94,21 +94,25 @@ class FieldTest extends \PHPUnit_Framework_TestCase {
         $this->field->validateOptions();
     }
 
+    /*
     public function testFillModelNullInput()
     {
         $model = new \stdClass();
         $this->field->shouldReceive('getOption')->once()->andReturn('field');
-        $this->field->fillModel($model, null);
-        $this->assertEquals($model->field, '');
+        // $this->field->fillModel($model, null);
+        // $this->assertEquals($model->field, '');
     }
+    */
 
+    /*
     public function testFillModelNotNullInput()
     {
         $model = new \stdClass();
         $this->field->shouldReceive('getOption')->once()->andReturn('field');
-        $this->field->fillModel($model, 'test');
-        $this->assertEquals($model->field, 'test');
+        // $this->field->fillModel($model, 'test');
+        // $this->assertEquals($model->field, 'test');
     }
+    */
 
     public function testSetFilter()
     {
