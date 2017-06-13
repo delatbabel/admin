@@ -2,11 +2,14 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Roles\IlluminateRoleRepository;
 use DDPro\Admin\Http\Requests\RoleFormRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Sentinel;
+use Illuminate\Routing\Controller as BaseController;
 
 /**
  * Class RoleController
@@ -42,8 +45,10 @@ use Sentinel;
  * @link https://github.com/cartalyst/sentinel
  * @link https://cartalyst.com/manual/sentinel/2.0
  */
-class RoleController extends Controller
+class RoleController extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     /** @var IlluminateRoleRepository */
     protected $roleRepository;
 

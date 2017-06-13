@@ -2,16 +2,18 @@
 
 namespace DDPro\Admin\Http\Controllers\Auth;
 
-use Activation;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
+use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Centaur\AuthManager;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Mail;
-use Sentinel;
-use Session;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class RegistrationController
@@ -45,8 +47,10 @@ use Session;
  * @link https://github.com/cartalyst/sentinel
  * @link https://cartalyst.com/manual/sentinel/2.0
  */
-class RegistrationController extends Controller
+class RegistrationController extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     /** @var AuthManager */
     protected $authManager;
 

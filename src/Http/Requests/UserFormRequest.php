@@ -2,8 +2,8 @@
 
 namespace DDPro\Admin\Http\Requests;
 
-use App\Http\Requests\Request;
 use Delatbabel\Keylists\Models\Keytype;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Validate Request for User form
@@ -11,7 +11,7 @@ use Delatbabel\Keylists\Models\Keytype;
  * Class UserFormRequest
  * @package App\Http\Requests
  */
-class UserFormRequest extends Request
+class UserFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

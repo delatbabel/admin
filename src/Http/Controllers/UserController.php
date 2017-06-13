@@ -2,15 +2,18 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Cartalyst\Sentinel\Users\EloquentUser;
 use Cartalyst\Sentinel\Users\IlluminateUserRepository;
 use Centaur\AuthManager;
 use DDPro\Admin\Http\Requests\UserFormRequest;
 use Delatbabel\Keylists\Models\Keytype;
 use Delatbabel\Keylists\Models\Keyvalue;
-use Mail;
-use Sentinel;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class UserController
@@ -46,8 +49,10 @@ use Sentinel;
  * @link https://github.com/cartalyst/sentinel
  * @link https://cartalyst.com/manual/sentinel/2.0
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     /** @var IlluminateUserRepository */
     protected $userRepository;
 
@@ -77,7 +82,7 @@ class UserController extends Controller
     {
         // Admin users are those which are not customers (with a contact_id) and are
         // not a supplier (with a supplier_id).
-        $users = User::whereNull('contact_id')
+        $users = EloquentUser::whereNull('contact_id')
             ->whereNull('supplier_id')
             ->get();
 
@@ -174,7 +179,7 @@ class UserController extends Controller
     public function edit($id)
     {
         // Fetch the user object
-        $user = User::findOrFail($id);
+        $user = $this->userRepository->findById($id);
         if ($user) {
             // Fetch the available roles
             $roles = app()->make('sentinel.roles')
@@ -206,15 +211,18 @@ class UserController extends Controller
      */
     public function update(UserFormRequest $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userRepository->findById($id);
+
         // Update the user
         $user = $this->userRepository->update($user, $request->all());
+
         // Update role assignments
         if (is_array($request->roles)) {
             $user->roles()->sync($request->roles);
         } else {
             $user->roles()->detach();
         }
+
         // All done
         session()->flash('success', "{$user->email} has been updated.");
 
@@ -230,8 +238,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = $this->userRepository->findById($id);
+
         // Remove the user
         $user->delete();
+
         // All done
         session()->flash('success', "{$user->email} has been removed.");
 

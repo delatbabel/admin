@@ -421,7 +421,7 @@ class AdminServiceProvider extends ServiceProvider
             });
 
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/Routes/Auth.php';
+            require __DIR__ . '/Routes/Auth.php';
         }
     }
 

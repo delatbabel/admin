@@ -2,7 +2,7 @@
 
 namespace DDPro\Admin\Http\Requests;
 
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Validate Request for Role form
@@ -10,7 +10,7 @@ use App\Http\Requests\Request;
  * Class RoleFormRequest
  * @package App\Http\Requests
  */
-class RoleFormRequest extends Request
+class RoleFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

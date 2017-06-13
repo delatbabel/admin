@@ -84,7 +84,6 @@ class Time extends Field
                 $format = 'Y-m-d';
             }
 
-
             $time = DateTime::createFromFormat($format, $input);
         }
 

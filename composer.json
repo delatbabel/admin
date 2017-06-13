@@ -17,6 +17,7 @@
         "php": ">=5.4.0",
         "delatbabel/viewpages": "dev-master",
         "delatbabel/applog": "dev-master",
+        "delatbabel/keylists": "dev-master",
         "delatbabel/fluents": "~1.0",
         "laravel/framework": "5.1.*",
         "rcrowe/twigbridge": "^0.9.2",
