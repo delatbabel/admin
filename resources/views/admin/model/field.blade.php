@@ -64,17 +64,7 @@
     </script>
 @endsection
 @elseif($type == 'wysiwyg')
-    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            CKEDITOR.replace('{{$id}}', {
-                uiColor: '#CCEAEE'
-            });
-        });
-    </script>
-@endsection
+    {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id, 'wysiwyg'=>'']) !!}
 @elseif($type == 'number')
     <div class="input-group">
         <span class="input-group-addon">{{$arrCol['symbol']}}</span>
@@ -93,24 +83,13 @@
         </label>
     @endif
 @elseif($type == 'date')
-    <div class="input-group date">
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
-    </div>
     <?php
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
     ?>
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").datepicker({
-                dateFormat: "{{$arrCol['date_format']}}",
-                minDate: "{!! $minDate !!}"
-            });
-        });
-    </script>
-@endsection
+    <div class="input-group date">
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        {!! Form::text($name, null, ['class'=> $defaultClass.' date-picker', 'id'=>$id, 'date-format'=>$arrCol['date_format'], 'min-date'=>$minDate]) !!}
+    </div>
 @elseif($type == 'datetime')
     <div class="input-group date">
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -148,8 +127,11 @@
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'image')
     {{-- bootstrap-imageupload. --}}
-    <div class="{{ $id }}_imageupload panel panel-default">
+    <div image-upload class="{{ $id }}_imageupload panel panel-default">
         <div class="file-tab panel-body">
+            @if ($model->{$id . '_preview'})
+                <img src="{{ $model->{$id . '_preview'} }}" alt="Image preview" class="thumbnail" style="max-width: 250px; max-height: 250px">
+            @endif
             <div class="btn btn-default btn-file">
                 <span>Browse</span>
                 <input type="file" name="{{ $id }}">
@@ -158,17 +140,6 @@
         </div>
         <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
     </div>
-
-    @section('javascript')
-        @parent
-        <script type="text/javascript">
-            $(function () {
-                var $imageupload = $('.{{ $id }}_imageupload');
-                var defaultImage = "{!! ($model && $model->{$id . '_preview'}) ? $model->{$id. '_preview'} : null !!}";
-                $imageupload.imageupload({defaultImage: defaultImage});
-            });
-        </script>
-    @endsection
 @elseif($type == 'enum' || $type == 'belongs_to')
     <?php
     $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
@@ -185,24 +156,14 @@
         $tmpDefault = session('persist__' . $name);
     }
     ?>
-    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id]) !!}
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").select2().on('change', function() {
-                $(this).valid();
-            });
-        });
-    </script>
-@endsection
+    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'select2' => '']) !!}
 @elseif($type == 'belongs_to_many')
     <?php
     if (old($id)) {
         $value = old($id);
     }
     ?>
-    <select class="{{$defaultClass}} select2"
+    <select select2 class="{{$defaultClass}}"
             multiple="multiple"
             name="{{ $name }}[]"
             id="{{ $id }}">
@@ -213,14 +174,4 @@
             </option>
         @endforeach
     </select>
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").select2().on('change', function() {
-                $(this).valid();
-            });
-        });
-    </script>
-@endsection
 @endif

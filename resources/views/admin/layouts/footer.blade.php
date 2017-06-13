@@ -5,5 +5,5 @@
         {{ config('administrator.footer_message') }}
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="{{ config('administrator.company_url') }}">{{ config('administrator.company_name') }}</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; {{ date('Y') }} <a href="{{ config('administrator.company_url') }}">{{ config('administrator.company_name') }}</a>.</strong> All rights reserved.
 </footer>

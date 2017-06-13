@@ -30,7 +30,7 @@
 <body class="skin-blue sidebar-mini">
 <header class="main-header">
     <!-- Logo -->
-    <a href="http://sd.local/admin" class="logo">
+    <a href="{{ url(config('administrator.uri')) }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->

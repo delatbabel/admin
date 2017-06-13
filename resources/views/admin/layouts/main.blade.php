@@ -43,7 +43,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 --}}
-<body class="skin-blue sidebar-mini fixed">
+<body class="skin-blue sidebar-mini fixed" ng-app="myApp">
 {{-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
