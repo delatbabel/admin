@@ -1,10 +1,8 @@
 # Resources
 
-This directory contains the views that are used by the Admin panel.
-
-Inside views are the base AdminLTE views.  These will need to be expanded to include all of the
-functionality of the views in old-views.  Eventually these views will need to be imported into
-the database using the service provider (see delatbabel/viewpages).
+This directory contains the views that are used by the Admin panel.  This is the version of
+the views that can be imported into the database using one of the seeders from the delatbabel/viewpages
+package, if you are going to use database based views.
 
 ## views
 
