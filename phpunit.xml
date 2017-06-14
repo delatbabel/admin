@@ -18,7 +18,8 @@
     </logging>                                                                                                                                                        
     <filter>                                                                                                                                                          
         <blacklist>
-            <directory>vendor/*</directory>
+            <directory>vendor</directory>
+            <directory>tests</directory>
             <directory>src/Routes</directory>
         </blacklist>
     </filter>
