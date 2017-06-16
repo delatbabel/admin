@@ -84,3 +84,36 @@ div.dataTables_wrapper div.dataTables_info {
        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
 }
+
+.sidebar-menu li > a >.fa-angle-left {
+  -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.sidebar-menu li.active > a > .fa-angle-left {
+  -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.btn-success {
+  background-color: #287BAE;
+  border-color: #287BAE;
+  font-size: 13px;
+  font-weight: 600;
+}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success:active:hover,
+.btn-success:active:focus {
+  background-color: #287BAE;
+  border-color: #287BAE;
+}
+.thumbnail {
+  max-width: 125px;
+  max-height: 125px;
+}
