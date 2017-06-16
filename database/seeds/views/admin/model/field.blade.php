@@ -130,7 +130,7 @@
     <div image-upload class="{{ $id }}_imageupload panel panel-default">
         <div class="file-tab panel-body">
             @if ($model->{$id . '_preview'})
-                <img src="{{ $model->{$id . '_preview'} }}" alt="Image preview" class="thumbnail" style="max-width: 250px; max-height: 250px">
+                <img src="{{ $model->{$id . '_preview'} }}" alt="Image preview" class="thumbnail">
             @endif
             <div class="btn btn-default btn-file">
                 <span>Browse</span>
