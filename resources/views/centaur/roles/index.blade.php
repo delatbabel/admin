@@ -45,14 +45,12 @@
                                     </td>
                                     <td>
                                         <a href="{{route('roles.edit', $tmpRole->id)}}" style="margin: 0px;"
-                                           class="btn btn-xs btn-success">
-                                            <i class="fa fa-pencil"></i>
+                                           class="btn btn-xs btn-sd-default">
                                             Edit
                                         </a>
                                         <a href='#' data-href="{{route('roles.destroy', $tmpRole->id)}}"
                                            style="margin: 0px;"
-                                           class="btn btn-xs btn-danger btn-remove">
-                                            <i class="fa fa-trash"></i>
+                                           class="btn btn-xs btn-sd-default">
                                             Delete
                                         </a>
                                     </td>

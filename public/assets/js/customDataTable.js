@@ -36,8 +36,8 @@ var DataTableHandle = function () {
                                 var primaryCol = the.getPrimaryKeyCol();
                                 if (primaryCol != null) {
                                     var tmpEditURL = options.editURL + '/' + col[primaryCol];
-                                    var _tmpButtons = "<a style='margin: 0px' class='btn btn-xs btn-success' href='" + tmpEditURL + "'><i class='fa fa-pencil'></i> Edit</a> ";
-                                    _tmpButtons += "<button style='margin: 0px' class='btn btn-xs btn-danger btn-remove' data-id='" + col[primaryCol] + "'><i class='fa fa-trash'></i> Delete</button>";
+                                    var _tmpButtons = "<a style='margin: 0px' class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ";
+                                    _tmpButtons += "<button style='margin: 0px' class='btn btn-xs btn-sd-default' data-id='" + col[primaryCol] + "'>Delete</button>";
                                     return _tmpButtons;
                                 }
                                 else {

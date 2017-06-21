@@ -63,7 +63,9 @@ div.dataTables_wrapper div.dataTables_info {
   background-color: #f2dede !important;
   border-color: #a94442 !important;
 }
-
+.select2.select2-container {
+  width: 100% !important;
+}
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 20px;
 }
@@ -99,20 +101,30 @@ div.dataTables_wrapper div.dataTables_info {
     transform: rotate(90deg);
 }
 
-.btn-success {
+.btn-success,
+.btn-sd-default {
+  color: #fff;
   background-color: #287BAE;
   border-color: #287BAE;
   font-size: 13px;
   font-weight: 600;
+  min-width: 44px;
 }
 .btn-success:hover,
 .btn-success:focus,
 .btn-success:active,
 .btn-success:active:hover,
-.btn-success:active:focus {
+.btn-success:active:focus,
+.btn-sd-default:hover,
+.btn-sd-default:focus,
+.btn-sd-default:active,
+.btn-sd-default:active:hover,
+.btn-sd-default:active:focus {
+  color: #fff;
   background-color: #287BAE;
   border-color: #287BAE;
 }
+
 .thumbnail {
   max-width: 125px;
   max-height: 125px;
