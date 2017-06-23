@@ -2,6 +2,10 @@
 
 namespace DDPro\Admin\Includes;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Class CustomMultup
  *
@@ -12,12 +16,15 @@ class CustomMultup extends Multup
 {
     protected function upload_image()
     {
-        $original_name = $this->image[$this->input]->getClientOriginalName();
+        /** @var UploadedFile $file */
+        $file = $this->image[$this->input];
+
+        $original_name = $file->getClientOriginalName();
         if ($this->random) {
             if (is_callable($this->random_cb)) {
                 $filename = call_user_func($this->random_cb, $original_name);
             } else {
-                $ext      = \File::extension($original_name);
+                $ext      = File::extension($original_name);
                 $filename = $this->generate_random_filename() . '.' . $ext;
             }
         } else {
@@ -25,9 +32,7 @@ class CustomMultup extends Multup
         }
 
         // Upload the file
-        $disk    = config('filesystems.default');
-        $storage = \Storage::disk($disk);
-        $save    = $storage->put($this->path . $filename, file_get_contents($this->image[$this->input]), 'public');
+        $save = Storage::put($this->path . $filename, file_get_contents($file), 'public');
 
         if (! $save) {
             abort(500, 'Could not save image');

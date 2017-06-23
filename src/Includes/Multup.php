@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Admin\Libraries\Includes\Resize;
 
@@ -107,7 +108,9 @@ class Multup
      */
     public function upload()
     {
-        $this->image = [$this->input => Input::file($this->input)];
+        /** @var UploadedFile $file */
+        $file = Input::file($this->input);
+        $this->image = [$this->input => $file];
         $result      = [];
 
         $result[] = $this->post_upload_process($this->upload_image());
