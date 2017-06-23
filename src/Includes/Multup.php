@@ -127,7 +127,7 @@ class Multup
             'Upload handler');
 
         /** @var UploadedFile $file */
-        $file = Input::file($this->input);
+        $file        = Input::file($this->input);
         $this->image = [$this->input => $file];
         $result      = [];
 
