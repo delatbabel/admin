@@ -376,6 +376,10 @@ class Config extends ConfigBase implements ConfigInterface
         foreach ($fields as $name => $field) {
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
+
+                    // FIXME: The upload_image() function in CustomMultup is currently broken and
+                    // returns a string rather than an array, and that needs to be fixed.  $result
+                    // here should be an array.
                     $result = $field->doUpload();
                     Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                         'Upload image result: ' . print_r($result, true));

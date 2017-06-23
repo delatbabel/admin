@@ -15,6 +15,21 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class CustomMultup extends Multup
 {
+    /**
+     * Upload the image
+     *
+     * Returns an array with keys:
+     *     errors
+     *     path
+     *     filename
+     *     original_name
+     *     resizes
+     *
+     * Note that it doesn't currently do that, it currently returns a string but it's
+     * broken and needs to be fixed.
+     *
+     * @return array
+     */
     protected function upload_image()
     {
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .

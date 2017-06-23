@@ -171,6 +171,13 @@ class Multup
     /**
      * Upload the image
      *
+     * Returns an array with keys:
+     *     errors
+     *     path
+     *     filename
+     *     original_name
+     *     resizes
+     *
      * @return array
      */
     protected function upload_image()
