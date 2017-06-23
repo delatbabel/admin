@@ -337,8 +337,8 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function save(\Illuminate\Http\Request $input, array $fields, array $actionPermissions = null, $id = 0)
     {
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'Saving data', $input->all());
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'Saving data', $input->all());
 
         $model = $this->getDataModel()->find($id);
 

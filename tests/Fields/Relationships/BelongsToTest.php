@@ -99,7 +99,7 @@ class BelongsToTest extends \PHPUnit_Framework_TestCase {
         $model->rel = '3';
         $this->field->shouldReceive('getOption')->twice()->andReturn('rel_id', 'rel');
         $this->field->fillModel($model, 'false');
-        $this->assertEquals($model->rel_id, null);
+        $this->assertNull($model->rel_id);
         $this->assertTrue(!isset($model->rel));
     }
 

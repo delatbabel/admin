@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use Log;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -578,6 +578,9 @@ class AdminModelController extends Controller
      *
      * This gets triggered by the admin/{model}/{field}/file_upload route.
      *
+     * In fact this never gets called.  Instead the File or Image field classes
+     * handle the upload.
+     *
      * @param string $modelName
      * @param string $fieldName
      *
@@ -585,10 +588,15 @@ class AdminModelController extends Controller
      */
     public function fileUpload($modelName, $fieldName)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'File upload triggered for ' . $fieldName);
+
         $fieldFactory = app('admin_field_factory');
         // get the model and the field object
         $field = $fieldFactory->findField($fieldName);
 
+        // FIXME: The upload_image() function in CustomMultup is currently broken and
+        // returns a string rather than an array, and that needs to be fixed.
         return response()->json($field->doUpload());
     }
 

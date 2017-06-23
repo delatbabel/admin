@@ -49,7 +49,7 @@ class BelongsTo extends Relationship
      */
     public function fillModel(&$model, $input)
     {
-        $model->{$this->getOption('foreign_key')} = empty($input) ? null : $input;
+        $model->{$this->getOption('foreign_key')} = (empty($input) || $input === 'false') ? null : $input;
 
         $model->__unset($this->getOption('field_name'));
     }
