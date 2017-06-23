@@ -249,6 +249,21 @@ class AdminModelController extends Controller
             return redirect()->back()->withInput()->withErrors($config->getCustomValidator());
         }
 
+        // Get the saved model back from the config, which will contain
+        // an updated ID
+        $model = $config->getDataModel();
+        $id = $model->getKey();
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Saved model with ID = ' . $id);
+
+        // Store reference to new address in address table
+        if (! empty($savedAddresses)) {
+            foreach ($savedAddresses as $key => $value) {
+                $model->{$key . '_id'} = $value;
+            }
+            $model->save();
+        }
+
         // override the config options so that we can get the latest
         app('admin_config_factory')->updateConfigOptions();
 
@@ -257,17 +272,6 @@ class AdminModelController extends Controller
         $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
         if ($model->exists) {
             $model = $config->updateModel($model, $fieldFactory, $actionFactory);
-        }
-
-        // Store reference to new address in address table
-        if (! empty($savedAddresses)) {
-
-            // Not sure why I cannot use $model->save() with the above $model object, so I have to load it here
-            $model = $config->getDataModel()->find($id);
-            foreach ($savedAddresses as $key => $value) {
-                $model->{$key . '_id'} = $value;
-            }
-            $model->save();
         }
 
         return redirect()->route('admin_index', [$modelName]);
