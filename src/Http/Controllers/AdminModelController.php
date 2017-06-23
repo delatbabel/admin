@@ -10,8 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\File;
-use Log;
 use Illuminate\View\View;
+use Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
