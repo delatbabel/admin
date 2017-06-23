@@ -19,7 +19,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  *
  * Requires Validator, URL, and Str class from Laravel if used
  *
+ * ### Example
  *
+ * <code>
+ * $multup = Multup::open(
+ *     $file_name
+ *     null,
+ *     $path,
+ *     true
+ * );
+ *
+ * $result = $multup->upload();
+ * </code>
  */
 class Multup
 {
@@ -56,7 +67,10 @@ class Multup
     /**
      * Instantiates the Multup
      *
-     * @param mixed $file The file array provided by Laravel's Input::file('field_name') or a path to a file
+     * @param  string $input name of the file to upload
+     * @param  string $rules laravel style validation rules string
+     * @param  string $path path to move the images if valid
+     * @param  bool $random Whether or not to randomize the filename, the filename will be set to a 32 character string if true
      */
     public function __construct($input, $rules, $path, $random)
     {
@@ -73,7 +87,7 @@ class Multup
      *
      * @param  string $input name of the file to upload
      * @param  string $rules laravel style validation rules string
-     * @param  string $path relative to /public/ to move the images if valid
+     * @param  string $path path to move the images if valid
      * @param  bool $random Whether or not to randomize the filename, the filename will be set to a 32 character string if true
      * @return static
      */
