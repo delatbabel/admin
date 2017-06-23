@@ -7,10 +7,6 @@
 
 namespace DDPro\Admin\Includes;
 
-use Illuminate\Support\Facades\Log;
-use DDPro\Admin\Config\Model\Config;
-use Delatbabel\Contacts\Models\Address;
-
 /**
  * Trait HasAddresses
  *

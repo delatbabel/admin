@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version 0.2.0
+ * @author Nick Kelly @ Frozen Node
+ * @link github.com/
+ */
 namespace DDPro\Admin\Includes;
 
 use Illuminate\Support\Facades\File;
@@ -6,75 +11,50 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-//Use Admin\Libraries\Includes\Resize as Resize;
-/*
-* @package Multup
-* @version 0.2.0
-* @author Nick Kelly @ Frozen Node
-* @link github.com/
-*
-* Requires Validator, URL, and Str class from Laravel if used
-*
-*
-*/
+//use Admin\Libraries\Includes\Resize;
+
+/**
+ * Class Multup
+ *
+ * Requires Validator, URL, and Str class from Laravel if used
+ *
+ *
+ */
 class Multup
 {
-
-    /*
-        image array
-    */
+    /** @var  array image array */
     protected $image;
 
-    /*
-        string of laravel validation rules
-    */
+    /** @var string Laravel validation rules */
     protected $rules;
 
-    /*
-        randomize uploaded filename
-    */
+    /** @var  boolean randomise uploaded filename */
     protected $random;
 
-    /*
-        path relative to /public/ that the image should be saved in
-    */
+    /** @var string path relative to /public/ that the image should be saved in */
     protected $path;
 
-    /*
-        id/name of the file input to find
-    */
+    /** @var string id/name of the file input to find */
     protected $input;
 
-    /*
-        How long the random filename should be
-    */
+    /** @var integer How long the random filename should be */
     protected $random_length = 32;
 
-    /*
-    *	Callback function for setting your own random filename
-    */
+    /** @var Callable function for setting your own random filename */
     protected $random_cb;
 
-    /*
-    * Sizing information for thumbs to create
-    * array ( width, height, crop_type, path_to_save, quality)
-    */
+    /** @var array  Sizing information for thumbs to create array ( width, height, crop_type, path_to_save, quality) */
     protected $image_sizes;
 
-    /*
-    *	Upload callback function to be called after an image is done being uploaded
-    *	@var function/closure
-    */
+    /** @var Callable Upload callback function to be called after an image is done being uploaded */
     protected $upload_callback;
 
-    /*
-    *	Arry of additional arguements to be passed into the callback function
-    *	@var array
-    */
+    /*@ @var array Additional arguments to be passed into the callback function */
     protected $upload_callback_args;
 
     /**
      * Instantiates the Multup
+     *
      * @param mixed $file The file array provided by Laravel's Input::file('field_name') or a path to a file
      */
     public function __construct($input, $rules, $path, $random)
@@ -87,22 +67,26 @@ class Multup
 
     /**
      * Static call, Laravel style.
+     *
      * Returns a new Multup object, allowing for chainable calls
+     *
      * @param  string $input name of the file to upload
      * @param  string $rules laravel style validation rules string
      * @param  string $path relative to /public/ to move the images if valid
      * @param  bool $random Whether or not to randomize the filename, the filename will be set to a 32 character string if true
-     * @return Multup
+     * @return static
      */
     public static function open($input, $rules, $path, $random = true)
     {
-        return new Multup($input, $rules, $path, $random);
+        return new static($input, $rules, $path, $random);
     }
 
-    /*
-    *	Set the length of the randomized filename
-    *   @param int $len
-    */
+    /**
+     * Set the length of the randomized filename
+     *
+     * @param int $len
+     * @return $this
+     */
     public function set_length($len)
     {
         $this->random_length = $len;
@@ -110,15 +94,17 @@ class Multup
         return $this;
     }
 
-    /*
-    *	Upload the image
-    *	@return array of results
-    *			each result will be an array() with keys:
-    *			errors array -> empty if saved properly, otherwise $validation->errors object
-    *			path string -> full URL to the file if saved, empty if not saved
-    *			filename string -> name of the saved file or file that could not be uploaded
-    *
-    */
+    /**
+     * Upload the image
+     *
+     * Returns an array of results
+     *    each result will be an array() with keys:
+     *        errors array -> empty if saved properly, otherwise $validation->errors object
+     *        path string -> full URL to the file if saved, empty if not saved
+     *        filename string -> name of the saved file or file that could not be uploaded
+     *
+     * @return array
+     */
     public function upload()
     {
         $this->image = [$this->input => Input::file($this->input)];
@@ -128,22 +114,10 @@ class Multup
 
         return $result;
 
-        if ($image) {
-            $this->image = [
-                $this->input => [
-                    'name'      => $image->getClientOriginalName(),
-                    'type'      => $image->getClientMimeType(),
-                    'tmp_name'  => $image->getFilename(),
-                    'error'     => $image->getError(),
-                    'size'      => $image->getSize(),
-                ]
-            ];
-
-            $result[] = $this->post_upload_process($this->upload_image());
-        }
-
-        return $result;
-
+        // Come back to this if we ever need multi image upload.  I think that this is how
+        // the original code was supposed to work but the current file and image widgets
+        // only support a single file upload.
+        /*
         if (! is_array($images)) {
             $this->image = [$this->input => $images];
 
@@ -167,15 +141,17 @@ class Multup
         }
 
         return $result;
+        */
     }
 
-    /*
-    *	Upload the image
-    */
+    /**
+     * Upload the image
+     *
+     * @return array
+     */
     protected function upload_image()
     {
-
-        /* validate the image */
+        // validate the image
         $validation    = Validator::make($this->image, [$this->input => $this->rules]);
         $errors        = [];
         $original_name = $this->image[$this->input]->getClientOriginalName();
@@ -184,8 +160,10 @@ class Multup
         $resizes       = '';
 
         if ($validation->fails()) {
-            /* use the messages object for the erros */
+
+            // use the messages object for the errors
             $errors = implode('. ', $validation->messages()->all());
+
         } else {
             if ($this->random) {
                 if (is_callable($this->random_cb)) {
@@ -198,7 +176,7 @@ class Multup
                 $filename = $original_name;
             }
 
-            /* upload the file */
+            // upload the file
             $save = $this->image[$this->input]->move($this->path, $filename);
             // $save = Input::upload($this->input, $this->path, $filename);
 
@@ -217,17 +195,22 @@ class Multup
         return compact('errors', 'path', 'filename', 'original_name', 'resizes');
     }
 
-    /*
-    * Default random filename generation
-    */
+    /**
+     * Default random filename generation
+     *
+     * @return string
+     */
     protected function generate_random_filename()
     {
         return Str::random($this->random_length);
     }
 
-    /*
-    * Default random filename generation
-    */
+    /**
+     * Set a random filename generation callback
+     *
+     * @param Callable $func
+     * @return $this
+     */
     public function filename_callback($func)
     {
         if (is_callable($func)) {
@@ -237,10 +220,13 @@ class Multup
         return $this;
     }
 
-    /*
-        Set the callback function to be called after each image is done uploading
-        @var mixed anonymous function or string name of function
-    */
+    /**
+     * Set the callback function to be called after each image is done uploading
+     *
+     * @param Callable $cb
+     * @param string $args
+     * @return $this
+     */
     public function after_upload($cb, $args = '')
     {
         if (is_callable($cb)) {
@@ -252,38 +238,39 @@ class Multup
         return $this;
     }
 
-    /*
-    *	Sets the sizes for resizing the original
-    *  @param array(
-    *		array(
-    *			int $width , int $height , string 'exact, portrait, landscape, auto or crop', string 'path/to/file.jpg' , int $quality
-    *		)
-    *	)
-    *
-    */
+    /**
+     * Sets the sizes for resizing the original
+     *
+     * parameter format
+     * array(
+     *  array(
+     *	 int $width , int $height , string 'exact, portrait, landscape, auto or crop', string 'path/to/file.jpg' , int $quality
+     *	)
+     * )
+     *
+     * @param array $sizes
+     * @return $this
+     */
     public function sizes($sizes)
     {
         $this->image_sizes = $sizes;
         return $this;
     }
 
-    /*
-        Called after an image is successfully uploaded
-        The function will append the vars to the images property
-        If an after_upload function has been defined it will also append a variable to the array
-            named callback_result
-
-        @var array
-            path
-            resize ->this will be empty as the resize has not yet occurred
-            filename -> the name of the successfully uploaded file
-        @return void
-    */
+    /**
+     * Called after an image is successfully uploaded
+     *
+     * If an upload_callback function has been defined it will also append a variable to the array
+     * named callback_result
+     *
+     * @param array $args
+     * @return array
+     */
     protected function post_upload_process($args)
     {
         if (empty($args['errors'])) {
-            /* add the saved image to the images array thing */
 
+            // Call the upload callback if defined
             if (is_callable($this->upload_callback)) {
                 if (! empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
                     $args = array_merge($this->upload_callback_args, $args);

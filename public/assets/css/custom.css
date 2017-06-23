@@ -109,6 +109,7 @@ div.dataTables_wrapper div.dataTables_info {
   font-size: 13px;
   font-weight: 600;
   min-width: 44px;
+  margin-bottom: 5px;
 }
 .btn-success:hover,
 .btn-success:focus,

@@ -26,35 +26,24 @@ class Image extends File
     ];
 
     /**
-     * This static function is used to perform the actual upload and resizing using the Multup class
+     * This function is used to perform the actual upload and resizing using the CustomMultup class
      *
      * @return array
      */
     public function doUpload()
     {
-        // use the multup library to perform the upload
-        $result = Multup::open('file', 'image|max:' . $this->getOption('size_limit') * 1000,
-            $this->getOption('location'),
-            $this->getOption('naming') === 'random')
-            ->sizes($this->getOption('sizes'))
-            ->set_length($this->getOption('length'))
-            ->upload();
-
-        return $result[0];
-    }
-
-    /**
-     * This static function is used to perform the actual upload and resizing using the Multup class
-     *
-     * @return array
-     */
-    public function doUploadRealField()
-    {
-        // use the multup library to perform the upload
-        $result = CustomMultup::open($this->getOption('field_name'),
+        // open parameters:
+        // $input, $rules, $path, $random = true
+        /** @var CustomMultup $multup */
+        $multup = CustomMultup::open(
+            $this->getOption('field_name'),
             null,
             $this->getOption('location'),
-            $this->getOption('naming') === 'random')
+            $this->getOption('naming') === 'random'
+        );
+
+        /** @var array $result */
+        $result = $multup
             ->sizes($this->getOption('sizes'))
             ->set_length($this->getOption('length'))
             ->upload();

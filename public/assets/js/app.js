@@ -11,7 +11,7 @@ angular.module('myApp').directive('select2', function() {
     return {
         link: function(scope, element, attr) {
             jQuery(element[0]).select2({
-                dropdownAutoWidth: 'true',
+                dropdownAutoWidth: true,
                 width: '100%'
             }).on('change', function() {
                 $(this).valid();
@@ -38,7 +38,10 @@ angular.module('myApp').directive('datePicker', function () {
         link: function (scope, elem, attr) {
             jQuery(elem[0]).datepicker({
                 dateFormat: scope.dateFormat,
-                minDate: scope.minDate
+                minDate: scope.minDate,
+                onSelect: function () {
+                    $(this).trigger("keyup");
+                }
             });
         }
     };
@@ -53,7 +56,11 @@ angular.module('myApp').directive('wysiwyg', function() {
                 allowedContent: true,
                 enterMode : CKEDITOR.ENTER_BR,
                 shiftEnterMode: CKEDITOR.ENTER_P,
-                autoParagraph: false
+                autoParagraph: false,
+                filebrowserBrowseUrl: '/browser/browse.php',
+                filebrowserImageUploadUrl: '/uploader/upload.php',
+                extraPlugins: 'uploadimage',
+                uploadUrl: '/uploader/upload.php'
             });
         }
     };

@@ -18,6 +18,7 @@ use Illuminate\View\View;
  * It handle for Dashboard, Utility and Settings pages
  *
  * ### Entry Points
+ *
  * The entry points for each function are documented in the function docblocks.
  * See also `php artisan route:list`.
  */

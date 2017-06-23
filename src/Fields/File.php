@@ -2,7 +2,6 @@
 namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Includes\CustomMultup;
-use DDPro\Admin\Includes\Multup;
 
 class File extends Field
 {
@@ -49,36 +48,29 @@ class File extends Field
     }
 
     /**
-     * This static function is used to perform the actual upload and resizing using the Multup class
+     * This function is used to perform the actual upload using the CustomMultup class
      *
      * @return array
      */
     public function doUpload()
     {
-        $mimes = $this->getOption('mimes') ? '|mimes:' . $this->getOption('mimes') : '';
+        // Come back to this if we ever need MIME type validation
+        // $mimes = $this->getOption('mimes') ? '|mimes:' . $this->getOption('mimes') : '';
+        // $result = Multup::open('file', 'max:' . $this->getOption('size_limit') * 1000 . $mimes,
 
         // use the multup library to perform the upload
-        $result = Multup::open('file', 'max:' . $this->getOption('size_limit') * 1000 . $mimes,
-            $this->getOption('location'),
-            $this->getOption('naming') === 'random')
-            ->set_length($this->getOption('length'))
-            ->upload();
-
-        return $result[0];
-    }
-
-    /**
-     * This static function is used to perform the actual upload and resizing using the Multup class
-     *
-     * @return array
-     */
-    public function doUploadRealField()
-    {
-        // use the multup library to perform the upload
-        $result = CustomMultup::open($this->getOption('field_name'),
+        // open parameters:
+        // $input, $rules, $path, $random = true
+        /** @var CustomMultup $multup */
+        $multup = CustomMultup::open(
+            $this->getOption('field_name'),
             null,
             $this->getOption('location'),
-            $this->getOption('naming') === 'random')
+            $this->getOption('naming') === 'random'
+        );
+
+        /** @var array $result */
+        $result = $multup
             ->set_length($this->getOption('length'))
             ->upload();
 

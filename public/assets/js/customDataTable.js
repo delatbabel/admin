@@ -36,8 +36,8 @@ var DataTableHandle = function () {
                                 var primaryCol = the.getPrimaryKeyCol();
                                 if (primaryCol != null) {
                                     var tmpEditURL = options.editURL + '/' + col[primaryCol];
-                                    var _tmpButtons = "<a style='margin: 0px' class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ";
-                                    _tmpButtons += "<button style='margin: 0px' class='btn btn-xs btn-sd-default' data-id='" + col[primaryCol] + "'>Delete</button>";
+                                    var _tmpButtons = "<a class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ";
+                                    _tmpButtons += "<button class='btn btn-xs btn-sd-default removeBtn' data-id='" + col[primaryCol] + "'>Delete</button>";
                                     return _tmpButtons;
                                 }
                                 else {
@@ -79,7 +79,7 @@ var DataTableHandle = function () {
                 dataTable.draw();
             }
 
-            $table.on('click', 'button.btn-remove', function () {
+            $table.on('click', 'button.removeBtn', function () {
                 if (!window.confirm('Are you sure you want to delete this item? This cannot be reversed.')) {
                     return;
                 }

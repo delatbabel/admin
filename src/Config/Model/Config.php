@@ -372,7 +372,7 @@ class Config extends ConfigBase implements ConfigInterface
         foreach ($fields as $name => $field) {
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
-                    $model->{$name} = $field->doUploadRealField();
+                    $model->{$name} = $field->doUpload();
                 } else {
                     $model->{$name} = $input->get($name . '_original');
                 }

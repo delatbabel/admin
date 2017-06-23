@@ -324,11 +324,13 @@ class AdminServiceProvider extends ServiceProvider
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction',
                 ]);
 
-                // Settings file upload
+                // Settings file upload -- does not exist
+                /*
                 Route::post('settings/{settings}/{field}/file_upload', [
                     'as'   => 'admin_settings_file_upload',
                     'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
                 ]);
+                */
                 });
 
             // The route group for all other requests needs to validate admin, model, and add assets

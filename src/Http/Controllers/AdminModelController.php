@@ -576,6 +576,8 @@ class AdminModelController extends Controller
     /**
      * The POST method that runs when a user uploads a file on a file field
      *
+     * This gets triggered by the admin/{model}/{field}/file_upload route.
+     *
      * @param string $modelName
      * @param string $fieldName
      *
