@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Admin\Libraries\Includes\Resize;
@@ -122,12 +123,18 @@ class Multup
      */
     public function upload()
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Upload handler');
+
         /** @var UploadedFile $file */
         $file = Input::file($this->input);
         $this->image = [$this->input => $file];
         $result      = [];
 
         $result[] = $this->post_upload_process($this->upload_image());
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Upload result', $result);
 
         return $result;
 
@@ -168,6 +175,9 @@ class Multup
      */
     protected function upload_image()
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Upload image with validation');
+
         // validate the image
         $validation    = Validator::make($this->image, [$this->input => $this->rules]);
         $errors        = [];
@@ -177,35 +187,38 @@ class Multup
         $resizes       = '';
 
         if ($validation->fails()) {
-
             // use the messages object for the errors
             $errors = implode('. ', $validation->messages()->all());
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Image validation failed: ' . $errors);
+
+            return compact('errors', 'path', 'filename', 'original_name', 'resizes');
+        }
+
+        if ($this->random) {
+            if (is_callable($this->random_cb)) {
+                $filename =  call_user_func($this->random_cb, $original_name);
+            } else {
+                $ext      = File::extension($original_name);
+                $filename = $this->generate_random_filename() . '.' . $ext;
+            }
         } else {
-            if ($this->random) {
-                if (is_callable($this->random_cb)) {
-                    $filename =  call_user_func($this->random_cb, $original_name);
-                } else {
-                    $ext      = File::extension($original_name);
-                    $filename = $this->generate_random_filename() . '.' . $ext;
-                }
-            } else {
-                $filename = $original_name;
+            $filename = $original_name;
+        }
+
+        // upload the file
+        $save = $this->image[$this->input]->move($this->path, $filename);
+        // $save = Input::upload($this->input, $this->path, $filename);
+
+        if ($save) {
+            $path = $this->path . $filename;
+
+            if (is_array($this->image_sizes)) {
+                $resizer = new Resize();
+                $resizes = $resizer->create($save, $this->path, $filename, $this->image_sizes);
             }
-
-            // upload the file
-            $save = $this->image[$this->input]->move($this->path, $filename);
-            // $save = Input::upload($this->input, $this->path, $filename);
-
-            if ($save) {
-                $path = $this->path . $filename;
-
-                if (is_array($this->image_sizes)) {
-                    $resizer = new Resize();
-                    $resizes = $resizer->create($save, $this->path, $filename, $this->image_sizes);
-                }
-            } else {
-                $errors = 'Could not save image';
-            }
+        } else {
+            $errors = 'Could not save image';
         }
 
         return compact('errors', 'path', 'filename', 'original_name', 'resizes');

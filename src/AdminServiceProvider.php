@@ -287,6 +287,12 @@ class AdminServiceProvider extends ServiceProvider
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload',
             ]);
 
+            // File Upload handler for ckeditor
+            Route::any('file_upload', [
+                'as'   => 'admin_file_upload',
+                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
+            ]);
+
             // Custom Pages
             Route::get('page/{page}', [
                 'as'   => 'admin_page',

@@ -3,13 +3,14 @@
 namespace DDPro\Admin\Http\Controllers;
 
 use DDPro\Admin\Config\Factory as ConfigFactory;
+use DDPro\Admin\Includes\CustomMultup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Session\SessionManager as Session;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Log;
 
 /**
  * DDPro Admin Controller
@@ -118,6 +119,45 @@ class AdminController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    /**
+     * The POST method that runs when a user needs to upload a file
+     *
+     * This is normally triggered using drag and drop or copy and paste uploads from
+     * within the wysiwyg editor (ckeditor).
+     *
+     * * **route method**: GET/POST
+     * * **route name**: admin_file_upload
+     * * **route URL**: admin/file_upload
+     *
+     * @return Response
+     * @link http://docs.ckeditor.com/#!/guide/dev_file_upload
+     * @link http://ckeditor.com/addon/uploadimage
+     */
+    public function fileUpload()
+    {
+        // in CKEditor the file is sent as 'upload'
+        $multup = CustomMultup::open(
+            'upload',
+            null,
+            'editor',
+            true
+        );
+
+        /** @var array $result */
+        $result = $multup->upload();
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Upload image result: ' . print_r($result, true));
+
+        // Assemble the response needed by ckeditor
+        $response = [
+            'uploaded'      => 1,
+            'fileName'      => $result[0],
+            // FIXME: Need a helper to get the actual URL
+            'url'           => $result[0],
+        ];
+        return response()->json($response);
     }
 
     /**

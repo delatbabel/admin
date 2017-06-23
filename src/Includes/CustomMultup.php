@@ -4,6 +4,7 @@ namespace DDPro\Admin\Includes;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -16,6 +17,9 @@ class CustomMultup extends Multup
 {
     protected function upload_image()
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Upload image with no validation');
+
         /** @var UploadedFile $file */
         $file = $this->image[$this->input];
 
@@ -31,10 +35,15 @@ class CustomMultup extends Multup
             $filename = $original_name;
         }
 
+        $fullPath = $this->path . $filename;
+
         // Upload the file
-        $save = Storage::put($this->path . $filename, file_get_contents($file), 'public');
+        $save = Storage::put($fullPath, file_get_contents($file), 'public');
 
         if (! $save) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Storage put failed');
+
             abort(500, 'Could not save image');
         }
 
@@ -54,6 +63,8 @@ class CustomMultup extends Multup
         }
         */
 
-        return $this->path . $filename;
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Storage put succeeded, path = ' . $fullPath);
+        return $fullPath;
     }
 }

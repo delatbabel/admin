@@ -11,6 +11,7 @@ use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
 use DDPro\Admin\Fields\Relationships\BelongsToMany;
 use DDPro\Admin\Http\Controllers\AdminModelController;
+use Log;
 
 /**
  * Model Config class.
@@ -336,6 +337,9 @@ class Config extends ConfigBase implements ConfigInterface
      */
     public function save(\Illuminate\Http\Request $input, array $fields, array $actionPermissions = null, $id = 0)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Saving data', $input->all());
+
         $model = $this->getDataModel()->find($id);
 
         // fetch the proper model so we don't have to deal with any extra attributes
@@ -372,7 +376,10 @@ class Config extends ConfigBase implements ConfigInterface
         foreach ($fields as $name => $field) {
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
-                    $model->{$name} = $field->doUpload();
+                    $result = $field->doUpload();
+                    Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                        'Upload image result: ' . print_r($result, true));
+                    $model->{$name} = $result;
                 } else {
                     $model->{$name} = $input->get($name . '_original');
                 }

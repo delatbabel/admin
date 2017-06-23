@@ -58,9 +58,9 @@ angular.module('myApp').directive('wysiwyg', function() {
                 shiftEnterMode: CKEDITOR.ENTER_P,
                 autoParagraph: false,
                 filebrowserBrowseUrl: '/browser/browse.php',
-                filebrowserImageUploadUrl: '/uploader/upload.php',
+                filebrowserImageUploadUrl: '/admin/file_upload',
                 extraPlugins: 'uploadimage',
-                uploadUrl: '/uploader/upload.php'
+                uploadUrl: '/admin/file_upload'
             });
         }
     };
