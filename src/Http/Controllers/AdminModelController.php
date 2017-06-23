@@ -190,7 +190,7 @@ class AdminModelController extends Controller
 
         // Process to save addresses
         $savedAddresses = [];
-        $isNew = false;
+        $isNew          = false;
 
         // Loop though each address group
         foreach ($this->getAddressGroups() as $groupName => $groupFields) {
@@ -206,7 +206,7 @@ class AdminModelController extends Controller
                 unset($fields[$key]);
 
                 // If any address input is not empty, then set the process flag to true
-                if (!empty($value)) {
+                if (! empty($value)) {
                     $process = true;
                 }
             }
@@ -223,15 +223,15 @@ class AdminModelController extends Controller
                 }
 
                 // If old address doesn't exist at this point, create a new one
-                if (!isset($address) || !$address) {
-                    $isNew = true;
+                if (! isset($address) || ! $address) {
+                    $isNew   = true;
                     $address = new Address();
                 }
 
                 // Store address fields in address table
-                $address->street = $addressInputs[0];
-                $address->suburb = $addressInputs[1];
-                $address->state_code = $addressInputs[2];
+                $address->street      = $addressInputs[0];
+                $address->suburb      = $addressInputs[1];
+                $address->state_code  = $addressInputs[2];
                 $address->postal_code = $addressInputs[3];
                 $address->save();
 
@@ -260,7 +260,7 @@ class AdminModelController extends Controller
         }
 
         // Store reference to new address in address table
-        if (!empty($savedAddresses)) {
+        if (! empty($savedAddresses)) {
 
             // Not sure why I cannot use $model->save() with the above $model object, so I have to load it here
             $model = $config->getDataModel()->find($id);

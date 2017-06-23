@@ -163,7 +163,6 @@ class Multup
 
             // use the messages object for the errors
             $errors = implode('. ', $validation->messages()->all());
-
         } else {
             if ($this->random) {
                 if (is_callable($this->random_cb)) {
