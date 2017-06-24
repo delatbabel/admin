@@ -8,7 +8,6 @@
 namespace DDPro\Admin\Includes;
 
 use Aws\S3\S3Client;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
@@ -88,7 +87,8 @@ class ImageHelper
 
                 /** @var S3Client $client */
                 $client = $adapter->getClient();
-                $url    = $client->getObjectUrl(Config::get('filesystems.disks.s3.bucket'), $path);
+                $bucket = config('filesystems.disks.s3.bucket');
+                $url    = $client->getObjectUrl($bucket, $path);
                 #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 #    'URL = ' . $url);
                 return $url;
