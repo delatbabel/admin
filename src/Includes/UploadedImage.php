@@ -25,8 +25,9 @@ namespace DDPro\Admin\Includes;
 class UploadedImage extends Entity
 {
     protected $default_attributes = [
-        'errors'        => [],
+        'errors'        => '',
         'path'          => '',
+        'url'           => '',
         'filename'      => '',
         'original_name' => '',
         'resizes'       => [],
@@ -41,9 +42,6 @@ class UploadedImage extends Entity
     {
         $errors = $this->get('errors');
         if (empty($errors)) {
-            return true;
-        }
-        if (count($errors) == 0) {
             return true;
         }
         return false;

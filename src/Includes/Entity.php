@@ -41,4 +41,16 @@ class Entity extends Fluent
         }
         parent::__construct($attributes);
     }
+
+    /**
+     * Merge new attributes into the current set.
+     *
+     * @param array $attributes
+     * @return Entity provides a fluent interface
+     */
+    public function merge($attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+        return $this;
+    }
 }

@@ -11,6 +11,7 @@ use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
 use DDPro\Admin\Fields\Relationships\BelongsToMany;
 use DDPro\Admin\Http\Controllers\AdminModelController;
+use DDPro\Admin\Includes\UploadedImage;
 use Log;
 
 /**
@@ -377,13 +378,11 @@ class Config extends ConfigBase implements ConfigInterface
             if (get_class($field) == File::class || get_class($field) == Image::class) {
                 if ($input->hasFile($name)) {
 
-                    // FIXME: The upload_image() function in CustomMultup is currently broken and
-                    // returns a string rather than an array, and that needs to be fixed.  $result
-                    // here should be an array.
+                    /** @var UploadedImage $result */
                     $result = $field->doUpload();
                     Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                         'Upload image result: ' . print_r($result, true));
-                    $model->{$name} = $result;
+                    $model->{$name} = $result->path;
                 } else {
                     $model->{$name} = $input->get($name . '_original');
                 }

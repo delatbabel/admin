@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Includes\CustomMultup;
+use DDPro\Admin\Includes\UploadedImage;
 
 class File extends Field
 {
@@ -50,7 +51,7 @@ class File extends Field
     /**
      * This function is used to perform the actual upload using the CustomMultup class
      *
-     * @return array
+     * @return UploadedImage
      */
     public function doUpload()
     {
@@ -69,7 +70,7 @@ class File extends Field
             $this->getOption('naming') === 'random'
         );
 
-        /** @var array $result */
+        /** @var array of UploadedImage $result */
         $result = $multup
             ->set_length($this->getOption('length'))
             ->upload();

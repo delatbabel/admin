@@ -3,6 +3,7 @@ namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Includes\CustomMultup;
 use DDPro\Admin\Includes\Multup;
+use DDPro\Admin\Includes\UploadedImage;
 
 class Image extends File
 {
@@ -28,7 +29,7 @@ class Image extends File
     /**
      * This function is used to perform the actual upload and resizing using the CustomMultup class
      *
-     * @return array
+     * @return UploadedImage
      */
     public function doUpload()
     {
@@ -42,15 +43,12 @@ class Image extends File
             $this->getOption('naming') === 'random'
         );
 
-        /** @var array $result */
+        /** @var array of UploadedImage $result */
         $result = $multup
             ->sizes($this->getOption('sizes'))
             ->set_length($this->getOption('length'))
             ->upload();
 
-        // FIXME: The upload_image() function in CustomMultup is currently broken and
-        // returns a string rather than an array, and that needs to be fixed.  $result[0]
-        // here should be an array.
         return $result[0];
     }
 

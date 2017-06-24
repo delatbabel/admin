@@ -4,6 +4,7 @@ namespace DDPro\Admin\Http\Controllers;
 
 use DDPro\Admin\Config\Factory as ConfigFactory;
 use DDPro\Admin\Includes\CustomMultup;
+use DDPro\Admin\Includes\UploadedImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -138,6 +139,7 @@ class AdminController extends Controller
     public function fileUpload()
     {
         // in CKEditor the file is sent as 'upload'
+        /** @var CustomMultup $multup */
         $multup = CustomMultup::open(
             'upload',
             null,
@@ -150,12 +152,14 @@ class AdminController extends Controller
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'Upload image result: ' . print_r($result, true));
 
+        /** @var UploadedImage $upload */
+        $upload = $result[0];
+
         // Assemble the response needed by ckeditor
         $response = [
             'uploaded'      => 1,
-            'fileName'      => $result[0],
-            // FIXME: Need a helper to get the actual URL
-            'url'           => $result[0],
+            'fileName'      => $upload->filename,
+            'url'           => $upload->url,
         ];
         return response()->json($response);
     }

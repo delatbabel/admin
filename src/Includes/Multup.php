@@ -114,10 +114,13 @@ class Multup
      * Upload the image
      *
      * Returns an array of results
-     *    each result will be an array() with keys:
-     *        errors array -> empty if saved properly, otherwise $validation->errors object
-     *        path string -> full URL to the file if saved, empty if not saved
-     *        filename string -> name of the saved file or file that could not be uploaded
+     *     each result will be an UploadedImage with keys:
+     *         errors
+     *         path
+     *         url
+     *         filename
+     *         original_name
+     *         resizes
      *
      * @return array
      */
@@ -174,9 +177,10 @@ class Multup
      * Returns an entity with keys:
      *     errors
      *     path
+     *     url
      *     filename
      *     original_name
-     *     resizes
+     *     resizes (array)
      *
      * @return UploadedImage
      */
@@ -187,11 +191,12 @@ class Multup
 
         // validate the image
         $validation    = Validator::make($this->image, [$this->input => $this->rules]);
-        $errors        = [];
+        $errors        = '';
         $original_name = $this->image[$this->input]->getClientOriginalName();
         $path          = '';
+        $url           = '';
         $filename      = '';
-        $resizes       = '';
+        $resizes       = [];
 
         if ($validation->fails()) {
             // use the messages object for the errors
@@ -199,7 +204,13 @@ class Multup
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'Image validation failed: ' . $errors);
 
-            return compact('errors', 'path', 'filename', 'original_name', 'resizes');
+            return new UploadedImage([
+                'errors'            => $errors,
+                'path'              => $path,
+                'filename'          => $filename,
+                'original_name'     => $original_name,
+                'resizes'           => $resizes,
+            ]);
         }
 
         if ($this->random) {
@@ -219,6 +230,7 @@ class Multup
 
         if ($save) {
             $path = $this->path . $filename;
+            $url  = ImageHelper::getImageUrl($path);
 
             if (is_array($this->image_sizes)) {
                 $resizer = new Resize();
@@ -231,6 +243,7 @@ class Multup
         return new UploadedImage([
             'errors'            => $errors,
             'path'              => $path,
+            'url'               => $url,
             'filename'          => $filename,
             'original_name'     => $original_name,
             'resizes'           => $resizes,
@@ -305,20 +318,20 @@ class Multup
      * If an upload_callback function has been defined it will also append a variable to the array
      * named callback_result
      *
-     * @param array $args
-     * @return array
+     * @param UploadedImage $args
+     * @return UploadedImage
      */
     protected function post_upload_process($args)
     {
-        if (empty($args['errors'])) {
+        if ($args->isSuccessful()) {
 
             // Call the upload callback if defined
             if (is_callable($this->upload_callback)) {
                 if (! empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
-                    $args = array_merge($this->upload_callback_args, $args);
+                    $args->merge($this->upload_callback_args);
                 }
 
-                $args['callback_result']  = call_user_func($this->upload_callback, $args);
+                $args->callback_result  = call_user_func($this->upload_callback, $args->toArray());
             }
         }
 

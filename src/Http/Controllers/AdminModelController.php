@@ -4,6 +4,7 @@ namespace DDPro\Admin\Http\Controllers;
 
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
+use DDPro\Admin\Includes\UploadedImage;
 use Delatbabel\Contacts\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -596,12 +597,15 @@ class AdminModelController extends Controller
             'File upload triggered for ' . $fieldName);
 
         $fieldFactory = app('admin_field_factory');
+
         // get the model and the field object
         $field = $fieldFactory->findField($fieldName);
 
-        // FIXME: The upload_image() function in CustomMultup is currently broken and
-        // returns a string rather than an array, and that needs to be fixed.
-        return response()->json($field->doUpload());
+        // Do the upload
+        /** @var UploadedImage $upload */
+        $upload = $field->doUpload();
+
+        return response()->json($upload->path);
     }
 
     /**

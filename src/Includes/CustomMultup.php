@@ -18,22 +18,28 @@ class CustomMultup extends Multup
     /**
      * Upload the image
      *
-     * Returns an array with keys:
+     * Returns an UploadedImage with keys:
      *     errors
      *     path
+     *     url
      *     filename
      *     original_name
      *     resizes
      *
-     * Note that it doesn't currently do that, it currently returns a string but it's
-     * broken and needs to be fixed.
+     * Note:  Callers to this function may previously have expected a string, not an object.
      *
-     * @return array
+     * @return UploadedImage
      */
     protected function upload_image()
     {
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'Upload image with no validation');
+
+        $errors        = '';
+        $path          = '';
+        $url           = '';
+        $filename      = '';
+        $resizes       = [];
 
         /** @var UploadedFile $file */
         $file = $this->image[$this->input];
@@ -50,17 +56,27 @@ class CustomMultup extends Multup
             $filename = $original_name;
         }
 
-        $fullPath = $this->path . $filename;
+        $path = $this->path . $filename;
 
         // Upload the file
-        $save = Storage::put($fullPath, file_get_contents($file), 'public');
+        $save = Storage::put($path, file_get_contents($file), 'public');
 
         if (! $save) {
+            $errors = 'Storage put failed';
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'Storage put failed');
+                $errors);
 
-            abort(500, 'Could not save image');
+            return new UploadedImage([
+                'errors'            => $errors,
+                'path'              => $path,
+                'url'               => $url,
+                'filename'          => $filename,
+                'original_name'     => $original_name,
+                'resizes'           => $resizes,
+            ]);
         }
+
+        $url  = ImageHelper::getImageUrl($path);
 
         // Come back to this if we ever need resizing.
         // Do resize here
@@ -79,7 +95,15 @@ class CustomMultup extends Multup
         */
 
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'Storage put succeeded, path = ' . $fullPath);
-        return $fullPath;
+            'Storage put succeeded, path = ' . $path . ', url = ' . $url);
+
+        return new UploadedImage([
+            'errors'            => $errors,
+            'path'              => $path,
+            'url'               => $url,
+            'filename'          => $filename,
+            'original_name'     => $original_name,
+            'resizes'           => $resizes,
+        ]);
     }
 }
