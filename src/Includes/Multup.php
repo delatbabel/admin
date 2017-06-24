@@ -171,14 +171,14 @@ class Multup
     /**
      * Upload the image
      *
-     * Returns an array with keys:
+     * Returns an entity with keys:
      *     errors
      *     path
      *     filename
      *     original_name
      *     resizes
      *
-     * @return array
+     * @return UploadedImage
      */
     protected function upload_image()
     {
@@ -228,7 +228,13 @@ class Multup
             $errors = 'Could not save image';
         }
 
-        return compact('errors', 'path', 'filename', 'original_name', 'resizes');
+        return new UploadedImage([
+            'errors'            => $errors,
+            'path'              => $path,
+            'filename'          => $filename,
+            'original_name'     => $original_name,
+            'resizes'           => $resizes,
+        ]);
     }
 
     /**
