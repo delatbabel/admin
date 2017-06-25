@@ -57,7 +57,7 @@ angular.module('myApp').directive('wysiwyg', function() {
                 enterMode : CKEDITOR.ENTER_BR,
                 shiftEnterMode: CKEDITOR.ENTER_P,
                 autoParagraph: false,
-                filebrowserBrowseUrl: '/browser/browse.php',
+                filebrowserBrowseUrl: '/sysadmin/files/ckeditor',
                 filebrowserImageUploadUrl: '/admin/file_upload',
                 extraPlugins: 'uploadimage',
                 uploadUrl: '/admin/file_upload'
