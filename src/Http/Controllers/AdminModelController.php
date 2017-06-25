@@ -253,7 +253,7 @@ class AdminModelController extends Controller
         // Get the saved model back from the config, which will contain
         // an updated ID
         $model = $config->getDataModel();
-        $id = $model->getKey();
+        $id    = $model->getKey();
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'Saved model with ID = ' . $id);
 
