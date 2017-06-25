@@ -19,14 +19,13 @@ use Log;
  * Provides various functions including getting the raw data of an image or getting
  * the URL of an image when it is stored on cloud (AWS S3) storage.
  *
- * <h4>Example</h4>
+ * ### Example
  *
  * <code>
- *   // Example code goes here
+ * $image_path = ImageHelper::getImageUrl('path/to/stored/image.jpg');
  * </code>
  *
- * @see  ...
- * @link ...
+ * @link https://stackoverflow.com/questions/25323753/laravel-league-flysystem-getting-file-url-with-aws-s3
  */
 class ImageHelper
 {
@@ -95,7 +94,7 @@ class ImageHelper
                 break;
 
             case 'local':
-                return static::getRawImage($path);
+                return config('url') . '/' . $path;
                 break;
 
             default:
