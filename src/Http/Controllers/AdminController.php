@@ -143,7 +143,7 @@ class AdminController extends Controller
         $multup = CustomMultup::open(
             'upload',
             null,
-            'editor',
+            'editor/',
             true
         );
 

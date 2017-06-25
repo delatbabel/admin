@@ -70,7 +70,7 @@ class Multup
      *
      * @param  string $input name of the file to upload
      * @param  string $rules laravel style validation rules string
-     * @param  string $path path to move the images if valid
+     * @param  string $path path to move the images if valid. Must have a trailing slash (/).
      * @param  bool $random Whether or not to randomize the filename, the filename will be set to a 32 character string if true
      */
     public function __construct($input, $rules, $path, $random)
@@ -88,7 +88,7 @@ class Multup
      *
      * @param  string $input name of the file to upload
      * @param  string $rules laravel style validation rules string
-     * @param  string $path path to move the images if valid
+     * @param  string $path path to move the images if valid. Must have a trailing slash (/).
      * @param  bool $random Whether or not to randomize the filename, the filename will be set to a 32 character string if true
      * @return static
      */
