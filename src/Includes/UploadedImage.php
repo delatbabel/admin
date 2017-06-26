@@ -7,6 +7,8 @@
 
 namespace DDPro\Admin\Includes;
 
+use Delatbabel\Fluents\Entity;
+
 /**
  * Class UploadedImage
  *
