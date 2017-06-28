@@ -20,6 +20,7 @@
     "bootstrap-colorpicker": "^2.3.6",
     "chosen": "^1.6.2",
     "awesome-bootstrap-checkbox": "^0.3.7",
-    "AdminLTE": "admin-lte#^2.3.8"
+    "AdminLTE": "admin-lte#^2.3.8",
+    "selectize": "^0.12.4"
   }
 }
