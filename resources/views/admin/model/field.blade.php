@@ -157,6 +157,23 @@
     }
     ?>
     {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'select2' => '']) !!}
+@elseif($type == 'selectize')
+    <?php
+    $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
+    foreach ($arrCol['options'] as $tmpSubArr) {
+        $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
+    }
+    $tmpDefault = null;
+    if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
+        $tmpDefault = $arrCol['default'];
+    }
+
+    // Check for option "persist"
+    if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['persist']) && $arrCol['persist']) {
+        $tmpDefault = session('persist__' . $name);
+    }
+    ?>
+    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'selectize' => '']) !!}
 @elseif($type == 'belongs_to_many')
     <?php
     if (old($id)) {

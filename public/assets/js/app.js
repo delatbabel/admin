@@ -65,3 +65,16 @@ angular.module('myApp').directive('wysiwyg', function() {
         }
     };
 });
+
+angular.module('myApp').directive('selectize', function() {
+    return {
+        link: function(scope, element, attr) {
+            jQuery(element[0]).selectize({
+                create: true,
+                sortField: 'text'
+            }).on('change', function() {
+                $(this).valid();
+            });
+        }
+    };
+});

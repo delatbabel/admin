@@ -63,7 +63,7 @@ class AdminModelController extends Controller
      *
      * This function defines the real model to apparent model data mapping for
      * addresses.  In the example shown, the model address_id field is mapped
-     * to and from the data accessor's street, suburb, state_code, and postal_code
+     * to and from the data accessor's street, suburb, postal_code, state_code, and country_code
      * fields.
      *
      * @return array
@@ -134,8 +134,9 @@ class AdminModelController extends Controller
                 if ($address = $model->{$groupName}) {
                     $model->{$groupFields[0]} = $address->street;
                     $model->{$groupFields[1]} = $address->suburb;
-                    $model->{$groupFields[2]} = $address->state_code;
-                    $model->{$groupFields[3]} = $address->postal_code;
+                    $model->{$groupFields[2]} = $address->postal_code;
+                    $model->{$groupFields[3]} = $address->state_code;
+                    $model->{$groupFields[4]} = $address->country_code;
                 }
             }
         }
@@ -189,8 +190,9 @@ class AdminModelController extends Controller
         // Get all fields in config
         $fields = $fieldFactory->getEditFields();
 
-        // Process to save addresses
+        // Process to save/remove addresses
         $savedAddresses = [];
+        $removedAddresses = [];
         $isNew          = false;
 
         // Loop though each address group
@@ -230,16 +232,19 @@ class AdminModelController extends Controller
                 }
 
                 // Store address fields in address table
-                $address->street      = $addressInputs[0];
-                $address->suburb      = $addressInputs[1];
-                $address->state_code  = $addressInputs[2];
-                $address->postal_code = $addressInputs[3];
+                $address->street        = $addressInputs[0];
+                $address->suburb        = $addressInputs[1];
+                $address->postal_code   = $addressInputs[2];
+                $address->state_code    = $addressInputs[3];
+                $address->country_code  = $addressInputs[4];
                 $address->save();
 
                 // Add new address id to an array for later use
                 if ($isNew) {
                     $savedAddresses[$groupName] = $address->id;
                 }
+            } else { // Add this group to and array for later use
+                $removedAddresses[] = $groupName;
             }
         }
 
@@ -257,12 +262,18 @@ class AdminModelController extends Controller
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'Saved model with ID = ' . $id);
 
-        // Store reference to new address in address table
+        // Store reference to new addresses in address table
         if (! empty($savedAddresses)) {
             foreach ($savedAddresses as $key => $value) {
                 $model->{$key . '_id'} = $value;
             }
             $model->save();
+        }
+        // Delete old addresses and remove reference to them
+        if (! empty($removedAddresses)) {
+            foreach ($removedAddresses as $removedAddress) {
+                $model->{$removedAddress}->forceDelete();
+            }
         }
 
         // override the config options so that we can get the latest

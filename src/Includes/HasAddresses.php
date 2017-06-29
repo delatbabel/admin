@@ -38,7 +38,7 @@ trait HasAddresses
     protected function getAddressGroups()
     {
         return [
-            'address' => ['street', 'suburb', 'state_code', 'postal_code'],
+            'address' => ['street', 'suburb', 'postal_code', 'state_code', 'country_code'],
         ];
     }
 }
