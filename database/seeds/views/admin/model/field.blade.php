@@ -163,6 +163,9 @@
     foreach ($arrCol['options'] as $tmpSubArr) {
         $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
     }
+    if (isset($model->{$name}) && !in_array($model->{$name}, $tmpArr)) {
+        $tmpArr[$model->{$name}] = $model->{$name};
+    }
     $tmpDefault = null;
     if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
         $tmpDefault = $arrCol['default'];
