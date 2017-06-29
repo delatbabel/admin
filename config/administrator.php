@@ -242,6 +242,7 @@ return [
                 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
                 'AdminLTE/dist/js/app.min.js',
                 'pnotify/pnotify.custom.min.js',
+                'selectize/dist/js/standalone/selectize.min.js',
             ],
             'base'  => [
                 'assets/js/customDataTable.js',
@@ -250,7 +251,6 @@ return [
                 'assets/js/angular.min.js',
                 'assets/js/app.js',
                 'assets/js/util.js',
-                'assets/js/selectize.min.js',
             ],
         ],
     ],
