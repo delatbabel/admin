@@ -191,9 +191,9 @@ class AdminModelController extends Controller
         $fields = $fieldFactory->getEditFields();
 
         // Process to save/remove addresses
-        $savedAddresses = [];
+        $savedAddresses   = [];
         $removedAddresses = [];
-        $isNew          = false;
+        $isNew            = false;
 
         // Loop though each address group
         foreach ($this->getAddressGroups() as $groupName => $groupFields) {
