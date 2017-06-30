@@ -269,10 +269,15 @@ class AdminModelController extends Controller
             }
             $model->save();
         }
+
         // Delete old addresses and remove reference to them
         if (! empty($removedAddresses)) {
             foreach ($removedAddresses as $removedAddress) {
-                $model->{$removedAddress}->forceDelete();
+                /** @var Address $addressToRemove */
+                $addressToRemove = $model->{$removedAddress};
+                if (! empty($addressToRemove)) {
+                    $addressToRemove->forceDelete();
+                }
             }
         }
 
