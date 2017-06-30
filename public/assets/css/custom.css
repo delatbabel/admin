@@ -130,3 +130,13 @@ div.dataTables_wrapper div.dataTables_info {
   max-width: 125px;
   max-height: 125px;
 }
+.has-error .selectize-input {
+  border-color: #a94442;
+  box-shadow: none;
+  border-radius: 4px;
+}
+.has-success .selectize-input {
+  border-color: #3c763d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+}

@@ -9,11 +9,28 @@ angular.module('myApp', [], function($interpolateProvider) {
 
 angular.module('myApp').directive('select2', function() {
     return {
+        scope: {
+            theme: "@",
+            multiple: "@",
+            maxSelectionLength: "@"
+        },
         link: function(scope, element, attr) {
-            jQuery(element[0]).select2({
-                dropdownAutoWidth: true,
-                width: '100%'
-            }).on('change', function() {
+            var configObj;
+            if (scope.multiple) {
+                configObj = {
+                    theme: scope.theme || "bootstrap",
+                    maximumSelectionLength: scope.maxSelectionLength
+                }
+            } else {
+                configObj = {
+                    theme: scope.theme || "default single",
+                    dropdownAutoWidth: true,
+                    width: '100%'
+                };
+            }
+            jQuery(element[0])
+            .select2(configObj)
+            .on('change', function() {
                 $(this).valid();
             });
         }
