@@ -43,8 +43,16 @@
     </script>
 @endsection
 @elseif($type == 'json')
-    <?php $tmpValue = is_array($value) && !empty($value) ? json_encode($value) : null; ?>
-    <?php $tmpValue = old($name, $tmpValue); ?>
+<?php
+if (is_array($value)) {
+    $tmpValue = json_encode($value);
+} elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
+    $tmpValue = json_encode($value->toArray());
+} else {
+    $tmpValue = json_encode([]);
+}
+$tmpValue = old($name, $tmpValue);
+?>
     {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
     <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
 @section('javascript')
@@ -53,7 +61,7 @@
         $(function () {
             var jsonString{{$id}} = {!! $tmpValue ?: 'null'!!};
             var editorJSON{{$id}} = new JSONEditor(document.getElementById("jsoneditor{{$id}}"), {
-                mode: 'view',
+                mode: 'tree',
                 modes: ['code', 'form', 'text', 'tree', 'view'],
                 onChange: function () {
                     var tmpJSON = editorJSON{{$id}}.get();
@@ -140,9 +148,12 @@
         </div>
         <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
     </div>
-@elseif($type == 'enum' || $type == 'belongs_to')
+@elseif($type == 'enum' || $type == 'enum_multiple' || $type == 'belongs_to')
     <?php
-    $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
+    $tmpArr = [];
+    if ($type != 'enum_multiple') {
+        $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
+    }
     foreach ($arrCol['options'] as $tmpSubArr) {
         $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
     }
@@ -155,8 +166,13 @@
     if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['persist']) && $arrCol['persist']) {
         $tmpDefault = session('persist__' . $name);
     }
+    // Attributes
+    $attributes = ['class'=> $defaultClass, 'id'=>$id, 'select2' => ''];
+    if ($type == 'enum_multiple') {
+        $attributes = $attributes + ['multiple' => 'multiple'];
+    }
     ?>
-    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'select2' => '']) !!}
+    {!! Form::select($name, $tmpArr, $tmpDefault, $attributes) !!}
 @elseif($type == 'selectize')
     <?php
     $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];

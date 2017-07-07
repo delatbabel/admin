@@ -50,6 +50,7 @@ class Factory
         'number'    => 'DDPro\\Admin\\Fields\\Number',
         'bool'      => 'DDPro\\Admin\\Fields\\Boolean',
         'enum'      => 'DDPro\\Admin\\Fields\\Enum',
+        'enum_multiple' => 'DDPro\\Admin\\Fields\\Enum',
         'selectize' => 'DDPro\\Admin\\Fields\\Selectize',
         'image'     => 'DDPro\\Admin\\Fields\\Image',
         'file'      => 'DDPro\\Admin\\Fields\\File',
