@@ -6,6 +6,8 @@
     @endif
 @elseif($type == 'text')
     {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+@elseif($type == 'hidden')
+    {!! Form::hidden($name, $arrCol['value'], ['id'=>$id]) !!}
 @elseif($type == 'password')
     {!! Form::password($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'color')
@@ -148,12 +150,9 @@ $tmpValue = old($name, $tmpValue);
         </div>
         <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
     </div>
-@elseif($type == 'enum' || $type == 'enum_multiple' || $type == 'belongs_to')
+@elseif($type == 'enum' || $type == 'belongs_to')
     <?php
-    $tmpArr = [];
-    if ($type != 'enum_multiple') {
-        $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
-    }
+    $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
     foreach ($arrCol['options'] as $tmpSubArr) {
         $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
     }
@@ -166,13 +165,8 @@ $tmpValue = old($name, $tmpValue);
     if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['persist']) && $arrCol['persist']) {
         $tmpDefault = session('persist__' . $name);
     }
-    // Attributes
-    $attributes = ['class'=> $defaultClass, 'id'=>$id, 'select2' => ''];
-    if ($type == 'enum_multiple') {
-        $attributes = $attributes + ['multiple' => 'multiple'];
-    }
     ?>
-    {!! Form::select($name, $tmpArr, $tmpDefault, $attributes) !!}
+    {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'select2' => '']) !!}
 @elseif($type == 'selectize')
     <?php
     $tmpArr = ['' => $flagFilter ? 'All' : 'Select'];
@@ -193,7 +187,7 @@ $tmpValue = old($name, $tmpValue);
     }
     ?>
     {!! Form::select($name, $tmpArr, $tmpDefault, ['class'=> $defaultClass, 'id'=>$id, 'selectize' => '']) !!}
-@elseif($type == 'belongs_to_many')
+@elseif($type == 'belongs_to_many' || $type == 'enum_multiple')
     <?php
     if (old($id)) {
         $value = old($id);

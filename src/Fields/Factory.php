@@ -37,6 +37,7 @@ class Factory
     protected $fieldTypes = [
         'key'       => 'DDPro\\Admin\\Fields\\Key',
         'text'      => 'DDPro\\Admin\\Fields\\Text',
+        'hidden'    => 'DDPro\\Admin\\Fields\\Hidden',
         'textarea'  => 'DDPro\\Admin\\Fields\\Text',
         'wysiwyg'   => 'DDPro\\Admin\\Fields\\Text',
         'markdown'  => 'DDPro\\Admin\\Fields\\Text',
