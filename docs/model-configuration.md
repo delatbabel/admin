@@ -22,6 +22,7 @@
     - [Sort](#sort)
     - [Form Width](#form-width)
     - [Link](#link)
+    - [Custom Controller](#custom-controller)
 
 <a name="introduction"></a>
 ## Introduction
@@ -406,3 +407,34 @@ If you set this to any integer value above 285, it will expand the edit field an
     },
 
 If your model has a front-end link, you might want to have a "view item" link at the top of the edit form that pops out to that page. The relevant `$model` is passed into the function so that you can use it to construct the URL. You should return a valid URL string.
+
+<a name="custom-controller"></a>
+## Custom Controller
+
+    /**
+     * The name of a custom controller for this model
+     *
+     * @type string
+     */
+    'controller_handler' => \App\Http\Controllers\MyCustomController::class,
+
+Normally the controller for a model is DDPro\Admin\Http\Controllers\AdminModelController however with this
+option you can set the controller to any class that extends that class.
+
+The class contains a few functions that are relevant:
+
+    public function item($modelName, $itemId = 0) {}
+
+This function should return the view containing the item data populated into the view ready for
+editing.  If $itemId is 0 then this is a new item being created.  This can be used for something
+as simple as providing a custom form for the model.
+
+    public function save($modelName, $id = null) {}
+
+This function is the save handler.  It should update or create the model depending on the value of
+$id (null to create).  It should return as follows:
+
+    return redirect()->route('admin_index', [$modelName]);
+
+There are other functions in the `AdminModelController` class that can be over-ridden, please read
+through the class for further details.
