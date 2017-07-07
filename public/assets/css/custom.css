@@ -69,7 +69,13 @@ div.dataTables_wrapper div.dataTables_info {
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 20px;
 }
-
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  padding-left: 0;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  padding-left: 12px;
+  padding-right: 12px;
+}
 .selectContainer .form-control-feedback {
     right: 25px !important;
     top: -2px;
