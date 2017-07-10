@@ -11,6 +11,8 @@ use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
 use DDPro\Admin\Fields\Relationships\BelongsToMany;
 use DDPro\Admin\Http\Controllers\AdminModelController;
+use DDPro\Admin\Includes\FileHelper;
+use DDPro\Admin\Includes\ImageHelper;
 use DDPro\Admin\Includes\UploadedImage;
 use Log;
 
@@ -189,14 +191,14 @@ class Config extends ConfigBase implements ConfigInterface
             if ($field->getOption('relationship')) {
                 $this->setModelRelationship($model, $field);
             } elseif ($field->getOption('type') == 'image') {
-                if ($file_name = $model->getAttribute($name)) {
-                    $disk    = config('filesystems.default');
-                    $storage = \Storage::disk($disk);
-                    if ($storage->has($file_name)) {
-                        $mime_type = $storage->mimeType($file_name);
-                        $row_image = "data:$mime_type;base64," . base64_encode($storage->get($file_name));
-                        $model->setAttribute($name . '_preview', $row_image);
-                    }
+                if ($path = $model->getAttribute($name)) {
+                    $real_path = ImageHelper::getImageUrl($path);
+                    $model->setAttribute($name . '_preview', $real_path);
+                }
+            } elseif ($field->getOption('type') == 'file') {
+                if ($path = $model->getAttribute($name)) {
+                    $real_path = FileHelper::getFileUrl($path);
+                    $model->setAttribute($name . '_preview', $real_path);
                 }
             }
 

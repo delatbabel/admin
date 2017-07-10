@@ -135,6 +135,10 @@ $tmpValue = old($name, $tmpValue);
 @endsection
 @elseif($type == 'file')
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    @if ($model->{$id . '_preview'})
+        Download <a href="{{ $model->{$id . '_preview'} }}">uploaded file</a>
+    @endif
+    <input type="hidden" name="{{ $id }}_original" value="{{isset($model) ? $model->{$id} : ''}}">
 @elseif($type == 'image')
     {{-- bootstrap-imageupload. --}}
     <div image-upload class="{{ $id }}_imageupload panel panel-default">
@@ -148,7 +152,7 @@ $tmpValue = old($name, $tmpValue);
             </div>
             <button type="button" class="btn btn-default">Remove</button>
         </div>
-        <input type="hidden" name="{{ $id }}_original" class="original" value="{{isset($model) ? $model->{$id} : ''}}">
+        <input type="hidden" name="{{ $id }}_original" value="{{isset($model) ? $model->{$id} : ''}}">
     </div>
 @elseif($type == 'enum' || $type == 'belongs_to')
     <?php
