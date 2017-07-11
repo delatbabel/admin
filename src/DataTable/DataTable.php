@@ -5,6 +5,7 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Column;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Fields\Factory as FieldFactory;
+use DDPro\Admin\Includes\ImageHelper;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
@@ -366,20 +367,16 @@ class DataTable
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
 
-        $disk    = config('filesystems.default');
-        $storage = \Storage::disk($disk);
-
         // loop over all columns
         foreach (array_merge($columns, $includedColumns, $relatedColumns) as $field => $col) {
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
                 $attributeValue = $item->getAttribute($field);
-                if ($attributeValue) {
-                    if ($columns[$field]->getOption('type') == 'image') {
-                        $mime_type      = $storage->mimeType($attributeValue);
-                        $row_image      = "data:$mime_type;base64," . base64_encode($storage->get($attributeValue));
-                        $attributeValue = '<img src="' . $row_image . '" class="thumbnail" />';
-                    }
+
+                // Get image's url
+                if ($attributeValue && $columns[$field]->getOption('type') == 'image') {
+                    $real_path = ImageHelper::getImageUrl($attributeValue);
+                    $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
                 }
 
                 $outputRow[] = $columns[$field]->renderOutput($attributeValue, $item);

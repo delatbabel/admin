@@ -20,7 +20,7 @@
                 @foreach($arrayFields as $key => $arrCol)
                     @if($arrCol['visible'] && $arrCol['editable'])
                         <div class="form-group">
-                            @if ($arrCol['type'] != 'static')
+                            @if ($arrCol['type'] != 'static' && $arrCol['type'] != 'hidden')
                                 <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
                                     {!! $arrCol['title'] !!}:
                                 </label>
@@ -66,5 +66,10 @@
     </div>
 </div>
 @if ($config->getOption('form_request'))
-    {!! \JsValidator::formRequest($config->getOption('form_request'), '#my-form') !!}
+<?php
+// Write session variables so jsvalidation.js knows which form is being used
+session(['formRequest'  => $config->getOption('form_request')]);
+session(['formId'       => '#my-form']);
+?>
+<script type="text/javascript" src="{{ asset('parts.js.jsvalidation.js') }}"></script>
 @endif
