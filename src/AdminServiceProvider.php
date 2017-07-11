@@ -275,7 +275,8 @@ class AdminServiceProvider extends ServiceProvider
                 'prefix'     => config('administrator.uri'),
                 'middleware' => $middleware_array,
             ], function () {
-                // Admin Dashboard
+
+            // Admin Dashboard
             Route::get('/', [
                 'as'   => 'admin_dashboard',
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',
@@ -305,7 +306,11 @@ class AdminServiceProvider extends ServiceProvider
                 'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale',
             ]);
 
-                Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
+            /*
+             * Settings routes
+             * TODO: Remove all of this as well as the controller functions and everything related.
+             *
+            Route::group(['middleware' => ['validate.settings', 'post.validate']], function () {
                     // Settings Pages
                 Route::get('settings/{settings}', [
                     'as'   => 'admin_settings',
@@ -331,13 +336,12 @@ class AdminServiceProvider extends ServiceProvider
                 ]);
 
                 // Settings file upload -- does not exist
-                /*
-                Route::post('settings/{settings}/{field}/file_upload', [
-                    'as'   => 'admin_settings_file_upload',
-                    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
-                ]);
-                */
-                });
+                #Route::post('settings/{settings}/{field}/file_upload', [
+                #    'as'   => 'admin_settings_file_upload',
+                #    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
+                #]);
+            });
+             */
 
             // The route group for all other requests needs to validate admin, model, and add assets
             Route::group(['middleware' => ['validate.model', 'post.validate']], function () {
@@ -428,7 +432,7 @@ class AdminServiceProvider extends ServiceProvider
             });
             });
 
-        if (! $this->app->routesAreCached()) {
+        if (! $this->app->routesAreCached() && config('administrator.load_centaur_routes')) {
             require __DIR__ . '/Routes/Auth.php';
         }
     }
