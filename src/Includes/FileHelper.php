@@ -48,7 +48,7 @@ class FileHelper
 
         // Fetch the raw data from the storage
         $mime_type = $storage->mimeType($path);
-        $raw_file = "data:$mime_type;base64," . base64_encode($storage->get($path));
+        $raw_file  = "data:$mime_type;base64," . base64_encode($storage->get($path));
         return $raw_file;
     }
 

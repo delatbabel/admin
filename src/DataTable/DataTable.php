@@ -375,7 +375,7 @@ class DataTable
 
                 // Get image's url
                 if ($attributeValue && $columns[$field]->getOption('type') == 'image') {
-                    $real_path = ImageHelper::getImageUrl($attributeValue);
+                    $real_path      = ImageHelper::getImageUrl($attributeValue);
                     $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
                 }
 
