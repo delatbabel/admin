@@ -27,18 +27,17 @@ use DDPro\Admin\Validator;
  */
 class Factory
 {
-
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var Validator
      */
     protected $validator;
 
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
@@ -92,8 +91,8 @@ class Factory
     /**
      * Create a new action Factory instance
      *
-     * @param \DDPro\Admin\Validator 				$validator
-     * @param \DDPro\Admin\Config\ConfigInterface	$config
+     * @param Validator         $validator
+     * @param ConfigInterface   $config
      */
     public function __construct(Validator $validator, ConfigInterface $config)
     {
@@ -107,7 +106,7 @@ class Factory
      * @param string		$name		the key name for this action
      * @param array			$options
      *
-     * @return \DDPro\Admin\Actions\Action
+     * @return Action
      */
     public function make($name, array $options)
     {
@@ -154,7 +153,7 @@ class Factory
      *
      * @param array		$options
      *
-     * @return \DDPro\Admin\Actions\Action
+     * @return Action
      */
     public function getActionObject(array $options)
     {
@@ -167,13 +166,14 @@ class Factory
      * @param string	$name
      * @param bool		$global // if true, search the global actions
      *
-     * @return mixed
+     * @return Action
      */
     public function getByName($name, $global = false)
     {
         $actions = $global ? $this->getGlobalActions() : $this->getActions();
 
         // loop over the actions to find our culprit
+        /** @var Action $action */
         foreach ($actions as $action) {
             if ($action->getOption('action_name') === $name) {
                 return $action;

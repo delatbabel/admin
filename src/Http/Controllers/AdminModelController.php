@@ -2,10 +2,12 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
+use DDPro\Admin\Actions\Action;
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
 use DDPro\Admin\Includes\UploadedImage;
 use Delatbabel\Contacts\Models\Address;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
@@ -335,13 +338,25 @@ class AdminModelController extends Controller
         }
     }
 
+    /**
+     * POST Batch Destroy items
+     *
+     * This is called on the admin/model/destroy URL.
+     *
+     * see customDataTable.js
+     *
+     * @param $modelName
+     * @return Response JSON
+     */
     public function destroy($modelName)
     {
         $ids = $this->request->get('ids');
+
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
+
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
@@ -349,6 +364,7 @@ class AdminModelController extends Controller
             'success' => false,
             'error'   => "There was an error deleting selected item(s). Please reload the page and try again.",
         ];
+
         // checking permission
         $permissions = $actionFactory->getActionPermissions();
         if (! $permissions['delete']) {
@@ -358,6 +374,7 @@ class AdminModelController extends Controller
         $baseModel  = $config->getDataModel();
         $primaryKey = $baseModel->getKeyName();
         $models     = $baseModel::whereIn($primaryKey, $ids);
+
         // delete the models
         if ($models && $models->delete()) {
             return response()->json([
@@ -368,14 +385,27 @@ class AdminModelController extends Controller
         }
     }
 
+    /**
+     * POST Batch Activate / Inactivate toggle
+     *
+     * This is a batch action function which toggles the status of the selected items from active
+     * to inactive or vice-versa.  It is called by the admin/model/toggle_activate URL
+     *
+     * see customDataTable.js
+     *
+     * @param $modelName
+     * @return Response JSON
+     */
     public function toggleActivate($modelName)
     {
         $ids    = $this->request->get('ids');
         $status = $this->request->get('status');
+
         // The itemconfig singleton is built in the ValidateModel middleware and
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
+
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
@@ -408,6 +438,7 @@ class AdminModelController extends Controller
         $baseModel  = $config->getDataModel();
         $primaryKey = $baseModel->getKeyName();
         $models     = $baseModel::whereIn($primaryKey, $ids);
+
         // update status of the models
         if ($models && $models->update(['status' => $status])) {
             return response()->json([
@@ -423,7 +454,7 @@ class AdminModelController extends Controller
      *
      * @param string $modelName
      *
-     * @return string JSON
+     * @return Response JSON
      */
     public function customModelAction($modelName)
     {
@@ -431,38 +462,48 @@ class AdminModelController extends Controller
         $actionFactory = app('admin_action_factory');
         $actionName    = $this->request->input('action_name', false);
         $dataTable     = app('admin_datatable');
+
         // get the sort options and filters
         $page        = $this->request->input('page', 1);
         $sortOptions = $this->request->input('sortOptions', []);
         $filters     = $this->request->input('filters', []);
+
         // get the prepared query options
         $prepared = $dataTable->prepareQuery(app('db'), $page, $sortOptions, $filters);
+
         // get the action and perform the custom action
+        /** @var Action $action */
         $action = $actionFactory->getByName($actionName, true);
         $result = $action->perform($prepared['query']);
+
         // if the result is a string, return that as an error.
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
-        } // if it's falsy, return the standard error message
-        elseif (! $result) {
-            $messages = $action->getOption('messages');
-
-            return response()->json(['success' => false, 'error' => $messages['error']]);
-        } else {
-            $response = ['success' => true];
-            // if it's a download response, flash the response to the session and return the download link
-            if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
-                $file    = $result->getFile()->getRealPath();
-                $headers = $result->headers->all();
-                $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
-                $response['download'] = route('admin_file_download');
-            } // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
-            elseif (is_a($result, '\Illuminate\Http\RedirectResponse')) {
-                $response['redirect'] = $result->getTargetUrl();
-            }
-
-            return response()->json($response);
         }
+
+        // if it's falsy, return the standard error message
+        if (! $result) {
+            $messages = $action->getOption('messages');
+            return response()->json(['success' => false, 'error' => $messages['error']]);
+        }
+
+        $response = ['success' => true];
+
+        if ($result instanceof BinaryFileResponse) {
+
+            // if it's a download response, flash the response to the session and return the download link
+            $file    = $result->getFile()->getRealPath();
+            $headers = $result->headers->all();
+            $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
+            $response['download'] = route('admin_file_download');
+        } elseif ($result instanceof RedirectResponse) {
+
+            // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
+            /** @var RedirectResponse $result */
+            $response['redirect'] = $result->getTargetUrl();
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -471,52 +512,60 @@ class AdminModelController extends Controller
      * @param string $modelName
      * @param int    $id
      *
-     * @return string JSON
+     * @return Response JSON
      */
     public function customModelItemAction($modelName, $id = null)
     {
         /** @var Config $config */
         $config = app('itemconfig');
+
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
         $model         = $config->getDataModel();
         $model         = $model::find($id);
         $actionName    = $this->request->input('action_name', false);
+
         // get the action and perform the custom action
         $action = $actionFactory->getByName($actionName);
         $result = $action->perform($model);
+
         // override the config options so that we can get the latest
         app('admin_config_factory')->updateConfigOptions();
+
         // if the result is a string, return that as an error.
         if (is_string($result)) {
             return response()->json(['success' => false, 'error' => $result]);
-        } elseif (! $result) {
-            // if it's falsy, return the standard error message
-            $messages = $action->getOption('messages');
-
-            return response()->json(['success' => false, 'error' => $messages['error']]);
-        } else {
-            $fieldFactory  = app('admin_field_factory');
-            $columnFactory = app('admin_column_factory');
-            $fields        = $fieldFactory->getEditFields();
-            $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
-            if ($model->exists) {
-                $model = $config->updateModel($model, $fieldFactory, $actionFactory);
-            }
-            $response = ['success' => true, 'data' => $model->toArray()];
-            if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
-                // if it's a download response, flash the response to the session and return the download link
-                $file    = $result->getFile()->getRealPath();
-                $headers = $result->headers->all();
-                $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
-                $response['download'] = route('admin_file_download');
-            } elseif (is_a($result, '\Illuminate\Http\RedirectResponse')) {
-                // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
-                $response['redirect'] = $result->getTargetUrl();
-            }
-
-            return response()->json($response);
         }
+
+        // if it's falsy, return the standard error message
+        if (! $result) {
+            $messages = $action->getOption('messages');
+            return response()->json(['success' => false, 'error' => $messages['error']]);
+        }
+
+        $fieldFactory  = app('admin_field_factory');
+        $columnFactory = app('admin_column_factory');
+        $fields        = $fieldFactory->getEditFields();
+        $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
+        if ($model->exists) {
+            $model = $config->updateModel($model, $fieldFactory, $actionFactory);
+        }
+        $response = ['success' => true, 'data' => $model->toArray()];
+
+        if (is_a($result, 'Symfony\Component\HttpFoundation\BinaryFileResponse')) {
+
+            // if it's a download response, flash the response to the session and return the download link
+            $file    = $result->getFile()->getRealPath();
+            $headers = $result->headers->all();
+            $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
+            $response['download'] = route('admin_file_download');
+        } elseif (is_a($result, '\Illuminate\Http\RedirectResponse')) {
+
+            // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
+            $response['redirect'] = $result->getTargetUrl();
+        }
+
+        return response()->json($response);
     }
 
     /**
