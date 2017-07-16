@@ -41,30 +41,20 @@
             </tr>
             </thead>
             @if (array_key_exists('batch_select', $config->getOption('columns')))
-                <tfoot>
-                <tr>
-                    <th><input id="selectAll" value="1" type="checkbox"></th>
-                    <th>
-                        <button id="batchDelete">Delete</button>
-                    </th>
-                    @if ($config->getOption('activation'))
-                        <th>
-                            <button id="batchActivate">Activate</button>
-                        </th>
-                        <th>
-                            <button id="batchDeactivate">Deactivate</button>
-                        </th>
-                        @for($i=0; $i<count($columnModel)-3;$i++)
-                            <th></th>
-                        @endfor
-                    @else
-                        @for($i=0; $i<count($columnModel)-1;$i++)
-                            <th></th>
-                        @endfor
-                    @endif
+            <tfoot>
+            <tr>
+                <th><input id="selectAll" value="1" type="checkbox"></th>
+                <th colspan="{{count($columnModel)}}">
+                    <button id="batchDelete" class="btn btn-sd-normal">Delete</button>
 
-                </tr>
-                </tfoot>
+                    @if ($config->getOption('activation'))
+                        <button id="batchActivate" class="btn btn-sd-normal">Activate</button>
+                        <button id="batchDeactivate" class="btn btn-sd-normal">Deactivate</button>
+                    @endif
+                    <div class="inside-pagination"></div>
+                </th>
+            </tr>
+            </tfoot>
             @endif
         </table>
     </div>
@@ -94,7 +84,7 @@
                     dom: '<"html5buttons"B>lTfgitp'
                 }
             });
-
+            $(".inside-pagination").append($("#customers_paginate"));
             $('#customers').on("click", '[data-toggle="ajaxModal"]', function(e) {
                 $('#ajaxModal').remove();
                 e.preventDefault();

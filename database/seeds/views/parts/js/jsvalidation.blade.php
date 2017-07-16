@@ -13,11 +13,11 @@ jQuery(document).ready(function(){
                 }
             } else {
                 if (element.attr("type") == "radio") {
-                    error.insertAfter(element.parents('div').find('.radio-list'));
-                    // Add the span element, if doesn't exists, and apply the icon classes to it.
-                    if ( !$( element ).next( "i" )[0]) {
-                        $(element).closest('.form-group').addClass('has-feedback');
-                        $( "<i class='glyphicon glyphicon-remove form-control-feedback'></i>" ).insertAfter( element );
+                    var $formGroup = element.closest(".form-group"),
+                        $radioList = element.closest('.radio-list');
+                    error.appendTo( $radioList );
+                    if (!$formGroup.find("i")[0]) {
+                        $( "<i class='glyphicon glyphicon-remove form-control-feedback'></i>" ).appendTo( $radioList );
                     }
                 }
                 else if (element.attr("type") == "checkbox") {
@@ -51,6 +51,14 @@ jQuery(document).ready(function(){
                      if ( !$( element ).next( "i" )[0]) {
                         $(element).closest('.form-group').addClass('has-feedback');
                         $( "<i class='glyphicon glyphicon-remove form-control-feedback'></i>" ).insertAfter( element );
+                    }
+                }
+                else if (element.hasClass("selectized")) {
+                    var $selectizeControl = element.next(".selectize-control");
+                    element.closest(".form-group").addClass("has-feedback");
+                    $selectizeControl.append(error);
+                    if (!$selectizeControl.find("i")[0]) {
+                         $( "<i class='glyphicon glyphicon-remove form-control-feedback'></i>" ).appendTo($selectizeControl);
                     }
                 }
                 else {
@@ -114,18 +122,4 @@ jQuery(document).ready(function(){
 
         rules: <?php echo json_encode($validator['rules']); ?>
     });
-    var $wysiwyg = $("[wysiwyg]");
-    if ($wysiwyg && $wysiwyg.length > 0) {
-        $wysiwyg.rules("add", {
-            required: function (ele) {
-                if (CKEDITOR) {
-                    CKEDITOR.instances[$(ele).attr("name")].updateElement();
-                }
-            }
-        });
-    }
-});
-// Make select2 trigger validation on change event
-$(".select2-hidden-accessible").select2().on('change', function() {
-    $(this).valid();
 });

@@ -1,5 +1,5 @@
 <?php
 $formRequest = session('formRequest');
-$formId = session('formId');
+$formId      = session('formId');
 ?>
 {!! \JsValidator::formRequest($formRequest, $formId) !!}
