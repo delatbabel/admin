@@ -54,22 +54,19 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Should not need this because we will load views from the database.
-        // ViewPages doesn't support namespaced views, so we have removed the namespaces.
-        // $this->loadViewsFrom(__DIR__ . '/../resources/views', 'administrator');
-        // TODO: Instead of publishing the views, load them up into the database using a seeder.
+        // Old versions of the views which are loaded from resource/views.
+        // Should not need this because we will load views from the database, unless you
+        // have decided not to use viewpages to store views in the database.
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views')
         ], 'views');
 
-        // TODO: Load this config from the database.
-        /*
-        $this->mergeConfigFrom(
-            __DIR__ . '/../config/administrator.php', 'administrator'
-        );
-        */
+        // New and correct versions of the views which are stored in the database.
+        $this->publishes([
+            __DIR__ . '/../database/seeds' => database_path() . '/seeds'
+        ], 'seeds');
 
-        // TODO: Load this config from the database.
+        // Global administrator config
         $this->publishes([
             __DIR__ . '/../config/administrator.php' => config_path('administrator.php'),
         ], 'config');
