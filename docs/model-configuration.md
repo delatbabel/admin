@@ -23,6 +23,8 @@
     - [Form Width](#form-width)
     - [Link](#link)
     - [Custom Controller](#custom-controller)
+    - [Custom Table View](#custom-table-view)
+    - [Custom Form View](#custom-form-view)
 
 <a name="introduction"></a>
 ## Introduction
@@ -438,3 +440,29 @@ $id (null to create).  It should return as follows:
 
 There are other functions in the `AdminModelController` class that can be over-ridden, please read
 through the class for further details.
+
+<a name="custom-table-view"></a>
+## Custom Table View
+
+    /**
+     * The name of a custom table view for this model
+     *
+     * @type string
+     */
+    'model_table_view' => 'admin.model.table',
+
+This can be used to provide an alternative view name for the table view.  You can copy the admin.model.table view
+and provide customised versions of it for different model classes to suit your needs.
+
+<a name="custom-form-view"></a>
+## Custom Form View
+
+    /**
+     * The name of a custom form view for this model
+     *
+     * @type string
+     */
+    'model_form_view' => 'admin.model.form',
+
+This can be used to provide an alternative view name for the entry/edit form view.  You can copy the admin.model.form view
+and provide customised versions of it for different model classes to suit your needs.
