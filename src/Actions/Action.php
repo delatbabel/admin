@@ -82,7 +82,6 @@ class Action
         'title'        => 'string_or_callable',
         'confirmation' => 'string_or_callable',
         'messages'     => 'array|array_with_all_or_none:active,success,error',
-        'action'       => 'required|callable',
     ];
 
     /**
