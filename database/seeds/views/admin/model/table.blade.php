@@ -78,7 +78,7 @@
                     "serverSide": true,
                     @endif
                     "ajax": {
-                        "url": "{!! route('admin_get_datatable_results', [$config->getOption('name')]) !!}",
+                        "url": "{!! route('admin_get_datatable_results', [$config->getOption('name')]) !!}"
                     },
                     "columns": {!! json_encode($columnOptions) !!},
                     dom: '<"html5buttons"B>lTfgitp'
