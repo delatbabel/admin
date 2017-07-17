@@ -3,7 +3,7 @@
 @endif
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">Hover Data Table</h3>
+        <h3 class="box-title">{{ $config->getOption('single') }} List</h3>
         <div class="box-tools pull-right">
             @foreach($globalActions as $arr)
                 @if($arr['has_permission'])
