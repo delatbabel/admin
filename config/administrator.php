@@ -82,6 +82,21 @@ return [
     'settings_config_path' => config_path('administrator/settings'),
 
     /**
+     * Various formats used in the administration interface.
+     *
+     * @type array
+     */
+    'format' => [
+        // These two must always match.
+        // Carbon date formats are as per php date function: http://php.net/manual/en/function.date.php
+        // Moment date formats are as per http://momentjs.com/docs/#/displaying/format/
+        'date_carbon'       => 'd/m/Y',
+        'date_moment'       => 'D/M/Y',
+
+        'datetime_carbon'   => 'd/m/Y HH:MM',
+    ],
+
+    /**
      * The menu structure of the site. For models, you should either supply the name of a model config file or an array of names of model config
      * files. The same applies to settings config files, except you must prepend 'settings.' to the settings config file name. You can also add
      * custom pages by prepending a view path with 'page.'. By providing an array of names, you can group certain models or settings pages

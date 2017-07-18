@@ -144,8 +144,8 @@ class Column
      *
      * @param \DDPro\Admin\Validator 				$validator
      * @param \DDPro\Admin\Config\ConfigInterface	$config
-     * @param \Illuminate\Database\DatabaseManager 				$db
-     * @param array												$options
+     * @param \Illuminate\Database\DatabaseManager 	$db
+     * @param array									$options
      */
     public function __construct(Validator $validator, ConfigInterface $config, DB $db, array $options)
     {

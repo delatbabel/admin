@@ -369,17 +369,36 @@ class DataTable
 
         // loop over all columns
         foreach (array_merge($columns, $includedColumns, $relatedColumns) as $field => $col) {
+
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
+                /** @var Column $column */
+                $column      = $columns[$field];
                 $attributeValue = $item->getAttribute($field);
 
-                // Get image's url
-                if ($attributeValue && $columns[$field]->getOption('type') == 'image') {
-                    $real_path      = ImageHelper::getImageUrl($attributeValue);
-                    $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
+                // Various table column mutators, in-built
+                if (! empty($attributeValue)) {
+                    switch ($column->getOption('type')) {
+                        case 'image':
+                            $real_path      = ImageHelper::getImageUrl($attributeValue);
+                            $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
+                            break;
+
+                        case 'date':
+                            if ($attributeValue instanceof \DateTime) {
+                                $attributeValue = $attributeValue->format(config('administrator.format.date_carbon'));
+                            }
+                            break;
+
+                        case 'datetime':
+                            if ($attributeValue instanceof \DateTime) {
+                                $attributeValue = $attributeValue->format(config('administrator.format.datetime_carbon'));
+                            }
+                            break;
+                    }
                 }
 
-                $outputRow[] = $columns[$field]->renderOutput($attributeValue, $item);
+                $outputRow[] = $column->renderOutput($attributeValue, $item);
             }
         }
     }
@@ -402,7 +421,9 @@ class DataTable
 
         // loop over the computed columns
         foreach ($computedColumns as $name => $column) {
-            $outputRow[] = $columns[$name]->renderOutput($item->{$name}, $item);
+            /** @var Column $column */
+            $column      = $columns[$name];
+            $outputRow[] = $column->renderOutput($item->{$name}, $item);
         }
     }
 

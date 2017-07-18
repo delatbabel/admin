@@ -233,7 +233,7 @@ class Factory
     public function getColumns()
     {
         // make sure we only run this once and then return the cached version
-        if (! sizeof($this->columns)) {
+        if (empty($this->columns) || (count($this->columns) == 0)) {
             foreach ($this->config->getOption('columns') as $name => $options) {
                 // if only a string value was supplied, may sure to turn it into an array
                 $object                                           = $this->make($this->parseOptions($name, $options));
