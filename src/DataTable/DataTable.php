@@ -373,7 +373,7 @@ class DataTable
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
                 /** @var Column $column */
-                $column      = $columns[$field];
+                $column         = $columns[$field];
                 $attributeValue = $item->getAttribute($field);
 
                 // Various table column mutators, in-built
