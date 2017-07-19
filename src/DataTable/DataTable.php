@@ -390,7 +390,7 @@ class DataTable
                             if ($attributeValue instanceof \DateTime) {
                                 $attributeValue = $attributeValue->format(config('administrator.format.date_carbon'));
                             } else {
-                                $dt = new \DateTime($attributeValue);
+                                $dt             = new \DateTime($attributeValue);
                                 $attributeValue = $dt->format(config('administrator.format.date_carbon'));
                             }
                             break;
@@ -399,7 +399,7 @@ class DataTable
                             if ($attributeValue instanceof \DateTime) {
                                 $attributeValue = $attributeValue->format(config('administrator.format.datetime_carbon'));
                             } else {
-                                $dt = new \DateTime($attributeValue);
+                                $dt             = new \DateTime($attributeValue);
                                 $attributeValue = $dt->format(config('administrator.format.datetime_carbon'));
                             }
                             break;
