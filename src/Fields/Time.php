@@ -13,12 +13,18 @@ class Time extends Field
     /**
      * The specific defaults for subclasses to override
      *
+     * The date_format can be left empty, in which case the one in config administrator.format.date_datepicker is
+     * used as a fallback.
+     *
+     * The time_format can be left empty, in which case the one in config administrator.format.time_datepicker is
+     * used as a fallback.
+     *
      * @var array
      */
     protected $defaults = [
         'min_max'     => true,
-        'date_format' => 'yy-mm-dd',
-        'time_format' => 'HH:mm',
+        'date_format' => '',
+        'time_format' => '',
     ];
 
     /**
@@ -30,13 +36,6 @@ class Time extends Field
         'date_format' => 'string',
         'time_format' => 'string',
     ];
-
-    public function __construct(Validator $validator, ConfigInterface $config, DB $db, array $options)
-    {
-        parent::__construct($validator, $config, $db, $options);
-        $this->defaults['date_format'] = config('administrator.format.date_datepicker');
-        $this->defaults['time_format'] = config('administrator.format.time_datepicker');
-    }
 
     /**
      * Filters a query object
