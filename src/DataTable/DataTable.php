@@ -375,6 +375,8 @@ class DataTable
                 /** @var Column $column */
                 $column         = $columns[$field];
                 $attributeValue = $item->getAttribute($field);
+                #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                #    "column $field getAttribute = " . print_r($attributeValue, true));
 
                 // Various table column mutators, in-built
                 if (! empty($attributeValue)) {
@@ -387,12 +389,18 @@ class DataTable
                         case 'date':
                             if ($attributeValue instanceof \DateTime) {
                                 $attributeValue = $attributeValue->format(config('administrator.format.date_carbon'));
+                            } else {
+                                $dt = new \DateTime($attributeValue);
+                                $attributeValue = $dt->format(config('administrator.format.date_carbon'));
                             }
                             break;
 
                         case 'datetime':
                             if ($attributeValue instanceof \DateTime) {
                                 $attributeValue = $attributeValue->format(config('administrator.format.datetime_carbon'));
+                            } else {
+                                $dt = new \DateTime($attributeValue);
+                                $attributeValue = $dt->format(config('administrator.format.datetime_carbon'));
                             }
                             break;
                     }
