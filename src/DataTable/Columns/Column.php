@@ -209,7 +209,7 @@ class Column
         $visible = $this->validator->arrayGet($options, 'visible');
 
         if (FunctionHelper::canCall($visible)) {
-            $options['visible'] = FunctionHelper::doCall($visible,$this->config->getDataModel()) ? true : false;
+            $options['visible'] = FunctionHelper::doCall($visible, $this->config->getDataModel()) ? true : false;
         }
 
         $this->suppliedOptions = $options;
