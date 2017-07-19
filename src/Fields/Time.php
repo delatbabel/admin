@@ -84,16 +84,27 @@ class Time extends Field
             $model->{$field_name} = null;
             return;
         } elseif (! empty($input) && $input !== '0000-00-00') {
-            $PHPFormatOptions = ['Y', 'm', 'd'];
-            // There may be a bug with the datepicker we are using - the format 'yyyy' duplicates the year value
-            $DatePickerFormatOptions = ['yy', 'mm', 'dd']; // And so on
-            if ($this->getOption('date_format')) {
-                $format = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $this->getOption('date_format'));
+            $date_format = $this->getOption('date_format');
+
+            // date_format falls back to the config variable if not set -- the config already has the carbon formatted
+            // date in it.
+            if (empty($date_format)) {
+                $date_format = config('administrator.format.date_carbon');
             } else {
-                $format = 'Y-m-d';
+                // The date_format in the option will be the datepicker format, we have to convert that to a carbon
+                // format.
+                // There may be a bug with the datepicker we are using - the format 'yyyy' duplicates the year value
+                $PHPFormatOptions = ['Y', 'm', 'd'];
+                $DatePickerFormatOptions = ['yy', 'mm', 'dd']; // And so on
+                $date_format = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $date_format);
             }
 
-            $time = DateTime::createFromFormat($format, $input);
+            // Final fallback
+            if (empty($date_format)) {
+                $date_format = 'Y-m-d';
+            }
+
+            $time = DateTime::createFromFormat($date_format, $input);
         }
 
         // first we validate that it's a date/time
