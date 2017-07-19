@@ -93,10 +93,9 @@ class Time extends Field
             } else {
                 // The date_format in the option will be the datepicker format, we have to convert that to a carbon
                 // format.
-                // There may be a bug with the datepicker we are using - the format 'yyyy' duplicates the year value
-                $PHPFormatOptions = ['Y', 'm', 'd'];
-                $DatePickerFormatOptions = ['yy', 'mm', 'dd']; // And so on
-                $date_format = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $date_format);
+                $PHPFormatOptions        = ['Y', 'm', 'd'];
+                $DatePickerFormatOptions = ['yy', 'mm', 'dd'];
+                $date_format             = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $date_format);
             }
 
             // Final fallback
