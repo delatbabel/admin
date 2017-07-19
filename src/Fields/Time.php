@@ -35,6 +35,7 @@ class Time extends Field
     {
         parent::__construct($validator, $config, $db, $options);
         $this->defaults['date_format'] = config('administrator.format.date_datepicker');
+        $this->defaults['time_format'] = config('administrator.format.time_datepicker');
     }
 
     /**
