@@ -93,6 +93,9 @@ return [
         'date_carbon'       => 'd/m/Y',
         'date_moment'       => 'D/M/Y',
 
+        // This is the default date format sent to the datepicker
+        'date_datepicker'   => 'dd/mm/yy',
+
         'datetime_carbon'   => 'd/m/Y HH:MM',
     ],
 

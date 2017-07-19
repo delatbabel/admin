@@ -2,6 +2,9 @@
 namespace DDPro\Admin\Fields;
 
 use DateTime as DateTime;
+use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Validator;
+use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class Time extends Field
@@ -27,6 +30,12 @@ class Time extends Field
         'date_format' => 'string',
         'time_format' => 'string',
     ];
+
+    public function __construct(Validator $validator, ConfigInterface $config, DB $db, array $options)
+    {
+        parent::__construct($validator, $config, $db, $options);
+        $this->defaults['date_format'] = config('administrator.format.date_datepicker');
+    }
 
     /**
      * Filters a query object
