@@ -92,10 +92,10 @@ return [
         'date_carbon'           => 'd/m/Y',
         'datetime_carbon'       => 'd/m/Y H:i',
 
-        // These are the default date formats sent to the datepicker.  They follow the Carbon/DateTime formats.
-        'date_datepicker'       => 'd/m/Y',
-        'time_datepicker'       => 'H:i',
-        'datetime_datepicker'   => 'd/m/Y H:i',
+        // These are the default date formats sent to the datepicker.
+        'date_datepicker'       => 'dd/mm/yy',
+        'time_datepicker'       => 'HH:mm',
+        'datetime_datepicker'   => 'dd/mm/yy HH:mm',
     ],
 
     /**
