@@ -87,16 +87,14 @@ return [
      * @type array
      */
     'format' => [
-        // These two must always match.
         // Carbon date formats are as per php date function: http://php.net/manual/en/function.date.php
-        // Moment date formats are as per http://momentjs.com/docs/#/displaying/format/
-        'date_carbon'       => 'd/m/Y',
-        'date_moment'       => 'D/M/Y',
+        // These formats are used for displaying dates and datetimes in columns on the DataTable
+        'date_carbon'           => 'd/m/Y',
+        'datetime_carbon'       => 'd/m/Y H:i',
 
-        // This is the default date format sent to the datepicker
-        'date_datepicker'   => 'dd/mm/yy',
-
-        'datetime_carbon'   => 'd/m/Y HH:MM',
+        // These are the default date formats sent to the datepicker
+        'date_datepicker'       => 'dd/mm/yy',
+        'time_datepicker'       => 'HH:mm',
     ],
 
     /**
