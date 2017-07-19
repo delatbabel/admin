@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Actions;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 
 /**
@@ -139,7 +140,7 @@ class Factory
 
         // set the permission
         $permission                = $this->validator->arrayGet($options, 'permission', false);
-        $options['has_permission'] = is_callable($permission) ? $permission($model) : true;
+        $options['has_permission'] = FunctionHelper::canCall($permission) ? FunctionHelper::doCall($permission, $model) : true;
 
         // check if the messages array exists
         $options['messages'] = $this->validator->arrayGet($options, 'messages', []);
@@ -294,8 +295,8 @@ class Factory
 
             // loop over the actions to build the list
             foreach ($permissions as $action => $callback) {
-                if (is_callable($callback)) {
-                    $this->actionPermissions[$action] = (bool) $callback($model);
+                if (FunctionHelper::canCall($callback)) {
+                    $this->actionPermissions[$action] = (bool) FunctionHelper::doCall($callback, $model);
                 } else {
                     $this->actionPermissions[$action] = (bool) $callback;
                 }

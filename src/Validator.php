@@ -1,6 +1,7 @@
 <?php
 namespace DDPro\Admin;
 
+use DDPro\Admin\Helpers\FunctionHelper;
 use Illuminate\Routing\UrlGenerator;
 
 /**
@@ -184,7 +185,7 @@ class Validator extends \Illuminate\Validation\Validator
      */
     public function validateCallable($attribute, $value, $parameters)
     {
-        return is_callable($value);
+        return FunctionHelper::canCall($value);
     }
 
     /**
@@ -200,7 +201,7 @@ class Validator extends \Illuminate\Validation\Validator
      */
     public function validateStringOrCallable($attribute, $value, $parameters)
     {
-        return is_string($value) || is_callable($value);
+        return is_string($value) || FunctionHelper::canCall($value);
     }
 
     /**

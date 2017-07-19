@@ -3,6 +3,7 @@ namespace DDPro\Admin\DataTable\Columns;
 
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Relationships\Relationship;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Model;
@@ -207,8 +208,8 @@ class Column
         // run the visible property closure if supplied
         $visible = $this->validator->arrayGet($options, 'visible');
 
-        if (is_callable($visible)) {
-            $options['visible'] = $visible($this->config->getDataModel()) ? true : false;
+        if (FunctionHelper::canCall($visible)) {
+            $options['visible'] = FunctionHelper::doCall($visible,$this->config->getDataModel()) ? true : false;
         }
 
         $this->suppliedOptions = $options;
@@ -286,8 +287,8 @@ class Column
     {
         $output = $this->getOption('output');
 
-        if (is_callable($output)) {
-            return $output($value, $item);
+        if (FunctionHelper::canCall($output)) {
+            return FunctionHelper::doCall($output, $value, $item);
         }
 
         return str_replace('(:value)', $value, $output);

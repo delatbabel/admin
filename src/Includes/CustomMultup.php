@@ -2,6 +2,7 @@
 
 namespace DDPro\Admin\Includes;
 
+use DDPro\Admin\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Log;
@@ -46,8 +47,8 @@ class CustomMultup extends Multup
 
         $original_name = $file->getClientOriginalName();
         if ($this->random) {
-            if (is_callable($this->random_cb)) {
-                $filename = call_user_func($this->random_cb, $original_name);
+            if (FunctionHelper::canCall($this->random_cb)) {
+                $filename = FunctionHelper::doCall($this->random_cb, $original_name);
             } else {
                 $ext      = File::extension($original_name);
                 $filename = $this->generate_random_filename() . '.' . $ext;

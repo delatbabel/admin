@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -498,8 +499,8 @@ class Factory
             // iterate over the filters and create field objects for them
             foreach ($configFilters as $name => $filter) {
                 // Default option of the filter can be callable
-                if (isset($filter['default']) && is_callable($filter['default'])) {
-                    $filter['default'] = $filter['default']();
+                if (isset($filter['default']) && FunctionHelper::canCall($filter['default'])) {
+                    $filter['default'] = FunctionHelper::doCall($filter['default']);
                 }
                 if ($fieldObject = $this->make($name, $filter)) {
                     // the filters array is indexed on the field name and holds the arrayed values for the filters

@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -141,15 +142,15 @@ abstract class Field
         // run the visible property closure if supplied
         $visible = $this->validator->arrayGet($options, 'visible');
 
-        if (is_callable($visible)) {
-            $options['visible'] = $visible($this->config->getDataModel()) ? true : false;
+        if (FunctionHelper::canCall($visible)) {
+            $options['visible'] = FunctionHelper::doCall($visible, $this->config->getDataModel()) ? true : false;
         }
 
         // run the editable property's closure if supplied
         $editable = $this->validator->arrayGet($options, 'editable');
 
-        if (isset($editable) && is_callable($editable)) {
-            $options['editable'] = $editable($this->config->getDataModel());
+        if (isset($editable) && FunctionHelper::canCall($editable)) {
+            $options['editable'] = FunctionHelper::doCall($editable, $this->config->getDataModel());
         }
 
         $this->suppliedOptions = $options;

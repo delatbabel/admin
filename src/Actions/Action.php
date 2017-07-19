@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Actions;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 
 /**
@@ -158,8 +159,8 @@ class Action
                 $options[$key] = $suppliedValue;
             }
             // if it's callable pass it the current model and run it
-            elseif (is_callable($suppliedValue)) {
-                $options[$key] = $suppliedValue($model);
+            elseif (FunctionHelper::canCall($suppliedValue)) {
+                $options[$key] = FunctionHelper::doCall($suppliedValue, $model);
             }
         }
     }

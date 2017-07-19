@@ -10,6 +10,7 @@ use DDPro\Admin\Fields\File;
 use DDPro\Admin\Fields\Image;
 use DDPro\Admin\Fields\Relationships\BelongsTo;
 use DDPro\Admin\Fields\Relationships\BelongsToMany;
+use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Http\Controllers\AdminModelController;
 use DDPro\Admin\Includes\FileHelper;
 use DDPro\Admin\Includes\ImageHelper;
@@ -569,6 +570,10 @@ class Config extends ConfigBase implements ConfigInterface
     public function saveRelationships(\Illuminate\Http\Request $input, &$model, array $fields)
     {
         // run through the edit fields to see if we need to set relationships
+        /**
+         * @var string $name
+         * @var Field $field
+         */
         foreach ($fields as $name => $field) {
             if ($field->getOption('external')) {
                 $field->fillModel($model, $input->get($name, []));
@@ -585,8 +590,8 @@ class Config extends ConfigBase implements ConfigInterface
     {
         $linkCallback = $this->getOption('link');
 
-        if ($linkCallback && is_callable($linkCallback)) {
-            return $linkCallback($this->getDataModel());
+        if ($linkCallback && FunctionHelper::canCall($linkCallback)) {
+            return FunctionHelper::doCall($linkCallback, $this->getDataModel());
         } else {
             return false;
         }

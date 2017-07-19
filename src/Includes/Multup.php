@@ -6,6 +6,7 @@
  */
 namespace DDPro\Admin\Includes;
 
+use DDPro\Admin\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -214,8 +215,8 @@ class Multup
         }
 
         if ($this->random) {
-            if (is_callable($this->random_cb)) {
-                $filename =  call_user_func($this->random_cb, $original_name);
+            if (FunctionHelper::canCall($this->random_cb)) {
+                $filename =  FunctionHelper::doCall($this->random_cb, $original_name);
             } else {
                 $ext      = File::extension($original_name);
                 $filename = $this->generate_random_filename() . '.' . $ext;
@@ -268,7 +269,7 @@ class Multup
      */
     public function filename_callback($func)
     {
-        if (is_callable($func)) {
+        if (FunctionHelper::canCall($func)) {
             $this->random_cb = $func;
         }
 
@@ -284,7 +285,7 @@ class Multup
      */
     public function after_upload($cb, $args = '')
     {
-        if (is_callable($cb)) {
+        if (FunctionHelper::canCall($cb)) {
             $this->upload_callback      = $cb;
             $this->upload_callback_args = $args;
         } else {
@@ -326,7 +327,7 @@ class Multup
         if ($args->isSuccessful()) {
 
             // Call the upload callback if defined
-            if (is_callable($this->upload_callback)) {
+            if (FunctionHelper::canCall($this->upload_callback)) {
                 if (! empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
                     $args->merge($this->upload_callback_args);
                 }
