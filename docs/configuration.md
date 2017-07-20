@@ -8,6 +8,7 @@
     - [Title](#title)
     - [Model Config Path](#model-config-path)
     - [Settings Config Path](#settings-config-path)
+    - [Formats](#format)
     - [Menu](#menu)
     - [Permission](#permission)
     - [Use Dashboard](#use-dashboard)
@@ -110,6 +111,28 @@ This is the directory location of your application's model config files. It's re
     'settings_config_path' => app('path') . '/config/administrator/settings',
 
 This is the directory location of your application's settings config files. If you want to create settings pages for your admins, you'll store each settings config file in the path above. As with the `model_config_path`, it's up to you how to organize this. The recommended approach is above, but you may just find a more sensible way to organize your config directories.
+
+<a name="format"></a>
+### Formats
+
+    /**
+     * Various formats used in the administration interface.
+     *
+     * @type array
+     */
+    'format' => [
+        // Carbon date formats are as per php date function: http://php.net/manual/en/function.date.php
+        // These formats are used for displaying dates and datetimes in columns on the DataTable
+        'date_carbon'           => 'd/m/Y',
+        'datetime_carbon'       => 'd/m/Y H:i',
+
+        // These are the default date formats sent to the datepicker.
+        'date_datepicker'       => 'dd/mm/yy',
+        'time_datepicker'       => 'HH:mm',
+        'datetime_datepicker'   => 'dd/mm/yy HH:mm',
+    ],
+
+This allows you to set various output and datepicker formats to be used globally throughout the administration application.
 
 <a name="menu"></a>
 ### Menu

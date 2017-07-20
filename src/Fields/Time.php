@@ -2,9 +2,6 @@
 namespace DDPro\Admin\Fields;
 
 use DateTime as DateTime;
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\Validator;
-use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class Time extends Field
@@ -107,17 +104,22 @@ class Time extends Field
         }
 
         // first we validate that it's a date/time
-        if ($time !== false) {
+        if (! empty($time) && ($time instanceof DateTime)) {
             // fill the model with the correct date/time format
             $model->{$field_name} = $this->getDateString($time);
         }
     }
 
     /**
-     * Get a date format from a time depending on the type of time field this is
+     * Get the correct date string.
      *
-     * @param int		$time
+     * Get a date format in the correct format to be saved to the database from a DateTime
+     * depending on the type of time field this is.
      *
+     * Strictly speaking this should not be necessary because Laravel is capable of handling
+     * date fields being assigned DateTime objects directly.
+     *
+     * @param DateTime $time
      * @return string
      */
     public function getDateString(DateTime $time)

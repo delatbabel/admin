@@ -4,6 +4,7 @@
 - [Simple Columns](#simple-columns)
 - [Column Headers](#column-headers)
 - [Visible Option](#visible-option)
+- [Column Type](#column-type)
 - [Using Accessors](#using-accessors)
 - [Setting the Sort Field](#setting-the-sort-field)
 - [Custom Selects](#custom-selects)
@@ -66,6 +67,25 @@ The `visible` option lets you determine if a column should be present. The defau
             return Auth::user()->hasRole('super_admin');
         },
     ),
+
+<a name="column-type"></a>
+## Column Type
+
+You can use the 'type' option for certain column types just like field types.  However only certain types make any difference in the column view, for example:
+
+    'start_date' => array(
+        'title' => 'Start Date',
+        'type' => 'date'
+    )
+
+The types that are recognised and that cause automatic formatting to happen within the column display are:
+
+* date
+* datetime
+* time
+
+Default date and time formats are defined in the configuration under [format](/docs/configuration.md#format)
+For others you should use a column accessor.
 
 <a name="using-accessors"></a>
 ## Using Accessors
