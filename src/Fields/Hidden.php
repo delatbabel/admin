@@ -22,10 +22,19 @@ class Hidden extends Field
     ];
 
     /**
+     * Override defaults from parent class
+     *
+     * @var array
+     */
+    protected $defaults = [
+        'visible'      => false,
+    ];
+
+    /**
      * Filters a query object given
      *
-     * @param \Illuminate\Database\Query\Builder	$query
-     * @param array									$selects
+     * @param \Illuminate\Database\Query\Builder    $query
+     * @param array                                 $selects
      *
      * @return void
      */
