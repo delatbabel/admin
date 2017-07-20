@@ -20,7 +20,7 @@ class Hidden extends Field
     protected $rules = [
         'value'  => 'required'
     ];
-    
+
     /**
      * Override defaults from parent class
      *
