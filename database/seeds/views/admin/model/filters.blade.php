@@ -16,7 +16,9 @@
                             <?php $tmpName = "filters[{$key}][value]"; ?>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="{{$tmpID}}">{{$arrCol['title']}}</label>
+                                    @if ($arrCol['type'] != 'hidden')
+                                        <label for="{{$tmpID}}">{{$arrCol['title']}}</label>
+                                    @endif
                                     {!! Form::hidden("filters[{$key}][field_name]", $arrCol['field_name'], ['class'=>"form-filter"]) !!}
                                     @if(!in_array($arrCol['type'],['number','date','datetime','time'] ))
                                         @include('admin.model.field',[
