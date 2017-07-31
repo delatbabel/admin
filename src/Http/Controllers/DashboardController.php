@@ -2,6 +2,7 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -28,30 +29,45 @@ class DashboardController extends BaseController
 
     /**
      * Check the user type and redirect to their Dashboard
-     * route('customer_dashboard') as customer (customer_id != NULL)
-     * route('supplier_dashboard') as supplier (supplier_id != NULL)
-     * route('admin_dashboard')    as admin    (customer_id and supplier_id both NULL)
+     *
+     * This is done by checking the role_dashboard_mapping config.  It should look like this:
+     *
+     * <code>
+     *     'role_dashboard_mapping' => [
+     *         'administrator' => [
+     *             'route'     => 'admin_dashboard',
+     *         ],
+     *     'customer'      => [
+     *             'url'       => '/',
+     *     ],
+     * ]; // ... etc
+     * </code>
+     *
+     * Each role can define either a route or a URL to be redirected to.  If both are defined
+     * the route takes precedence.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function Index()
+    public function index()
     {
         // Return the appropriate response
-        $expected_dashboard = 'admin_dashboard';
-        if (\Sentinel::getUser()) {
+        $expected_dashboard = [
+            'route'         => 'admin_dashboard',
+        ];
+        if (Sentinel::getUser()) {
             $role_dashboard_mapping = config('administrator.role_dashboard_mapping');
             // Loop through role_dashboard_mapping config, in case a user has many roles, the first appropriate dashboard
             // in the config will be chosen
             foreach ($role_dashboard_mapping as $role => $dashboard) {
-                if (\Sentinel::inRole($role)) {
+                if (Sentinel::inRole($role)) {
                     $expected_dashboard = $dashboard;
                     break;
                 }
             }
         }
-        if ($expected_dashboard != '/') {
-            $expected_dashboard = route($expected_dashboard);
+        if (! empty($expected_dashboard['route'])) {
+            return route($expected_dashboard['route']);
         }
-        return redirect($expected_dashboard);
+        return redirect($expected_dashboard['url']);
     }
 }

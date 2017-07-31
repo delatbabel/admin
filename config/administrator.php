@@ -11,10 +11,18 @@ return [
 
     // Dashboard mapping
     'role_dashboard_mapping' => [
-        'administrator' => 'admin_dashboard',
-        'moderator'     => 'admin_dashboard',
-        'customer'      => '/',
-        'supplier'      => '/',
+        'administrator' => [
+            'route'     => 'admin_dashboard',
+        ],
+        'moderator'     => [
+            'route'     => 'admin_dashboard',
+        ],
+        'customer'      => [
+            'url'       => '/',
+        ],
+        'supplier'      => [
+            'url'       => '/',
+        ],
     ],
 
     /**
