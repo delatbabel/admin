@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Log;
 
 /**
  * Handle Dashboard Page for SentinelGuest Middleware
@@ -56,15 +57,20 @@ class DashboardController extends BaseController
         ];
         if (Sentinel::getUser()) {
             $role_dashboard_mapping = config('administrator.role_dashboard_mapping');
+
             // Loop through role_dashboard_mapping config, in case a user has many roles, the first appropriate dashboard
             // in the config will be chosen
             foreach ($role_dashboard_mapping as $role => $dashboard) {
                 if (Sentinel::inRole($role)) {
                     $expected_dashboard = $dashboard;
+                    Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                        'dashboard redirect for role ' . $role, $expected_dashboard);
                     break;
                 }
             }
         }
+
+        // Redirect to the role's dashboard
         if (! empty($expected_dashboard['route'])) {
             return route($expected_dashboard['route']);
         }
