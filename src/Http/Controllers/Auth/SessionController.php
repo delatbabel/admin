@@ -10,7 +10,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 /**
  * Class SessionController
@@ -74,6 +74,9 @@ class SessionController extends BaseController
      */
     public function postLogin(Request $request)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'POST Login for email ' . trim($request->get('email')));
+
         // Validate the Form Data
         $this->validate($request, [
             'email'    => 'required|email|max:255',

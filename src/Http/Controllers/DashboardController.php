@@ -72,7 +72,7 @@ class DashboardController extends BaseController
 
         // Redirect to the role's dashboard
         if (! empty($expected_dashboard['route'])) {
-            return route($expected_dashboard['route']);
+            return redirect(route($expected_dashboard['route']));
         }
         return redirect($expected_dashboard['url']);
     }
