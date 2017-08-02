@@ -1,7 +1,7 @@
 # Custom Actions
 
 - [Introduction](#introduction)
-- [Model Config](#model-config)
+- [Global Actions](#global-actions)
 - [Settings Config](#settings-config)
 - [Confirmations](#confirmations)
 - [Dynamic Messages](#dynamic-messages)
@@ -9,51 +9,41 @@
 <a name="introduction"></a>
 ## Introduction
 
-You can define custom actions in your [model](/docs/model-configuration.md#custom-actions) or [settings config files](/docs/settings-configuration.md#custom-actions) if you want to provide the administrative user buttons to perform custom code. You can modify an Eloquent model, or on a settings page you can give a user a button to clear the site cache or backup the database. A custom action is part of the `actions` array in your config files and it looks like this:
+You can define custom item or global actions in your [model](/docs/model-configuration.md#custom-actions) if you want to provide the administrative user buttons to perform custom code. You can modify an Eloquent model, for perform any other action. A custom item action is part of the `item_actions` array in your config files and it looks like this:
 
     /**
      * This is where you can define the model's custom actions
      */
-    'actions' => array(
-        //Clearing the site cache
-        'clear_cache' => array(
-            'title' => 'Clear Cache',
+    'item_actions' => array(
+        'delete' => array(
+            'title' => 'Delete',
+            'confirmation' => 'Are you sure you want to do this?',
             'messages' => array(
-                'active' => 'Clearing cache...',
-                'success' => 'Cache cleared!',
-                'error' => 'There was an error while clearing the cache',
+                'active' => 'Deleting...',
+                'success' => 'Deleted',
+                'error' => 'There was an error while deleting item',
             ),
-            //the settings data is passed to the function and saved if a truthy response is returned
-            'action' => function(&$data)
-            {
-                Cache::flush();
-
-                //return true to flash the success message
-                //return false to flash the default error
-                //return a string to show a custom error
-                //return a Response::download() to initiate a file download
-                return true;
-            }
+            'params' => array(
+                'action_name' => 'DeleteItem'
+            ),
+            'action' => '\App\Http\Controllers\MyCustomController::itemDelete'
         ),
     ),
 
 The `title` option lets you define the button's label value.
 
+The `confirmation` option text will be displayed in a pop-up to allow the user to confirm or cancel the action.
+
 The `messages` option is an array with three keys: `active`, `success`, and `error`. The `active` key is what is shown to the user as the action is being performed. The `success` key is the success message. The `error` key is the default error message.
 
-The `permission` option is an anonymous function that gets the relevant `$model` passed to it as its only parameter. This is exactly the same as if you were to put this action in your [`action_permissions`](/docs/model-configuration.md#action-permissions) array. Where you choose to put the permission callback is entirely up to you.
+The `params` array is passed as part of the request data.
+
+The `action` item should be a callable function (closure or function name) that gets passed a parameter `$id` containing the ID of the model that the action is to be performed on.
 
 > **Note**: If you want to show a custom error message, return an error string back from the `action` function. If you want to initiate a file download, return a Response::download().
 
-<a name="model-config"></a>
-## Model Config
-
-In a [model configuration file](/docs/model-configuration.md#custom-actions), the Eloquent model instance for that item will be passed into the `action` function.
-
-    'action' => function(&$model)
-    {
-        //
-    }
+<a name="global-actions"></a>
+## Global Actions
 
 You can also create a general action on your model page in the `global_actions` array.
 
@@ -63,17 +53,7 @@ You can also create a general action on your model page in the `global_actions` 
         )
     )
 
-These global custom actions are passed the filtered query builder object so that you can do something with the current result set if you choose to do so. You can also use this to publish all unpublished items, send emails to unnotified users, or really anything you can think of.
-
-<a name="settings-config"></a>
-## Settings Config
-
-In a [settings configuration file](/docs/settings-configuration.md#custom-actions), the currently-saved data for the page is passed by reference into the `action` function.
-
-    'action' => function(&$data)
-    {
-        //
-    }
+These global custom actions are passed an array of ids so that you can do something with multiple objects if you choose to do so. You can also use this to publish all unpublished items, send emails to unnotified users, or really anything you can think of.
 
 <a name="confirmations"></a>
 ## Confirmations
@@ -83,7 +63,7 @@ If you want a confirmation dialog to appear before the action is performed, you 
     'clear_cache' => array(
         'title' => 'Clear Cache',
         'confirmation' => 'Are you sure you want to clear the cache?',
-        'action' => function(&$data)
+        'action' => function($data)
         {
             //clear the cache
         }
@@ -94,7 +74,7 @@ If the admin user confirms, the action will proceed. If they do not, the action 
 <a name="dynamic-messages"></a>
 ## Dynamic Messages
 
-It's possible to pass in anonymous functions to any of the custom action text fields (`title`, `confirmation`, and any of the `messages` keys). These anonymous functions will be passed the relevant Eloquent model or settings config object. For example:
+It's possible to pass in anonymous functions to any of the custom action text fields (`title`, `confirmation`, and any of the `messages` keys). These anonymous functions will be passed the relevant Eloquent model. For example:
 
     'ban_user' => array(
         'title' => function($model)
