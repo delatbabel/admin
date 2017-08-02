@@ -469,8 +469,8 @@ class AdminModelController extends Controller
 
         // If this is an action for one ID then it's a custom model item action
         if (! empty($this->request->get('id'))) {
-            $ids = $this->request->get('id');
-            $global_action = false;
+            $ids            = $this->request->get('id');
+            $global_action  = false;
         } else {
             // If an empty array of IDs has been sent in, then return success but do nothing.
             $ids = $this->request->ids;
