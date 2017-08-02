@@ -458,6 +458,13 @@ class AdminModelController extends Controller
      */
     public function customModelAction($modelName)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'custom model action input', $this->request->all());
+        $result = [
+            'success' => true,
+        ];
+        return response()->json($result);
+
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
         $actionName    = $this->request->input('action_name', false);
@@ -516,6 +523,13 @@ class AdminModelController extends Controller
      */
     public function customModelItemAction($modelName, $id = null)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'custom model item action input', $this->request->all());
+        $result = [
+            'success' => true,
+        ];
+        return response()->json($result);
+
         /** @var Config $config */
         $config = app('itemconfig');
 
