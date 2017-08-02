@@ -463,7 +463,6 @@ class AdminModelController extends Controller
         $result = [
             'success' => true,
         ];
-        return response()->json($result);
 
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
@@ -471,16 +470,24 @@ class AdminModelController extends Controller
         $dataTable     = app('admin_datatable');
 
         // get the sort options and filters
+        /*
         $page        = $this->request->input('page', 1);
         $sortOptions = $this->request->input('sortOptions', []);
         $filters     = $this->request->input('filters', []);
 
         // get the prepared query options
         $prepared = $dataTable->prepareQuery(app('db'), $page, $sortOptions, $filters);
+        */
 
         // get the action and perform the custom action
         /** @var Action $action */
         $action = $actionFactory->getByName($actionName, true);
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'custom model action = ' . print_r($action, true));
+
+        return response()->json($result);
+
         $result = $action->perform($prepared['query']);
 
         // if the result is a string, return that as an error.
