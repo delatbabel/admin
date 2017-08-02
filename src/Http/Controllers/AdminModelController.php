@@ -482,11 +482,21 @@ class AdminModelController extends Controller
 
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
-        $actionName    = $this->request->input('action_name', $global_action);
+        $actionName    = $this->request->input('action_name', false);
+        if (empty($actionName)) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'model config custom action does not define an action_name parameter');
+            return response()->json(['success' => false, 'error' => 'configuration error, please check the error log']);
+        }
 
         // get the action and perform the custom action
         /** @var Action $action */
-        $action = $actionFactory->getByName($actionName, true);
+        $action = $actionFactory->getByName($actionName, $global_action);
+        if (empty($action)) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'model config custom action has an incorrect action_name parameter');
+            return response()->json(['success' => false, 'error' => 'configuration error, please check the error log']);
+        }
 
         // Debug in case something has gone missing
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .

@@ -4,6 +4,7 @@ namespace DDPro\Admin\Actions;
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
+use Log;
 
 /**
  * Class Factory
@@ -171,11 +172,16 @@ class Factory
      */
     public function getByName($name, $global = false)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'search for action by name ' . $name);
         $actions = $global ? $this->getGlobalActions() : $this->getActions();
 
         // loop over the actions to find our culprit
         /** @var Action $action */
         foreach ($actions as $action) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'checking action name ' . $action->getOption('action_name'));
+
             if ($action->getOption('action_name') === $name) {
                 return $action;
             }
@@ -193,6 +199,9 @@ class Factory
      */
     public function getActions($override = false)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'get item actions');
+
         // make sure we only run this once and then return the cached version
         if (! sizeof($this->actions) || $override) {
             $this->actions = [];
@@ -240,6 +249,9 @@ class Factory
      */
     public function getGlobalActions($override = false)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'get global actions');
+
         // make sure we only run this once and then return the cached version
         if (! sizeof($this->globalActions) || $override) {
             $this->globalActions = [];
