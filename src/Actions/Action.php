@@ -167,30 +167,6 @@ class Action
     }
 
     /**
-     * Set the callable action part of the action.
-     *
-     * This is called in case the callable action needs to be set to contain a callable
-     * e.g. containing an object instance.
-     *
-     * @param $action
-     */
-    /*
-    public function setCallableAction($action)
-    {
-        if (FunctionHelper::canCall($action)) {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'setting the callable action for ' . $this->getOption('title'));
-
-            $this->options['action'] = $action;
-        } else {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'unable to set the callable action for ' . $this->getOption('title') .
-                ' because what was passed in is not callable');
-        }
-    }
-    */
-
-    /**
      * Performs the callback of the action and returns its result
      *
      * @param array|integer $ids

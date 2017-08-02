@@ -470,17 +470,19 @@ class AdminModelController extends Controller
         // If this is an action for one ID then it's a custom model item action
         if (! empty($this->request->get('id'))) {
             $ids = $this->request->get('id');
+            $global_action = false;
         } else {
             // If an empty array of IDs has been sent in, then return success but do nothing.
             $ids = $this->request->ids;
             if (empty($ids) || ! is_array($ids) || count($ids) == 0) {
                 return response()->json($response);
             }
+            $global_action = true;
         }
 
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
-        $actionName    = $this->request->input('action_name', false);
+        $actionName    = $this->request->input('action_name', $global_action);
 
         // get the action and perform the custom action
         /** @var Action $action */
@@ -489,14 +491,6 @@ class AdminModelController extends Controller
         // Debug in case something has gone missing
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'custom model action options', $action->getOptions());
-
-        // Find the action, check if it's a local function
-        /*
-        $actionCall = $action->getOption('action');
-        if (is_string($actionCall) && is_callable([$this, $actionCall])) {
-            $action->setCallableAction([$this, $actionCall]);
-        }
-        */
 
         // Call the action itself
         $result = $action->perform($ids);
