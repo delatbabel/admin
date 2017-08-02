@@ -516,6 +516,7 @@ class AdminModelController extends Controller
             return response()->json(['success' => false, 'error' => $messages['error']]);
         }
 
+        // Binary file responses create a file download action
         if ($result instanceof BinaryFileResponse) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'file result from custom action');
@@ -526,6 +527,7 @@ class AdminModelController extends Controller
             $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
             $response['download'] = route('admin_file_download');
 
+        // Redirect responses store a redirect entry in the response JSON
         } elseif ($result instanceof RedirectResponse) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'redirect result from custom action');
@@ -535,6 +537,7 @@ class AdminModelController extends Controller
             $response['redirect'] = $result->getTargetUrl();
         }
 
+        // Every other true result is assumed to be a simple success
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'success result from custom action');
         return response()->json($response);
