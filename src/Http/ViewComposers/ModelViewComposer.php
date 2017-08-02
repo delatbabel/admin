@@ -1,12 +1,18 @@
 <?php
 namespace DDPro\Admin\Http\ViewComposers;
 
+use DDPro\Admin\Fields\Factory as FieldFactory;
+use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
+use DDPro\Admin\Actions\Factory as ActionFactory;
+use DDPro\Admin\DataTable\DataTable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 /**
  * Class ModelViewComposer
- * @package DDPro\Admin\Http\ViewComposers
+ *
+ * This adds all of the model data to views like model index view, model data table,
+ * edit view, etc.
  */
 class ModelViewComposer
 {
@@ -61,5 +67,10 @@ class ModelViewComposer
         $view->assetUrl          = url('packages/ddpro/admin/');
         $view->route             = $route['path'] . '/';
         $view->itemId            = isset($view->itemId) ? $view->itemId : null;
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'view filters', $view->filters);
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'Request data', request()->all());
     }
 }

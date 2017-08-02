@@ -586,6 +586,18 @@ class AdminModelController extends Controller
             'fetch dataTable results for model = ' . $modelName, [
             'input' => $input,
         ]);
+        // The request data comes from the DataTable JS plugin and looks like this:
+        // {"input":{"draw":"1",
+        //   "columns":[
+        //     {"data":"0","name":"batch_select","searchable":"true","orderable":"false","search":{"value":"","regex":"false"}},
+        //     {"data":"1","name":"id","searchable":"true","orderable":"true","search":{"value":"","regex":"false"}},
+        //     ... etc
+        //   "start":"0","length":"10","search":{"value":"","regex":"false"},
+        //   "filters":{
+        //      "company":{"field_name":"company","value":""},
+        //      ... etc
+        // }}}
+
         $result = $dataTable->getDataTableRows(app('db'), $input);
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'fetch dataTable results for model = ' . $modelName, [
