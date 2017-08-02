@@ -103,7 +103,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetByNameSucceeds()
     {
         $action = m::mock('DDPro\Admin\Actions\Action');
-        $action->shouldReceive('getOption')->once()->andReturn('action');
+        $action->shouldReceive('getOption')->twice()->andReturn('action');
         $this->factory->shouldReceive('getActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action'), $action);
     }
@@ -111,7 +111,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetByNameFails()
     {
         $action = m::mock('DDPro\Admin\Actions\Action');
-        $action->shouldReceive('getOption')->once()->andReturn('foo');
+        $action->shouldReceive('getOption')->twice()->andReturn('foo');
         $this->factory->shouldReceive('getActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action'), false);
     }
@@ -119,7 +119,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetByNameGlobalSucceeds()
     {
         $action = m::mock('DDPro\Admin\Actions\Action');
-        $action->shouldReceive('getOption')->once()->andReturn('action');
+        $action->shouldReceive('getOption')->twice()->andReturn('action');
         $this->factory->shouldReceive('getGlobalActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action', true), $action);
     }
@@ -127,7 +127,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetByNameGlobalFails()
     {
         $action = m::mock('DDPro\Admin\Actions\Action');
-        $action->shouldReceive('getOption')->once()->andReturn('foo');
+        $action->shouldReceive('getOption')->twice()->andReturn('foo');
         $this->factory->shouldReceive('getGlobalActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action', true), false);
     }
