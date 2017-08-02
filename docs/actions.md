@@ -24,7 +24,7 @@ You can define custom item or global actions in your [model](/docs/model-configu
                 'error' => 'There was an error while deleting item',
             ),
             'params' => array(
-                'action_name' => 'DeleteItem'
+                'action_name' => 'delete'
             ),
             'action' => '\App\Http\Controllers\MyCustomController::itemDelete'
         ),
@@ -36,7 +36,7 @@ The `confirmation` option text will be displayed in a pop-up to allow the user t
 
 The `messages` option is an array with three keys: `active`, `success`, and `error`. The `active` key is what is shown to the user as the action is being performed. The `success` key is the success message. The `error` key is the default error message.
 
-The `params` array is passed as part of the request data.
+The `params` array is passed as part of the request data.  This must include the `action_name` which must match the name of the action.
 
 The `action` item should be a callable function (closure or function name) that gets passed a parameter `$id` containing the ID of the model that the action is to be performed on.
 
