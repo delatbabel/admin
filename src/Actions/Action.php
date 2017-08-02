@@ -174,6 +174,7 @@ class Action
      *
      * @param $action
      */
+    /*
     public function setCallableAction($action)
     {
         if (FunctionHelper::canCall($action)) {
@@ -181,12 +182,13 @@ class Action
                 'setting the callable action for ' . $this->getOption('title'));
 
             $this->options['action'] = $action;
+        } else {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'unable to set the callable action for ' . $this->getOption('title') .
+                ' because what was passed in is not callable');
         }
-
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'unable to set the callable action for ' . $this->getOption('title') .
-            ' because what was passed in is not callable');
     }
+    */
 
     /**
      * Performs the callback of the action and returns its result

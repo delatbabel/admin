@@ -491,10 +491,12 @@ class AdminModelController extends Controller
             'custom model action options', $action->getOptions());
 
         // Find the action, check if it's a local function
+        /*
         $actionCall = $action->getOption('action');
         if (is_string($actionCall) && is_callable([$this, $actionCall])) {
             $action->setCallableAction([$this, $actionCall]);
         }
+        */
 
         // Call the action itself
         $result = $action->perform($ids);
