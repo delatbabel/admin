@@ -198,7 +198,7 @@ class Factory
             $this->actions = [];
 
             // loop over the actions to build the list
-            foreach ($this->config->getOption('actions') as $name => $options) {
+            foreach ($this->config->getOption('item_actions') as $name => $options) {
                 $this->actions[] = $this->make($name, $options);
             }
         }

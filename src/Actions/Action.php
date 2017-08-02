@@ -4,6 +4,7 @@ namespace DDPro\Admin\Actions;
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
+use Log;
 
 /**
  * Class Action
@@ -166,17 +167,42 @@ class Action
     }
 
     /**
+     * Set the callable action part of the action.
+     *
+     * This is called in case the callable action needs to be set to contain a callable
+     * e.g. containing an object instance.
+     *
+     * @param $action
+     */
+    public function setCallableAction($action)
+    {
+        if (FunctionHelper::canCall($action)) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'setting the callable action for ' . $this->getOption('title'));
+
+            $this->options['action'] = $action;
+        }
+
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'unable to set the callable action for ' . $this->getOption('title') .
+            ' because what was passed in is not callable');
+    }
+
+    /**
      * Performs the callback of the action and returns its result
      *
-     * @param mixed		$data
+     * @param array  $ids
      *
      * @return array
      */
-    public function perform(&$data)
+    public function perform($ids)
     {
         /** @var Callable $action */
         $action = $this->getOption('action');
-        return $action($data);
+        if (FunctionHelper::canCall($action)) {
+            return FunctionHelper::doCall($action, $ids);
+        }
+        return 'Unable to call action defined as `action` in the config';
     }
 
     /**

@@ -460,35 +460,44 @@ class AdminModelController extends Controller
     {
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'custom model action input', $this->request->all());
-        $result = [
+        // customModelAction:custom model action input {"action_name":"batchSendInvoice","ids":["2","1"]}
+        // customModelAction:custom model action input {"action_name":"test","id":"2"}
+
+        // If this is an action for one ID then it's a custom model item action, so we will redirect
+        if (! empty($this->request->get('id'))) {
+            return $this->customModelItemAction($modelName, $this->request->get('id'));
+        }
+
+        $response = [
             'success' => true,
         ];
+
+        // If an empty array of IDs has been sent in, then return success but do nothing.
+        $ids = $this->request->ids;
+        if (empty($ids) || ! is_array($ids) || count($ids) == 0) {
+            return response()->json($response);
+        }
 
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
         $actionName    = $this->request->input('action_name', false);
-        $dataTable     = app('admin_datatable');
-
-        // get the sort options and filters
-        /*
-        $page        = $this->request->input('page', 1);
-        $sortOptions = $this->request->input('sortOptions', []);
-        $filters     = $this->request->input('filters', []);
-
-        // get the prepared query options
-        $prepared = $dataTable->prepareQuery(app('db'), $page, $sortOptions, $filters);
-        */
 
         // get the action and perform the custom action
         /** @var Action $action */
         $action = $actionFactory->getByName($actionName, true);
 
+        // Debug in case something has gone missing
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'custom model action = ' . print_r($action, true));
+            'custom model action options', $action->getOptions());
 
-        return response()->json($result);
+        // Find the action, check if it's a local function
+        $actionCall = $action->getOption('action');
+        if (is_string($actionCall) && is_callable([$this, $actionCall])) {
+            $action->setCallableAction([$this, $actionCall]);
+        }
 
-        $result = $action->perform($prepared['query']);
+        // Call the action itself
+        $result = $action->perform($ids);
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
@@ -500,8 +509,6 @@ class AdminModelController extends Controller
             $messages = $action->getOption('messages');
             return response()->json(['success' => false, 'error' => $messages['error']]);
         }
-
-        $response = ['success' => true];
 
         if ($result instanceof BinaryFileResponse) {
 
