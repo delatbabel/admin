@@ -1,12 +1,12 @@
 <?php
 namespace DDPro\Admin\Http\ViewComposers;
 
-use DDPro\Admin\Fields\Factory as FieldFactory;
-use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Actions\Factory as ActionFactory;
+use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\DataTable\DataTable;
-use Log;
+use DDPro\Admin\Fields\Factory as FieldFactory;
 use Illuminate\View\View;
+use Log;
 
 /**
  * Class ModelViewComposer
