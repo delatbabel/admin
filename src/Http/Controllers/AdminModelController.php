@@ -503,29 +503,40 @@ class AdminModelController extends Controller
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'error result from custom action == ' . $result);
             return response()->json(['success' => false, 'error' => $result]);
         }
 
         // if it's falsy, return the standard error message
         if (! $result) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'false result from custom action');
             $messages = $action->getOption('messages');
             return response()->json(['success' => false, 'error' => $messages['error']]);
         }
 
         if ($result instanceof BinaryFileResponse) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'file result from custom action');
 
             // if it's a download response, flash the response to the session and return the download link
             $file    = $result->getFile()->getRealPath();
             $headers = $result->headers->all();
             $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
             $response['download'] = route('admin_file_download');
+
         } elseif ($result instanceof RedirectResponse) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'redirect result from custom action');
 
             // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
             /** @var RedirectResponse $result */
             $response['redirect'] = $result->getTargetUrl();
         }
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'success result from custom action');
         return response()->json($response);
     }
 
