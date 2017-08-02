@@ -191,9 +191,8 @@ class Action
     /**
      * Performs the callback of the action and returns its result
      *
-     * @param array  $ids
-     *
-     * @return array
+     * @param array|integer $ids
+     * @return mixed
      */
     public function perform($ids)
     {

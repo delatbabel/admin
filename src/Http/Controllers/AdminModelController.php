@@ -463,19 +463,19 @@ class AdminModelController extends Controller
         // customModelAction:custom model action input {"action_name":"batchSendInvoice","ids":["2","1"]}
         // customModelAction:custom model action input {"action_name":"test","id":"2"}
 
-        // If this is an action for one ID then it's a custom model item action, so we will redirect
-        if (! empty($this->request->get('id'))) {
-            return $this->customModelItemAction($modelName, $this->request->get('id'));
-        }
-
         $response = [
             'success' => true,
         ];
 
-        // If an empty array of IDs has been sent in, then return success but do nothing.
-        $ids = $this->request->ids;
-        if (empty($ids) || ! is_array($ids) || count($ids) == 0) {
-            return response()->json($response);
+        // If this is an action for one ID then it's a custom model item action
+        if (! empty($this->request->get('id'))) {
+            $ids = $this->request->get('id');
+        } else {
+            // If an empty array of IDs has been sent in, then return success but do nothing.
+            $ids = $this->request->ids;
+            if (empty($ids) || ! is_array($ids) || count($ids) == 0) {
+                return response()->json($response);
+            }
         }
 
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
@@ -521,75 +521,6 @@ class AdminModelController extends Controller
 
             // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
             /** @var RedirectResponse $result */
-            $response['redirect'] = $result->getTargetUrl();
-        }
-
-        return response()->json($response);
-    }
-
-    /**
-     * POST method for handling custom model item actions
-     *
-     * @param string $modelName
-     * @param int    $id
-     *
-     * @return Response JSON
-     */
-    public function customModelItemAction($modelName, $id = null)
-    {
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'custom model item action input', $this->request->all());
-        $result = [
-            'success' => true,
-        ];
-        return response()->json($result);
-
-        /** @var Config $config */
-        $config = app('itemconfig');
-
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
-        $actionFactory = app('admin_action_factory');
-        $model         = $config->getDataModel();
-        $model         = $model::find($id);
-        $actionName    = $this->request->input('action_name', false);
-
-        // get the action and perform the custom action
-        $action = $actionFactory->getByName($actionName);
-        $result = $action->perform($model);
-
-        // override the config options so that we can get the latest
-        app('admin_config_factory')->updateConfigOptions();
-
-        // if the result is a string, return that as an error.
-        if (is_string($result)) {
-            return response()->json(['success' => false, 'error' => $result]);
-        }
-
-        // if it's falsy, return the standard error message
-        if (! $result) {
-            $messages = $action->getOption('messages');
-            return response()->json(['success' => false, 'error' => $messages['error']]);
-        }
-
-        $fieldFactory  = app('admin_field_factory');
-        $columnFactory = app('admin_column_factory');
-        $fields        = $fieldFactory->getEditFields();
-        $model         = $config->getModel($id, $fields, $columnFactory->getIncludedColumns($fields));
-        if ($model->exists) {
-            $model = $config->updateModel($model, $fieldFactory, $actionFactory);
-        }
-        $response = ['success' => true, 'data' => $model->toArray()];
-
-        if ($result instanceof BinaryFileResponse) {
-
-            // if it's a download response, flash the response to the session and return the download link
-            $file    = $result->getFile()->getRealPath();
-            $headers = $result->headers->all();
-            $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
-            $response['download'] = route('admin_file_download');
-        } elseif ($result instanceof RedirectResponse) {
-
-            // if it's a redirect, put the url into the redirect key so that javascript can transfer the user
             $response['redirect'] = $result->getTargetUrl();
         }
 
