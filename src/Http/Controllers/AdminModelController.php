@@ -548,6 +548,29 @@ class AdminModelController extends Controller
     }
 
     /**
+     * Custom model item action
+     *
+     * This method can be used for any custom action.
+     *
+     * * **route method**: POST
+     * * **route name**: admin_custom_model_item_action
+     * * **route URL**: admin/{model}/{id}/custom_action
+     *
+     * @return Response JSON
+     */
+    public function customModelItemAction($modelName, $itemId = null)
+    {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'custom model item action input', $this->request->all());
+
+        $result = [
+            'success' => false,
+            'error'   => 'Please define customModelItemAction in your own controller.'
+        ];
+        return response()->json($result);
+    }
+
+    /**
      * Gets the database results for the current model
      *
      * Called by DataTable
@@ -688,6 +711,16 @@ class AdminModelController extends Controller
         return $this->$functionName($modelName, $itemId);
     }
 
+    /**
+     * A custom action called when items on a page are re-ordered.
+     *
+     * * **route method**: POST
+     * * **route name**: admin_reorder_item
+     * * **route URL**: admin/{model}/reorder_item
+     *
+     * @param $modelName
+     * @return Response JSON
+     */
     public function reorderItem($modelName)
     {
         $id = $this->request->get('id');
