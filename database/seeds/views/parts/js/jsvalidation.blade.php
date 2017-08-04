@@ -22,7 +22,12 @@ jQuery(document).ready(function(){
                 }
                 else if (element.attr("type") == "checkbox") {
                     // error.insertAfter(element.parents('label'));
-                    element.parents(".form-group").append(error.addClass('col-md-10'));
+                    var $preferredDays = element.closest(".preferred-days");
+                    if ($preferredDays && $preferredDays.length > 0) {
+                        error.insertAfter($preferredDays);
+                    } else {
+                        element.parents(".form-group").append(error.addClass('col-md-10'));
+                    }
                     // Add the span element, if doesn't exists, and apply the icon classes to it.
                     if ( !$( element ).find( "i" )[0]) {
                         $(element).closest('.form-group').addClass('has-feedback');

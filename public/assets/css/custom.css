@@ -131,7 +131,9 @@ div.dataTables_wrapper div.dataTables_info {
   background-color: #287BAE;
   border-color: #287BAE;
 }
-.btn-sd-normal {
+.btn-sd-normal,
+.btn-sd-normal:focus,
+.btn-sd-normal:active {
   border-radius: 4px;
   padding: 6px 12px;
   line-height: 1.42857143;
@@ -139,6 +141,7 @@ div.dataTables_wrapper div.dataTables_info {
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
+  text-transform: capitalize;
 }
 .table .btn-sd-normal {
   margin-right: 10px;
@@ -160,6 +163,7 @@ div.dataTables_wrapper div.dataTables_info {
 .inside-pagination {
   float: right;
   margin-right: -9px;
+  margin-top: -2px;
 }
 table.table-bordered.dataTable,
 table.table-bordered.dataTable tfoot th {
@@ -188,4 +192,155 @@ table.table-bordered.dataTable tbody td:first-child {
 }
 table.table-bordered.dataTable tbody td:last-child {
   border-right-width: 1px;
+}
+
+.loading-wrapper {
+    background-color: rgba(255, 255, 255, 0.65);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+.loading-inner {
+  position: relative;
+  width: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 40%;
+}
+.loading-inner img {
+  width: 30px;
+}
+.loading-inner span {
+  padding-left: 10px;
+}
+.btn.btnCustom {
+  margin-left: 3px;
+}
+.pagination > .paginate_button {
+  font-weight: normal;
+}
+.control-label .text-danger {
+  position: absolute;
+  right: 5px;
+}
+
+/** Custom for the dashboard */
+.content-wrapper, .right-side {
+  background-color: #fff;
+}
+.col-lg-2-4 {
+    width: 20%;
+}
+.small-box.action > .inner {
+    min-height: 125px;
+}
+.small-box.action h3 {
+    font-weight: normal;
+    position: absolute;
+    bottom: 25px;
+}
+.title-block {
+    margin-top: 0;
+}
+/** newsletter */
+.split-panel {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+.panel-left {
+  flex: 0 0 auto;
+  /* only manually resize */
+  min-height: 200px;
+  min-width: 250px;
+  max-width: 40%;
+  white-space: nowrap;
+}
+
+.splitter {
+  flex: 0 0 auto;
+  width: 5px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  min-height: 200px;
+  cursor: col-resize;
+}
+
+.panel-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 400px;
+}
+.panel-right > .nav-tabs > li > a {
+  color: #000;
+  font-weight: bold;
+}
+.campain-detail {
+  background-color: #000;
+  height: 25px;
+}
+.campain-detail h5 {
+  font-weight: bold;
+  color: #fff;
+  font-size: 13px;
+  line-height: 25px;
+  margin: 0;
+  padding: 0 10px;
+}
+.panel-left h4.title {
+  color: #000;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 10px;
+}
+.btn-icon {
+  display: inline-block;
+  color: #666;
+
+}
+.search-box {
+  border-top: 1px solid #888;
+  padding-top: 15px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.search-box .pull-left{
+  width: 80%;
+}
+.search-box .pull-right {
+  width: 10%;
+}
+.search-box .btn-icon {
+  margin-right: 10px;
+  padding: 5px 0;
+}
+.campain-list {
+  padding: 0;
+  list-style-type: none;
+}
+.campain-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+.campain-item .checkbox label {
+  line-height: 16px;
+}
+.campain-item .btn-icon {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  cursor: pointer;
+}
+.btn-icon:active,
+.btn-icon:hover,
+.btn-icon:focus {
+  color: #666;
+  text-decoration: none;
 }

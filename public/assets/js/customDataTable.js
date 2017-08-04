@@ -37,7 +37,14 @@ var DataTableHandle = function () {
                                 if (primaryCol != null) {
                                     var tmpEditURL = options.editURL + '/' + col[primaryCol];
                                     var _tmpButtons = "<a class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ";
-                                    _tmpButtons += "<button class='btn btn-xs btn-sd-default removeBtn' data-id='" + col[primaryCol] + "'>Delete</button>";
+                                    _tmpButtons += "<button class='btn btn-xs btn-sd-default removeBtn' data-id='" + col[primaryCol] + "'>Delete</button>",
+                                    customButtons = [];
+                                    if (options.buttons && options.buttons.length > 0) {
+                                        customButtons = options.buttons.map(function (item) {
+                                            return "<button class='btn btn-xs btn-sd-default btnCustom' data-id='" + col[primaryCol] + "' data-url='" + item.url + "' data-confirmation='" + item.confirmation + "' data-messages='" + JSON.stringify(item.messages) + "' " + (item.params ? " data-params='" + JSON.stringify(item.params) + "'" : "") +">" + (item.title) + "</button>";
+                                        });
+                                    }
+                                    _tmpButtons += customButtons.join("");
                                     return _tmpButtons;
                                 }
                                 else {
@@ -95,77 +102,6 @@ var DataTableHandle = function () {
                     }
                 });
             });
-
-            // Select all button clicked
-            $table.on('click', '#selectAll', function () {
-                $table.find('tbody input[type="checkbox"]').prop('checked', this.checked);
-            });
-
-            // Batch delete items
-            $table.on('click', '#batchDelete', function () {
-                var ids = [];
-                $table.find('tbody input[type="checkbox"]').each(function(){
-                    if($(this).is(':checked')) {
-                        ids.push($(this).val());
-                    }
-                });
-
-                if (ids.length > 0) {
-                    if (!window.confirm('Are you sure you want to delete selected item(s)? This cannot be reversed.')) {
-                        return;
-                    }
-                    $.ajax({
-                        url: options.deleteURL + '/destroy',
-                        method: 'POST',
-                        data: {ids:ids},
-                    }).done(function (data) {
-                        if (data.success) {
-                            dataTable.ajax.reload();
-                            $table.find('#selectAll').prop('checked', false);
-                        }
-                        else {
-                            alert(data.error);
-                        }
-                    });
-                }
-            });
-
-            // Batch activate / deactivate items
-            $table.on('click', '#batchActivate', function () {
-                toogleActivate('active');
-            });
-
-            $table.on('click', '#batchDeactivate', function () {
-                toogleActivate('inactive');
-            });
-
-            function toogleActivate(status) {
-                var ids = [];
-                $table.find('tbody input[type="checkbox"]').each(function(){
-                    if($(this).is(':checked')) {
-                        ids.push($(this).val());
-                    }
-                });
-
-                if (ids.length > 0) {
-                    if (!window.confirm('Are you sure?')) {
-                        return;
-                    }
-                    $.ajax({
-                        url: options.deleteURL + '/toggle_activate',
-                        method: 'POST',
-                        data: {status: status, ids:ids},
-                    }).done(function (data) {
-                        if (data.success) {
-                            dataTable.ajax.reload();
-                            $table.find('#selectAll').prop('checked', false);
-                        }
-                        else {
-                            alert(data.error);
-                        }
-                    });
-                }
-            }
 
             $(options.filterApplyAction).click(function () {
                 the.initAjaxParams();

@@ -5,12 +5,6 @@
     <div class="box-header with-border">
         <h3 class="box-title">{{ $config->getOption('single') }} List</h3>
         <div class="box-tools pull-right">
-            @foreach($globalActions as $arr)
-                @if($arr['has_permission'])
-                    <input type="button" class="btn btn-info"
-                           value="{{$arr['title']}}"/>
-                @endif
-            @endforeach
             @if(isset($actionPermissions['update']) === true)
                 <a class="edit_item btn btn-primary" style="display: none">
                     {{trans('administrator::administrator.edit')}} {{$config->getOption('single')}}
@@ -31,7 +25,7 @@
         </div>
     </div>
     <div class="box-body table-responsive">
-        <table class="table table-striped table-bordered table-hover dataTables-example" id="customers">
+        <table class="table table-striped table-bordered table-hover dataTables-example responsive" width="100%" id="customers">
             <thead>
             <tr>
                 @foreach($columnModel as $tmpArr)
@@ -40,17 +34,44 @@
                 <th>Actions</th>
             </tr>
             </thead>
-            @if (array_key_exists('batch_select', $config->getOption('columns')))
+            @if ($config->getOption('deletable') || $config->getOption('activation') || !empty($globalActions))
             <tfoot>
             <tr>
                 <th><input id="selectAll" value="1" type="checkbox"></th>
                 <th colspan="{{count($columnModel)}}">
-                    <button id="batchDelete" class="btn btn-sd-normal">Delete</button>
-
-                    @if ($config->getOption('activation'))
-                        <button id="batchActivate" class="btn btn-sd-normal">Activate</button>
-                        <button id="batchDeactivate" class="btn btn-sd-normal">Deactivate</button>
+                    @if ($config->getOption('deletable'))
+                        <button class="btn btn-sd-normal"
+                                data-url="{!! route('admin_destroy_items', [$config->getOption('name')]) !!}"
+                                data-confirmation="Are you sure you want to do this?"
+                                data-messages='{{ json_encode(array('active'=>'Doing...', 'success'=>'Done', 'error'=>'There was an error while doing')) }}'>
+                            Delete</button>
                     @endif
+                    @if ($config->getOption('activation'))
+                        <button class="btn btn-sd-normal"
+                                data-url="{!! route('admin_toggle_activate_items', [$config->getOption('name')]) !!}"
+                                data-params='{{ json_encode(array('status'=>'active')) }}'
+                                data-confirmation="Are you sure you want to do this?"
+                                data-messages='{{ json_encode(array('active'=>'Doing...', 'success'=>'Done', 'error'=>'There was an error while doing')) }}'>
+                                Activate
+                        </button>
+                        <button class="btn btn-sd-normal"
+                                data-url="{!! route('admin_toggle_activate_items', [$config->getOption('name')]) !!}"
+                                data-params='{{ json_encode(array('status'=>'inactive')) }}'
+                                data-confirmation="Are you sure you want to do this?"
+                                data-messages='{{ json_encode(array('active'=>'Doing...', 'success'=>'Done', 'error'=>'There was an error while doing')) }}'>
+                                Deactivate
+                        </button>
+                    @endif
+                    @foreach($globalActions as $arr)
+                        <button class="btn btn-sd-normal"
+                                id="{{$arr['action_name']}}"
+                                @if(isset($arr['url'])) data-url="{{$arr['url']}}" @else data-url="{!! route('admin_custom_model_action', [$config->getOption('name')]) !!}" @endif
+                                @if(isset($arr['params'])) data-params='{{json_encode($arr['params'])}}' @endif
+                                @if(isset($arr['confirmation'])) data-confirmation="{{$arr['confirmation']}}" @endif
+                                data-messages='{{json_encode($arr['messages'])}}'>
+                                {{$arr['title']}}
+                        </button>
+                    @endforeach
                     <div class="inside-pagination"></div>
                 </th>
             </tr>
@@ -59,6 +80,18 @@
         </table>
     </div>
 </div>
+<?php
+    // Custom buttons
+    $buttons = array();
+    if (null !== $config->getOption('item_actions')) {
+        foreach ($config->getOption('item_actions') as $button) {
+            if (!isset($button['url'])) {
+                $button['url'] = route('admin_custom_model_action', [$config->getOption('name')]);
+            }
+            $buttons[] = $button;
+        }
+    }
+?>
 @section('javascript')
     @parent
     <script type="text/javascript">
@@ -83,6 +116,8 @@
                     "columns": {!! json_encode($columnOptions) !!},
                     dom: '<"html5buttons"B>lTfgitp'
                 }
+                //Apply for the custom buttons
+                ,buttons: {!! json_encode($buttons) !!},
             });
             $(".inside-pagination").append($("#customers_paginate"));
             $('#customers').on("click", '[data-toggle="ajaxModal"]', function(e) {

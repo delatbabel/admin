@@ -5,7 +5,20 @@ var AdminLTEOptions = {
 angular.module('myApp', [], function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
-}).controller("MyController",function(){});
+}).controller("MyController", function(){
+    var vm = this;
+    vm.onSubCategoryChange = function (selectedId) {
+        vm.selectedSubCatId = selectedId;
+    }
+    vm.isShowSubmitButton = function (selectedCatId) {
+        if (selectedCatId === "67" && vm.selectedSubCatId) {
+            return true;
+        } else if (selectedCatId && selectedCatId !== "67") {
+            return true;
+        }
+        return false;
+    }
+});
 
 angular.module('myApp').directive('select2', function() {
     return {

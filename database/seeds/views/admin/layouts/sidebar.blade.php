@@ -1,12 +1,12 @@
-<!-- Left side column. contains the logo and sidebar -->
+{{-- Left side column. contains the logo and sidebar --}}
 @inject('user', 'DDPro\Admin\Services\User')
 <?php $sentinelUser = $user->getUser() ?>
 <aside class="main-sidebar">
 
-    <!-- sidebar: style can be found in sidebar.less -->
+    {{-- sidebar: style can be found in sidebar.less --}}
     <section class="sidebar">
 
-        <!-- Sidebar user panel (optional) -->
+        {{-- Sidebar user panel (optional) --}}
         <div class="user-panel">
             <div class="pull-left image">
                 <img src="//www.gravatar.com/avatar/{{ md5($user->getUser()->email) }}?d=mm" alt="{{ $user->getUser()->email }}" class="img-circle">
@@ -19,12 +19,12 @@
                         {{ $sentinelUser->email }}
                     @endif
                 </p>
-                <!-- Status -->
+                {{-- Status --}}
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
 
-        <!-- search form (Optional) -->
+        {{-- search form (Optional) --}}
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search..."/>
@@ -33,29 +33,29 @@
           </span>
             </div>
         </form>
-        <!-- /.search form -->
+        {{-- /.search form --}}
 
-        <!-- Sidebar Menu -->
+        {{-- Sidebar Menu --}}
         <ul class="sidebar-menu">
-            <li class="header">Admin Menu</li>
-            @if ($sentinelUser->hasAccess(['all.all']))
-            <li><a href="{{ url(config('administrator.uri', 'admin').'/backup') }}"><i class="fa fa-hdd-o"></i> <span>Backups</span></a></li>
-            <li><a href="{{ url(config('administrator.uri', 'admin').'/log') }}"><i class="fa fa-terminal"></i> <span>Logs</span></a></li>
-            <li>
-                <a href="/sysadmin/files">
-                    <i class="fa fa-file"></i>
-                    <span class="nav-label">File Manager</span>
-                </a>
-            </li>
-            @endif
 
             @foreach ($menu as $key => $item)
                 @include('admin.layouts.menu_item')
             @endforeach
-        </ul><!-- /.sidebar-menu -->
+
+            @if ($sentinelUser->hasAccess(['all.all']))
+                <li><a href="{{ url(config('administrator.uri', 'admin').'/backup') }}"><i class="fa fa-hdd-o"></i> <span>Backups</span></a></li>
+                <li><a href="{{ url(config('administrator.uri', 'admin').'/log') }}"><i class="fa fa-terminal"></i> <span>Logs</span></a></li>
+                <li>
+                    <a href="/sysadmin/files">
+                        <i class="fa fa-file"></i>
+                        <span class="nav-label">File Manager</span>
+                    </a>
+                </li>
+            @endif
+        </ul>{{-- /.sidebar-menu --}}
 
     </section>
-    <!-- /.sidebar -->
+    {{-- /.sidebar --}}
 </aside>
 <?php
 $check_active       = false;

@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php
+if (! empty($view_data['code'])) {
+    $code = $view_data['code'];
+}
+?>
 <html lang="en-US">
 	<head>
 		<meta charset="utf-8">

@@ -22,7 +22,7 @@
                         <div class="form-group">
                             @if ($arrCol['type'] != 'static' && $arrCol['type'] != 'hidden')
                                 <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
-                                    {!! $arrCol['title'] !!}:
+                                    {!! $arrCol['title'] !!}
                                 </label>
                             @endif
                             <div
