@@ -155,18 +155,29 @@
 @endsection
 @elseif($type == 'time')
     <?php
-    $time_format = $arrCol['time_format'];
-    if (empty($time_format)) {
-        $time_format = config('administrator.format.time_datepicker');
+    if (empty($value)) {
+        $tmpValue = null;
+    } elseif ($value instanceof \DateTime) {
+        $tmpValue = $value->format(config('administrator.format.time_carbon'));
+    } else {
+        $dt       = new \DateTime($value);
+        $tmpValue = $dt->format(config('administrator.format.time_carbon'));
     }
+    $tmpValue = old($name, $tmpValue);
     ?>
     <div class="input-group clockpicker" data-autoclose="true">
-        {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+        {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
         <span class="input-group-addon">
             <span class="fa fa-clock-o"></span>
         </span>
     </div>
 @section('javascript')
+    <?php
+    $time_format = $arrCol['time_format'];
+    if (empty($time_format)) {
+        $time_format = config('administrator.format.time_datepicker');
+    }
+    ?>
     @parent
     <script type="text/javascript">
         $(function () {
