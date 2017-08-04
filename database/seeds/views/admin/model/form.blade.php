@@ -48,11 +48,11 @@
                                     {!!$errors->first($arrCol['field_name'])!!}
                                 </p>
                             @endif
+                            </div>
                         </div>
-            </div>
-            <div class="hr-line-dashed"></div>
-            @endif
-            @endforeach
+                        <div class="hr-line-dashed"></div>
+                    @endif
+                @endforeach
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-2">
                     <a href="{{route('admin_index', $config->getOption('name'))}}" class="btn btn-default ">
