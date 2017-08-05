@@ -45,16 +45,16 @@
     </script>
 @endsection
 @elseif($type == 'json')
-<?php
-if (is_array($value)) {
-    $tmpValue = json_encode($value);
-} elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
-    $tmpValue = json_encode($value->toArray());
-} else {
-    $tmpValue = json_encode([]);
-}
-$tmpValue = old($name, $tmpValue);
-?>
+    <?php
+    if (is_array($value)) {
+        $tmpValue = json_encode($value);
+    } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
+        $tmpValue = json_encode($value->toArray());
+    } else {
+        $tmpValue = json_encode([]);
+    }
+    $tmpValue = old($name, $tmpValue);
+    ?>
     {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
     <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
 @section('javascript')
@@ -95,40 +95,94 @@ $tmpValue = old($name, $tmpValue);
 @elseif($type == 'date')
     <?php
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
+
+    if (empty($value)) {
+        $tmpValue = null;
+    } elseif ($value instanceof \DateTime) {
+        $tmpValue = $value->format(config('administrator.format.date_carbon'));
+    } else {
+        $dt       = new \DateTime($value);
+        $tmpValue = $dt->format(config('administrator.format.date_carbon'));
+    }
+    $tmpValue = old($name, $tmpValue);
+
+    $date_format = $arrCol['date_format'];
+    if (empty($date_format)) {
+        $date_format = config('administrator.format.date_datepicker');
+    }
     ?>
     <div class="input-group date">
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        {!! Form::text($name, null, ['class'=> $defaultClass.' date-picker', 'id'=>$id, 'date-format'=>$arrCol['date_format'], 'min-date'=>$minDate]) !!}
+        {!! Form::text($name, $tmpValue, ['class'=> $defaultClass.' date-picker', 'id'=>$id, 'date-format'=>$date_format, 'min-date'=>$minDate]) !!}
     </div>
 @elseif($type == 'datetime')
+    <?php
+    $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
+
+    if (empty($value)) {
+        $tmpValue = null;
+    } elseif ($value instanceof \DateTime) {
+        $tmpValue = $value->format(config('administrator.format.datetime_carbon'));
+    } else {
+        $dt       = new \DateTime($value);
+        $tmpValue = $dt->format(config('administrator.format.datetime_carbon'));
+    }
+    $tmpValue = old($name, $tmpValue);
+
+    $date_format = $arrCol['date_format'];
+    if (empty($date_format)) {
+        $date_format = config('administrator.format.date_datepicker');
+    }
+    $time_format = $arrCol['time_format'];
+    if (empty($time_format)) {
+        $time_format = config('administrator.format.time_datepicker');
+    }
+    ?>
     <div class="input-group date">
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+        {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
     </div>
 @section('javascript')
     @parent
     <script type="text/javascript">
         $(function () {
             $("#{{$id}}").datetimepicker({
-                dateFormat: "{{$arrCol['date_format']}}",
-                timeFormat: "{{$arrCol['time_format']}}"
+                dateFormat: "{{$date_format}}",
+                timeFormat: "{{$time_format}}"
             });
         });
     </script>
 @endsection
 @elseif($type == 'time')
+    <?php
+    if (empty($value)) {
+        $tmpValue = null;
+    } elseif ($value instanceof \DateTime) {
+        $tmpValue = $value->format(config('administrator.format.time_carbon'));
+    } else {
+        $dt       = new \DateTime($value);
+        $tmpValue = $dt->format(config('administrator.format.time_carbon'));
+    }
+    $tmpValue = old($name, $tmpValue);
+    ?>
     <div class="input-group clockpicker" data-autoclose="true">
-        {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+        {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
         <span class="input-group-addon">
             <span class="fa fa-clock-o"></span>
         </span>
     </div>
 @section('javascript')
+    <?php
+    $time_format = $arrCol['time_format'];
+    if (empty($time_format)) {
+        $time_format = config('administrator.format.time_datepicker');
+    }
+    ?>
     @parent
     <script type="text/javascript">
         $(function () {
             $("#{{$id}}").timepicker({
-                timeFormat: "{{$arrCol['time_format']}}"
+                timeFormat: "{{$time_format}}"
             });
         });
     </script>

@@ -80,6 +80,17 @@ class Time extends Field
         if (empty($input) && $field_name) {
             $model->{$field_name} = null;
             return;
+        }
+
+        $field_type = $this->getOption('type');
+
+        if ($field_type == 'time') {
+            $time_format = ! empty($this->getOption('time_format')) ? $this->getOption('time_format') : config('administrator.format.time_carbon');
+            // The $time_format in the option will be the datepicker format, we have to convert that to a carbon format.
+            $PHPFormatOptions           = ['H', 'i', 's'];
+            $DatePickerFormatOptions    = ['HH', 'mm', 'ss'];
+            $time_format                = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $time_format);
+            $time                       = DateTime::createFromFormat($time_format, $input);
         } elseif (! empty($input) && $input !== '0000-00-00') {
             $date_format = $this->getOption('date_format');
 

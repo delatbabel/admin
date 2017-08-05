@@ -99,6 +99,7 @@ return [
         // These formats are used for displaying dates and datetimes in columns on the DataTable
         'date_carbon'           => 'd/m/Y',
         'datetime_carbon'       => 'd/m/Y H:i',
+        'time_carbon'           => 'H:i',
 
         // These are the default date formats sent to the datepicker.
         'date_datepicker'       => 'dd/mm/yy',
