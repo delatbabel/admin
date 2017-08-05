@@ -7,16 +7,19 @@ angular.module('myApp', [], function($interpolateProvider) {
     $interpolateProvider.endSymbol('%>');
 }).controller("MyController", function(){
     var vm = this;
-    vm.onSubCategoryChange = function (selectedId) {
-        vm.selectedSubCatId = selectedId;
+    vm.onCategoryChange = function () {
+        vm.subCategory = "";
     }
     vm.isShowSubmitButton = function (selectedCatId) {
-        if (selectedCatId === "67" && vm.selectedSubCatId) {
+        if (selectedCatId === vm.CategoryIdHasSubCat && vm.subCategory) {
             return true;
-        } else if (selectedCatId && selectedCatId !== "67") {
+        } else if (selectedCatId && selectedCatId !== vm.CategoryIdHasSubCat) {
             return true;
         }
         return false;
+    }
+    vm.init = function (catId) {
+        vm.CategoryIdHasSubCat = catId;
     }
 });
 
