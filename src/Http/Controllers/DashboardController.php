@@ -20,15 +20,6 @@ class DashboardController extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * DashboardController constructor.
-     */
-    public function __construct()
-    {
-        // Middleware
-        $this->middleware('sentinel.auth');
-    }
-
-    /**
      * Check the user type and redirect to their Dashboard
      *
      * This is done by checking the role_dashboard_mapping config.  It should look like this:

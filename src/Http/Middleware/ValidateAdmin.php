@@ -2,6 +2,8 @@
 namespace DDPro\Admin\Http\Middleware;
 
 use Closure;
+use DDPro\Admin\Helpers\FunctionHelper;
+use Exception;
 
 /**
  * Class ValidateAdmin
@@ -26,28 +28,33 @@ class ValidateAdmin
         /** @var string $permission */
         $permission = config('administrator.permission');
 
-        // if this is a simple false value, send the user to the login redirect
-        if (! $response = $permission()) {
-            $loginUrl    = url(config('administrator.login_path', 'user/login'));
-            $redirectKey = config('administrator.login_redirect_key', 'redirect');
-            $redirectUri = $request->url();
+        try {
+            // if this is a simple false value, send the user to the login redirect
+            if (! $response = FunctionHelper::doCall($permission)) {
+                $loginUrl    = url(config('administrator.login_path', 'user/login'));
+                $redirectKey = config('administrator.login_redirect_key', 'redirect');
+                $redirectUri = $request->url();
 
-            return redirect()->guest($loginUrl)->with($redirectKey, $redirectUri);
+                return redirect()->guest($loginUrl)->with($redirectKey, $redirectUri);
+            }
+
+            // otherwise if this is a response, return that
+            elseif (is_a($response, 'Illuminate\Http\JsonResponse') || is_a($response, 'Illuminate\Http\Response')) {
+                return $response;
+            }
+
+            // if it's a redirect, send it back with the redirect uri
+            elseif (is_a($response, 'Illuminate\\Http\\RedirectResponse')) {
+                $redirectKey = config('administrator.login_redirect_key', 'redirect');
+                $redirectUri = $request->url();
+
+                return $response->with($redirectKey, $redirectUri);
+            }
+
+            return $next($request);
+        } catch (Exception $e) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'An exception occur: ' . $e);
         }
-
-        // otherwise if this is a response, return that
-        elseif (is_a($response, 'Illuminate\Http\JsonResponse') || is_a($response, 'Illuminate\Http\Response')) {
-            return $response;
-        }
-
-        // if it's a redirect, send it back with the redirect uri
-        elseif (is_a($response, 'Illuminate\\Http\\RedirectResponse')) {
-            $redirectKey = config('administrator.login_redirect_key', 'redirect');
-            $redirectUri = $request->url();
-
-            return $response->with($redirectKey, $redirectUri);
-        }
-
-        return $next($request);
     }
 }
