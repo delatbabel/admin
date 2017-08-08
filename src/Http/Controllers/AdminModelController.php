@@ -503,7 +503,13 @@ class AdminModelController extends Controller
             'custom model action options', $action->getOptions());
 
         // Call the action itself
-        $result = $action->perform($ids);
+        try {
+            $result = $action->perform($ids);
+        } catch (\Exception $e) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from custom action == ' . $e->getMessage());
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
 
         // if the result is a string, return that as an error.
         if (is_string($result)) {
