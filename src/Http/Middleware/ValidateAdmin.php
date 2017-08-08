@@ -4,6 +4,7 @@ namespace DDPro\Admin\Http\Middleware;
 use Closure;
 use DDPro\Admin\Helpers\FunctionHelper;
 use Exception;
+use Log;
 
 /**
  * Class ValidateAdmin
