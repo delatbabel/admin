@@ -30,32 +30,36 @@ class ValidateAdmin
         $permission = config('administrator.permission');
 
         try {
-            // if this is a simple false value, send the user to the login redirect
-            if (! $response = FunctionHelper::doCall($permission)) {
-                $loginUrl    = url(config('administrator.login_path', 'user/login'));
-                $redirectKey = config('administrator.login_redirect_key', 'redirect');
-                $redirectUri = $request->url();
-
-                return redirect()->guest($loginUrl)->with($redirectKey, $redirectUri);
-            }
-
-            // otherwise if this is a response, return that
-            elseif (is_a($response, 'Illuminate\Http\JsonResponse') || is_a($response, 'Illuminate\Http\Response')) {
-                return $response;
-            }
-
-            // if it's a redirect, send it back with the redirect uri
-            elseif (is_a($response, 'Illuminate\\Http\\RedirectResponse')) {
-                $redirectKey = config('administrator.login_redirect_key', 'redirect');
-                $redirectUri = $request->url();
-
-                return $response->with($redirectKey, $redirectUri);
-            }
-
-            return $next($request);
+            // Check the response from the permission function
+            $response = FunctionHelper::doCall($permission);
         } catch (Exception $e) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'An exception occur: ' . $e);
+                'An exception occurred while checking permission: ' . $e);
+
+            return $next($request);
         }
+
+        // if this is a simple false value, send the user to the login redirect
+        if (! $response) {
+            $loginUrl    = url(config('administrator.login_path', 'user/login'));
+            $redirectKey = config('administrator.login_redirect_key', 'redirect');
+            $redirectUri = $request->url();
+
+            return redirect()->guest($loginUrl)->with($redirectKey, $redirectUri);
+
+        } elseif (is_a($response, 'Illuminate\Http\JsonResponse') || is_a($response, 'Illuminate\Http\Response')) {
+            // otherwise if this is a response, return that
+            return $response;
+
+        } elseif (is_a($response, 'Illuminate\\Http\\RedirectResponse')) {
+            // if it's a redirect, send it back with the redirect uri
+            $redirectKey = config('administrator.login_redirect_key', 'redirect');
+            $redirectUri = $request->url();
+
+            return $response->with($redirectKey, $redirectUri);
+        }
+
+        // If none of the above then ignore the response and continue
+        return $next($request);
     }
 }
