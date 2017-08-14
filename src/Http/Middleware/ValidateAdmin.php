@@ -46,11 +46,9 @@ class ValidateAdmin
             $redirectUri = $request->url();
 
             return redirect()->guest($loginUrl)->with($redirectKey, $redirectUri);
-
         } elseif (is_a($response, 'Illuminate\Http\JsonResponse') || is_a($response, 'Illuminate\Http\Response')) {
             // otherwise if this is a response, return that
             return $response;
-
         } elseif (is_a($response, 'Illuminate\\Http\\RedirectResponse')) {
             // if it's a redirect, send it back with the redirect uri
             $redirectKey = config('administrator.login_redirect_key', 'redirect');

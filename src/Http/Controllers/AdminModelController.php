@@ -537,7 +537,7 @@ class AdminModelController extends Controller
             $this->session->put('administrator_download_response', ['file' => $file, 'headers' => $headers]);
             $response['download'] = route('admin_file_download');
 
-        // Redirect responses store a redirect entry in the response JSON
+            // Redirect responses store a redirect entry in the response JSON
         } elseif ($result instanceof RedirectResponse) {
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'redirect result from custom action');
