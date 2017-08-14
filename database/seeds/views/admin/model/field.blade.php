@@ -5,7 +5,10 @@
         <p class="form-control-static"> {{ $value }} </p>
     @endif
 @elseif($type == 'text')
-    {!! Form::text($name, null, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    <?php // Added for filter form use
+    $value = old($name, $value)
+    ?>
+    {!! Form::text($name, $value, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'hidden')
     {!! Form::hidden($name, $arrCol['value'], ['id'=>$id]) !!}
 @elseif($type == 'password')
@@ -214,7 +217,7 @@
     foreach ($arrCol['options'] as $tmpSubArr) {
         $tmpArr[$tmpSubArr['id']] = $tmpSubArr['text'];
     }
-    $tmpDefault = null;
+    $tmpDefault = $value;
     if ((!old($name) && (!isset($model) || !isset($model->{$name}))) && isset($arrCol['default'])) {
         $tmpDefault = $arrCol['default'];
     }

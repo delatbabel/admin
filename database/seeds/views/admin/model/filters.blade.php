@@ -12,8 +12,14 @@
                 <form role="form">
                     @foreach($filters as $key => $arrCol)
                         @if($arrCol['visible'])
-                            <?php $tmpID   = "filter_field_" . $arrCol['field_name']; ?>
-                            <?php $tmpName = "filters[{$key}][value]"; ?>
+                            <?php
+                            $tmpID   = "filter_field_" . $arrCol['field_name'];
+                            $tmpName = "filters[{$key}][value]";
+                            $value   = null;
+                            if (! empty(request('filter_' . $key))) {
+                                $value = request('filter_' . $key);
+                            }
+                            ?>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     @if ($arrCol['type'] != 'hidden')
@@ -25,7 +31,7 @@
                                            'type'         => $arrCol['type'],
                                            'name'         => "filters[{$key}][value]",
                                            'id'           => $tmpID,
-                                           'value'        => null,
+                                           'value'        => $value,
                                            'arrCol'       => $arrCol,
                                            'defaultClass' => 'form-control input-sm form-filter',
                                            'flagFilter'   => true,
@@ -37,7 +43,7 @@
                                                    'type'         => $arrCol['type'],
                                                    'name'         => "filters[{$key}][min_value]",
                                                    'id'           => $tmpID.'_min',
-                                                   'value'        => null,
+                                                   'value'        => $value,
                                                    'arrCol'       => $arrCol,
                                                    'defaultClass' => 'form-control input-sm form-filter',
                                                    'flagFilter'   => true,
@@ -49,7 +55,7 @@
                                                    'type'         => $arrCol['type'],
                                                    'name'         => "filters[{$key}][max_value]",
                                                    'id'           => $tmpID.'_max',
-                                                   'value'        => null,
+                                                   'value'        => $value,
                                                    'arrCol'       => $arrCol,
                                                    'defaultClass' => 'form-control input-sm form-filter',
                                                    'flagFilter'   => true,

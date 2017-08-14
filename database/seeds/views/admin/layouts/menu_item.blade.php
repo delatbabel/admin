@@ -15,18 +15,23 @@
     @else
         @if ($sentinelUser->hasAnyAccess(['menu.' . str_slug($key), 'all.all']))
             <li class="treeview">
-                <a href="#"><span>{{$key}}</span> <i class="fa fa-angle-left pull-right"></i></a>
-                    <ul class="treeview-menu">
-                        @foreach ($item as $subkey => $subitem)
-                            @include("admin.layouts.menu_item", [
-                                    'key'            => $subkey,
-                                    'item'           => $subitem,
-                                    'settingsPrefix' => $settingsPrefix,
-                                    'pagePrefix'     => $pagePrefix,
-                                    'routePrefix'    => $routePrefix,
-                            ])
-                        @endforeach
-                    </ul>
+                <a href="#">
+                    @if (! empty(config('administrator.menu_icons.' . str_slug($key))))
+                        <i class='fa fa-{{ config('administrator.menu_icons.' . str_slug($key)) }}' aria-hidden='true'></i>
+                    @endif
+                    <span>{{$key}}</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    @foreach ($item as $subkey => $subitem)
+                        @include("admin.layouts.menu_item", [
+                                'key'            => $subkey,
+                                'item'           => $subitem,
+                                'settingsPrefix' => $settingsPrefix,
+                                'pagePrefix'     => $pagePrefix,
+                                'routePrefix'    => $routePrefix,
+                        ])
+                    @endforeach
+                </ul>
             </li>
         @endif
     @endif
@@ -45,7 +50,7 @@
             <?php $tmpURL = route('admin_index', [$key]); ?>
         @endif
         <a href="{{$tmpURL}}">
-            <i class='fa fa-link'></i> <span>{{$item}}</span>
+            <i class='fa fa-link'  aria-hidden='true'></i> <span>{{$item}}</span>
         </a>
     </li>
     @endif
