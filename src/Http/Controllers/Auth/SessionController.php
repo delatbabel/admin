@@ -94,7 +94,7 @@ class SessionController extends BaseController
         $result = $this->authManager->authenticate($credentials, $remember);
         if ($result->isFailure()) {
             // Redirect to login form if authentication failure
-            $path = route('auth.login.form');
+            $path = config('app.login_form_url') ? config('app.login_form_url') : route('auth.login.form');
         } else {
             $path = session()->pull('url.intended', route('dashboard'));
         }
