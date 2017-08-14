@@ -35,6 +35,49 @@ class Time extends Field
     ];
 
     /**
+     * Returns a DateTime object from some input value.
+     *
+     * @param $input
+     * @return DateTime|null
+     */
+    protected function makeDateTimeObject($input)
+    {
+        $field_type = $this->getOption('type');
+
+        if ($field_type == 'time') {
+            $time_format = ! empty($this->getOption('time_format')) ? $this->getOption('time_format') : config('administrator.format.time_carbon');
+            // The $time_format in the option will be the datepicker format, we have to convert that to a carbon format.
+            $PHPFormatOptions           = ['H', 'i', 's'];
+            $DatePickerFormatOptions    = ['HH', 'mm', 'ss'];
+            $time_format                = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $time_format);
+            return DateTime::createFromFormat($time_format, $input);
+        } elseif (! empty($input) && $input !== '0000-00-00') {
+            $date_format = $this->getOption('date_format');
+
+            // date_format falls back to the config variable if not set -- the config already has the carbon formatted
+            // date in it.
+            if (empty($date_format)) {
+                $date_format = config('administrator.format.date_carbon');
+            } else {
+                // The date_format in the option will be the datepicker format, we have to convert that to a carbon
+                // format.
+                $PHPFormatOptions        = ['Y', 'm', 'd'];
+                $DatePickerFormatOptions = ['yy', 'mm', 'dd'];
+                $date_format             = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $date_format);
+            }
+
+            // Final fallback
+            if (empty($date_format)) {
+                $date_format = 'Y-m-d';
+            }
+
+            return DateTime::createFromFormat($date_format, $input);
+        }
+
+        return null;
+    }
+
+    /**
      * Filters a query object
      *
      * @param \Illuminate\Database\Query\Builder	$query
@@ -48,17 +91,17 @@ class Time extends Field
 
         // try to read the time for the min and max values, and if they check out, set the where
         if ($minValue = $this->getOption('min_value')) {
-            $time = new DateTime($minValue);
+            $time = $this->makeDateTimeObject($minValue);
 
-            if ($time !== false) {
+            if (! empty($time)) {
                 $query->where($model->getTable() . '.' . $this->getOption('field_name'), '>=', $this->getDateString($time));
             }
         }
 
         if ($maxValue = $this->getOption('max_value')) {
-            $time = new DateTime($maxValue);
+            $time = $this->makeDateTimeObject($maxValue);
 
-            if ($time !== false) {
+            if (! empty($time)) {
                 $query->where($model->getTable() . '.' . $this->getOption('field_name'), '<=', $this->getDateString($time));
             }
         }
@@ -82,37 +125,8 @@ class Time extends Field
             return;
         }
 
-        $field_type = $this->getOption('type');
-
-        if ($field_type == 'time') {
-            $time_format = ! empty($this->getOption('time_format')) ? $this->getOption('time_format') : config('administrator.format.time_carbon');
-            // The $time_format in the option will be the datepicker format, we have to convert that to a carbon format.
-            $PHPFormatOptions           = ['H', 'i', 's'];
-            $DatePickerFormatOptions    = ['HH', 'mm', 'ss'];
-            $time_format                = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $time_format);
-            $time                       = DateTime::createFromFormat($time_format, $input);
-        } elseif (! empty($input) && $input !== '0000-00-00') {
-            $date_format = $this->getOption('date_format');
-
-            // date_format falls back to the config variable if not set -- the config already has the carbon formatted
-            // date in it.
-            if (empty($date_format)) {
-                $date_format = config('administrator.format.date_carbon');
-            } else {
-                // The date_format in the option will be the datepicker format, we have to convert that to a carbon
-                // format.
-                $PHPFormatOptions        = ['Y', 'm', 'd'];
-                $DatePickerFormatOptions = ['yy', 'mm', 'dd'];
-                $date_format             = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $date_format);
-            }
-
-            // Final fallback
-            if (empty($date_format)) {
-                $date_format = 'Y-m-d';
-            }
-
-            $time = DateTime::createFromFormat($date_format, $input);
-        }
+        // Make a DateTime object from the input
+        $time = $this->makeDateTimeObject($input);
 
         // first we validate that it's a date/time
         if (! empty($time) && ($time instanceof DateTime)) {
@@ -128,7 +142,8 @@ class Time extends Field
      * depending on the type of time field this is.
      *
      * Strictly speaking this should not be necessary because Laravel is capable of handling
-     * date fields being assigned DateTime objects directly.
+     * date fields being assigned DateTime objects directly if the model class has a date
+     * mutator assigned to the column.
      *
      * @param DateTime $time
      * @return string
