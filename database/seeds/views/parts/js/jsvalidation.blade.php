@@ -97,6 +97,9 @@ jQuery(document).ready(function(){
 
          // Uncomment this to mark as validated non required fields
          unhighlight: function(element) {
+            if (element.id === "accounts_email" && element.value === "") {
+                return;
+            }
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
             $(element).closest('.form-group').find( "i" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
          },

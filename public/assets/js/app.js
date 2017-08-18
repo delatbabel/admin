@@ -28,7 +28,8 @@ angular.module('myApp').directive('select2', function() {
         scope: {
             theme: "@",
             multiple: "@",
-            maxSelectionLength: "@"
+            maxSelectionLength: "@",
+            onChange: "&"
         },
         link: function(scope, element, attr) {
             var configObj;
@@ -46,8 +47,16 @@ angular.module('myApp').directive('select2', function() {
             }
             jQuery(element[0])
             .select2(configObj)
-            .on('change', function() {
+            .on('change', function(evt) {
                 $(this).valid();
+                var selectedOption = $(this).find("option:selected"),
+                    companyInfo = selectedOption.data("info");
+                if (scope.onChange) {
+                    scope.onChange({
+                        companyInfo: companyInfo
+                    });
+                    scope.$apply();
+                }
             });
         }
     };
@@ -66,16 +75,27 @@ angular.module('myApp').directive('datePicker', function () {
         restrict: "C",
         scope: {
             dateFormat: "@",
-            minDate: "@"
+            minDate: "@",
+            showOn: "@",
+            calendarType: "@"
         },
         link: function (scope, elem, attr) {
-            jQuery(elem[0]).datepicker({
-                dateFormat: scope.dateFormat,
-                minDate: scope.minDate,
-                onSelect: function () {
-                    $(this).trigger("keyup");
-                }
-            });
+            if (scope.calendarType === "bootstrap") {
+                $(elem[0]).closest(".date").datetimepicker({
+                    allowInputToggle: true,
+                    showClose: true,
+                    format: scope.dateFormat.toUpperCase() || "DD/MM/YYYY"
+                });
+            } else {
+                jQuery(elem[0]).datepicker({
+                    showOn: scope.showOn,
+                    dateFormat: scope.dateFormat,
+                    minDate: scope.minDate,
+                    onSelect: function () {
+                        $(this).trigger("keyup");
+                    }
+                });
+            }
         }
     };
 });
