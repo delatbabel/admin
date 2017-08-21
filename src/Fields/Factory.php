@@ -57,6 +57,7 @@ class Factory
         'image'         => 'DDPro\\Admin\\Fields\\Image',
         'file'          => 'DDPro\\Admin\\Fields\\File',
         'color'         => 'DDPro\\Admin\\Fields\\Color',
+        'arraytext'     => 'DDPro\\Admin\\Fields\\ArrayText',
 
         // relationships
         'belongs_to'      => 'DDPro\\Admin\\Fields\\Relationships\\BelongsTo',
