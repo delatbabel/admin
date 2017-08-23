@@ -177,8 +177,8 @@ class Factory
     public function getFieldObject($options)
     {
         $class = $this->getFieldTypeClass($options['type']);
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'build field object of class ' . $class);
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'build field object of class ' . $class);
         return new $class($this->validator, $this->config, $this->db, $options);
     }
 
@@ -426,8 +426,8 @@ class Factory
 
         /** @var Field $fieldObject */
         foreach ($this->getEditFields(true, $override) as $fieldObject) {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'getOptions for fieldObject ' . $fieldObject->getOption('field_name'));
+            #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            #    'getOptions for fieldObject ' . $fieldObject->getOption('field_name'));
             $return[$fieldObject->getOption('field_name')] = $fieldObject->getOptions();
         }
 

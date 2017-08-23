@@ -133,8 +133,8 @@ abstract class Field
     {
         $options = $this->suppliedOptions;
 
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'build fieldObject supplied options', $options);
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'build fieldObject supplied options', $options);
 
         // set the title if it doesn't exist
         $options['title'] = $this->validator->arrayGet($options, 'title', $options['field_name']);
@@ -280,8 +280,8 @@ abstract class Field
             $this->build();
             $this->validateOptions();
             $this->userOptions = array_merge($this->getDefaults(), $this->suppliedOptions);
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'userOptions', $this->userOptions);
+            #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            #    'userOptions', $this->userOptions);
         }
 
         return $this->userOptions;

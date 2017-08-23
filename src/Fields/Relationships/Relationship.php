@@ -137,12 +137,12 @@ abstract class Relationship extends Field
         $relationship = $model->{$options['field_name']}();
         $relatedModel = $relationship->getRelated();
 
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'loadRelationshipOptions for relationship field named ' . $options['field_name']);
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'loadRelationshipOptions for relationship field named ' . $options['field_name']);
 
         if ($this->validator->arrayGet($options, 'load_relationships')) {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'going into main part of loadRelationshipOptions');
+            #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            #    'going into main part of loadRelationshipOptions');
 
             // if a sort field was supplied, order the results by it
             if ($optionsSortField = $this->validator->arrayGet($options, 'options_sort_field')) {

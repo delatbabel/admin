@@ -27,8 +27,6 @@
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
 @elseif($type == 'html')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
-@elseif($type == 'static')
-    {!! $arrCol['content'] !!}
 @section('javascript')
     @parent
     <script type="text/javascript">
@@ -37,6 +35,8 @@
         });
     </script>
 @endsection
+@elseif($type == 'static')
+    {!! $arrCol['content'] !!}
 @elseif($type == 'markdown')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id]) !!}
 @section('javascript')

@@ -325,6 +325,11 @@ table.table-bordered.dataTable tbody td:last-child {
   padding: 0;
   list-style-type: none;
 }
+.campain-list .ui-state-default {
+  border: none;
+  background: #fff;
+  color: #000;
+}
 .campain-item {
   position: relative;
   margin-bottom: 10px;
@@ -334,6 +339,7 @@ table.table-bordered.dataTable tbody td:last-child {
 }
 .campain-item .btn-icon {
   position: absolute;
+  color: #000;
   right: 10px;
   bottom: 0;
   cursor: pointer;

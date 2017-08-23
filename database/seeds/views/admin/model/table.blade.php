@@ -82,7 +82,7 @@
 </div>
 <?php
     // Custom buttons
-    $buttons = array();
+    $buttons = [];
     if (null !== $config->getOption('item_actions')) {
         foreach ($config->getOption('item_actions') as $button) {
             if (!isset($button['url'])) {

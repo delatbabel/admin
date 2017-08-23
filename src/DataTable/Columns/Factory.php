@@ -157,8 +157,8 @@ class Factory
     public function getColumnObject($options)
     {
         $class = $this->getColumnClassName($options);
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'column class name is ' . $class . ' with options = ', $options);
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'column class name is ' . $class . ' with options = ', $options);
         return new $class($this->validator, $this->config, $this->db, $options);
     }
 
@@ -179,8 +179,8 @@ class Factory
             if (method_exists($model, $method)) {
                 $relationship = $model->{$method}();
 
-                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                    'method exists. relationship class name is ' . get_class($relationship));
+                #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                #    'method exists. relationship class name is ' . get_class($relationship));
 
                 if (is_a($relationship, self::BELONGS_TO_MANY)) {
                     return $namespace . 'Relationships\BelongsToMany';
@@ -211,8 +211,8 @@ class Factory
             $options = [];
         }
 
-        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'make column object for column name ' . $name . ' with options = ', $options);
+        #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+        #    'make column object for column name ' . $name . ' with options = ', $options);
 
         // if the name is not a string or the options is not an array at this point, throw an error because we can't do anything with it
         if (! is_string($name) || ! is_array($options)) {
