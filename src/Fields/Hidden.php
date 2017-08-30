@@ -17,9 +17,7 @@ class Hidden extends Field
      *
      * @var array
      */
-    protected $rules = [
-        'value'  => 'required'
-    ];
+    protected $rules = [];
 
     /**
      * Filters a query object given
