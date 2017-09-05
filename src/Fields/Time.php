@@ -3,6 +3,7 @@ namespace DDPro\Admin\Fields;
 
 use DateTime as DateTime;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Log;
 
 class Time extends Field
 {
@@ -43,6 +44,8 @@ class Time extends Field
     protected function makeDateTimeObject($input)
     {
         $field_type = $this->getOption('type');
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'field_type = ' . $field_type);
 
         if ($field_type == 'time') {
             $time_format = ! empty($this->getOption('time_format')) ? $this->getOption('time_format') : config('administrator.format.time_carbon');
@@ -50,14 +53,26 @@ class Time extends Field
             $PHPFormatOptions           = ['H', 'i', 's'];
             $DatePickerFormatOptions    = ['HH', 'mm', 'ss'];
             $time_format                = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $time_format);
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'time_format = ' . $time_format);
             return DateTime::createFromFormat($time_format, $input);
+
         } elseif (! empty($input) && $input !== '0000-00-00') {
             $date_format = $this->getOption('date_format');
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'date_format from options = ' . $date_format);
 
             // date_format falls back to the config variable if not set -- the config already has the carbon formatted
             // date in it.
             if (empty($date_format)) {
-                $date_format = config('administrator.format.date_carbon');
+                if ($field_type == 'datetime') {
+                    $date_format = config('administrator.format.datetime_carbon');
+                } else {
+                    $date_format = config('administrator.format.date_carbon');
+                }
+
+                Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                    'date_format from config = ' . $date_format);
             } else {
                 // The date_format in the option will be the datepicker format, we have to convert that to a carbon
                 // format.
@@ -71,6 +86,8 @@ class Time extends Field
                 $date_format = 'Y-m-d';
             }
 
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'date_format = ' . $date_format);
             return DateTime::createFromFormat($date_format, $input);
         }
 
@@ -126,7 +143,11 @@ class Time extends Field
         }
 
         // Make a DateTime object from the input
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'input = ' . $input);
         $time = $this->makeDateTimeObject($input);
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'time = ' . print_r($time, true));
 
         // first we validate that it's a date/time
         if (! empty($time) && ($time instanceof DateTime)) {
