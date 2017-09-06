@@ -5,13 +5,13 @@
             <ul class="treeview-menu">
     @endif
     @foreach ($item as $k => $subitem)
-        <?php echo view("admin.layouts.menu_item", array(
-                'item' => $subitem,
-                'key' => $k,
+        <?php echo view("admin.layouts.menu_item", [
+                'item'           => $subitem,
+                'key'            => $k,
                 'settingsPrefix' => $settingsPrefix,
-                'pagePrefix' => $pagePrefix,
+                'pagePrefix'     => $pagePrefix,
                 'routePrefix'    => $routePrefix,
-        ))?>
+        ])?>
     @endforeach
     @if (! is_numeric($key))
             </ul>
@@ -21,13 +21,13 @@
     <li>
         <?php $tmpURL = '' ?>
         @if (strpos($key, $settingsPrefix) === 0)
-            <?php $tmpURL = route('admin_settings', array(substr($key, strlen($settingsPrefix)))); ?>
+            <?php $tmpURL = route('admin_settings', [substr($key, strlen($settingsPrefix))]); ?>
         @elseif (strpos($key, $pagePrefix) === 0)
-            <?php $tmpURL = route('admin_page', array(substr($key, strlen($pagePrefix)))); ?>
+            <?php $tmpURL = route('admin_page', [substr($key, strlen($pagePrefix))]); ?>
         @elseif (strpos($key, $routePrefix) === 0)
             <?php $tmpURL = route(substr($key, strlen($routePrefix))); ?>
         @else
-            <?php $tmpURL = route('admin_index', array($key)); ?>
+            <?php $tmpURL = route('admin_index', [$key]); ?>
         @endif
         <a href="{{$tmpURL}}">
             <i class='fa fa-link'></i> <span>{{$item}}</span>

@@ -53,14 +53,14 @@
     <!-- /.sidebar -->
 </aside>
 <?php
-$check_active = false;
+$check_active       = false;
 $current_route_name = Route::current()->getName();
 if ($current_route_name != 'admin_dashboard') {
     $check_active = true;
-    $current_url = url(Route::current()->getUri());
+    $current_url  = url(Route::current()->getUri());
     if (strpos($current_url, '{model}') !== false) {
         $current_model = Route::current()->model;
-        $current_url = str_replace('{model}', Route::current()->model, url(Route::current()->getUri()));
+        $current_url   = str_replace('{model}', Route::current()->model, url(Route::current()->getUri()));
     }
 }
 ?>

@@ -61,7 +61,6 @@ class Time extends Field
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'time_format = ' . $time_format);
             return Carbon::createFromFormat($time_format, $input);
-
         } elseif (! empty($input) && $input !== '0000-00-00') {
             $date_format = $this->getOption('date_format');
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
