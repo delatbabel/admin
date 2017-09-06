@@ -1,7 +1,9 @@
 <?php
 namespace DDPro\Admin\Fields;
 
-use DateTime as DateTime;
+use Carbon\Carbon;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use DateTime;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Log;
 
@@ -39,10 +41,13 @@ class Time extends Field
      * Returns a DateTime object from some input value.
      *
      * @param $input
-     * @return DateTime|null
+     * @return Carbon|null
      */
     protected function makeDateTimeObject($input)
     {
+        // By default dates and times are in server timezone
+        $tz = null;
+
         $field_type = $this->getOption('type');
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'field_type = ' . $field_type);
@@ -55,7 +60,7 @@ class Time extends Field
             $time_format                = str_replace($DatePickerFormatOptions, $PHPFormatOptions, $time_format);
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'time_format = ' . $time_format);
-            return DateTime::createFromFormat($time_format, $input);
+            return Carbon::createFromFormat($time_format, $input);
 
         } elseif (! empty($input) && $input !== '0000-00-00') {
             $date_format = $this->getOption('date_format');
@@ -67,6 +72,12 @@ class Time extends Field
             if (empty($date_format)) {
                 if ($field_type == 'datetime') {
                     $date_format = config('administrator.format.datetime_carbon');
+
+                    // Get current user timezone -- datetimes are saved in server timezone but entered
+                    // and displayed in user timezone.
+                    if ($user = Sentinel::check()) {
+                        $tz = new \DateTimeZone($user->timezone);
+                    }
                 } else {
                     $date_format = config('administrator.format.date_carbon');
                 }
@@ -88,7 +99,7 @@ class Time extends Field
 
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'date_format = ' . $date_format);
-            return DateTime::createFromFormat($date_format, $input);
+            return Carbon::createFromFormat($date_format, $input, $tz);
         }
 
         return null;

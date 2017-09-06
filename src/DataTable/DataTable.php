@@ -1,6 +1,7 @@
 <?php
 namespace DDPro\Admin\DataTable;
 
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Column;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
@@ -388,20 +389,32 @@ class DataTable
 
                         case 'date':
                             if ($attributeValue instanceof \DateTime) {
-                                $attributeValue = $attributeValue->format(config('administrator.format.date_carbon'));
+                                $dt = $attributeValue;
                             } else {
-                                $dt             = new \DateTime($attributeValue);
-                                $attributeValue = $dt->format(config('administrator.format.date_carbon'));
+                                $dt = new \DateTime($attributeValue);
                             }
+                            $attributeValue = $dt->format(config('administrator.format.date_carbon'));
                             break;
 
                         case 'datetime':
-                            if ($attributeValue instanceof \DateTime) {
-                                $attributeValue = $attributeValue->format(config('administrator.format.datetime_carbon'));
-                            } else {
-                                $dt             = new \DateTime($attributeValue);
-                                $attributeValue = $dt->format(config('administrator.format.datetime_carbon'));
+                            // Need the timezone of the logged in user
+                            $tz = null;
+                            if ($user = Sentinel::check()) {
+                                $tz = new \DateTimeZone($user->timezone);
                             }
+
+                            // $dt object will be in server time zone
+                            if ($attributeValue instanceof \DateTime) {
+                                $dt = $attributeValue;
+                            } else {
+                                $dt = new \DateTime($attributeValue);
+                            }
+
+                            // Convert to user timezone to display
+                            if (! empty($tz)) {
+                                $dt->setTimezone($tz);
+                            }
+                            $attributeValue = $dt->format(config('administrator.format.datetime_carbon'));
                             break;
                     }
                 }
