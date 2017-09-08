@@ -6,6 +6,7 @@ use DDPro\Admin\Config\ConfigInterface;
 use DDPro\Admin\DataTable\Columns\Column;
 use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
 use DDPro\Admin\Fields\Factory as FieldFactory;
+use DDPro\Admin\Helpers\DateTimeHelper;
 use DDPro\Admin\Includes\ImageHelper;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -397,24 +398,7 @@ class DataTable
                             break;
 
                         case 'datetime':
-                            // Need the timezone of the logged in user
-                            $tz = new \DateTimeZone(config('app.timezone'));
-                            if ($user = Sentinel::check()) {
-                                $tz = new \DateTimeZone($user->timezone);
-                            }
-
-                            // $dt object will be in server time zone
-                            if ($attributeValue instanceof \DateTime) {
-                                $dt = $attributeValue;
-                            } else {
-                                $dt = new \DateTime($attributeValue);
-                            }
-
-                            // Convert to user timezone to display
-                            if (! empty($tz)) {
-                                $dt->setTimezone($tz);
-                            }
-                            $attributeValue = $dt->format(config('administrator.format.datetime_carbon'));
+                            $attributeValue = DateTimeHelper::formatDateTimeForDisplay($attributeValue);
                             break;
                     }
                 }

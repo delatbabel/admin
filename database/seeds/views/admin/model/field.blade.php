@@ -125,19 +125,7 @@
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
 
     // Need the timezone of the logged in user
-    $tz = new \DateTimeZone(config('app.timezone'));
-    if ($user = Sentinel::check()) {
-        $tz = new \DateTimeZone($user->timezone);
-    }
-
-    if (empty($value)) {
-        $tmpValue = null;
-    } elseif ($value instanceof \DateTime) {
-        $tmpValue = $value->setTimezone($tz)->format(config('administrator.format.datetime_carbon'));
-    } else {
-        $dt       = new \DateTime($value);
-        $tmpValue = $dt->setTimezone($tz)->format(config('administrator.format.datetime_carbon'));
-    }
+    $tmpValue = \DDPro\Admin\Helpers\DateTimeHelper::formatDateTimeForEdit($value);
     $tmpValue = old($name, $tmpValue);
 
     $date_format = $arrCol['date_format'];
