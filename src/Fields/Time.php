@@ -46,7 +46,7 @@ class Time extends Field
     protected function makeDateTimeObject($input)
     {
         // By default dates and times are in server timezone
-        $tz = null;
+        $tz = new \DateTimeZone(config('app.timezone'));
 
         $field_type = $this->getOption('type');
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
@@ -98,7 +98,9 @@ class Time extends Field
 
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'date_format = ' . $date_format);
-            return Carbon::createFromFormat($date_format, $input, $tz);
+            $dt = Carbon::createFromFormat($date_format, $input, $tz);
+            $dt->setTimezone(new \DateTimeZone(config('app.timezone')));
+            return $dt;
         }
 
         return null;
