@@ -125,7 +125,7 @@
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
 
     // Need the timezone of the logged in user
-    $tmpValue = \DDPro\Admin\Helpers\DateTimeHelper::formatDateTimeForEdit($value);
+    $tmpValue = \DDPro\Admin\Helpers\DateTimeHelper::formatDateTime($value);
     $tmpValue = old($name, $tmpValue);
 
     $date_format = $arrCol['date_format'];

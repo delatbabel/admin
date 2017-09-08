@@ -398,7 +398,7 @@ class DataTable
                             break;
 
                         case 'datetime':
-                            $attributeValue = DateTimeHelper::formatDateTimeForDisplay($attributeValue);
+                            $attributeValue = DateTimeHelper::formatDateTime($attributeValue);
                             break;
                     }
                 }

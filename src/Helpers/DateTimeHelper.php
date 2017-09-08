@@ -37,18 +37,18 @@ class DateTimeHelper
     }
 
     /**
-     * Format a datetime into a value suitable for editing by the current admin.
+     * Format a datetime into a value suitable for the current admin.
      *
      * Takes either a DateTime or a Carbon or a string in the system time zone,
      * e.g. a value retrieved from a database.
      *
      * Returns a string in the admin's time zone which can be used as an edit field
-     * seeder.
+     * seeder or for display, e.g. in a column listing or an export.
      *
      * @param $value
      * @return null|string
      */
-    public static function formatDateTimeForEdit($value)
+    public static function formatDateTime($value)
     {
         $tz = static::adminTimeZone();
 
@@ -62,35 +62,5 @@ class DateTimeHelper
         }
 
         return $tmpValue;
-    }
-
-    /**
-     * Format a datetime into a value suitable for display to the current admin.
-     *
-     * Takes either a DateTime or a Carbon or a string in the system time zone,
-     * e.g. a value retrieved from a database.
-     *
-     * Returns a string in the admin's time zone which can be used to display the
-     * date and time, e.g. in a column listing or an export.
-     *
-     * @param $value
-     * @return string
-     */
-    public static function formatDateTimeForDisplay($value)
-    {
-        $tz = static::adminTimeZone();
-
-        // $dt object will be in server time zone
-        if ($value instanceof \DateTime) {
-            $dt = $value;
-        } else {
-            $dt = new \DateTime($value);
-        }
-
-        // Convert to user timezone to display
-        if (! empty($tz)) {
-            $dt->setTimezone($tz);
-        }
-        return $dt->format(config('administrator.format.datetime_carbon'));
     }
 }
