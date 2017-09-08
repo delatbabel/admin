@@ -2,7 +2,7 @@ var AdminLTEOptions = {
     //Bootstrap.js tooltip
     enableBSToppltip: false
 };
-angular.module('myApp', [], function($interpolateProvider) {
+angular.module('myApp', ['ng.jsoneditor'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
 }).controller("MyController", function(){
@@ -29,6 +29,7 @@ angular.module('myApp').directive('select2', function() {
             theme: "@",
             multiple: "@",
             maxSelectionLength: "@",
+            appendToHiddenField: "@",
             onChange: "&"
         },
         link: function(scope, element, attr) {
@@ -46,6 +47,7 @@ angular.module('myApp').directive('select2', function() {
                 };
             }
             jQuery(element[0])
+            .removeData()
             .select2(configObj)
             .on('change', function(evt) {
                 $(this).valid();
@@ -57,7 +59,38 @@ angular.module('myApp').directive('select2', function() {
                     });
                     scope.$apply();
                 }
+                if (scope.appendToHiddenField) {
+                    fillValueToHiddenField(companyInfo);
+                }
             });
+
+            var initSelectedOption = jQuery(element[0]).find("option:selected"),
+                companyInfo = initSelectedOption.data("info");
+            if (companyInfo) {
+                if (scope.onChange) {
+                    scope.onChange({
+                        companyInfo: companyInfo
+                    });
+                }
+            }
+
+            function fillValueToHiddenField(selectedData) {
+                if (selectedData) {
+                    $("input[data-fieldname]").each(function (index, ele) {
+                        var $ele = $(ele);
+                            fieldName = $ele.data("fieldname").split(".");
+                        if (fieldName.length === 2) {
+                            if (selectedData[fieldName[0]]) {
+                                $ele.val(selectedData[fieldName[0]][fieldName[1]]);
+                            } else {
+                                $ele.val("");
+                            }
+                        } else {
+                            $ele.val(selectedData[fieldName[0]] || "");
+                        }
+                    });
+                }
+            }
         }
     };
 });
@@ -127,6 +160,37 @@ angular.module('myApp').directive('selectize', function() {
                 sortField: 'text'
             }).on('change', function() {
                 $(this).valid();
+            });
+        }
+    };
+});
+
+angular.module('myApp').directive('tableSortable', function() {
+    return {
+        restrict: 'AC',
+        scope: {
+            ngUpdate: "&"
+        },
+        link: function(scope, element, attr) {
+            jQuery(element[0]).find("tbody").sortable({
+                placeholder: "ui-state-highlight",
+                update: function (event, ui) {
+                    var itemId = ui.item.find("td").eq(0).text(),
+                        prev_sibling_id = ui.item.prev().find("td").eq(0).text(),
+                        next_sibling_id = ui.item.next().find("td").eq(0).text(),
+                        params = {
+                            item_id: itemId
+                        };
+                    if (prev_sibling_id) {
+                        params.prev_sibling_id = prev_sibling_id;
+                    }
+                    if(next_sibling_id) {
+                        params.next_sibling_id = next_sibling_id;
+                    }
+                    scope.ngUpdate({
+                        params: params
+                    });
+                }
             });
         }
     };

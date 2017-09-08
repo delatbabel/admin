@@ -5,12 +5,29 @@
         <p class="form-control-static"> {{ $value }} </p>
     @endif
 @elseif($type == 'text')
-    <?php // Added for filter form use
-    $value = old($name, $value)
+    <?php
+        // Keep old value
+        $value = old($name, $value);
+
+        // Field attributes
+        $arrAttributes = [ 'class' => $defaultClass, 'id' => $id ];
+        if (isset($arrCol['inline-attributes'])) {
+            $arrAttributes = array_merge($arrAttributes, $arrCol['inline-attributes']);
+        }
     ?>
-    {!! Form::text($name, $value, ['class'=> $defaultClass, 'id'=>$id]) !!}
+    {!! Form::text($name, $value, $arrAttributes) !!}
 @elseif($type == 'hidden')
-    {!! Form::hidden($name, $arrCol['value'], ['id'=>$id]) !!}
+    <?php
+        // Keep old value
+        $value = old($name, $value);
+
+        // Field attributes
+        $arrAttributes = [ 'id' => $id ];
+        if (isset($arrCol['inline-attributes'])) {
+            $arrAttributes = array_merge($arrAttributes, $arrCol['inline-attributes']);
+        }
+    ?>
+    {!! Form::hidden($name, isset($arrCol['value']) && !empty($arrCol['value']) ? $arrCol['value'] : $value, $arrAttributes) !!}
 @elseif($type == 'password')
     {!! Form::password($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
 @elseif($type == 'color')
@@ -58,24 +75,9 @@
     }
     $tmpValue = old($name, $tmpValue);
     ?>
-    {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
-    <div id="jsoneditor{{$id}}" style="height: {{$arrCol['height']}}px;"></div>
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            var jsonString{{$id}} = {!! $tmpValue ?: 'null'!!};
-            var editorJSON{{$id}} = new JSONEditor(document.getElementById("jsoneditor{{$id}}"), {
-                mode: 'tree',
-                modes: ['code', 'form', 'text', 'tree', 'view'],
-                onChange: function () {
-                    var tmpJSON = editorJSON{{$id}}.get();
-                    $("#{{$id}}").val(JSON.stringify(tmpJSON));
-                }
-            }, jsonString{{$id}});
-        });
-    </script>
-@endsection
+    {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id, 'ng-model'=>$id]) !!}
+    <div ng-jsoneditor ng-model="
+    {{$id}}" options="{mode: 'tree', modes: ['code', 'form', 'text', 'tree', 'view']}" style="height: 400px;" ng-init='{{$id}}={!! $tmpValue !!};' prefer-text="true"></div>
 @elseif($type == 'wysiwyg')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id, 'wysiwyg'=>'']) !!}
 @elseif($type == 'number')
@@ -122,13 +124,19 @@
     <?php
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
 
+    // Need the timezone of the logged in user
+    $tz = new \DateTimeZone(config('app.timezone'));
+    if ($user = Sentinel::check()) {
+        $tz = new \DateTimeZone($user->timezone);
+    }
+
     if (empty($value)) {
         $tmpValue = null;
     } elseif ($value instanceof \DateTime) {
-        $tmpValue = $value->format(config('administrator.format.datetime_carbon'));
+        $tmpValue = $value->setTimezone($tz)->format(config('administrator.format.datetime_carbon'));
     } else {
         $dt       = new \DateTime($value);
-        $tmpValue = $dt->format(config('administrator.format.datetime_carbon'));
+        $tmpValue = $dt->setTimezone($tz)->format(config('administrator.format.datetime_carbon'));
     }
     $tmpValue = old($name, $tmpValue);
 
@@ -168,28 +176,21 @@
     }
     $tmpValue = old($name, $tmpValue);
     ?>
-    <div class="input-group clockpicker" data-autoclose="true">
-        {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
-        <span class="input-group-addon">
-            <span class="fa fa-clock-o"></span>
-        </span>
-    </div>
-@section('javascript')
     <?php
-    $time_format = $arrCol['time_format'];
-    if (empty($time_format)) {
-        $time_format = config('administrator.format.time_datepicker');
-    }
+        $time_format = $arrCol['time_format'];
+        if (empty($time_format)) {
+            $time_format = config('administrator.format.time_datepicker');
+        }
     ?>
-    @parent
-    <script type="text/javascript">
-        $(function () {
-            $("#{{$id}}").timepicker({
-                timeFormat: "{{$time_format}}"
-            });
-        });
-    </script>
-@endsection
+    <div class="bootstrap-timepicker">
+        <div class="input-group clockpicker" data-timeformat="{{$time_format}}" data-autoclose="true">
+
+            {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
+            <span class="input-group-addon">
+                <span class="fa fa-clock-o"></span>
+            </span>
+        </div>
+    </div>
 @elseif($type == 'file')
     {!! Form::file($name, ['class'=> $defaultClass, 'id'=>$id]) !!}
     @if ($model->{$id . '_preview'})
@@ -265,4 +266,26 @@
             </option>
         @endforeach
     </select>
+@elseif($type == 'arraytext')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group">
+                <input id="{{ $name }}_control" name="{{ $name }}_control" type="text" class="form-control" value="">
+                <span class="input-group-addon" data-trigger="add" data-target="#{{ $name }}_display" data-input="#{{ $name }}_control" data-target-value="{{ $name }}"><span class="glyphicon glyphicon-plus"></span></span>
+            </div>
+        </div>
+    </div>
+    <?php
+    $value = old($name, $value);
+    ?>
+    <ul id="{{ $name }}_display" class="list-sd-icon">
+        @if (is_array($value))
+            @foreach ($value as $item)
+                <li>
+                    <a class="btn-icon-primary btnRemove"><span class="glyphicon glyphicon-minus"></span></a>{{ $item }}
+                    <input type="hidden" name="{{ $name }}[]" value="{{ $item }}" />
+                </li>
+            @endforeach
+        @endif
+    </ul>
 @endif

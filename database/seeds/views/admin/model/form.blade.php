@@ -18,7 +18,8 @@
                         'route'   => ['admin_save_item',$config->getOption('name'),$itemId],
                     ]) !!}
                 @foreach($arrayFields as $key => $arrCol)
-                    @if($arrCol['visible'] && $arrCol['editable'])
+                    @if ($arrCol['visible'])
+                        @if ($arrCol['editable'])
                         <div class="form-group">
                             @if ($arrCol['type'] != 'static' && $arrCol['type'] != 'hidden')
                                 <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
@@ -50,6 +51,24 @@
                             @endif
                             </div>
                         </div>
+                        @else {{-- not editable --}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="{{$arrCol['field_name']}}">
+                                {!! $arrCol['title'] !!}
+                            </label>
+                            <div
+                            @if (isset($arrCol['attributes']))
+                                @foreach ($arrCol['attributes'] as $attribute => $value)
+                                    {!! $attribute !!}="{!! $value !!}"
+                                @endforeach
+                            @else
+                                class="col-md-10"
+                            @endif
+                            >
+                            {{ $model->{$arrCol['field_name']} }}
+                            </div>
+                        </div>
+                        @endif
                         <div class="hr-line-dashed"></div>
                     @endif
                 @endforeach
@@ -66,10 +85,13 @@
     </div>
 </div>
 @if ($config->getOption('form_request'))
-<?php
-// Write session variables so jsvalidation.js knows which form is being used
-session(['formRequest'  => $config->getOption('form_request')]);
-session(['formId'       => '#my-form']);
-?>
-<script type="text/javascript" src="{{ asset('parts.js.jsvalidation.js') }}"></script>
+    <?php
+        // Write session variables so jsvalidation.js knows which form is being used
+        session(['formRequest'  => $config->getOption('form_request')]);
+        session(['formId'       => '#my-form']);
+    ?>
+    @section('javascript')
+        @parent
+        <script type="text/javascript" src="{{ asset('parts.js.jsvalidation.js') }}"></script>
+    @endsection
 @endif

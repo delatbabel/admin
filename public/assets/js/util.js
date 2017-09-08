@@ -21,8 +21,8 @@ function CK_jQ (evt) {
 	CKEDITOR.tools.setTimeout(function ()
     {
     	for(var instance in CKEDITOR.instances) {
-    		var $textarea = $("#" + instance);
-	    	$("#" + instance).val(CKEDITOR.instances[instance].getData());
+    		var $textarea = $("#" + instance + ', textarea[name="'+instance+'"]');
+	    	$("#" + instance + ', textarea[name="'+instance+'"]').val(CKEDITOR.instances[instance].getData());
 			if (evt.name === "blur" && $textarea.data("dirty")) {
 				$textarea.valid();
 			} else {

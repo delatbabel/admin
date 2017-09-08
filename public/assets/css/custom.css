@@ -63,6 +63,9 @@ div.dataTables_wrapper div.dataTables_info {
   background-color: #f2dede !important;
   border-color: #a94442 !important;
 }
+.form-horizontal .has-feedback .input-group .form-control-feedback {
+  right: 35px;
+}
 .select2.select2-container {
   width: 100% !important;
 }
@@ -80,7 +83,10 @@ div.dataTables_wrapper div.dataTables_info {
     right: 25px !important;
     top: -2px;
 }
-
+.form-group .select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: transparent;
+  color: #000;
+}
 .cke_1.cke_chrome {
     display: block;
   padding: 2px;
@@ -336,12 +342,14 @@ table.table-bordered.dataTable tbody td:last-child {
 }
 .campain-item .checkbox label {
   line-height: 16px;
+  width: 88%;
+  white-space: normal;
 }
 .campain-item .btn-icon {
   position: absolute;
   color: #000;
   right: 10px;
-  bottom: 0;
+  top: 8px;
   cursor: pointer;
 }
 .btn-icon:active,
@@ -349,4 +357,30 @@ table.table-bordered.dataTable tbody td:last-child {
 .btn-icon:focus {
   color: #666;
   text-decoration: none;
+}
+
+.list-sd-icon {
+  list-style-type: none;
+  padding: 0;
+}
+.list-sd-icon li {
+  margin: 10px 0;
+}
+.list-sd-icon li a {
+    display: inline-block;
+    background-color: #3c8dbc;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    margin-right: 15px;
+    padding-left: 1px;
+    position: relative;
+    top: 2px;
+}
+.input-group-addon[data-trigger] {
+  cursor: pointer;
+}
+.table-sortable .ui-sortable-handle {
+  cursor: pointer;
 }
