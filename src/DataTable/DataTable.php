@@ -398,7 +398,7 @@ class DataTable
 
                         case 'datetime':
                             // Need the timezone of the logged in user
-                            $tz = null;
+                            $tz = new \DateTimeZone(config('app.timezone'));
                             if ($user = Sentinel::check()) {
                                 $tz = new \DateTimeZone($user->timezone);
                             }
