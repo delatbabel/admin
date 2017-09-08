@@ -4,6 +4,7 @@ namespace DDPro\Admin\Fields;
 use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use DateTime;
+use DDPro\Admin\Helpers\DateTimeHelper;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Log;
 
@@ -74,9 +75,7 @@ class Time extends Field
 
                     // Get current user timezone -- datetimes are saved in server timezone but entered
                     // and displayed in user timezone.
-                    if ($user = Sentinel::check()) {
-                        $tz = new \DateTimeZone($user->timezone);
-                    }
+                    $tz = DateTimeHelper::adminTimeZone();
                 } else {
                     $date_format = config('administrator.format.date_carbon');
                 }
