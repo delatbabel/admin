@@ -112,11 +112,16 @@ class AdminController extends Controller
      */
     public function fileDownload()
     {
-        if ($response = $this->session->get('administrator_download_response')) {
-            $this->session->forget('administrator_download_response');
-            $filename = substr($response['headers']['content-disposition'][0], 22, -1);
+        $response = $this->session->get('administrator_download_response');
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'administrator file download response:', $response);
 
-            return response()->download($response['file'], $filename, $response['headers']);
+        if (! empty($response)) {
+            $this->session->forget('administrator_download_response');
+            // $filename = substr($response['headers']['content-disposition'][0], 22, -1);
+            $filename = $response['file'];
+
+            return response()->download($filename, basename($filename), $response['headers']);
         } else {
             return redirect()->back();
         }
