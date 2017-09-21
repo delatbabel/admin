@@ -29,4 +29,17 @@ class AdminHelper
     {
         return '<input type="checkbox" class="deleteRow" value="' . $model->getAttribute($model->getKeyName()) . '">';
     }
+
+    /**
+     * Validate JSON String
+     *
+     * @param $string
+     * @return bool
+     */
+    public static function isJson($string)
+    {
+        json_decode($string);
+
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
 }

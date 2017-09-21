@@ -2,6 +2,7 @@
 namespace DDPro\Admin\Fields;
 
 use DDPro\Admin\Config\ConfigInterface;
+use DDPro\Admin\Helpers\AdminHelper;
 use DDPro\Admin\Helpers\FunctionHelper;
 use DDPro\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
@@ -193,25 +194,12 @@ abstract class Field
      */
     public function fillModel(&$model, $input)
     {
-        if ($model::isJsonCastable($this->getOption('field_name')) && $this->isJson($input)) {
+        if ($model::isJsonCastable($this->getOption('field_name')) && AdminHelper::isJson($input)) {
             // For Casting Array Case
             $model->{$this->getOption('field_name')} = json_decode($input);
         } else {
             $model->{$this->getOption('field_name')} = is_null($input) ? '' : $input;
         }
-    }
-
-    /**
-     * Validate JSON String
-     *
-     * @param $string
-     * @return bool
-     */
-    protected function isJson($string)
-    {
-        json_decode($string);
-
-        return (json_last_error() == JSON_ERROR_NONE);
     }
 
     /**
