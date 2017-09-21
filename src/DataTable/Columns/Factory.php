@@ -130,7 +130,7 @@ class Factory
     public function __construct(Validator $validator, ConfigInterface $config, DB $db)
     {
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'ColumnFactory constructor, config = ' . print_r($config, true));
+            'ColumnFactory constructor, config title = ' . $config->getOption('title'));
 
         // set the config, and then validate it
         $this->config    = $config;
