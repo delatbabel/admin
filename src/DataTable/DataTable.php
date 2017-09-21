@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Cache;
 use Log;
 use Mockery\CountValidator\Exception;
 
@@ -380,12 +381,27 @@ class DataTable
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'About to look at columnFactory, config title = ' . $this->config->getOption('title'));
 
-        $columns         = $this->columnFactory->getColumns();
-        $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
-        $relatedColumns  = $this->columnFactory->getRelatedColumns();
+        $cache_key = 'datatable_parsed_columns_' . str_slug($this->config->getOption('title'));
+        $columns   = $this->columnFactory->getColumns();
+
+        //
+        // Cache the column factory results because getEditFields() can take a long time.
+        //
+        if (Cache::has($cache_key)) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Using cached columns');
+
+            $allColumns = Cache::get($cache_key);
+        } else {
+            $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
+            $relatedColumns  = $this->columnFactory->getRelatedColumns();
+            $allColumns      = array_merge($columns, $includedColumns, $relatedColumns);
+
+            Cache::put($cache_key, $allColumns, 60);
+        }
 
         // loop over all columns
-        foreach (array_merge($columns, $includedColumns, $relatedColumns) as $field => $col) {
+        foreach ($allColumns as $field => $col) {
 
             // if this column is in our objects array, render the output with the given value
             if (isset($columns[$field])) {
