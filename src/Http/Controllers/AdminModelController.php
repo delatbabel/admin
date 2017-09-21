@@ -591,9 +591,8 @@ class AdminModelController extends Controller
         $dataTable = app('admin_datatable');
         $input     = $this->request->all();
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'fetch dataTable results for model = ' . $modelName, [
-            'input' => $input,
-        ]);
+            'fetching dataTable results for model, input = ', $input);
+
         // The request data comes from the DataTable JS plugin and looks like this:
         // {"input":{"draw":"1",
         //   "columns":[
@@ -608,9 +607,7 @@ class AdminModelController extends Controller
 
         $result = $dataTable->getDataTableRows(app('db'), $input);
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-            'fetch dataTable results for model = ' . $modelName, [
-            'result' => $result,
-        ]);
+            'fetched dataTable results for model, result = ', $result);
 
         return response()->json($result);
     }

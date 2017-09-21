@@ -109,6 +109,9 @@ class DataTable
      */
     public function getDataTableRows(DB $db, $input)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'getDataTableRows, input = ', $input);
+
         // prepare the query
         // Don't use this syntax, only because it makes it impossible for phpStorm to verify the
         // presence and type of the variables.
@@ -150,6 +153,9 @@ class DataTable
      */
     public function prepareQuery(DB $db, $input = [])
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'prepareQuery, input = ', $input);
+
         // grab the model instance
         /** @var Model $model */
         $model = $this->config->getDataModel();
@@ -271,6 +277,9 @@ class DataTable
      */
     public function performCountQuery(QueryBuilder $countQuery, $querySql, $queryBindings, $page)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'performCountQuery, querySql = ' . $querySql);
+
         // grab the model instance
         $model = $this->config->getDataModel();
 
@@ -337,6 +346,9 @@ class DataTable
      */
     public function parseResults($rows)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'parseResults');
+
         $results = [];
 
         // convert the resulting set into arrays
