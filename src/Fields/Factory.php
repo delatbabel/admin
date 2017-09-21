@@ -58,6 +58,7 @@ class Factory
         'file'          => 'DDPro\\Admin\\Fields\\File',
         'color'         => 'DDPro\\Admin\\Fields\\Color',
         'arraytext'     => 'DDPro\\Admin\\Fields\\ArrayText',
+        'dynamic'       => 'DDPro\\Admin\\Fields\\Text',
 
         // relationships
         'belongs_to'      => 'DDPro\\Admin\\Fields\\Relationships\\BelongsTo',
