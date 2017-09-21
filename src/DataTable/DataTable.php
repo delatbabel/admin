@@ -381,7 +381,7 @@ class DataTable
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'About to look at columnFactory, config title = ' . $this->config->getOption('title'));
 
-        $cache_key = 'datatable_parsed_columns_' . str_slug($this->config->getOption('title'));
+        $cache_key = 'datatable_column_names_' . str_slug($this->config->getOption('title'));
         $columns   = $this->columnFactory->getColumns();
 
         //
@@ -397,45 +397,51 @@ class DataTable
             $relatedColumns  = $this->columnFactory->getRelatedColumns();
             $allColumns      = array_merge($columns, $includedColumns, $relatedColumns);
 
+            // Actually we only need to cache the column keys (names), not the actual column data.
+            $allColumns      = array_keys($allColumns);
+
             Cache::put($cache_key, $allColumns, 60);
         }
 
-        // loop over all columns
-        foreach ($allColumns as $field => $col) {
+        // loop over all column names
+        foreach ($allColumns as $field) {
+
+            if (! isset($columns[$field])) {
+                continue;
+            }
 
             // if this column is in our objects array, render the output with the given value
-            if (isset($columns[$field])) {
-                /** @var Column $column */
-                $column         = $columns[$field];
-                $attributeValue = $item->getAttribute($field);
-                #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                #    "column $field getAttribute = " . print_r($attributeValue, true));
 
-                // Various table column mutators, in-built
-                if (! empty($attributeValue)) {
-                    switch ($column->getOption('type')) {
-                        case 'image':
-                            $real_path      = ImageHelper::getImageUrl($attributeValue);
-                            $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
-                            break;
+            /** @var Column $column */
+            $column         = $columns[$field];
+            $attributeValue = $item->getAttribute($field);
+            #Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            #    "column $field getAttribute = " . print_r($attributeValue, true));
 
-                        case 'date':
-                            if ($attributeValue instanceof \DateTime) {
-                                $dt = $attributeValue;
-                            } else {
-                                $dt = new \DateTime($attributeValue);
-                            }
-                            $attributeValue = $dt->format(config('administrator.format.date_carbon'));
-                            break;
+            // Various table column mutators, in-built
+            if (! empty($attributeValue)) {
+                switch ($column->getOption('type')) {
+                    case 'image':
+                        $real_path      = ImageHelper::getImageUrl($attributeValue);
+                        $attributeValue = '<img src="' . $real_path . '" class="thumbnail" />';
+                        break;
 
-                        case 'datetime':
-                            $attributeValue = DateTimeHelper::formatDateTime($attributeValue);
-                            break;
-                    }
+                    case 'date':
+                        if ($attributeValue instanceof \DateTime) {
+                            $dt = $attributeValue;
+                        } else {
+                            $dt = new \DateTime($attributeValue);
+                        }
+                        $attributeValue = $dt->format(config('administrator.format.date_carbon'));
+                        break;
+
+                    case 'datetime':
+                        $attributeValue = DateTimeHelper::formatDateTime($attributeValue);
+                        break;
                 }
-
-                $outputRow[] = $column->renderOutput($attributeValue, $item);
             }
+
+            $outputRow[] = $column->renderOutput($attributeValue, $item);
         }
     }
 
