@@ -377,6 +377,9 @@ class DataTable
      */
     public function parseOnTableColumns($item, array &$outputRow)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'About to look at columnFactory, config title = ' . $this->config->getOption('title'));
+
         $columns         = $this->columnFactory->getColumns();
         $includedColumns = $this->columnFactory->getIncludedColumns($this->fieldFactory->getEditFields());
         $relatedColumns  = $this->columnFactory->getRelatedColumns();
