@@ -18,7 +18,7 @@
     - [Login Path](#login-path)
     - [Logout Path](#logout-path)
     - [Redirect Key](#redirect-key)
-    - [Global Rows Per Page](#global-rows-per-page)
+    - [Pagination](#pagination)
     - [Locales](#locales)
     - [Assets](#assets)
 
@@ -301,21 +301,24 @@ If you would like to give your administrative users the option to log out from t
 
 When a user is redirected to the `login_path`, the redirect path is sent with them. This option lets you define the key. Using the above as an example, you would retrieve the redirect url by doing `Session::get('redirect')`.
 
-<a name="global-rows-per-page"></a>
-### Global Rows Per Page
+<a name="pagination"></a>
+### Pagination
 
     /**
-     * This is the fallback value to use if the user hasn't set a custom rows per page in a model
+     * Global default rows per page
      *
-     * @type NULL|int
+     * @type array
      */
-    'global_rows_per_page' => 20,
+    'pagination'    => [
+        'default'       => 100,
+        'options'       => [10, 25, 50, 100, 200, 500],
+    ],
 
 Your admin users have the ability to set the rows per page in each model with this dropdown:
 
 <img src="https://raw.github.com/FrozenNode/Laravel-Administrator/master/examples/images/rows-per-page.png" />
 
-This is persistent across page loads until the user's session expires. The `global_rows_per_page` option is the default value for when the user hasn't yet set the number they want for any particular model.
+This is persistent across page loads until the user's session expires. The `pagination.default` option is the default value for when the user hasn't yet set the number they want for any particular model.
 
 <a name="locales"></a>
 ### Locales
@@ -339,7 +342,7 @@ The user's choice of locale will persist across page loads until a user's sessio
 
     /**
      * Assets that get loaded by the main ViewComposer
-     * 
+     *
      * @type array
      */
     'assets' => [

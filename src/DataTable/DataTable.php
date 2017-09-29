@@ -81,7 +81,7 @@ class DataTable
      *
      * @var int
      */
-    protected $rowsPerPage = 20;
+    protected $rowsPerPage = 100;
 
     /**
      * Create a new action DataTable instance

@@ -207,9 +207,12 @@ return [
     /**
      * Global default rows per page
      *
-     * @type int
+     * @type array
      */
-    'global_rows_per_page' => 20,
+    'pagination'    => [
+        'default'       => 100,
+        'options'       => [10, 25, 50, 100, 200, 500],
+    ],
 
     /**
      * An array of available locale strings. This determines which locales are available in the languages menu at the top right of the Administrator
