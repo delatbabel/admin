@@ -518,14 +518,19 @@ class DataTable
      */
     public function setRowsPerPage(\Illuminate\Session\Store $session, $globalPerPage, $override = null)
     {
-        if ($override) {
-            $perPage = (int) $override;
-            $session->put('administrator_' . $this->config->getOption('name') . '_rows_per_page', $perPage);
+        $name = $this->config->getOption('name');
+        if (empty($name)) {
+            $name = 'global';
         }
 
-        $perPage = $session->get('administrator_' . $this->config->getOption('name') . '_rows_per_page');
+        if ($override) {
+            $perPage = (int) $override;
+            $session->put('administrator_' . $name . '_rows_per_page', $perPage);
+        }
 
-        if (! $perPage) {
+        $perPage = $session->get('administrator_' . $name . '_rows_per_page');
+
+        if (empty($perPage)) {
             $perPage = (int) $globalPerPage;
         }
 

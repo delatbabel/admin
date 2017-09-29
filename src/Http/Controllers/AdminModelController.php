@@ -699,12 +699,13 @@ class AdminModelController extends Controller
      */
     public function rowsPerPage($modelName)
     {
+        /** @var DataTable $dataTable */
         $dataTable = app('admin_datatable');
         // get the inputted rows and the model rows
         $rows = (int)$this->request->input('rows', 20);
         $dataTable->setRowsPerPage(app('session.store'), 0, $rows);
 
-        return response()->JSON(['success' => true]);
+        return response()->json(['success' => true]);
     }
 
     public function customModelItemData($modelName, $itemId)
