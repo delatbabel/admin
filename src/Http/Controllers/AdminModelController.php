@@ -5,6 +5,7 @@ namespace DDPro\Admin\Http\Controllers;
 use DDPro\Admin\Actions\Action;
 use DDPro\Admin\Config\Model\Config;
 use DDPro\Admin\DataTable\DataTable;
+use DDPro\Admin\Helpers\AdminHelper;
 use DDPro\Admin\Includes\UploadedImage;
 use Delatbabel\Contacts\Models\Address;
 use Illuminate\Http\RedirectResponse;
@@ -506,8 +507,8 @@ class AdminModelController extends Controller
         try {
             $result = $action->perform($ids);
         } catch (\Exception $e) {
-            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'exception thrown from custom action == ' . $e->getMessage());
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from custom action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
             return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
 
