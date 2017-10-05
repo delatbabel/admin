@@ -830,4 +830,52 @@ class AdminModelController extends Controller
         $query->getQuery()->select($selects);
         return $query;
     }
+    
+    /**
+     * Restore deleted items
+     *
+     * @param array $ids
+     * @return boolean
+     */
+    public static function unDelete($ids)
+    {
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $baseModel     = $config->getDataModel();
+        foreach ($ids as $id) {
+            $model = $baseModel::onlyTrashed()->find($id);
+            if ($model) {
+                $model->restore();
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Hard delete deleted items
+     *
+     * @param array $ids
+     * @return boolean
+     */
+    public static function purgeDeleted($ids)
+    {
+        // The itemconfig singleton is built in the ValidateModel middleware and
+        // will be an instance of \DDPro\Admin\Config\Model\Config
+        /** @var Config $config */
+        $config = app('itemconfig');
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $baseModel     = $config->getDataModel();
+        foreach ($ids as $id) {
+            $model = $baseModel::onlyTrashed()->find($id);
+            if ($model) {
+                $model->forceDelete();
+            }
+        }
+
+        return true;
+    }
 }

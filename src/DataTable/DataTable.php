@@ -192,6 +192,20 @@ class DataTable
 
         /** @var EloquentBuilder $query */
         $query   = $model->groupBy($table . '.' . $keyName);
+        
+        // 'show_deleted' filter is a special filter, it needs to be run at the very first stage of the query builder
+        if (isset($input['filters']['show_deleted']['value'])) {
+            $filterValue = $input['filters']['show_deleted']['value'];
+            if ($filterValue == '') {
+                // Show all
+                $query->withTrashed();
+            } elseif ($filterValue == 'yes') {
+                // Trash only
+                $query->onlyTrashed();
+            }
+            // Unset this filter so that it won't effect later stage
+            unset($input['filters']['show_deleted']);
+        }
 
         // get the Illuminate\Database\Query\Builder instance and set up the count query
         $dbQuery    = $query->getQuery();
