@@ -203,9 +203,10 @@ class DataTable
                 // Trash only
                 $query->onlyTrashed();
             }
-            // Unset this filter so that it won't effect later stage
-            unset($input['filters']['show_deleted']);
         }
+
+        // Unset this filter so that it won't effect later stage
+        unset($input['filters']['show_deleted']);
 
         // get the Illuminate\Database\Query\Builder instance and set up the count query
         $dbQuery    = $query->getQuery();
