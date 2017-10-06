@@ -600,16 +600,26 @@ class AdminModelController extends Controller
         //     {"data":"0","name":"batch_select","searchable":"true","orderable":"false","search":{"value":"","regex":"false"}},
         //     {"data":"1","name":"id","searchable":"true","orderable":"true","search":{"value":"","regex":"false"}},
         //     ... etc
-        //   "start":"0","length":"10","search":{"value":"","regex":"false"},
+        //   "start":"0",
+        //   "length":"10",
+        //   "search":{"value":"","regex":"false"},
         //   "filters":{
         //      "company":{"field_name":"company","value":""},
         //      ... etc
         // }}}
 
+        // Set rows per page
+        if (! empty($input['length'])) {
+            $rows = $input['length'];
+            $dataTable->setRowsPerPage(app('session.store'), 0, $rows);
+        }
+
+        // Get datatable results
         $result = $dataTable->getDataTableRows(app('db'), $input);
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
             'fetched dataTable results for model, result = ', $result);
 
+        // Return JSON response
         return response()->json($result);
     }
 
