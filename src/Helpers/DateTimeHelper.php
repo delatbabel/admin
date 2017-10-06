@@ -27,7 +27,7 @@ class DateTimeHelper
      */
     public static function adminTimeZone()
     {
-        $tz = new \DateTimeZone(config('app.timezone'));
+        $tz   = new \DateTimeZone(config('app.timezone'));
         $user = Sentinel::check();
         if (! empty($user) && ! empty($user->timezone)) {
             $tz = new \DateTimeZone($user->timezone);

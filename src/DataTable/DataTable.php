@@ -426,7 +426,6 @@ class DataTable
 
         // loop over all column names
         foreach ($allColumns as $field) {
-
             if (! isset($columns[$field])) {
                 continue;
             }
