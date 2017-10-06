@@ -700,6 +700,9 @@ class AdminModelController extends Controller
      */
     public function rowsPerPage($modelName)
     {
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'rows per page handler input', $this->request->all());
+
         /** @var DataTable $dataTable */
         $dataTable = app('admin_datatable');
         // get the inputted rows and the model rows
@@ -709,6 +712,13 @@ class AdminModelController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * ?? Does not appear to be called from anywhere.
+     *
+     * @param $modelName
+     * @param $itemId
+     * @return mixed
+     */
     public function customModelItemData($modelName, $itemId)
     {
         $data         = $this->request->get('data');
@@ -767,6 +777,12 @@ class AdminModelController extends Controller
         }
     }
 
+    /**
+     * Export data for a model
+     *
+     * @param $modelName
+     * return Response
+     */
     public function export($modelName)
     {
         $config        = app('itemconfig');
@@ -809,7 +825,13 @@ class AdminModelController extends Controller
         }
     }
 
-    private function prepareExportQuery($model)
+    /**
+     * Prepares the query for exporting data
+     *
+     * @param $model
+     * @return EloquentBuilder
+     */
+    protected function prepareExportQuery($model)
     {
         // get things going by grouping the set
         $table   = $model->getTable();
@@ -830,7 +852,7 @@ class AdminModelController extends Controller
         $query->getQuery()->select($selects);
         return $query;
     }
-    
+
     /**
      * Restore deleted items
      *

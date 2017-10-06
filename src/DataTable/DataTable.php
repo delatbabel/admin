@@ -192,7 +192,7 @@ class DataTable
 
         /** @var EloquentBuilder $query */
         $query   = $model->groupBy($table . '.' . $keyName);
-        
+
         // 'show_deleted' filter is a special filter, it needs to be run at the very first stage of the query builder
         if (isset($input['filters']['show_deleted']['value'])) {
             $filterValue = $input['filters']['show_deleted']['value'];
@@ -537,12 +537,19 @@ class DataTable
             $name = 'global';
         }
 
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'set rows per page handler for ' . $name . ' to ' . $globalPerPage . ' override ' . $override);
+
         if ($override) {
             $perPage = (int) $override;
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'override is set to ' . $perPage . ', store to session');
             $session->put('administrator_' . $name . '_rows_per_page', $perPage);
         }
 
         $perPage = $session->get('administrator_' . $name . '_rows_per_page');
+        Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+            'session rows per page is ' . $perPage);
 
         if (empty($perPage)) {
             $perPage = (int) $globalPerPage;
