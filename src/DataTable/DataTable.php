@@ -193,21 +193,6 @@ class DataTable
         /** @var EloquentBuilder $query */
         $query   = $model->groupBy($table . '.' . $keyName);
 
-        // 'show_deleted' filter is a special filter, it needs to be run at the very first stage of the query builder
-        if (isset($input['filters']['show_deleted']['value'])) {
-            $filterValue = $input['filters']['show_deleted']['value'];
-            if ($filterValue == '') {
-                // Show all
-                $query->withTrashed();
-            } elseif ($filterValue == 'yes') {
-                // Trash only
-                $query->onlyTrashed();
-            }
-        }
-
-        // Unset this filter so that it won't effect later stage
-        unset($input['filters']['show_deleted']);
-
         // get the Illuminate\Database\Query\Builder instance and set up the count query
         $dbQuery    = $query->getQuery();
         $countQuery = $dbQuery->getConnection()->table($table)->groupBy($table . '.' . $keyName);
@@ -221,6 +206,23 @@ class DataTable
 
         // set the filters
         if (isset($input['filters'])) {
+
+            // 'show_deleted' filter is a special filter, it needs to be run at the very first stage of the query builder
+            if (isset($input['filters']['show_deleted']['value'])) {
+                $filterValue = $input['filters']['show_deleted']['value'];
+                if ($filterValue == '') {
+                    // Show all
+                    $query->withTrashed();
+                } elseif ($filterValue == 'yes') {
+                    // Trash only
+                    $query->onlyTrashed();
+                }
+            }
+
+            // Unset this filter so that it won't effect later stage
+            unset($input['filters']['show_deleted']);
+
+            // Unset empty values from array filters
             foreach ($input['filters'] as $key => &$value) {
                 if (isset($value['value']) && is_array($value['value'])) {
                     foreach ($value['value'] as $key1 => $value1) {
@@ -230,6 +232,10 @@ class DataTable
                     }
                 }
             }
+
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'input filters = ', $input['filters']);
+
             $this->setFilters($input['filters'], $dbQuery, $countQuery, $selects);
         }
 
