@@ -2,6 +2,7 @@
 
 namespace DDPro\Admin\Http\Controllers;
 
+use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Cartalyst\Sentinel\Users\IlluminateUserRepository;
@@ -12,6 +13,7 @@ use Delatbabel\Keylists\Models\Keyvalue;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
 
@@ -82,9 +84,35 @@ class UserController extends BaseController
     {
         // Admin users are those which are not customers (with a contact_id) and are
         // not a supplier (with a supplier_id).
-        $users = EloquentUser::whereNull('contact_id')
-            ->whereNull('supplier_id')
-            ->get();
+        $query = User::whereNull('contact_id')
+            ->whereNull('supplier_id');
+
+        // Keep the old filter values
+        $queryParams = Request::only(['first_name', 'last_name', 'email', 'show_deleted']);
+
+        if ($showDeleted = $queryParams['show_deleted']) {
+            if ($showDeleted == 'all') {
+                // Show all
+                $query->withTrashed();
+            } elseif ($showDeleted == 'yes') {
+                // Trash only
+                $query->onlyTrashed();
+            }
+        }
+
+        if ($firstName = $queryParams['first_name']) {
+            $query->where('first_name', 'LIKE', "%$firstName%");
+        }
+
+        if ($lastName = $queryParams['last_name']) {
+            $query->where('last_name', 'LIKE', "%$lastName%");
+        }
+
+        if ($email = $queryParams['email']) {
+            $query->where('email', 'LIKE', "%$email%");
+        }
+
+        $users = $query->get();
 
         // Fetch the country list.
         $countryList = Keytype::where('name', 'countries')
@@ -96,6 +124,7 @@ class UserController extends BaseController
         return view('centaur.users.index', [
             'users'       => $users,
             'countryList' => $countryList,
+            'queryParams'   => $queryParams
         ]);
     }
 
