@@ -71,3 +71,18 @@ Route::resource('users', '\DDPro\Admin\Http\Controllers\UserController');
 
 // Roles
 Route::resource('roles', '\DDPro\Admin\Http\Controllers\RoleController');
+
+Route::post('users/destroy_batch', [
+    'as'    => 'users.destroy_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@destroyBatch'
+]);
+
+Route::post('users/undelete_batch', [
+    'as'    => 'users.undelete_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@unDeleteBatch'
+]);
+
+Route::post('users/purge_batch', [
+    'as'    => 'users.purge_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@purgeBatch'
+]);

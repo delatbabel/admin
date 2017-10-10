@@ -4,9 +4,9 @@ namespace DDPro\Admin\Http\Controllers;
 
 use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Cartalyst\Sentinel\Users\EloquentUser;
 use Cartalyst\Sentinel\Users\IlluminateUserRepository;
 use Centaur\AuthManager;
+use DDPro\Admin\Helpers\AdminHelper;
 use DDPro\Admin\Http\Requests\UserFormRequest;
 use Delatbabel\Keylists\Models\Keytype;
 use Delatbabel\Keylists\Models\Keyvalue;
@@ -16,6 +16,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
+use Log;
 
 /**
  * Class UserController
@@ -68,7 +69,7 @@ class UserController extends BaseController
         $this->middleware('sentinel.access:users.create', ['only' => ['create', 'store']]);
         $this->middleware('sentinel.access:users.view', ['only' => ['index', 'show']]);
         $this->middleware('sentinel.access:users.update', ['only' => ['edit', 'update']]);
-        $this->middleware('sentinel.access:users.delete', ['only' => ['destroy']]);
+        $this->middleware('sentinel.access:users.delete', ['only' => ['destroy', 'destroyBatch']]);
 
         // Dependency Injection
         $this->userRepository = app()->make('sentinel.users');
@@ -141,8 +142,8 @@ class UserController extends BaseController
             ->all();
 
         // Get country List
-        $countryList  = KeyValue::getKeyValuesByType('countries');
-        $timezoneList = KeyValue::getKeyValuesByType('timezones');
+        $countryList  = Keyvalue::getKeyValuesByType('countries');
+        $timezoneList = Keyvalue::getKeyValuesByType('timezones');
 
         return view('centaur.users.create', [
             'roles'        => $roles,
@@ -216,8 +217,8 @@ class UserController extends BaseController
                 ->all();
 
             // Get country List
-            $countryList  = KeyValue::getKeyValuesByType('countries');
-            $timezoneList = KeyValue::getKeyValuesByType('timezones');
+            $countryList  = Keyvalue::getKeyValuesByType('countries');
+            $timezoneList = Keyvalue::getKeyValuesByType('timezones');
 
             return view('centaur.users.edit', [
                 'user'         => $user,
@@ -275,5 +276,62 @@ class UserController extends BaseController
         session()->flash('success', "{$user->email} has been removed.");
 
         return redirect()->route('users.index');
+    }
+
+    public function destroyBatch() {
+        try {
+            $ids = Request::get('ids');
+            foreach ($ids as $id) {
+                $user = User::find($id);
+                if ($user) {
+                    // Remove the user
+                    $user->delete();
+                }
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from custom action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function unDeleteBatch() {
+        try {
+            $ids = Request::get('ids');
+            foreach ($ids as $id) {
+                $user = User::onlyTrashed()->find($id);
+                if ($user) {
+                    // Restore the user
+                    $user->restore();
+                }
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from custom action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function purgeBatch() {
+        try {
+            $ids = Request::get('ids');
+            foreach ($ids as $id) {
+                $user = User::onlyTrashed()->find($id);
+                if ($user) {
+                    // Purge the user
+                    $user->forceDelete();
+                }
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from custom action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
 }
