@@ -86,3 +86,18 @@ Route::post('users/purge_batch', [
     'as'    => 'users.purge_batch',
     'uses'  => '\DDPro\Admin\Http\Controllers\UserController@purgeBatch'
 ]);
+
+Route::post('users/destroy_batch', [
+    'as'    => 'users.destroy_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@destroyBatch'
+]);
+
+Route::post('users/undelete_batch', [
+    'as'    => 'users.undelete_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@unDeleteBatch'
+]);
+
+Route::post('users/purge_batch', [
+    'as'    => 'users.purge_batch',
+    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@purgeBatch'
+]);
