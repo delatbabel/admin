@@ -374,14 +374,21 @@ class AdminModelController extends Controller
 
         $baseModel  = $config->getDataModel();
         $primaryKey = $baseModel->getKeyName();
-        $models     = $baseModel::whereIn($primaryKey, $ids);
 
-        // delete the models
-        if ($models && $models->delete()) {
+        try {
+            foreach ($ids as $id) {
+                $model = $baseModel::where($primaryKey, $id)->first();
+
+                if ($model) {
+                    $model->delete();
+                }
+            }
             return response()->json([
                 'success' => true,
             ]);
-        } else {
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
             return response()->json($errorResponse);
         }
     }
@@ -899,6 +906,41 @@ class AdminModelController extends Controller
         // will be an instance of \DDPro\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
+
+        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        $actionFactory = app('admin_action_factory');
+
+        $errorResponse = [
+            'success' => false,
+            'error'   => "There was an error deleting selected item(s). Please reload the page and try again.",
+        ];
+
+        // checking permission
+        $permissions = $actionFactory->getActionPermissions();
+        if (! $permissions['delete']) {
+            return response()->json($errorResponse);
+        }
+
+        $baseModel  = $config->getDataModel();
+        $primaryKey = $baseModel->getKeyName();
+
+        try {
+            foreach ($ids as $id) {
+                $model = $baseModel::onlyTrashed()->where($primaryKey, $id)->first();
+
+                if ($model) {
+                    $model->forceDelete();
+                }
+            }
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'exception thrown from action == ' . $e->getMessage() . ' trace:' . AdminHelper::jTraceEx($e));
+            return response()->json($errorResponse);
+        }
+
         /** @var \DDPro\Admin\Actions\Factory $actionFactory */
         $baseModel     = $config->getDataModel();
         foreach ($ids as $id) {
