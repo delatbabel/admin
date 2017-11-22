@@ -14,7 +14,7 @@
         "issues": "https://github.com/delatbabel/admin/issues"
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.0",
         "delatbabel/applog": "dev-master",
         "delatbabel/contacts": "dev-master",
         "delatbabel/fluents": "~1.0",

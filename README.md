@@ -1,6 +1,6 @@
 # Administrator Panel
 
-[![Build Status](https://travis-ci.org/delatbabel/admin.png?branch=master)](https://travis-ci.org/ddpro/delatbabel)
+[![Build Status](https://travis-ci.org/delatbabel/admin.png?branch=master)](https://travis-ci.org/delatbabel/admin)
 [![StyleCI](https://styleci.io/repos/111652174/shield)](https://styleci.io/repos/111652174)
 [![Latest Stable Version](https://poser.pugx.org/delatbabel/admin/version.png)](https://packagist.org/packages/delatbabel/admin)
 [![Total Downloads](https://poser.pugx.org/delatbabel/admin/d/total.png)](https://packagist.org/packages/delatbabel/admin)
