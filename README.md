@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/ddpro/admin.png?branch=master)](https://travis-ci.org/ddpro/admin)
 [![StyleCI](https://styleci.io/repos/111652174/shield)](https://styleci.io/repos/111652174)
-[![Latest Stable Version](https://poser.pugx.org/ddpro/admin/version.png)](https://packagist.org/packages/ddpro/admin)
-[![Total Downloads](https://poser.pugx.org/ddpro/admin/d/total.png)](https://packagist.org/packages/ddpro/admin)
+[![Latest Stable Version](https://poser.pugx.org/delatbabel/admin/version.png)](https://packagist.org/packages/delatbabel/admin)
+[![Total Downloads](https://poser.pugx.org/delatbabel/admin/d/total.png)](https://packagist.org/packages/delatbabel/admin)
 
 This is currently a work in progress to build a new Laravel 5 compatible administration panel based on [AdminLTE](https://almsaeedstudio.com/preview)
 
