@@ -1,10 +1,10 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers;
+namespace Delatbabel\Admin\Http\Controllers;
 
-use DDPro\Admin\Config\Factory as ConfigFactory;
-use DDPro\Admin\Includes\CustomMultup;
-use DDPro\Admin\Includes\UploadedImage;
+use Delatbabel\Admin\Config\Factory as ConfigFactory;
+use Delatbabel\Admin\Includes\CustomMultup;
+use Delatbabel\Admin\Includes\UploadedImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,9 +14,9 @@ use Illuminate\View\View;
 use Log;
 
 /**
- * DDPro Admin Controller
+ * Delatbabel Admin Controller
  *
- * This is the main controller class for all DDPro Admin requests.
+ * This is the main controller class for all Delatbabel Admin requests.
  * It handle for Dashboard, Utility and Settings pages
  *
  * ### Entry Points

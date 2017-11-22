@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers\Auth;
+namespace Delatbabel\Admin\Http\Controllers\Auth;
 
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;

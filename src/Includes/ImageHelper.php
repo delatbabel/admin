@@ -5,7 +5,7 @@
  * @author del
  */
 
-namespace DDPro\Admin\Includes;
+namespace Delatbabel\Admin\Includes;
 
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Helpers;
+namespace Delatbabel\Admin\Helpers;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 

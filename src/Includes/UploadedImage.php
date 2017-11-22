@@ -5,7 +5,7 @@
  * @author del
  */
 
-namespace DDPro\Admin\Includes;
+namespace Delatbabel\Admin\Includes;
 
 use Delatbabel\Fluents\Entity;
 

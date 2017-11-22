@@ -1,7 +1,7 @@
 <?php
-namespace DDPro\Admin\Fields\Relationships;
+namespace Delatbabel\Admin\Fields\Relationships;
 
-use DDPro\Admin\Fields\Field;
+use Delatbabel\Admin\Fields\Field;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
 use Log;

@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Fields\Relationships;
+namespace Delatbabel\Admin\Fields\Relationships;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Log;

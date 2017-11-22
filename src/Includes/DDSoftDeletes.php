@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Includes;
+namespace Delatbabel\Admin\Includes;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -8,8 +8,8 @@ trait DDSoftDeletes
 {
     use SoftDeletes;
 
-    public function isForceDeleting() {
+    public function isForceDeleting()
+    {
         return $this->forceDeleting;
     }
-
 }

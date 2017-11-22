@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Includes;
+namespace Delatbabel\Admin\Includes;
 
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\File\File as SFile;

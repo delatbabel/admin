@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\DataTable\Columns\Relationships;
+namespace Delatbabel\Admin\DataTable\Columns\Relationships;
 
 /**
  * HasOneOrMany class

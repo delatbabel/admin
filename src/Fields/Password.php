@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Fields;
+namespace Delatbabel\Admin\Fields;
 
 class Password extends Text
 {

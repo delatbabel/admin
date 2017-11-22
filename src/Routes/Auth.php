@@ -7,97 +7,97 @@
 // Authentication
 Route::get('/login', [
     'as'   => 'auth.login.form',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\SessionController@getLogin'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\SessionController@getLogin'
 ]);
 Route::post('/login', [
     'as'   => 'auth.login.attempt',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\SessionController@postLogin'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\SessionController@postLogin'
 ]);
 Route::get('/logout', [
     'as'   => 'auth.logout',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\SessionController@getLogout'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\SessionController@getLogout'
 ]);
 
 // Dashboard
 Route::get('dashboard', [
     'as'   => 'dashboard',
-    'uses' => '\DDPro\Admin\Http\Controllers\DashboardController@index'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\DashboardController@index'
 ]);
 
 // Registration
 Route::get('register', [
     'as'   => 'auth.register.form',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@getRegister'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\RegistrationController@getRegister'
 ]);
 Route::post('register', [
     'as'   => 'auth.register.attempt',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@postRegister'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\RegistrationController@postRegister'
 ]);
 
 // Activation
 Route::get('activate/{code}', [
     'as'   => 'auth.activation.attempt',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@getActivate'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\RegistrationController@getActivate'
 ]);
 Route::get('resend', [
     'as'   => 'auth.activation.request',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@getResend'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\RegistrationController@getResend'
 ]);
 Route::post('resend', [
     'as'   => 'auth.activation.resend',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\RegistrationController@postResend'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\RegistrationController@postResend'
 ]);
 
 // Password Reset
 Route::get('password/reset/{code}', [
     'as'   => 'auth.password.reset.form',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\PasswordController@getReset'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\PasswordController@getReset'
 ]);
 Route::post('password/reset/{code}', [
     'as'   => 'auth.password.reset.attempt',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\PasswordController@postReset'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\PasswordController@postReset'
 ]);
 Route::get('password/reset', [
     'as'   => 'auth.password.request.form',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\PasswordController@getRequest'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\PasswordController@getRequest'
 ]);
 Route::post('password/reset', [
     'as'   => 'auth.password.request.attempt',
-    'uses' => '\DDPro\Admin\Http\Controllers\Auth\PasswordController@postRequest'
+    'uses' => '\Delatbabel\Admin\Http\Controllers\Auth\PasswordController@postRequest'
 ]);
 
 // Users
-Route::resource('users', '\DDPro\Admin\Http\Controllers\UserController');
+Route::resource('users', '\Delatbabel\Admin\Http\Controllers\UserController');
 
 // Roles
-Route::resource('roles', '\DDPro\Admin\Http\Controllers\RoleController');
+Route::resource('roles', '\Delatbabel\Admin\Http\Controllers\RoleController');
 
 Route::post('users/destroy_batch', [
     'as'    => 'users.destroy_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@destroyBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@destroyBatch'
 ]);
 
 Route::post('users/undelete_batch', [
     'as'    => 'users.undelete_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@unDeleteBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@unDeleteBatch'
 ]);
 
 Route::post('users/purge_batch', [
     'as'    => 'users.purge_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@purgeBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@purgeBatch'
 ]);
 
 Route::post('users/destroy_batch', [
     'as'    => 'users.destroy_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@destroyBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@destroyBatch'
 ]);
 
 Route::post('users/undelete_batch', [
     'as'    => 'users.undelete_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@unDeleteBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@unDeleteBatch'
 ]);
 
 Route::post('users/purge_batch', [
     'as'    => 'users.purge_batch',
-    'uses'  => '\DDPro\Admin\Http\Controllers\UserController@purgeBatch'
+    'uses'  => '\Delatbabel\Admin\Http\Controllers\UserController@purgeBatch'
 ]);

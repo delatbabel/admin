@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Config;
+namespace Delatbabel\Admin\Config;
 
 /**
  * Interface ConfigInterface

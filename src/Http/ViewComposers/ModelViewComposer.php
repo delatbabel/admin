@@ -1,10 +1,10 @@
 <?php
-namespace DDPro\Admin\Http\ViewComposers;
+namespace Delatbabel\Admin\Http\ViewComposers;
 
-use DDPro\Admin\Actions\Factory as ActionFactory;
-use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
-use DDPro\Admin\DataTable\DataTable;
-use DDPro\Admin\Fields\Factory as FieldFactory;
+use Delatbabel\Admin\Actions\Factory as ActionFactory;
+use Delatbabel\Admin\DataTable\Columns\Factory as ColumnFactory;
+use Delatbabel\Admin\DataTable\DataTable;
+use Delatbabel\Admin\Fields\Factory as FieldFactory;
 use Illuminate\View\View;
 use Log;
 
@@ -29,8 +29,8 @@ class ModelViewComposer
 
         // get a model instance that we'll use for constructing stuff
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
-        /** @var \DDPro\Admin\Config\Model\Config $config */
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
+        /** @var \Delatbabel\Admin\Config\Model\Config $config */
         $config = app('itemconfig');
 
         /** @var FieldFactory $fieldFactory */

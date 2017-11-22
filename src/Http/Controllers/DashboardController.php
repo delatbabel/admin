@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers;
+namespace Delatbabel\Admin\Http\Controllers;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

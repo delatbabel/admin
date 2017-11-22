@@ -1,11 +1,11 @@
 <?php
-namespace DDPro\Admin\Http\ViewComposers;
+namespace Delatbabel\Admin\Http\ViewComposers;
 
 use Illuminate\View\View;
 
 /**
  * Class MainViewComposer
- * @package DDPro\Admin\Http\ViewComposers
+ * @package Delatbabel\Admin\Http\ViewComposers
  */
 class MainViewComposer extends ViewComposer
 {

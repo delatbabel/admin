@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Fields\Relationships;
+namespace Delatbabel\Admin\Fields\Relationships;
 
 class HasOne extends HasOneOrMany
 {

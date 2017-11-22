@@ -1,19 +1,19 @@
 <?php
 
-namespace DDPro\Admin;
+namespace Delatbabel\Admin;
 
-use DDPro\Admin\Actions\Factory as ActionFactory;
-use DDPro\Admin\Config\Factory as ConfigFactory;
-use DDPro\Admin\Config\Model\Config;
-use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
-use DDPro\Admin\DataTable\DataTable;
-use DDPro\Admin\Fields\Factory as FieldFactory;
-use DDPro\Admin\Http\Controllers\AdminModelController;
-use DDPro\Admin\Http\ViewComposers\MainViewComposer;
-use DDPro\Admin\Http\ViewComposers\ModelViewComposer;
-use DDPro\Admin\Http\ViewComposers\NoauthViewComposer;
-use DDPro\Admin\Http\ViewComposers\SettingViewComposer;
-use DDPro\Admin\Http\ViewComposers\SidebarViewComposer;
+use Delatbabel\Admin\Actions\Factory as ActionFactory;
+use Delatbabel\Admin\Config\Factory as ConfigFactory;
+use Delatbabel\Admin\Config\Model\Config;
+use Delatbabel\Admin\DataTable\Columns\Factory as ColumnFactory;
+use Delatbabel\Admin\DataTable\DataTable;
+use Delatbabel\Admin\Fields\Factory as FieldFactory;
+use Delatbabel\Admin\Http\Controllers\AdminModelController;
+use Delatbabel\Admin\Http\ViewComposers\MainViewComposer;
+use Delatbabel\Admin\Http\ViewComposers\ModelViewComposer;
+use Delatbabel\Admin\Http\ViewComposers\NoauthViewComposer;
+use Delatbabel\Admin\Http\ViewComposers\SettingViewComposer;
+use Delatbabel\Admin\Http\ViewComposers\SidebarViewComposer;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as LaravelValidator;
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * DDPro Admin Service Provider
+ * Delatbabel Admin Service Provider
  *
  * Service providers are the central place of all Laravel application bootstrapping.
  * Your own application, as well as all of Laravel's core services are bootstrapped
@@ -249,10 +249,10 @@ class AdminServiceProvider extends ServiceProvider
     protected function publishRoutes()
     {
         // Register the additional middleware that we provide
-        Route::middleware('post.validate', \DDPro\Admin\Http\Middleware\PostValidate::class);
-        Route::middleware('validate.admin', \DDPro\Admin\Http\Middleware\ValidateAdmin::class);
-        Route::middleware('validate.model', \DDPro\Admin\Http\Middleware\ValidateModel::class);
-        Route::middleware('validate.settings', \DDPro\Admin\Http\Middleware\ValidateSettings::class);
+        Route::middleware('post.validate', \Delatbabel\Admin\Http\Middleware\PostValidate::class);
+        Route::middleware('validate.admin', \Delatbabel\Admin\Http\Middleware\ValidateAdmin::class);
+        Route::middleware('validate.model', \Delatbabel\Admin\Http\Middleware\ValidateModel::class);
+        Route::middleware('validate.settings', \Delatbabel\Admin\Http\Middleware\ValidateSettings::class);
 
         //
         // Temporary solution for middleware in routes
@@ -276,31 +276,31 @@ class AdminServiceProvider extends ServiceProvider
             // Admin Dashboard
                 Route::get('/', [
                 'as'   => 'admin_dashboard',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@dashboard',
+                'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@dashboard',
             ]);
 
                 // File Downloads
                 Route::get('file_download', [
                 'as'   => 'admin_file_download',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileDownload',
+                'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@fileDownload',
             ]);
 
                 // File Upload handler for ckeditor
                 Route::any('file_upload', [
                 'as'   => 'admin_file_upload',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
+                'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@fileUpload',
             ]);
 
                 // Custom Pages
                 Route::get('page/{page}', [
                 'as'   => 'admin_page',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@page',
+                'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@page',
             ]);
 
                 // Switch locales
                 Route::get('switch_locale/{locale}', [
                 'as'   => 'admin_switch_locale',
-                'uses' => 'DDPro\Admin\Http\Controllers\AdminController@switchLocale',
+                'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@switchLocale',
             ]);
 
                 /*
@@ -311,31 +311,31 @@ class AdminServiceProvider extends ServiceProvider
                         // Settings Pages
                     Route::get('settings/{settings}', [
                         'as'   => 'admin_settings',
-                        'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settings',
+                        'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@settings',
                     ]);
 
                     // Display a settings file
                     Route::get('settings/{settings}/file', [
                         'as'   => 'admin_settings_display_file',
-                        'uses' => 'DDPro\Admin\Http\Controllers\AdminController@displayFile',
+                        'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@displayFile',
                     ]);
 
                     // Save Item
                     Route::post('settings/{settings}/save', [
                         'as'   => 'admin_settings_save',
-                        'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsSave',
+                        'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@settingsSave',
                     ]);
 
                     // Custom Action
                     Route::post('settings/{settings}/custom_action', [
                         'as'   => 'admin_settings_custom_action',
-                        'uses' => 'DDPro\Admin\Http\Controllers\AdminController@settingsCustomAction',
+                        'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@settingsCustomAction',
                     ]);
 
                     // Settings file upload -- does not exist
                     #Route::post('settings/{settings}/{field}/file_upload', [
                     #    'as'   => 'admin_settings_file_upload',
-                    #    'uses' => 'DDPro\Admin\Http\Controllers\AdminController@fileUpload',
+                    #    'uses' => 'Delatbabel\Admin\Http\Controllers\AdminController@fileUpload',
                     #]);
                 });
                  */

@@ -1,7 +1,7 @@
 <?php
-namespace DDPro\Admin;
+namespace Delatbabel\Admin;
 
-use DDPro\Admin\Config\Factory as ConfigFactory;
+use Delatbabel\Admin\Config\Factory as ConfigFactory;
 use Illuminate\Config\Repository as Config;
 
 /**
@@ -41,7 +41,7 @@ class Menu
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\Factory
+     * @var \Delatbabel\Admin\Config\Factory
      */
     protected $configFactory;
 
@@ -49,7 +49,7 @@ class Menu
      * Create a new Menu instance
      *
      * @param \Illuminate\Config\Repository				$config
-     * @param \DDPro\Admin\Config\Factory	$configFactory
+     * @param \Delatbabel\Admin\Config\Factory	$configFactory
      */
     public function __construct(Config $config, ConfigFactory $configFactory)
     {
@@ -80,7 +80,7 @@ class Menu
                 $config = $this->configFactory->make($item);
 
                 // if a config object was returned and if the permission passes, add the item to the menu
-                if (is_a($config, 'DDPro\Admin\Config\Config') && $config->getOption('permission')) {
+                if (is_a($config, 'Delatbabel\Admin\Config\Config') && $config->getOption('permission')) {
                     $menu[$item] = $config->getOption('title');
                 }
                 // otherwise if this is a custom page, add it to the menu

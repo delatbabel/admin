@@ -1,8 +1,8 @@
 <?php
 
-namespace DDPro\Admin\Includes;
+namespace Delatbabel\Admin\Includes;
 
-use DDPro\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Helpers\FunctionHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Log;

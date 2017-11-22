@@ -1,10 +1,10 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers;
+namespace Delatbabel\Admin\Http\Controllers;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Roles\IlluminateRoleRepository;
-use DDPro\Admin\Http\Requests\RoleFormRequest;
+use Delatbabel\Admin\Http\Requests\RoleFormRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;

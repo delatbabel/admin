@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Services;
+namespace Delatbabel\Admin\Services;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\UserInterface;

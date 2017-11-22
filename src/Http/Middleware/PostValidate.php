@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Http\Middleware;
+namespace Delatbabel\Admin\Http\Middleware;
 
 use Closure;
 

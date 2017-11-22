@@ -1,10 +1,10 @@
 <?php
-namespace DDPro\Admin\DataTable\Columns;
+namespace Delatbabel\Admin\DataTable\Columns;
 
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\DataTable\Columns\Relationships\Relationship;
-use DDPro\Admin\Helpers\FunctionHelper;
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\DataTable\Columns\Relationships\Relationship;
+use Delatbabel\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,8 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  * $rendered = $column->renderOutput($attributeValue, $item)
  * </code>
  *
- * @see DDPro\Admin\DataTable\Columns\Factory
- * @see DDPro\Admin\DataTable\DataTable
+ * @see Delatbabel\Admin\DataTable\Columns\Factory
+ * @see Delatbabel\Admin\DataTable\DataTable
  * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class Column
@@ -47,14 +47,14 @@ class Column
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var \Delatbabel\Admin\Validator
      */
     protected $validator;
 
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var \Delatbabel\Admin\Config\ConfigInterface
      */
     protected $config;
 
@@ -143,8 +143,8 @@ class Column
     /**
      * Create a new action Factory instance
      *
-     * @param \DDPro\Admin\Validator 				$validator
-     * @param \DDPro\Admin\Config\ConfigInterface	$config
+     * @param \Delatbabel\Admin\Validator 				$validator
+     * @param \Delatbabel\Admin\Config\ConfigInterface	$config
      * @param \Illuminate\Database\DatabaseManager 	$db
      * @param array									$options
      */

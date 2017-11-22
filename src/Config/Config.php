@@ -1,7 +1,7 @@
 <?php
-namespace DDPro\Admin\Config;
+namespace Delatbabel\Admin\Config;
 
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Validator;
 use Illuminate\Validation\Validator as CustomValidator;
 
 /**
@@ -16,7 +16,7 @@ abstract class Config
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var \Delatbabel\Admin\Validator
      */
     protected $validator;
 
@@ -65,7 +65,7 @@ abstract class Config
     /**
      * Create a new model Config instance
      *
-     * @param \DDPro\Admin\Validator 	$validator
+     * @param \Delatbabel\Admin\Validator 	$validator
      * @param \Illuminate\Validation\Validator	 	$custom_validator
      * @param array 								$options
      */

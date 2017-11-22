@@ -1,20 +1,20 @@
 <?php
-namespace DDPro\Admin\Config\Model;
+namespace Delatbabel\Admin\Config\Model;
 
-use DDPro\Admin\Actions\Factory as ActionFactory;
-use DDPro\Admin\Config\Config as ConfigBase;
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\Fields\Factory as FieldFactory;
-use DDPro\Admin\Fields\Field as Field;
-use DDPro\Admin\Fields\File;
-use DDPro\Admin\Fields\Image;
-use DDPro\Admin\Fields\Relationships\BelongsTo;
-use DDPro\Admin\Fields\Relationships\BelongsToMany;
-use DDPro\Admin\Helpers\FunctionHelper;
-use DDPro\Admin\Http\Controllers\AdminModelController;
-use DDPro\Admin\Includes\FileHelper;
-use DDPro\Admin\Includes\ImageHelper;
-use DDPro\Admin\Includes\UploadedImage;
+use Delatbabel\Admin\Actions\Factory as ActionFactory;
+use Delatbabel\Admin\Config\Config as ConfigBase;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\Fields\Factory as FieldFactory;
+use Delatbabel\Admin\Fields\Field as Field;
+use Delatbabel\Admin\Fields\File;
+use Delatbabel\Admin\Fields\Image;
+use Delatbabel\Admin\Fields\Relationships\BelongsTo;
+use Delatbabel\Admin\Fields\Relationships\BelongsToMany;
+use Delatbabel\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Http\Controllers\AdminModelController;
+use Delatbabel\Admin\Includes\FileHelper;
+use Delatbabel\Admin\Includes\ImageHelper;
+use Delatbabel\Admin\Includes\UploadedImage;
 use Log;
 
 /**
@@ -50,7 +50,7 @@ use Log;
  * $film = $filmsConfig->getModel(1, $fields);
  * ```
  *
- * @see \DDPro\Admin\Config\Factory
+ * @see \Delatbabel\Admin\Config\Factory
  * @link https://github.com/ddpro/admin/blob/master/docs/model-configuration.md
  */
 class Config extends ConfigBase implements ConfigInterface
@@ -216,7 +216,7 @@ class Config extends ConfigBase implements ConfigInterface
      * Fills a model with the necessary relationship values for a field
      *
      * @param \Illuminate\Database\Eloquent\Model		$model
-     * @param \DDPro\Admin\Fields\Field	$field
+     * @param \Delatbabel\Admin\Fields\Field	$field
      *
      * @return void
      */
@@ -282,7 +282,7 @@ class Config extends ConfigBase implements ConfigInterface
      * Fills a model with the necessary relationship values
      *
      * @param \Illuminate\Database\Eloquent\Model		$model
-     * @param \DDPro\Admin\Fields\Field		$field
+     * @param \Delatbabel\Admin\Fields\Field		$field
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -306,8 +306,8 @@ class Config extends ConfigBase implements ConfigInterface
      * Updates a model with the latest permissions, links, and fields
      *
      * @param \Illuminate\Database\Eloquent\Model		$model
-     * @param \DDPro\Admin\Fields\Factory	$fieldFactory
-     * @param \DDPro\Admin\Actions\Factory	$actionFactory
+     * @param \Delatbabel\Admin\Fields\Factory	$fieldFactory
+     * @param \Delatbabel\Admin\Actions\Factory	$actionFactory
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -543,7 +543,7 @@ class Config extends ConfigBase implements ConfigInterface
      * Gets the formatted value of a relationship input
      *
      * @param string									$value
-     * @param \DDPro\Admin\Fields\Field	$field
+     * @param \Delatbabel\Admin\Fields\Field	$field
      *
      * @return mixed	array | string
      */

@@ -1,8 +1,8 @@
 <?php
-namespace DDPro\Admin\Http\Middleware;
+namespace Delatbabel\Admin\Http\Middleware;
 
 use Closure;
-use DDPro\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Helpers\FunctionHelper;
 use Exception;
 use Log;
 

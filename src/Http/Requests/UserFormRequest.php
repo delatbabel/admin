@@ -1,6 +1,6 @@
 <?php
 
-namespace DDPro\Admin\Http\Requests;
+namespace Delatbabel\Admin\Http\Requests;
 
 use Delatbabel\Keylists\Models\Keytype;
 use Illuminate\Foundation\Http\FormRequest;

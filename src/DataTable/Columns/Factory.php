@@ -1,8 +1,8 @@
 <?php
-namespace DDPro\Admin\DataTable\Columns;
+namespace Delatbabel\Admin\DataTable\Columns;
 
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\Validator;
 use Illuminate\Database\DatabaseManager as DB;
 use Log;
 
@@ -23,7 +23,7 @@ use Log;
  * </code>
  *
  * @see Column
- * @see DDPro\Admin\DataTable\DataTable
+ * @see Delatbabel\Admin\DataTable\DataTable
  * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class Factory
@@ -32,14 +32,14 @@ class Factory
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var \Delatbabel\Admin\Validator
      */
     protected $validator;
 
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var \Delatbabel\Admin\Config\ConfigInterface
      */
     protected $config;
 
@@ -123,8 +123,8 @@ class Factory
     /**
      * Create a new action Factory instance
      *
-     * @param \DDPro\Admin\Validator 				$validator
-     * @param \DDPro\Admin\Config\ConfigInterface	$config
+     * @param \Delatbabel\Admin\Validator 				$validator
+     * @param \Delatbabel\Admin\Config\ConfigInterface	$config
      * @param \Illuminate\Database\DatabaseManager 				$db
      */
     public function __construct(Validator $validator, ConfigInterface $config, DB $db)
@@ -143,7 +143,7 @@ class Factory
      *
      * @param array		$options
      *
-     * @return \DDPro\Admin\DataTable\Columns\Column
+     * @return \Delatbabel\Admin\DataTable\Columns\Column
      */
     public function make($options)
     {
@@ -155,7 +155,7 @@ class Factory
      *
      * @param array		$options
      *
-     * @return \DDPro\Admin\DataTable\Columns\Column
+     * @return \Delatbabel\Admin\DataTable\Columns\Column
      */
     public function getColumnObject($options)
     {
@@ -338,7 +338,7 @@ class Factory
 
             // make sure any belongs_to fields that aren't on the columns list are included
             foreach ($fields as $field) {
-                if (is_a($field, 'DDPro\\Administrator\\Fields\\Relationships\\BelongsTo')) {
+                if (is_a($field, 'Delatbabel\\Administrator\\Fields\\Relationships\\BelongsTo')) {
                     $this->includedColumns[$field->getOption('foreign_key')] = $model->getTable() . '.' . $field->getOption('foreign_key');
                 }
             }

@@ -1,21 +1,21 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers;
+namespace Delatbabel\Admin\Http\Controllers;
 
 use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\IlluminateUserRepository;
 use Centaur\AuthManager;
-use DDPro\Admin\Helpers\AdminHelper;
-use DDPro\Admin\Http\Requests\UserFormRequest;
+use Delatbabel\Admin\Helpers\AdminHelper;
+use Delatbabel\Admin\Http\Requests\UserFormRequest;
 use Delatbabel\Keylists\Models\Keytype;
 use Delatbabel\Keylists\Models\Keyvalue;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 use Log;
 
 /**
@@ -123,8 +123,8 @@ class UserController extends BaseController
             ->toArray();
 
         return view('centaur.users.index', [
-            'users'       => $users,
-            'countryList' => $countryList,
+            'users'         => $users,
+            'countryList'   => $countryList,
             'queryParams'   => $queryParams
         ]);
     }
@@ -278,7 +278,8 @@ class UserController extends BaseController
         return redirect()->route('users.index');
     }
 
-    public function destroyBatch() {
+    public function destroyBatch()
+    {
         try {
             $ids = Request::get('ids');
             foreach ($ids as $id) {
@@ -297,7 +298,8 @@ class UserController extends BaseController
         }
     }
 
-    public function unDeleteBatch() {
+    public function unDeleteBatch()
+    {
         try {
             $ids = Request::get('ids');
             foreach ($ids as $id) {
@@ -316,7 +318,8 @@ class UserController extends BaseController
         }
     }
 
-    public function purgeBatch() {
+    public function purgeBatch()
+    {
         try {
             $ids = Request::get('ids');
             foreach ($ids as $id) {

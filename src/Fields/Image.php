@@ -1,9 +1,9 @@
 <?php
-namespace DDPro\Admin\Fields;
+namespace Delatbabel\Admin\Fields;
 
-use DDPro\Admin\Includes\CustomMultup;
-use DDPro\Admin\Includes\Multup;
-use DDPro\Admin\Includes\UploadedImage;
+use Delatbabel\Admin\Includes\CustomMultup;
+use Delatbabel\Admin\Includes\Multup;
+use Delatbabel\Admin\Includes\UploadedImage;
 
 class Image extends File
 {

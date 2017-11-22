@@ -1,15 +1,15 @@
 <?php
-namespace DDPro\Admin\Actions;
+namespace Delatbabel\Admin\Actions;
 
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\Helpers\FunctionHelper;
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Validator;
 use Log;
 
 /**
  * Class Factory
  *
- * Factory class for DDPro admin actions
+ * Factory class for Delatbabel admin actions
  *
  * ### Example
  *
@@ -17,7 +17,7 @@ use Log;
  *
  * <code>
  * $this->app['admin_action_factory'] = $this->app->share(function ($app) {
- *     return new DDPro\Admin\Actions\Factory(
+ *     return new Delatbabel\Admin\Actions\Factory(
  *         $app->make('admin_validator'),
  *         $app->make('itemconfig'),
  *         $app->make('db')

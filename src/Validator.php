@@ -1,7 +1,7 @@
 <?php
-namespace DDPro\Admin;
+namespace Delatbabel\Admin;
 
-use DDPro\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Helpers\FunctionHelper;
 use Illuminate\Routing\UrlGenerator;
 
 /**

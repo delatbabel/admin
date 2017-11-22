@@ -1,11 +1,11 @@
 <?php
-namespace DDPro\Admin\Http\ViewComposers;
+namespace Delatbabel\Admin\Http\ViewComposers;
 
 use Illuminate\View\View;
 
 /**
  * Class SettingViewComposer
- * @package DDPro\Admin\Http\ViewComposers
+ * @package Delatbabel\Admin\Http\ViewComposers
  */
 class SettingViewComposer
 {
@@ -18,10 +18,10 @@ class SettingViewComposer
     public function compose(View $view)
     {
         $config = app('itemconfig');
-        /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+        /** @var \Delatbabel\Admin\Fields\Factory $fieldFactory */
         $fieldFactory = app('admin_field_factory');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         $baseUrl = route('admin_dashboard');

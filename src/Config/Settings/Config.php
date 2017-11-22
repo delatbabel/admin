@@ -1,8 +1,8 @@
 <?php
-namespace DDPro\Admin\Config\Settings;
+namespace Delatbabel\Admin\Config\Settings;
 
-use DDPro\Admin\Config\Config as ConfigBase;
-use DDPro\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\Config\Config as ConfigBase;
+use Delatbabel\Admin\Config\ConfigInterface;
 
 /**
  * Settings Config class.
@@ -36,7 +36,7 @@ use DDPro\Admin\Config\ConfigInterface;
  * $film = $siteSettingsConfig->fetchData($fields);
  * ```
  *
- * @see \DDPro\Admin\Config\Factory
+ * @see \Delatbabel\Admin\Config\Factory
  */
 class Config extends ConfigBase implements ConfigInterface
 {

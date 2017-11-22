@@ -1,7 +1,7 @@
 <?php
-namespace DDPro\Admin\DataTable\Columns\Relationships;
+namespace Delatbabel\Admin\DataTable\Columns\Relationships;
 
-use DDPro\Admin\DataTable\Columns\Column;
+use Delatbabel\Admin\DataTable\Columns\Column;
 
 /**
  * Relationship class
@@ -15,8 +15,8 @@ use DDPro\Admin\DataTable\Columns\Column;
  * The Relationship class and its sub-classes help us get information about columns
  * within a model that form relationships between models.
  *
- * @see DDPro\Admin\DataTable\Columns\Factory
- * @see DDPro\Admin\DataTable\DataTable
+ * @see Delatbabel\Admin\DataTable\Columns\Factory
+ * @see Delatbabel\Admin\DataTable\DataTable
  * @link https://github.com/ddpro/admin/blob/master/docs/columns.md#relationship-columns
  */
 class Relationship extends Column

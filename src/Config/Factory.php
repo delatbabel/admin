@@ -1,9 +1,9 @@
 <?php
-namespace DDPro\Admin\Config;
+namespace Delatbabel\Admin\Config;
 
-use DDPro\Admin\Config\Model\Config as ModelConfig;
-use DDPro\Admin\Config\Settings\Config as SettingsConfig;
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Config\Model\Config as ModelConfig;
+use Delatbabel\Admin\Config\Settings\Config as SettingsConfig;
+use Delatbabel\Admin\Validator;
 use Illuminate\Validation\Validator as CustomValidator;
 
 /**
@@ -36,7 +36,7 @@ use Illuminate\Validation\Validator as CustomValidator;
  * This method fetches the config from disk and passes it to the constructor of the model config class
  * (see `ConfigBase::__construct()`) which creates the model.
  *
- * @see \DDPro\Admin\Config\Config
+ * @see \Delatbabel\Admin\Config\Config
  */
 class Factory
 {
@@ -44,7 +44,7 @@ class Factory
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var \Delatbabel\Admin\Validator
      */
     protected $validator;
 
@@ -58,7 +58,7 @@ class Factory
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var \Delatbabel\Admin\Config\ConfigInterface
      */
     protected $config;
 
@@ -128,7 +128,7 @@ class Factory
     /**
      * Create a new config Factory instance
      *
-     * @param \DDPro\Admin\Validator 	$validator
+     * @param \Delatbabel\Admin\Validator 	$validator
      * @param \Illuminate\Validation\Validator	 	$custom_validator
      * @param array 								$options
      */
@@ -152,7 +152,7 @@ class Factory
      * @param string	$name
      * @param boolean	$primary	if true, this is the primary itemconfig object and we want to store the instance
      *
-     * @return \DDPro\Admin\Config\ConfigInterface
+     * @return \Delatbabel\Admin\Config\ConfigInterface
      */
     public function make($name, $primary = false)
     {
@@ -191,7 +191,7 @@ class Factory
     /**
      * Gets the current config item
      *
-     * @return \DDPro\Admin\Config\ConfigInterface
+     * @return \Delatbabel\Admin\Config\ConfigInterface
      */
     public function getConfig()
     {
@@ -334,7 +334,7 @@ class Factory
      *
      * @param array		$options
      *
-     * @return \DDPro\Admin\Config\ConfigInterface
+     * @return \Delatbabel\Admin\Config\ConfigInterface
      */
     public function getItemConfigObject(array $options)
     {

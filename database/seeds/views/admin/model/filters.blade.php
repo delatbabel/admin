@@ -19,9 +19,9 @@
 
                 @if($arrCol['visible'])
                     <?php
-                    $tmpID = "filter_field_" . $arrCol['field_name'];
+                    $tmpID   = "filter_field_" . $arrCol['field_name'];
                     $tmpName = "filters[{$key}][value]";
-                    $value = null;
+                    $value   = null;
                     if (! empty(request('filter_' . $key))) {
                         $value = request('filter_' . $key);
                     }

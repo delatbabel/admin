@@ -1,13 +1,13 @@
 <?php
-namespace DDPro\Admin\DataTable;
+namespace Delatbabel\Admin\DataTable;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\DataTable\Columns\Column;
-use DDPro\Admin\DataTable\Columns\Factory as ColumnFactory;
-use DDPro\Admin\Fields\Factory as FieldFactory;
-use DDPro\Admin\Helpers\DateTimeHelper;
-use DDPro\Admin\Includes\ImageHelper;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\DataTable\Columns\Column;
+use Delatbabel\Admin\DataTable\Columns\Factory as ColumnFactory;
+use Delatbabel\Admin\Fields\Factory as FieldFactory;
+use Delatbabel\Admin\Helpers\DateTimeHelper;
+use Delatbabel\Admin\Includes\ImageHelper;
 use Illuminate\Database\DatabaseManager as DB;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,8 +34,8 @@ use Mockery\CountValidator\Exception;
  * // Example code goes here
  * ```
  *
- * @see DDPro\Admin\DataTable\Columns\Factory
- * @see DDPro\Admin\DataTable\Columns\Column
+ * @see Delatbabel\Admin\DataTable\Columns\Factory
+ * @see Delatbabel\Admin\DataTable\Columns\Column
  * @link https://github.com/ddpro/admin/blob/master/docs/columns.md
  */
 class DataTable
@@ -44,21 +44,21 @@ class DataTable
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var \Delatbabel\Admin\Config\ConfigInterface
      */
     protected $config;
 
     /**
      * The column factory instance
      *
-     * @var \DDPro\Admin\DataTable\Columns\Factory
+     * @var \Delatbabel\Admin\DataTable\Columns\Factory
      */
     protected $columnFactory;
 
     /**
      * The field factory instance
      *
-     * @var \DDPro\Admin\Fields\Factory
+     * @var \Delatbabel\Admin\Fields\Factory
      */
     protected $fieldFactory;
 
@@ -86,9 +86,9 @@ class DataTable
     /**
      * Create a new action DataTable instance
      *
-     * @param \DDPro\Admin\Config\ConfigInterface		$config
-     * @param \DDPro\Admin\DataTable\Columns\Factory	$columnFactory
-     * @param \DDPro\Admin\Fields\Factory				$fieldFactory
+     * @param \Delatbabel\Admin\Config\ConfigInterface		$config
+     * @param \Delatbabel\Admin\DataTable\Columns\Factory	$columnFactory
+     * @param \Delatbabel\Admin\Fields\Factory				$fieldFactory
      */
     public function __construct(ConfigInterface $config, ColumnFactory $columnFactory, FieldFactory $fieldFactory)
     {

@@ -1,9 +1,9 @@
 <?php
-namespace DDPro\Admin\Actions;
+namespace Delatbabel\Admin\Actions;
 
-use DDPro\Admin\Config\ConfigInterface;
-use DDPro\Admin\Helpers\FunctionHelper;
-use DDPro\Admin\Validator;
+use Delatbabel\Admin\Config\ConfigInterface;
+use Delatbabel\Admin\Helpers\FunctionHelper;
+use Delatbabel\Admin\Validator;
 use Log;
 
 /**
@@ -34,14 +34,14 @@ class Action
     /**
      * The validator instance
      *
-     * @var \DDPro\Admin\Validator
+     * @var \Delatbabel\Admin\Validator
      */
     protected $validator;
 
     /**
      * The config instance
      *
-     * @var \DDPro\Admin\Config\ConfigInterface
+     * @var \Delatbabel\Admin\Config\ConfigInterface
      */
     protected $config;
 
@@ -89,8 +89,8 @@ class Action
     /**
      * Create a new action Factory instance
      *
-     * @param \DDPro\Admin\Validator 				$validator
-     * @param \DDPro\Admin\Config\ConfigInterface	$config
+     * @param \Delatbabel\Admin\Validator 				$validator
+     * @param \Delatbabel\Admin\Config\ConfigInterface	$config
      * @param array												$options
      */
     public function __construct(Validator $validator, ConfigInterface $config, array $options)

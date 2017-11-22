@@ -1,11 +1,11 @@
 <?php
-namespace DDPro\Admin\Http\ViewComposers;
+namespace Delatbabel\Admin\Http\ViewComposers;
 
 use Illuminate\View\View;
 
 /**
  * Class NoauthViewComposer
- * @package DDPro\Admin\Http\ViewComposers
+ * @package Delatbabel\Admin\Http\ViewComposers
  */
 class NoauthViewComposer extends ViewComposer
 {

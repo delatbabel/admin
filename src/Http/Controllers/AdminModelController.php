@@ -1,12 +1,12 @@
 <?php
 
-namespace DDPro\Admin\Http\Controllers;
+namespace Delatbabel\Admin\Http\Controllers;
 
-use DDPro\Admin\Actions\Action;
-use DDPro\Admin\Config\Model\Config;
-use DDPro\Admin\DataTable\DataTable;
-use DDPro\Admin\Helpers\AdminHelper;
-use DDPro\Admin\Includes\UploadedImage;
+use Delatbabel\Admin\Actions\Action;
+use Delatbabel\Admin\Config\Model\Config;
+use Delatbabel\Admin\DataTable\DataTable;
+use Delatbabel\Admin\Helpers\AdminHelper;
+use Delatbabel\Admin\Includes\UploadedImage;
 use Delatbabel\Contacts\Models\Address;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
- * DDPro Admin Model Controller
+ * Delatbabel Admin Model Controller
  *
  * This controller manage everything relate to the Model (List, Edit, Create, Download...)
  * If there are any Model, which working with a special template or process, it should be declared a controller on
@@ -115,14 +115,14 @@ class AdminModelController extends Controller
             'model item fetch, modelName = ' . $modelName . ', itemId = ' . $itemId);
 
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
 
-        /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+        /** @var \Delatbabel\Admin\Fields\Factory $fieldFactory */
         $fieldFactory = app('admin_field_factory');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory     = app('admin_action_factory');
         $columnFactory     = app('admin_column_factory');
         $actionPermissions = $actionFactory->getActionPermissions();
@@ -176,14 +176,14 @@ class AdminModelController extends Controller
         ]);
 
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
 
-        /** @var \DDPro\Admin\Fields\Factory $fieldFactory */
+        /** @var \Delatbabel\Admin\Fields\Factory $fieldFactory */
         $fieldFactory = app('admin_field_factory');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         // Validate from form_request
@@ -313,10 +313,10 @@ class AdminModelController extends Controller
     public function delete($modelName, $id)
     {
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
         $baseModel     = $config->getDataModel();
         $model         = $baseModel::find($id);
@@ -354,11 +354,11 @@ class AdminModelController extends Controller
         $ids = $this->request->get('ids');
 
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         $errorResponse = [
@@ -410,11 +410,11 @@ class AdminModelController extends Controller
         $status = $this->request->get('status');
 
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         if (! in_array($status, ['active', 'inactive'])) {
@@ -488,7 +488,7 @@ class AdminModelController extends Controller
             $global_action = true;
         }
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
         $actionName    = $this->request->input('action_name', false);
         if (empty($actionName)) {
@@ -757,10 +757,10 @@ class AdminModelController extends Controller
     {
         $id = $this->request->get('id');
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         $errorResponse = [
@@ -879,10 +879,10 @@ class AdminModelController extends Controller
     public static function unDelete($ids)
     {
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $baseModel     = $config->getDataModel();
         foreach ($ids as $id) {
             $model = $baseModel::onlyTrashed()->find($id);
@@ -903,11 +903,11 @@ class AdminModelController extends Controller
     public static function purgeDeleted($ids)
     {
         // The itemconfig singleton is built in the ValidateModel middleware and
-        // will be an instance of \DDPro\Admin\Config\Model\Config
+        // will be an instance of \Delatbabel\Admin\Config\Model\Config
         /** @var Config $config */
         $config = app('itemconfig');
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $actionFactory = app('admin_action_factory');
 
         $errorResponse = [
@@ -941,7 +941,7 @@ class AdminModelController extends Controller
             return response()->json($errorResponse);
         }
 
-        /** @var \DDPro\Admin\Actions\Factory $actionFactory */
+        /** @var \Delatbabel\Admin\Actions\Factory $actionFactory */
         $baseModel     = $config->getDataModel();
         foreach ($ids as $id) {
             $model = $baseModel::onlyTrashed()->find($id);
