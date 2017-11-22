@@ -1,7 +1,7 @@
 {
-    "name": "ddpro/admin",
-    "description": "DDPro Administrator Panel",
-    "homepage": "https://github.com/ddpro/admin",
+    "name": "delatbabel/admin",
+    "description": "Administrator Panel",
+    "homepage": "https://github.com/delatbabel/admin",
     "keywords": ["administrator", "admin", "database", "laravel-administrator", "laravel", "adminlte"],
     "license": "MIT",
     "authors": [
@@ -11,7 +11,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/ddpro/admin/issues"
+        "issues": "https://github.com/delatbabel/admin/issues"
     },
     "require": {
         "php": ">=5.4.0",
@@ -22,9 +22,9 @@
         "delatbabel/viewpages": "dev-master",
         "laravel/framework": "5.1.*",
         "rcrowe/twigbridge": "^0.9.2",
-		"srlabs/centaur": "1.*",
+        "srlabs/centaur": "1.*",
         "maatwebsite/excel": "~2.1.0",
-		"proengsoft/laravel-jsvalidation": "^1.5",
+	"proengsoft/laravel-jsvalidation": "^1.5",
         "aws/aws-sdk-php": "^3.30",
         "league/flysystem-aws-s3-v3": "^1.0"
     },
@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DDPro\\Admin\\": "src/"
+            "Delatbabel\\Admin\\": "src/"
         }
     },
     "config": {
