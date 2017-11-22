@@ -56,7 +56,7 @@ class AdminHelper
     {
         $starter = $seen ? 'Caused by: ' : '';
         $result  = [];
-        if (!$seen) {
+        if (! $seen) {
             $seen = [];
         }
         $trace    = $e->getTrace();
@@ -67,7 +67,7 @@ class AdminHelper
         while (true) {
             $current = "$file:$line";
             if (is_array($seen) && in_array($current, $seen)) {
-                $result[] = sprintf(' ... %d more', count($trace)+1);
+                $result[] = sprintf(' ... %d more', count($trace) + 1);
                 break;
             }
             $result[] = sprintf(' at %s%s%s(%s%s%s)',
@@ -80,7 +80,7 @@ class AdminHelper
             if (is_array($seen)) {
                 $seen[] = "$file:$line";
             }
-            if (!count($trace)) {
+            if (! count($trace)) {
                 break;
             }
             $file = array_key_exists('file', $trace[0]) ?
@@ -93,7 +93,7 @@ class AdminHelper
         }
         $result = join("\n", $result);
         if ($prev) {
-            $result  .= "\n" . static::jTraceEx($prev, $seen);
+            $result .= "\n" . static::jTraceEx($prev, $seen);
         }
 
         return $result;
