@@ -3,10 +3,10 @@
 @endif
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">{{ $config->getOption('single') }} List</h3>
+        <h3 class="box-title">{{ $config->getOption('title') }}</h3>
         <div class="box-tools pull-right">
             @if(isset($actionPermissions['update']) === true)
-                <a class="edit_item btn btn-primary" style="display: none">
+                <a class="edit_item btn btn-xs btn-sd-default" style="display: none">
                     {{trans('administrator::administrator.edit')}} {{$config->getOption('single')}}
                 </a>
             @endif
@@ -17,7 +17,7 @@
                 </a>
             @endif
             @if(isset($actionPermissions['create']) === true)
-                <a class="new_item btn btn-primary"
+                <a class="new_item btn btn-xs btn-sd-default"
                    href="{{ route('admin_new_item', [$config->getOption('name')]) }}">
                     {{trans('administrator::administrator.new')}} {{$config->getOption('single')}}
                 </a>
@@ -92,6 +92,19 @@
         }
     }
 ?>
+
+<?php
+    // Urls to custom actions
+    $buttonUrls = [];
+    if (null !== $config->getOption('item_action_urls')) {
+        foreach ($config->getOption('item_action_urls') as $buttonUrl) {
+            if (!isset($buttonUrl['url'])) {
+                $buttonUrl['url'] = route('admin_custom_model_item_data', [$config->getOption('name'), 'replacement_id']);
+            }
+            $buttonUrls[] = $buttonUrl;
+        }
+    }
+?>
 @section('javascript')
     @parent
     <script type="text/javascript">
@@ -114,10 +127,13 @@
                         "url": "{!! route('admin_get_datatable_results', [$config->getOption('name')]) !!}"
                     },
                     "columns": {!! json_encode($columnOptions) !!},
+                    "iDisplayLength": {{ $dataTable->getRowsPerPage() }},
+                    "lengthMenu": [ {{ json_encode(config('administrator.pagination.options'))  }}, {{ json_encode(config('administrator.pagination.options'))  }} ],
                     dom: '<"html5buttons"B>lTfgitp'
                 }
                 //Apply for the custom buttons
-                ,buttons: {!! json_encode($buttons) !!},
+                ,buttons: {!! json_encode($buttons) !!}
+                ,buttonUrls: {!! json_encode($buttonUrls) !!},
             });
             $(".inside-pagination").append($("#customers_paginate"));
             $('#customers').on("click", '[data-toggle="ajaxModal"]', function(e) {

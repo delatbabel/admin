@@ -2,13 +2,13 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h2>
-                {{$sTitle or 'Customize View'}}
+            <h1>
+                {{ Config::get('administrator.title') }}
                 <small>{{ $config->getOption('title') }}</small>
-            </h2>
+            </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active"><strong>Here</strong></li>
+                <li><a href="{{ route('admin_dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">{{ $config->getOption('title') }}</li>
             </ol>
         </section>
         <section class="content">

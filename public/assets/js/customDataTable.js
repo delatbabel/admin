@@ -28,6 +28,8 @@ var DataTableHandle = function () {
                         }
                     },
                     columns: {},
+                    iDisplayLength: 50,
+                    lengthMenu: [ [25, 50, 100], [25, 50, 100] ],
                     aaSorting: [],
                     aoColumnDefs: [
                         {
@@ -36,15 +38,33 @@ var DataTableHandle = function () {
                                 var primaryCol = the.getPrimaryKeyCol();
                                 if (primaryCol != null) {
                                     var tmpEditURL = options.editURL + '/' + col[primaryCol];
-                                    var _tmpButtons = "<a class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ";
-                                    _tmpButtons += "<button class='btn btn-xs btn-sd-default removeBtn' data-id='" + col[primaryCol] + "'>Delete</button>",
-                                    customButtons = [];
+                                    var _tmpButtons = "<a class='btn btn-xs btn-sd-default' href='" + tmpEditURL + "'>Edit</a> ",
+                                        customButtons = [],
+                                        customUrlButtons = [];
+                                    _tmpButtons += "<button class='btn btn-xs btn-sd-default removeBtn' data-id='" + col[primaryCol] + "'>Delete</button>";
                                     if (options.buttons && options.buttons.length > 0) {
                                         customButtons = options.buttons.map(function (item) {
                                             return "<button class='btn btn-xs btn-sd-default btnCustom' data-id='" + col[primaryCol] + "' data-url='" + item.url + "' data-confirmation='" + item.confirmation + "' data-messages='" + JSON.stringify(item.messages) + "' " + (item.params ? " data-params='" + JSON.stringify(item.params) + "'" : "") +">" + (item.title) + "</button>";
                                         });
                                     }
                                     _tmpButtons += customButtons.join("");
+                                    if (options.buttonUrls && options.buttonUrls.length > 0) {
+                                        customUrlButtons = options.buttonUrls.map(function (item) {
+                                            var url = item.url.replace("replacement_id", col[primaryCol]),
+                                                queryString = [];
+                                            for(var key in item.params) {
+                                                queryString.push(key + "=" + item.params[key]);
+                                            }
+                                            queryString = queryString.join("&");
+                                            if (url.indexOf("?") > 0) {
+                                                url += "&" + queryString;
+                                            } else {
+                                                url += "?" + queryString;
+                                            }
+                                            return "<a href='" + url + "' class='btn btn-xs btn-sd-default'>" + (item.title) + "</a>";
+                                        });
+                                    }
+                                    _tmpButtons += " " + customUrlButtons.join("");
                                     return _tmpButtons;
                                 }
                                 else {
@@ -117,6 +137,13 @@ var DataTableHandle = function () {
 
                 the.initAjaxParams();
                 dataTable.ajax.reload();
+            });
+            $(tmpOptions.src + "_length").on("change", function (evt) {
+                $.post(window.location.href + "/rows_per_page", {
+                    rows: $(this).find("option:selected").val()
+                }, function (res) {
+                    console.log(res);
+                });
             });
         },
         getPrimaryKeyCol: function () {

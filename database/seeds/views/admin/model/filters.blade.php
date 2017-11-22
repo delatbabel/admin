@@ -2,8 +2,8 @@
     <div class="box-header with-border">
         <h3 class="box-title">{{trans('administrator::administrator.filters')}}</h3>
         <div class="box-tools pull-right">
-            <a class="btn-filter btn btn-primary">Filter</a>
-            <a class="btn-filter-reset btn btn-default">Reset</a>
+            <a class="btn-filter btn btn-xs btn-sd-default">Filter</a>
+            <a class="btn-filter-reset btn btn-xs btn-xs-default btn-default">Reset</a>
         </div>
     </div>
     <div class="box-body">

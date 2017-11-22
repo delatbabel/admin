@@ -5,7 +5,13 @@ var AdminLTEOptions = {
 angular.module('myApp', ['ng.jsoneditor'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
-}).controller("MyController", function(){
+})
+.run(function ($rootScope) {
+    $rootScope.initJsonEditorModel = function (modelName) {
+        $rootScope[modelName] = angular.element("#"+modelName).val();
+    }
+})
+.controller("MyController", function(){
     var vm = this;
     vm.onCategoryChange = function () {
         vm.subCategory = "";
@@ -117,9 +123,10 @@ angular.module('myApp').directive('datePicker', function () {
                 $(elem[0]).closest(".date").datetimepicker({
                     allowInputToggle: true,
                     showClose: true,
-                    format: scope.dateFormat.toUpperCase() || "DD/MM/YYYY"
+                    format: scope.dateFormat ? scope.dateFormat.toUpperCase() : "DD/MM/YYYY"
                 });
             } else {
+                scope.dateFormat = scope.dateFormat ? scope.dateFormat.toLowerCase() : "dd/mm/yy";
                 jQuery(elem[0]).datepicker({
                     showOn: scope.showOn,
                     dateFormat: scope.dateFormat,
@@ -191,6 +198,20 @@ angular.module('myApp').directive('tableSortable', function() {
                         params: params
                     });
                 }
+            });
+        }
+    };
+});
+
+angular.module('myApp').directive('convertToNumber', function() {
+  return {
+    require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function(val) {
+                return parseInt(val, 10);
+            });
+            ngModel.$formatters.push(function(val) {
+                return '' + val;
             });
         }
     };

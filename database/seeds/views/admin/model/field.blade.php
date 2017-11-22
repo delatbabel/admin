@@ -70,14 +70,15 @@
         $tmpValue = json_encode($value);
     } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
         $tmpValue = json_encode($value->toArray());
+    } elseif (\DDPro\Admin\Helpers\AdminHelper::isJson($value)) {
+        $tmpValue = $value;
     } else {
         $tmpValue = json_encode([]);
     }
     $tmpValue = old($name, $tmpValue);
     ?>
-    {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id, 'ng-model'=>$id]) !!}
-    <div ng-jsoneditor ng-model="
-    {{$id}}" options="{mode: 'tree', modes: ['code', 'form', 'text', 'tree', 'view']}" style="height: 400px;" ng-init='{{$id}}={!! $tmpValue !!};' prefer-text="true"></div>
+    {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id, 'ng-model'=>$id, 'ng-value'=>$id]) !!}
+    <div ng-jsoneditor ng-model="{{$id}}" options="{mode: 'tree', modes: ['code', 'form', 'text', 'tree', 'view']}" style="height: 400px;" ng-init="initJsonEditorModel('{{$id}}')" prefer-text="true"></div>
 @elseif($type == 'wysiwyg')
     {!! Form::textarea($name, null, ['class'=> $defaultClass, 'maxlength'=>$arrCol['limit'], 'rows'=>$arrCol['height'], 'id'=>$id, 'wysiwyg'=>'']) !!}
 @elseif($type == 'number')
@@ -171,7 +172,7 @@
         }
     ?>
     <div class="bootstrap-timepicker">
-        <div class="input-group clockpicker" data-timeformat="{{$time_format}}" data-autoclose="true">
+        <div class="input-group clockpicker" data-autoclose="true">
 
             {!! Form::text($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id]) !!}
             <span class="input-group-addon">
@@ -276,4 +277,33 @@
             @endforeach
         @endif
     </ul>
+@elseif($type == 'dynamic')
+    @if (in_array($model->type, ['array']))
+        <?php
+        if (is_array($value)) {
+            $tmpValue = json_encode($value);
+        } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
+            $tmpValue = json_encode($value->toArray());
+        } elseif (\DDPro\Admin\Helpers\AdminHelper::isJson($value)) {
+            $tmpValue = $value;
+        } else {
+            $tmpValue = json_encode([]);
+        }
+        $tmpValue = old($name, $tmpValue);
+        ?>
+        {!! Form::hidden($name, $tmpValue, ['class'=> $defaultClass, 'id'=>$id, 'ng-model'=>$id, 'ng-value'=>$id]) !!}
+        <div ng-jsoneditor ng-model="{{$id}}" options="{mode: 'tree', modes: ['code', 'form', 'text', 'tree', 'view']}" ng-init="initJsonEditorModel('{{$id}}')" style="height: 400px;" prefer-text="true"></div>
+    @elseif (in_array($model->type, ['string', 'integer']))
+        <?php
+        // Keep old value
+        $value = old($name, $value);
+
+        // Field attributes
+        $arrAttributes = [ 'class' => $defaultClass, 'id' => $id ];
+        if (isset($arrCol['inline-attributes'])) {
+            $arrAttributes = array_merge($arrAttributes, $arrCol['inline-attributes']);
+        }
+        ?>
+        {!! Form::text($name, $value, $arrAttributes) !!}
+    @endif
 @endif
