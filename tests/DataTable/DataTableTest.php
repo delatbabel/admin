@@ -128,7 +128,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
         $model = m::mock('Illuminate\Database\Eloquent\Model');
         $model->shouldReceive('getKeyName')->once()->andReturn('id');
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
-        $output = array('page' => 1, 'last' => 5, 'total' => 100);
+        $output = array('page' => 1, 'last' => 1, 'total' => 100);
         $this->assertEquals($this->dataTable->performCountQuery($countQuery, 'foo', array(), 1), $output);
     }
 

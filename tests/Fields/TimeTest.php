@@ -59,7 +59,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Query\Builder');
         $query->shouldReceive('where')->twice();
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
-        $this->field->shouldReceive('getOption')->times(4)->andReturn('3/3/2013')
+        $this->field->shouldReceive('getOption')->times(8)->andReturn('3/3/2013')
                     ->shouldReceive('getDateString')->twice();
         $this->field->filterQuery($query);
     }
@@ -70,7 +70,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Query\Builder');
         $query->shouldReceive('where')->once();
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
-        $this->field->shouldReceive('getOption')->times(3)->andReturn('3/3/2013', '', false)
+        $this->field->shouldReceive('getOption')->times(5)->andReturn('3/3/2013', '', false)
                     ->shouldReceive('getDateString')->once();
         $this->field->filterQuery($query);
     }
@@ -81,7 +81,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Query\Builder');
         $query->shouldReceive('where')->once();
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
-        $this->field->shouldReceive('getOption')->times(3)->andReturn(false, '3/3/2013')
+        $this->field->shouldReceive('getOption')->times(5)->andReturn(false, '3/3/2013')
                     ->shouldReceive('getDateString')->once();
         $this->field->filterQuery($query);
     }
@@ -111,7 +111,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
     public function testFillModelBadInput()
     {
         $model = new \stdClass();
-        $this->field->shouldReceive('getOption')->once()
+        $this->field->shouldReceive('getOption')->times(2)
                     ->shouldReceive('getDateString')->never();
         $this->field->fillModel($model, null);
         $this->assertTrue(!isset($model->field));
@@ -120,7 +120,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
     public function testFillModelWithEmptyString()
     {
         $model = new \stdClass();
-        $this->field->shouldReceive('getOption')->once()
+        $this->field->shouldReceive('getOption')->times(2)
                     ->shouldReceive('getDateString')->never();
         $this->field->fillModel($model, '');
         $this->assertTrue(!isset($model->field));   }
@@ -128,7 +128,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase {
     public function testFillModelWithZeros()
     {
         $model = new \stdClass();
-        $this->field->shouldReceive('getOption')->once()
+        $this->field->shouldReceive('getOption')->times(2)
                     ->shouldReceive('getDateString')->never();
         $this->field->fillModel($model, '0000-00-00');
         $this->assertTrue(!isset($model->field));

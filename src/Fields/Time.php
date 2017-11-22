@@ -47,7 +47,17 @@ class Time extends Field
     protected function makeDateTimeObject($input)
     {
         // By default dates and times are in server timezone
-        $tz = new \DateTimeZone(config('app.timezone'));
+        // config('app.timezone') and other such things that need to be pulled from the app container
+        // fail during unit testing because Container::getInstance() returns null
+
+        $app_instance = \Illuminate\Container\Container::getInstance();
+        if (! empty($app_instance)) {
+            $app_tz = config('app.timezone');
+        } else {
+            $app_tz = 'UTC';
+        }
+
+        $tz = new \DateTimeZone($app_tz);
 
         $field_type = $this->getOption('type');
         Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
@@ -71,13 +81,22 @@ class Time extends Field
             // date in it.
             if (empty($date_format)) {
                 if ($field_type == 'datetime') {
-                    $date_format = config('administrator.format.datetime_carbon');
+                    if (! empty($app_instance)) {
+                        $date_format = config('administrator.format.datetime_carbon');
+                    } else {
+                        $date_format = 'd/m/Y H:i';
+                    }
+
 
                     // Get current user timezone -- datetimes are saved in server timezone but entered
                     // and displayed in user timezone.
                     $tz = DateTimeHelper::adminTimeZone();
                 } else {
-                    $date_format = config('administrator.format.date_carbon');
+                    if (! empty($app_instance)) {
+                        $date_format = config('administrator.format.date_carbon');
+                    } else {
+                        $date_format = 'd/m/Y';
+                    }
                 }
 
                 Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
@@ -98,7 +117,7 @@ class Time extends Field
             Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'date_format = ' . $date_format);
             $dt = Carbon::createFromFormat($date_format, $input, $tz);
-            $dt->setTimezone(new \DateTimeZone(config('app.timezone')));
+            $dt->setTimezone(new \DateTimeZone($app_tz));
             return $dt;
         }
 
