@@ -1,4 +1,4 @@
-@inject('user', 'DDPro\Admin\Services\User')
+@inject('user', 'Delatbabel\Admin\Services\User')
 <?php $sentinelUser = $user->getUser() ?>
 {{-- draw menu item key = {{ print_r($key, true) }}, item = {{ print_r($item, true) }} --}}
 @if (is_array($item))

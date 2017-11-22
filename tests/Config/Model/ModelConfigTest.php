@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\Config\Model;
+namespace Delatbabel\Admin\Tests\Config\Model;
 
 require_once __DIR__ . '/../../LogStub.php';
 
@@ -45,8 +45,8 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config', array($this->validator, $this->validator, array()))->makePartial();
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config', array($this->validator, $this->validator, array()))->makePartial();
     }
 
     /**
@@ -59,7 +59,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetDataModel()
     {
-        $stubClass = 'DDPro\Admin\Tests\Config\Model\EloquentStub';
+        $stubClass = 'Delatbabel\Admin\Tests\Config\Model\EloquentStub';
         $this->config->shouldReceive('getOption')->once()->andReturn($stubClass);
         $this->assertEquals(get_class($this->config->getDataModel()), $stubClass);
     }
@@ -67,7 +67,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
     public function testGetModel()
     {
         $model = new EloquentStub;
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $fields = array('field1' => $field, 'field2' => $field);
         $columns = array('foo' => 'bar', 'field1' => 'bar');
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model)
@@ -79,7 +79,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
     public function testSetExtraModelValues()
     {
         $model = new EloquentStub;
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(4)->andReturn(false, true, true, false);
         $fields = array('field1' => $field, 'field2' => $field);
         $columns = array('foo' => 'bar', 'field1' => 'bar');
@@ -92,7 +92,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
     public function testSetModelRelationshipNoRelatedItems()
     {
         $model = m::mock('Illuminate\Database\Eloquent\Model')->makePartial();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(5)->andReturn('field');
         $this->config->shouldReceive('getModelRelatedItems')->once()->andReturn(array());
         $this->config->setModelRelationship($model, $field);
@@ -110,7 +110,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $relatedModel2->shouldReceive('getKeyName')->andReturn('id');
         $relatedModel2->id = 2;
         $relatedModel2->name = 'model_2';
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(5)->andReturn('field', true, 'name', false, array('test'));
         $relatedItems = array($relatedModel1, $relatedModel2);
         $this->config->shouldReceive('getModelRelatedItems')->once()->andReturn($relatedItems);
@@ -130,7 +130,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $relatedModel2->shouldReceive('getKeyName')->andReturn('id');
         $relatedModel2->id = 2;
         $relatedModel2->name = 'model_2';
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(5)->andReturn('field', true, 'name', true, array('test'));
         $relatedItems = array($relatedModel1, $relatedModel2);
         $this->config->shouldReceive('getModelRelatedItems')->once()->andReturn($relatedItems);
@@ -147,7 +147,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $relatedModel1->shouldReceive('getKeyName')->andReturn('id');
         $relatedModel1->id = 1;
         $relatedModel1->name = 'model_1';
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(5)->andReturn('field', false, 'name', false, array('test'));
         $relatedItems = array($relatedModel1);
         $this->config->shouldReceive('getModelRelatedItems')->once()->andReturn($relatedItems);
@@ -163,7 +163,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $relatedModel1->shouldReceive('getKeyName')->andReturn('id');
         $relatedModel1->id = 1;
         $relatedModel1->name = 'model_1';
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(5)->andReturn('field', false, 'name', true, array('test'));
         $relatedItems = array($relatedModel1);
         $this->config->shouldReceive('getModelRelatedItems')->once()->andReturn($relatedItems);
@@ -179,7 +179,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $query->shouldReceive('orderBy')->once()->andReturn(m::mock(array('get' => 'foobar')));
         $model = m::mock('Illuminate\Database\Eloquent\Model')->makePartial();
         $model->shouldReceive('field')->once()->andReturn($query);
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(3)->andReturn('field', true, 'sort_field');
         $this->assertEquals($this->config->getModelRelatedItems($model, $field), 'foobar');
     }
@@ -190,7 +190,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $query->shouldReceive('get')->once()->andReturn('foobar');
         $model = m::mock('Illuminate\Database\Eloquent\Model')->makePartial();
         $model->shouldReceive('field')->once()->andReturn($query);
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(3)->andReturn('field', true, false);
         $this->assertEquals($this->config->getModelRelatedItems($model, $field), 'foobar');
     }
@@ -201,7 +201,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $query->shouldReceive('get')->once()->andReturn('foobar');
         $model = m::mock('Illuminate\Database\Eloquent\Model')->makePartial();
         $model->shouldReceive('field')->once()->andReturn($query);
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(2)->andReturn('field', false);
         $this->assertEquals($this->config->getModelRelatedItems($model, $field), 'foobar');
     }
@@ -212,9 +212,9 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $model->shouldReceive('find')->once()
                 ->shouldReceive('getKey')->once()
                 ->shouldReceive('setAttribute')->times(4);
-        $fieldFactory = m::mock('DDPro\Admin\Fields\Factory');
+        $fieldFactory = m::mock('Delatbabel\Admin\Fields\Factory');
         $fieldFactory->shouldReceive('getEditFieldsArrays')->once();
-        $actionFactory = m::mock('DDPro\Admin\Actions\Factory');
+        $actionFactory = m::mock('Delatbabel\Admin\Actions\Factory');
         $actionFactory->shouldReceive('getActionsOptions')->once()
                         ->shouldReceive('getActionPermissions')->once();
         $this->config->shouldReceive('setDataModel')->once()
@@ -228,9 +228,9 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $model->shouldReceive('find')->once()
                 ->shouldReceive('getKey')->once()
                 ->shouldReceive('setAttribute')->times(3);
-        $fieldFactory = m::mock('DDPro\Admin\Fields\Factory');
+        $fieldFactory = m::mock('Delatbabel\Admin\Fields\Factory');
         $fieldFactory->shouldReceive('getEditFieldsArrays')->once();
-        $actionFactory = m::mock('DDPro\Admin\Actions\Factory');
+        $actionFactory = m::mock('Delatbabel\Admin\Actions\Factory');
         $actionFactory->shouldReceive('getActionsOptions')->once()
                         ->shouldReceive('getActionPermissions')->once();
         $this->config->shouldReceive('setDataModel')->once()
@@ -307,17 +307,17 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
     {
         $input = m::mock('Illuminate\Http\Request');
         $input->shouldReceive('get')->times(3);
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(4)->andReturn(false, true, 'text', false)
                 ->shouldReceive('fillModel')->once();
-        $field_external = m::mock('DDPro\Admin\Fields\Field');
+        $field_external = m::mock('Delatbabel\Admin\Fields\Field');
         $field_external->shouldReceive('getOption')->times(3)->andReturn(true, 'belongs_to_many', false);
-        $field_uneditable = m::mock('DDPro\Admin\Fields\Field');
+        $field_uneditable = m::mock('Delatbabel\Admin\Fields\Field');
         $field_uneditable->shouldReceive('getOption')->times(4)->andReturn(false, false, 'text', false);
-        $field_setter = m::mock('DDPro\Admin\Fields\Field');
+        $field_setter = m::mock('Delatbabel\Admin\Fields\Field');
         $field_setter->shouldReceive('getOption')->times(4)->andReturn(false, true, 'text', true)
                     ->shouldReceive('fillModel')->once();
-        $field_password = m::mock('DDPro\Admin\Fields\Field');
+        $field_password = m::mock('Delatbabel\Admin\Fields\Field');
         $field_password->shouldReceive('getOption')->times(4)->andReturn(false, true, 'password', false)
                     ->shouldReceive('fillModel')->once();
         $model = m::mock('stdClass')->makePartial();
@@ -377,7 +377,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
         $model = m::mock('Illuminate\Database\Eloquent\Model');
         $input = m::mock('Illuminate\Http\Request');
         $input->shouldReceive('get')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(3)->andReturn(false, true, false)
                 ->shouldReceive('fillModel')->once();
         $fields = array('field1' => $field, 'field2' => $field, 'field3' => $field);

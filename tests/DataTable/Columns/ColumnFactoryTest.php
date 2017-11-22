@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns;
+namespace Delatbabel\Admin\Tests\DataTable\Columns;
 
 require_once __DIR__ . '/../../LogStub.php';
 
@@ -62,17 +62,17 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
      *
      * @var string
      */
-    protected $namespace = 'DDPro\\Admin\\DataTable\\Columns\\';
+    protected $namespace = 'Delatbabel\\Admin\\DataTable\\Columns\\';
 
     /**
      * Set up function
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
-        $this->factory = m::mock('DDPro\Admin\DataTable\Columns\Factory', array($this->validator, $this->config, $this->db))->makePartial();
+        $this->factory = m::mock('Delatbabel\Admin\DataTable\Columns\Factory', array($this->validator, $this->config, $this->db))->makePartial();
     }
 
     /**
@@ -92,7 +92,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testGetColumnObject()
     {
         $stub = new ColumnStub;
-        $this->factory->shouldReceive('getColumnClassName')->once()->andReturn('DDPro\Admin\Tests\DataTable\Columns\ColumnStub');
+        $this->factory->shouldReceive('getColumnClassName')->once()->andReturn('Delatbabel\Admin\Tests\DataTable\Columns\ColumnStub');
         $otherStub = $this->factory->getColumnObject(array());
         $this->assertEquals($otherStub->foo, $stub->foo);
     }
@@ -182,12 +182,12 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $this->validator->shouldReceive('arrayGet')->once()->andReturn(true);
         $model = m::mock(array('getTable' => 'table', 'getKeyName' => 'normal'));
-        $columnRelated = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnRelated = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnRelated->shouldReceive('getOption')->once()->andReturn(true)
                         ->shouldReceive('getIncludedColumn')->andReturn(array('related' => 'whatever'));
-        $columnNormal = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnNormal = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnNormal->shouldReceive('getOption')->times(4)->andReturn(false, false, 'normal', 'normal');
-        $columnComputed = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnComputed = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnComputed->shouldReceive('getOption')->twice()->andReturn(false, true);
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
         $this->factory->shouldReceive('getColumns')->once()->andReturn(array('related' => $columnRelated, 'normal' => $columnNormal, 'computed' => $columnComputed));
@@ -212,7 +212,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
         $model = m::mock('Illuminate\Database\ELoquent\Model');
         $model->shouldReceive('getTable')->once()->andReturn('table')
                 ->shouldReceive('getKeyName')->once()->andReturn('id');
-        $field = m::mock('DDPro\\Admin\\Fields\\Relationships\\BelongsTo');
+        $field = m::mock('Delatbabel\\Admin\\Fields\\Relationships\\BelongsTo');
         $field->shouldReceive('getOption')->twice()->andReturn('bt_id');
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
         $this->factory->shouldReceive('getColumns')->once()->andReturn(array());
@@ -223,9 +223,9 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetRelatedColumns()
     {
-        $columnRelated = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnRelated = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnRelated->shouldReceive('getOption')->times(3)->andReturn(true, 'related');
-        $columnNormal = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnNormal = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnNormal->shouldReceive('getOption')->once()->andReturn(false);
         $this->factory->shouldReceive('getColumns')->once()->andReturn(array($columnRelated, $columnNormal));
         $this->assertEquals($this->factory->getRelatedColumns(), array('related' => 'related'));
@@ -233,9 +233,9 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetComputedColumns()
     {
-        $columnRelated = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnRelated = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnRelated->shouldReceive('getOption')->once()->andReturn(true);
-        $columnComputed = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $columnComputed = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $columnComputed->shouldReceive('getOption')->times(4)->andReturn(false, true, 'computed');
         $this->factory->shouldReceive('getColumns')->once()->andReturn(array($columnRelated, $columnComputed));
         $this->assertEquals($this->factory->getComputedColumns(), array('computed' => 'computed'));

@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns;
+namespace Delatbabel\Admin\Tests\DataTable\Columns;
 
 use Mockery as m;
 
@@ -38,12 +38,12 @@ class ColumnTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
 
         $options = array('column_name' => 'test');
-        $this->column = m::mock('DDPro\Admin\DataTable\Columns\Column', array($this->validator, $this->config, $this->db, $options))
+        $this->column = m::mock('Delatbabel\Admin\DataTable\Columns\Column', array($this->validator, $this->config, $this->db, $options))
                         ->makePartial();
     }
 

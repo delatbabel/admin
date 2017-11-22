@@ -14,7 +14,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     --}}
-    {{-- This is where the CSS files for DDPro Admin get inserted.  These get created in the
+    {{-- This is where the CSS files for Delatbabel Admin get inserted.  These get created in the
          setViewComposers() function in AdminServiceProvider --}}
     @if(isset($css) && is_array($css))
         @foreach ($css as $tmpURL)
@@ -48,7 +48,7 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
      fixed layout. --}}
-{{-- This is where the JS files for DDPro Admin get inserted.  These get created in the
+{{-- This is where the JS files for Delatbabel Admin get inserted.  These get created in the
      setViewComposers() function in AdminServiceProvider --}}
 @if(isset($js) && is_array($js))
     @foreach ($js as $tmpURL)

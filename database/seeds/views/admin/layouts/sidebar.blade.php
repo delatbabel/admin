@@ -1,5 +1,5 @@
 {{-- Left side column. contains the logo and sidebar --}}
-@inject('user', 'DDPro\Admin\Services\User')
+@inject('user', 'Delatbabel\Admin\Services\User')
 <?php $sentinelUser = $user->getUser() ?>
 <aside class="main-sidebar">
 

@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns\Relationships;
+namespace Delatbabel\Admin\Tests\DataTable\Columns\Relationships;
 
 use Mockery as m;
 
@@ -62,12 +62,12 @@ class BelongsToTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
 
         $options = array('column_name' => 'test', 'relationship' => 'method', 'select' => 'foo');
-        $this->column = m::mock('DDPro\Admin\DataTable\Columns\Relationships\BelongsTo',
+        $this->column = m::mock('Delatbabel\Admin\DataTable\Columns\Relationships\BelongsTo',
                                             array($this->validator, $this->config, $this->db, $options))->makePartial();
     }
 

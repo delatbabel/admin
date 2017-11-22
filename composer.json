@@ -24,7 +24,7 @@
         "rcrowe/twigbridge": "^0.9.2",
         "srlabs/centaur": "1.*",
         "maatwebsite/excel": "~2.1.0",
-	"proengsoft/laravel-jsvalidation": "^1.5",
+        "proengsoft/laravel-jsvalidation": "^1.5",
         "aws/aws-sdk-php": "^3.30",
         "league/flysystem-aws-s3-v3": "^1.0"
     },

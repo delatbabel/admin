@@ -420,7 +420,7 @@ If your model has a front-end link, you might want to have a "view item" link at
      */
     'controller_handler' => \App\Http\Controllers\MyCustomController::class,
 
-Normally the controller for a model is DDPro\Admin\Http\Controllers\AdminModelController however with this
+Normally the controller for a model is Delatbabel\Admin\Http\Controllers\AdminModelController however with this
 option you can set the controller to any class that extends that class.
 
 The class contains a few functions that are relevant:

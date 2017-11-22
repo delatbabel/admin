@@ -1,8 +1,8 @@
 <?php
-namespace DDPro\Admin\Tests\Config;
+namespace Delatbabel\Admin\Tests\Config;
 
 use Mockery as m;
-use DDPro\Admin\Config\Factory;
+use Delatbabel\Admin\Config\Factory;
 
 class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
 
@@ -27,7 +27,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
         $this->validator->shouldReceive('override')->once()
                         ->shouldReceive('fails')->once()->andReturn(false)->byDefault();
     }
@@ -61,8 +61,8 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testMakeReturnsModel()
     {
-        $configMock = m::mock('DDPro\Admin\Config\Model\Config');
-        $factory = m::mock('DDPro\Admin\Config\Factory[parseType,searchMenu,getItemConfigObject]', array($this->validator, $this->validator, array()));
+        $configMock = m::mock('Delatbabel\Admin\Config\Model\Config');
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[parseType,searchMenu,getItemConfigObject]', array($this->validator, $this->validator, array()));
         $factory->shouldReceive('searchMenu')->once()->andReturn(array('test'))
                 ->shouldReceive('getItemConfigObject')->once()->with(array('test'))->andReturn($configMock);
         $this->assertEquals($factory->make('some_model'), $configMock);
@@ -70,17 +70,17 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testMakeReturnsFalse()
     {
-        $configMock = m::mock('DDPro\Admin\Config\Model\Config');
-        $factory = m::mock('DDPro\Admin\Config\Factory[parseType,searchMenu]', array($this->validator, $this->validator, array()));
+        $configMock = m::mock('Delatbabel\Admin\Config\Model\Config');
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[parseType,searchMenu]', array($this->validator, $this->validator, array()));
         $factory->shouldReceive('searchMenu')->once()->andReturn(false);
         $this->assertEquals($factory->make('some_model'), false);
     }
 
     public function testUpdateConfigOptions()
     {
-        $config = m::mock('DDPro\Admin\Config\Config');
+        $config = m::mock('Delatbabel\Admin\Config\Config');
         $config->shouldReceive('setOptions')->once();
-        $factory = m::mock('DDPro\Admin\Config\Factory[searchMenu,getConfig]', array($this->validator, $this->validator, array()));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[searchMenu,getConfig]', array($this->validator, $this->validator, array()));
         $factory->shouldReceive('searchMenu')->once()->andReturn(array())
                 ->shouldReceive('getConfig')->once()->andReturn($config);
         $factory->updateConfigOptions();
@@ -104,7 +104,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $name = 'some_model';
         $config = array('menu' => array($name));
-        $factory = m::mock('DDPro\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
         $factory->shouldReceive('fetchConfigFile')->once()->andReturn(array());
         $this->assertEquals($factory->searchMenu($name), array());
     }
@@ -113,7 +113,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $name = 'some_model';
         $config = array('menu' => array('foo' => array($name)));
-        $factory = m::mock('DDPro\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
         $factory->shouldReceive('fetchConfigFile')->once()->andReturn(array());
         $this->assertEquals($factory->searchMenu($name), array());
     }
@@ -122,7 +122,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
     {
         $name = 'some_model';
         $config = array('menu' => array('foo' => array('bar' => array($name))));
-        $factory = m::mock('DDPro\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[fetchConfigFile]', array($this->validator, $this->validator, $config));
         $factory->shouldReceive('fetchConfigFile')->once()->andReturn(array());
         $this->assertEquals($factory->searchMenu($name), array());
     }
@@ -139,7 +139,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
         $name = 'some_model';
         $filename = __DIR__ . '/' . $name . '.php';
         file_put_contents($filename, "<?php return array();");
-        $factory = m::mock('DDPro\Admin\Config\Factory[getPath,getPrefix]', array($this->validator, $this->validator, array()));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[getPath,getPrefix]', array($this->validator, $this->validator, array()));
         $factory->shouldReceive('getPath')->once()->andReturn(__DIR__ . '/')
                 ->shouldReceive('getPrefix')->once()->andReturn('');
         $this->assertEquals($factory->fetchConfigFile($name), array('name' => $name));
@@ -149,7 +149,7 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testFetchConfigFails()
     {
         $name = 'some_model';
-        $factory = m::mock('DDPro\Admin\Config\Factory[getPath,getPrefix]', array($this->validator, $this->validator, array()));
+        $factory = m::mock('Delatbabel\Admin\Config\Factory[getPath,getPrefix]', array($this->validator, $this->validator, array()));
         $factory->shouldReceive('getPath')->once()->andReturn(__DIR__ . '/')
                 ->shouldReceive('getPrefix')->once()->andReturn('');
         $this->assertEquals($factory->fetchConfigFile($name), false);

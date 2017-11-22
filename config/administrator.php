@@ -38,10 +38,10 @@ return [
      * By default the standard Admin middleware is merged into to this array.  The standard
      * Admin middleware is
      *
-     * * DDPro\Admin\Http\Middleware\ValidateAdmin
-     * * DDPro\Admin\Http\Middleware\ValidateSettings (settings only)
-     * * DDPro\Admin\Http\Middleware\ValidateModel (model only)
-     * * DDPro\Admin\Http\Middleware\PostValidate
+     * * Delatbabel\Admin\Http\Middleware\ValidateAdmin
+     * * Delatbabel\Admin\Http\Middleware\ValidateSettings (settings only)
+     * * Delatbabel\Admin\Http\Middleware\ValidateModel (model only)
+     * * Delatbabel\Admin\Http\Middleware\PostValidate
      *
      * @type array
      */
@@ -73,7 +73,7 @@ return [
      *
      * @type string
      */
-    'footer_message'       => 'Example Application using DDPro Classes',
+    'footer_message'       => 'Example Application using Delatbabel Classes',
 
     /**
      * The path to your model config directory
@@ -136,7 +136,7 @@ return [
      *
      * @type string
      */
-    'permission' => '\DDPro\Admin\Helpers\AdminHelper::detectAdminAccess',
+    'permission' => '\Delatbabel\Admin\Helpers\AdminHelper::detectAdminAccess',
 
     /**
      * This determines if you will have a dashboard (whose view you provide in the dashboard_view option) or a non-dashboard home

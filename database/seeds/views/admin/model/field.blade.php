@@ -70,7 +70,7 @@
         $tmpValue = json_encode($value);
     } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
         $tmpValue = json_encode($value->toArray());
-    } elseif (\DDPro\Admin\Helpers\AdminHelper::isJson($value)) {
+    } elseif (\Delatbabel\Admin\Helpers\AdminHelper::isJson($value)) {
         $tmpValue = $value;
     } else {
         $tmpValue = json_encode([]);
@@ -126,7 +126,7 @@
     $minDate = isset($arrCol['min_date']) ? $arrCol['min_date'] : null;
 
     // Need the timezone of the logged in user
-    $tmpValue = \DDPro\Admin\Helpers\DateTimeHelper::formatDateTime($value);
+    $tmpValue = \Delatbabel\Admin\Helpers\DateTimeHelper::formatDateTime($value);
     $tmpValue = old($name, $tmpValue);
 
     $date_format = $arrCol['date_format'];
@@ -284,7 +284,7 @@
             $tmpValue = json_encode($value);
         } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
             $tmpValue = json_encode($value->toArray());
-        } elseif (\DDPro\Admin\Helpers\AdminHelper::isJson($value)) {
+        } elseif (\Delatbabel\Admin\Helpers\AdminHelper::isJson($value)) {
             $tmpValue = $value;
         } else {
             $tmpValue = json_encode([]);

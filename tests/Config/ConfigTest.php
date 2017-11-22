@@ -1,8 +1,8 @@
 <?php
-namespace DDPro\Admin\Tests\Config;
+namespace Delatbabel\Admin\Tests\Config;
 
 use Mockery as m;
-use DDPro\Admin\Config\Config;
+use Delatbabel\Admin\Config\Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase {
 
@@ -25,15 +25,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
      *
      * @var string
      */
-    protected $class = 'DDPro\Admin\Config\Config';
+    protected $class = 'Delatbabel\Admin\Config\Config';
 
     /**
      * Set up function
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Config', array($this->validator, $this->validator, array('name' => 'model_name')))->makePartial();
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Config', array($this->validator, $this->validator, array('name' => 'model_name')))->makePartial();
     }
 
     /**

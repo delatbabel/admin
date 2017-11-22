@@ -19,7 +19,7 @@ composer require ddpro/admin
 
 ```php
 'providers' => [
-    DDPro\Admin\AdminServiceProvider::class,
+    Delatbabel\Admin\AdminServiceProvider::class,
 ]
 ```
 
@@ -87,9 +87,9 @@ As soon as installation is complete, some routes should be visible from this pac
 
 You should see routes pointing to the following controller endpoints:
 
-* DDPro\Admin\Http\Controllers\AdminController@dashboard
-* DDPro\Admin\Http\Controllers\AdminController@fileDownload
-* DDPro\Admin\Http\Controllers\AdminController@page
-* DDPro\Admin\Http\Controllers\AdminController@settings
+* Delatbabel\Admin\Http\Controllers\AdminController@dashboard
+* Delatbabel\Admin\Http\Controllers\AdminController@fileDownload
+* Delatbabel\Admin\Http\Controllers\AdminController@page
+* Delatbabel\Admin\Http\Controllers\AdminController@settings
 
 ... etc.

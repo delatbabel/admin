@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\Fields;
+namespace Delatbabel\Admin\Tests\Fields;
 
 use Mockery as m;
 
@@ -38,11 +38,11 @@ class NumberTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
         $options = array('field_name' => 'field', 'type' => 'number');
-        $this->field = m::mock('DDPro\Admin\Fields\Number', array($this->validator, $this->config, $this->db, $options))->makePartial();
+        $this->field = m::mock('Delatbabel\Admin\Fields\Number', array($this->validator, $this->config, $this->db, $options))->makePartial();
     }
 
     /**

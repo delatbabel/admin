@@ -1,5 +1,5 @@
 <!-- Main Header -->
-@inject('user', 'DDPro\Admin\Services\User')
+@inject('user', 'Delatbabel\Admin\Services\User')
 <header class="main-header">
     <!-- Logo -->
     <a href="{{ url(config('administrator.uri')) }}" class="logo">

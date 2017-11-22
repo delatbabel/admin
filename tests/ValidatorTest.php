@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests;
+namespace Delatbabel\Admin\Tests;
 
 use Mockery as m;
 
@@ -27,7 +27,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
     public function setUp()
     {
         $this->url = m::mock('Illuminate\Routing\UrlGenerator');
-        $this->validator = m::mock('DDPro\Admin\Validator')->makePartial();
+        $this->validator = m::mock('Delatbabel\Admin\Validator')->makePartial();
     }
 
     /**
@@ -100,7 +100,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateEloquentSucceeds()
     {
-        $this->assertTrue($this->validator->validateEloquent(null, 'DDPro\Admin\Tests\EloquentStub', null));
+        $this->assertTrue($this->validator->validateEloquent(null, 'Delatbabel\Admin\Tests\EloquentStub', null));
     }
 
     public function testValidateEloquentFails()

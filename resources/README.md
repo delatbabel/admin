@@ -22,7 +22,7 @@ line 17 of views/index.php.  This is the main view for any of the data models.
 The adminData array contains an element edit_fields which is populated from the view element
 $arrayFields which is created in the view composer (src/Helpers/viewComposers.php) from calling
 $fieldFactory->getEditFieldsArrays() (when editing a model, $fieldFactory will be an object of class
-DDPro\Admin\Fields\Factory).
+Delatbabel\Admin\Fields\Factory).
 
 The forms themselves POST JSON data to, and receive JSON responses from, the endpoints in
 src/Http/Controllers/AdminController, meaning that all of the form creation, posting, etc,

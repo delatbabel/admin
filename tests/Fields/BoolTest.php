@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\Fields;
+namespace Delatbabel\Admin\Tests\Fields;
 
 require_once __DIR__ . '/../LogStub.php';
 
@@ -50,11 +50,11 @@ class BoolTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
         $options = array('field_name' => 'field', 'type' => 'bool');
-        $this->field = m::mock('DDPro\Admin\Fields\Boolean', array($this->validator, $this->config, $this->db, $options))->makePartial();
+        $this->field = m::mock('Delatbabel\Admin\Fields\Boolean', array($this->validator, $this->config, $this->db, $options))->makePartial();
     }
 
     /**

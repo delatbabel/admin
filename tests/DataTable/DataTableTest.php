@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns;
+namespace Delatbabel\Admin\Tests\DataTable\Columns;
 
 use Mockery as m;
 
@@ -38,10 +38,10 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
-        $this->columnFactory = m::mock('DDPro\Admin\DataTable\Columns\Factory');
-        $this->fieldFactory = m::mock('DDPro\Admin\Fields\Factory');
-        $this->dataTable = m::mock('DDPro\Admin\DataTable\DataTable', array($this->config, $this->columnFactory, $this->fieldFactory))
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
+        $this->columnFactory = m::mock('Delatbabel\Admin\DataTable\Columns\Factory');
+        $this->fieldFactory = m::mock('Delatbabel\Admin\Fields\Factory');
+        $this->dataTable = m::mock('Delatbabel\Admin\DataTable\DataTable', array($this->config, $this->columnFactory, $this->fieldFactory))
                                 ->makePartial();
     }
 
@@ -82,7 +82,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
 
     public function testPrepareQuery()
     {
-        $column = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $column = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $column->shouldReceive('filterQuery')->once()
                 ->shouldReceive('getOption')->times(2);
         $columns = array($column);
@@ -137,7 +137,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Query\Builder');
         $countQuery = m::mock('Illuminate\Database\Query\Builder');
         $filters = array(array('field_name' => 1), array('field_name' => 2), array('field_name' => 3));
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('setFilter')->times(3)
                 ->shouldReceive('filterQuery')->times(6);
         $this->fieldFactory->shouldReceive('findFilter')->times(3)->andReturn($field);
@@ -155,9 +155,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
     /*
     public function testParseOnTableColumns()
     {
-        $column1 = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $column1 = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $column1->shouldReceive('renderOutput')->once()->andReturn('rendered');
-        $column2 = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $column2 = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $column2->shouldReceive('renderOutput')->once()->andReturn('rendered');
         $columns = array('column1' => $column1, 'column2' => $column2);
         $this->columnFactory->shouldReceive('getColumns')->once()->andReturn($columns);
@@ -175,7 +175,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase {
 
     public function testParseComputedColumns()
     {
-        $column = m::mock('DDPro\Admin\DataTable\Columns\Column');
+        $column = m::mock('Delatbabel\Admin\DataTable\Columns\Column');
         $column->shouldReceive('renderOutput')->twice()->andReturn('rendered');
         $columns = array('column1' => $column, 'column2' => $column);
         $this->columnFactory->shouldReceive('getColumns')->once()->andReturn($columns);

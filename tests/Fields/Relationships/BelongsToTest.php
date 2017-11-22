@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\Fields\Relationships;
+namespace Delatbabel\Admin\Tests\Fields\Relationships;
 
 require_once __DIR__ . '/../../LogStub.php';
 
@@ -55,11 +55,11 @@ class BelongsToTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
         $options = array('field_name' => 'field', 'type' => 'belongs_to');
-        $this->field = m::mock('DDPro\Admin\Fields\Relationships\BelongsTo',
+        $this->field = m::mock('Delatbabel\Admin\Fields\Relationships\BelongsTo',
                                     array($this->validator, $this->config, $this->db, $options))->makePartial();
     }
 

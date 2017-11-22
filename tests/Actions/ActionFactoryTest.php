@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns;
+namespace Delatbabel\Admin\Tests\DataTable\Columns;
 
 require_once __DIR__ . '/../LogStub.php';
 
@@ -44,9 +44,9 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
-        $this->factory = m::mock('DDPro\Admin\Actions\Factory', array($this->validator, $this->config))->makePartial();
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
+        $this->factory = m::mock('Delatbabel\Admin\Actions\Factory', array($this->validator, $this->config))->makePartial();
     }
 
     /**
@@ -102,7 +102,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetByNameSucceeds()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOption')->twice()->andReturn('action');
         $this->factory->shouldReceive('getActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action'), $action);
@@ -110,7 +110,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetByNameFails()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOption')->twice()->andReturn('foo');
         $this->factory->shouldReceive('getActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action'), false);
@@ -118,7 +118,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetByNameGlobalSucceeds()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOption')->twice()->andReturn('action');
         $this->factory->shouldReceive('getGlobalActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action', true), $action);
@@ -126,7 +126,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetByNameGlobalFails()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOption')->twice()->andReturn('foo');
         $this->factory->shouldReceive('getGlobalActions')->once()->andReturn(array($action));
         $this->assertEquals($this->factory->getByName('action', true), false);
@@ -141,7 +141,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetActionsOptions()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOptions')->times(3)->andReturn(1);
         $this->factory->shouldReceive('getActions')->andReturn(array($action, $action, $action));
         $this->assertEquals($this->factory->getActionsOptions(), array(1, 1, 1));
@@ -156,7 +156,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetGlobalActionsOptions()
     {
-        $action = m::mock('DDPro\Admin\Actions\Action');
+        $action = m::mock('Delatbabel\Admin\Actions\Action');
         $action->shouldReceive('getOptions')->times(3)->andReturn(1);
         $this->factory->shouldReceive('getGlobalActions')->andReturn(array($action, $action, $action));
         $this->assertEquals($this->factory->getGlobalActionsOptions(), array(1, 1, 1));

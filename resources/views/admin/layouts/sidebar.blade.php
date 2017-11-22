@@ -1,5 +1,5 @@
 <!-- Left side column. contains the logo and sidebar -->
-@inject('user', 'DDPro\Admin\Services\User')
+@inject('user', 'Delatbabel\Admin\Services\User')
 <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->

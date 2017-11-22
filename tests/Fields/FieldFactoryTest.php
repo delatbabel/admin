@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\Fields;
+namespace Delatbabel\Admin\Tests\Fields;
 
 require_once __DIR__ . '/../LogStub.php';
 
@@ -67,10 +67,10 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $this->db = m::mock('Illuminate\Database\DatabaseManager');
-        $this->factory = m::mock('DDPro\Admin\Fields\Factory', array($this->validator, $this->config, $this->db))->makePartial();
+        $this->factory = m::mock('Delatbabel\Admin\Fields\Factory', array($this->validator, $this->config, $this->db))->makePartial();
     }
 
     /**
@@ -90,7 +90,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetFieldObject()
     {
-        $this->factory->shouldReceive('getFieldTypeClass')->once()->andReturn('DDPro\Admin\Tests\Fields\FieldStub');
+        $this->factory->shouldReceive('getFieldTypeClass')->once()->andReturn('Delatbabel\Admin\Tests\Fields\FieldStub');
         $this->assertEquals(get_class($this->factory->getFieldObject(array('type' => 'foo'))), get_class(new FieldStub));
     }
 
@@ -393,7 +393,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
         $this->db->shouldReceive('raw')->once()
                     ->shouldReceive('getTablePrefix')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(true);
         $this->factory->shouldReceive('getFieldObjectByName')->once()->andReturn($field)
                         ->shouldReceive('formatSelectedItems')->once()->andReturn(array(1))
@@ -411,7 +411,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
         $this->db->shouldReceive('raw')->once()
                     ->shouldReceive('getTablePrefix')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(true);
         $this->factory->shouldReceive('getFieldObjectByName')->once()->andReturn($field)
                         ->shouldReceive('formatSelectedItems')->once()->andReturn(array());
@@ -429,7 +429,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->config->shouldReceive('getDataModel')->once()->andReturn($model);
         $this->db->shouldReceive('raw')->once()
                     ->shouldReceive('getTablePrefix')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->twice()->andReturn(false, function() {});
         $this->factory->shouldReceive('getFieldObjectByName')->once()->andReturn($field)
                         ->shouldReceive('applyConstraints')->once()
@@ -441,7 +441,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testFilterBySearchTermNoTerm()
     {
         $query = m::mock('Illuminate\Database\Eloquent\Builder');
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->never();
         $this->factory->filterBySearchTerm(null, $query, $field, array(), '');
     }
@@ -452,7 +452,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $query->shouldReceive('where')->once()
                 ->shouldReceive('take')->once()
                 ->shouldReceive('whereNotIn')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(0);
         $this->factory->filterBySearchTerm('foo', $query, $field, array(1), '');
     }
@@ -462,7 +462,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Eloquent\Builder');
         $query->shouldReceive('where')->once()
                 ->shouldReceive('take')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(0);
         $this->factory->filterBySearchTerm('foo', $query, $field, array(), '');
     }
@@ -487,7 +487,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $query = m::mock('Illuminate\Database\Eloquent\Builder');
         $query->shouldReceive('whereIn')->once()
                 ->shouldReceive('orderBy')->once();
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->times(3)->andReturn(true);
         $this->factory->filterQueryBySelectedItems($query, array(), $field, '');
     }
@@ -497,9 +497,9 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
         $relatedModel = m::mock(array('getRelated' => null));
         $otherModel = m::mock(array('getRelated' => null));
         $model = m::mock(array('this_relationship' => $relatedModel, 'key' => $otherModel));
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->twice()->andReturn(array('key' => 'other_relationship'), 'this_relationship');
-        $otherField = m::mock('DDPro\Admin\Fields\Field');
+        $otherField = m::mock('Delatbabel\Admin\Fields\Field');
         $otherField->shouldReceive('constrainQuery')->once();
         $this->config->shouldReceive('setDataModel')->twice()
                         ->shouldReceive('getDataModel')->once()->andReturn($model);
@@ -510,7 +510,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testApplyConstraintsEmpty()
     {
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(array());
         $query = m::mock('Illuminate\Database\Eloquent\Builder');
         $this->factory->applyConstraints(array(), $query, $field);
@@ -518,7 +518,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testApplyConstraintsInvalidConstraintSupplied()
     {
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->once()->andReturn(array('other_key' => 'relationship'));
         $query = m::mock('Illuminate\Database\Eloquent\Builder');
         $this->factory->applyConstraints(array('key' => array(1, 2)), $query, $field);
@@ -526,7 +526,7 @@ class FieldFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testFormatSelectOptions()
     {
-        $field = m::mock('DDPro\Admin\Fields\Field');
+        $field = m::mock('Delatbabel\Admin\Fields\Field');
         $field->shouldReceive('getOption')->twice()->andReturn('name_field');
         $firstResult = m::mock('stdClass');
         $firstResult->shouldReceive('getKey')->once()->andReturn(1)

@@ -1,5 +1,5 @@
 <?php
-namespace DDPro\Admin\Tests\DataTable\Columns;
+namespace Delatbabel\Admin\Tests\DataTable\Columns;
 
 use Mockery as m;
 
@@ -31,10 +31,10 @@ class ActionTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp()
     {
-        $this->validator = m::mock('DDPro\Admin\Validator');
-        $this->config = m::mock('DDPro\Admin\Config\Model\Config');
+        $this->validator = m::mock('Delatbabel\Admin\Validator');
+        $this->config = m::mock('Delatbabel\Admin\Config\Model\Config');
         $options = array('action_name' => 'test', 'has_permission' => true);
-        $this->action = m::mock('DDPro\Admin\Actions\Action', array($this->validator, $this->config, $options))
+        $this->action = m::mock('Delatbabel\Admin\Actions\Action', array($this->validator, $this->config, $options))
                         ->makePartial();
     }
 
